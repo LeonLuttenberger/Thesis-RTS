@@ -1,6 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,6 +23,10 @@ public class Level {
                 sprites[x][z].setSize(1, 1);
             }
         }
+
+//        sprites[0][0].setColor(Color.BLACK);
+        sprites[1][0].setColor(Color.RED);
+//        sprites[0][1].setColor(Color.BLUE);
     }
 
     public void render(SpriteBatch batch) {

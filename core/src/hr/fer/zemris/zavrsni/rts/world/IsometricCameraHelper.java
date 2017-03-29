@@ -25,8 +25,8 @@ public class IsometricCameraHelper implements IUpdatable {
     private final Plane xzPlane;
 
     public IsometricCameraHelper() {
-        position = new Vector3(5, 5, 10);
-        direction = new Vector3(-1, -1, -1);
+        position = new Vector3(-5, 5, -5);
+        direction = new Vector3(1, -1, 1);
         near = 1;
         far = 100;
         zoom = 1f;

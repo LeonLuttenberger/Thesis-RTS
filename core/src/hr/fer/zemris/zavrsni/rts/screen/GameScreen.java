@@ -2,6 +2,7 @@ package hr.fer.zemris.zavrsni.rts.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -30,6 +31,8 @@ public class GameScreen extends AbstractGameScreen {
 
     @Override
     public void render(float delta) {
+        handleInput(delta);
+
         controller.update(delta);
 
         // Sets the clear screen color to: Cornflower Blue
@@ -44,6 +47,62 @@ public class GameScreen extends AbstractGameScreen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
+    }
+
+    private void handleInput(float deltaTime) {
+        IsometricCameraHelper cameraHelper = controller.getCameraHelper();
+
+        if (!cameraHelper.hasTarget()) {
+
+            // Camera Controls (move)
+            float camMoveSpeed = 5 * deltaTime;
+            float camMoveSpeedAccelerationFactor = 5;
+
+            if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                camMoveSpeed *= camMoveSpeedAccelerationFactor;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                moveCamera(camMoveSpeed, -camMoveSpeed);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                moveCamera(-camMoveSpeed, camMoveSpeed);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                moveCamera(camMoveSpeed, camMoveSpeed);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                moveCamera(-camMoveSpeed, -camMoveSpeed);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
+                cameraHelper.setPosition(0, 0);
+            }
+        }
+
+        // Camera Controls (zoom)
+        float camZoomSpeed = 1 * deltaTime;
+        float camZoomSpeedAccelerationFactor = 5;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            camZoomSpeed *= camZoomSpeedAccelerationFactor;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.COMMA)) {
+            cameraHelper.addZoom(camZoomSpeed);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.PERIOD)) {
+            cameraHelper.addZoom(-camZoomSpeed);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SLASH)) {
+            cameraHelper.setZoom(1);
+        }
+    }
+
+    private void moveCamera(float x, float z) {
+        IsometricCameraHelper cameraHelper = controller.getCameraHelper();
+
+        float positionX = cameraHelper.getPosition().x;
+        float positionZ = cameraHelper.getPosition().z;
+
+        cameraHelper.setPosition(positionX + x, positionZ + z);
     }
 
     private class GameScreenInputProcessor extends InputAdapter {
