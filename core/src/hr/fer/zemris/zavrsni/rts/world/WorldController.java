@@ -3,8 +3,6 @@ package hr.fer.zemris.zavrsni.rts.world;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
 
@@ -12,16 +10,16 @@ public class WorldController implements Disposable, IUpdatable {
 
     private static final String TAG = WorldController.class.getName();
 
-    private Game game;
-    private GameState gameState;
-    private IsometricCameraHelper cameraHelper;
-
-//    private World b2world;
+    private final Game game;
+    private final GameState gameState;
+    private final IsometricCameraHelper cameraHelper;
 
     public WorldController(Game game) {
         this.game = game;
         this.cameraHelper = new IsometricCameraHelper();
-//        this.b2world = new World(new Vector2(0, 9.81f), false);
+
+        this.gameState = new GameState();
+        this.gameState.setLevel(new Level());
     }
 
     public IsometricCameraHelper getCameraHelper() {
@@ -32,16 +30,10 @@ public class WorldController implements Disposable, IUpdatable {
         return gameState;
     }
 
-//    public World getB2world() {
-//        return b2world;
-//    }
-
     @Override
     public void update(float deltaTime) {
         handleDebugInput(deltaTime);
-
         cameraHelper.update(deltaTime);
-//        b2world.step(deltaTime, 8, 3);
     }
 
     private void handleDebugInput(float deltaTime) {
@@ -98,6 +90,5 @@ public class WorldController implements Disposable, IUpdatable {
 
     @Override
     public void dispose() {
-//        b2world.dispose();
     }
 }

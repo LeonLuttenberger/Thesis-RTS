@@ -1,6 +1,5 @@
 package hr.fer.zemris.zavrsni.rts.world;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,17 +8,13 @@ import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
-import hr.fer.zemris.zavrsni.rts.util.Constants;
 
 public class IsometricCameraHelper implements IUpdatable {
-
-    private static final String TAG = IsometricCameraHelper.class.getName();
 
     private final float FOLLOW_SPEED = 4.0f;
     private final float MAX_ZOOM_IN = 0.25f;
     private final float MAX_ZOOM_OUT = 10.0f;
 
-//    private OrthographicCamera camera;
     private Vector3 position;
     private Vector3 direction;
     private float near;
@@ -30,14 +25,6 @@ public class IsometricCameraHelper implements IUpdatable {
     private final Plane xzPlane;
 
     public IsometricCameraHelper() {
-        //TODO
-//        camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
-//        camera.position.set(5, 5, 10);
-//        camera.direction.set(-1, -1, -1);
-//        camera.near = 1;
-//        camera.far = 100;
-//
-//        camera.update();
         position = new Vector3(5, 5, 10);
         direction = new Vector3(-1, -1, -1);
         near = 1;
@@ -49,10 +36,6 @@ public class IsometricCameraHelper implements IUpdatable {
 
         xzPlane = new Plane(new Vector3(0, 1, 0), 0);
     }
-
-//    public OrthographicCamera getCamera() {
-//        return camera;
-//    }
 
     @Override
     public void update(float deltaTime) {
