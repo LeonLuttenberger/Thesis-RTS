@@ -51,6 +51,12 @@ public class WorldRenderer implements Disposable {
         renderWorld();
     }
 
+    public void resize(int width, int height) {
+        camera.viewportWidth = Constants.VIEWPORT_HEIGHT * width / height;
+        camera.viewportHeight = Constants.VIEWPORT_HEIGHT;
+        camera.update();
+    }
+
     private void renderWorld() {
         controller.getCameraHelper().applyTo(camera);
 

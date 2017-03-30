@@ -49,6 +49,11 @@ public class GameScreen extends AbstractGameScreen {
         renderer.render();
     }
 
+    @Override
+    public void resize(int width, int height) {
+        renderer.resize(width, height);
+    }
+
     private void handleInput(float deltaTime) {
         IsometricCameraHelper cameraHelper = controller.getCameraHelper();
 
