@@ -10,4 +10,8 @@ public final class Constants {
     public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
 
     public static final String TEXTURE_ATLAS_OBJECTS = "images/textures.atlas";
+
+    public static final String TILED_MAP_TMX = "isometric_grass_and_water.tmx";
+    public static final String TERRAIN_LAYER = "Terrain Layer";
+    public static final String OBJECT_LAYER = "Object Layer";
 }

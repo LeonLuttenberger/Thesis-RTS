@@ -1,39 +1,32 @@
 package hr.fer.zemris.zavrsni.rts.world;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hr.fer.zemris.zavrsni.rts.util.Constants;
 
 public class Level {
 
     public static final String TAG = Level.class.getName();
 
-    private Texture texture;
-    final Sprite[][] sprites = new Sprite[10][10];
+    private final int width;
+    private final int height;
+    private final float[][] tileModifiers;
 
-    public Level() {
-        texture = new Texture(Gdx.files.internal("images/grass.png"));
+    public Level(TiledMap tiledMap) {
+        width = tiledMap.getProperties().get("width", Integer.class);
+        height = tiledMap.getProperties().get("height", Integer.class);
+        tileModifiers = new float[width][height];
 
-        for(int z = 0; z < 10; z++) {
-            for(int x = 0; x < 10; x++) {
-                sprites[x][z] = new Sprite(texture);
-                sprites[x][z].setPosition(x,z);
-                sprites[x][z].setSize(1, 1);
+        TiledMapTileLayer mapLayer = (TiledMapTileLayer) tiledMap.getLayers().get(Constants.TERRAIN_LAYER);
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                tileModifiers[i][j] = mapLayer.getCell(i, j).getTile().getProperties().get("modifier", Float.class);
             }
         }
-
-//        sprites[0][0].setColor(Color.BLACK);
-        sprites[1][0].setColor(Color.RED);
-//        sprites[0][1].setColor(Color.BLUE);
     }
 
     public void render(SpriteBatch batch) {
-        for(int z = 0; z < 10; z++) {
-            for(int x = 0; x < 10; x++) {
-                sprites[x][z].draw(batch);
-            }
-        }
     }
 }

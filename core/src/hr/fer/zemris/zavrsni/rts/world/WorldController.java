@@ -12,12 +12,12 @@ public class WorldController implements Disposable, IUpdatable {
     private final GameState gameState;
     private final IsometricCameraHelper cameraHelper;
 
-    public WorldController(Game game) {
+    public WorldController(Game game, Level level) {
         this.game = game;
         this.cameraHelper = new IsometricCameraHelper();
 
         this.gameState = new GameState();
-        this.gameState.setLevel(new Level());
+        this.gameState.setLevel(level);
     }
 
     public IsometricCameraHelper getCameraHelper() {

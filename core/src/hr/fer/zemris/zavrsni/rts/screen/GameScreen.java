@@ -6,8 +6,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.world.IsometricCameraHelper;
+import hr.fer.zemris.zavrsni.rts.util.Constants;
+import hr.fer.zemris.zavrsni.rts.world.Level;
 import hr.fer.zemris.zavrsni.rts.world.WorldController;
 import hr.fer.zemris.zavrsni.rts.world.WorldRenderer;
 
@@ -18,15 +22,24 @@ public class GameScreen extends AbstractGameScreen {
     private WorldController controller;
     private WorldRenderer renderer;
 
-    private boolean paused;
-    private boolean justUnpaused;
+    private TiledMap tiledMap;
+
+    private SpriteBatch batch;
+    private OrthographicCamera camera;
+
+    private DragBoxRenderer dragBoxRenderer = new DragBoxRenderer();
 
     public GameScreen(Game game) {
         super(game);
         setInputProcessor(new GameScreenInputProcessor());
 
-        controller = new WorldController(game);
-        renderer = new WorldRenderer(controller);
+        batch = new SpriteBatch();
+        camera = new OrthographicCamera();
+
+        tiledMap = new TmxMapLoader().load(Constants.TILED_MAP_TMX);
+
+        controller = new WorldController(game, new Level(tiledMap));
+        renderer = new WorldRenderer(controller, tiledMap, batch);
     }
 
     @Override
@@ -46,41 +59,42 @@ public class GameScreen extends AbstractGameScreen {
         // Clears the screen
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.update();
+        renderer.setView(camera);
         renderer.render();
+
+        dragBoxRenderer.render();
     }
 
     @Override
     public void resize(int width, int height) {
-        renderer.resize(width, height);
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
+        camera.update();
     }
 
     private void handleInput(float deltaTime) {
-        IsometricCameraHelper cameraHelper = controller.getCameraHelper();
+        // Camera Controls (move)
+        float camMoveSpeed = 100 * deltaTime;
+        float camMoveSpeedAccelerationFactor = 5;
 
-        if (!cameraHelper.hasTarget()) {
-
-            // Camera Controls (move)
-            float camMoveSpeed = 5 * deltaTime;
-            float camMoveSpeedAccelerationFactor = 5;
-
-            if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                camMoveSpeed *= camMoveSpeedAccelerationFactor;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                moveCamera(camMoveSpeed, -camMoveSpeed);
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                moveCamera(-camMoveSpeed, camMoveSpeed);
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                moveCamera(camMoveSpeed, camMoveSpeed);
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                moveCamera(-camMoveSpeed, -camMoveSpeed);
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
-                cameraHelper.setPosition(0, 0);
-            }
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            camMoveSpeed *= camMoveSpeedAccelerationFactor;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            translateCamera(-camMoveSpeed, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            translateCamera(camMoveSpeed, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            translateCamera(0, camMoveSpeed);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            translateCamera(0, -camMoveSpeed);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
+            camera.position.set(0, 0, camera.position.z);
         }
 
         // Camera Controls (zoom)
@@ -91,49 +105,47 @@ public class GameScreen extends AbstractGameScreen {
             camZoomSpeed *= camZoomSpeedAccelerationFactor;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.COMMA)) {
-            cameraHelper.addZoom(camZoomSpeed);
+            camera.zoom += camZoomSpeed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.PERIOD)) {
-            cameraHelper.addZoom(-camZoomSpeed);
+            camera.zoom -= camZoomSpeed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SLASH)) {
-            cameraHelper.setZoom(1);
+            camera.zoom = 1f;
         }
     }
 
-    private void moveCamera(float x, float z) {
-        IsometricCameraHelper cameraHelper = controller.getCameraHelper();
-
-        float positionX = cameraHelper.getPosition().x;
-        float positionZ = cameraHelper.getPosition().z;
-
-        cameraHelper.setPosition(positionX + x, positionZ + z);
+    private void translateCamera(float x, float y) {
+        camera.translate(x, y);
     }
 
     private class GameScreenInputProcessor extends InputAdapter {
 
-        final Vector3 last = new Vector3(-1, -1, -1);
-
         @Override
-        public boolean touchDragged(int x, int y, int pointer) {
-            IsometricCameraHelper cameraHelper = controller.getCameraHelper();
-            OrthographicCamera camera = renderer.getCamera();
+        public boolean keyUp(int keycode) {
+            if (keycode == Input.Keys.NUM_1)
+                tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
 
-            Vector3 curr = cameraHelper.getSelectedPoint(camera, x, y);
-
-            if(!(last.x == -1 && last.y == -1 && last.z == -1)) {
-                Vector3 delta = cameraHelper.getSelectedPoint(camera, last.x, last.y);
-                delta.sub(curr);
-
-                cameraHelper.getPosition().add(delta.x, delta.y, delta.z);
-            }
-
-            last.set(x, y, 0);
             return false;
         }
 
-        @Override public boolean touchUp(int x, int y, int pointer, int button) {
-            last.set(-1, -1, -1);
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            dragBoxRenderer.handleTouchDrag(screenX, screenY);
+
+            return false;
+        }
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            dragBoxRenderer.handleTouchUp();
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
+            System.out.println(position);
             return false;
         }
     }
