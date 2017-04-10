@@ -1,6 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class AbstractGameObject {
@@ -11,7 +12,20 @@ public abstract class AbstractGameObject {
     protected Vector2 scale = new Vector2(1, 1);
     protected float rotation = 0f;
 
-    public abstract void render(SpriteBatch batch);
+    protected TextureRegion textureRegion;
+
+    public AbstractGameObject(TextureRegion textureRegion) {
+        this.textureRegion = textureRegion;
+        this.dimension.x = textureRegion.getRegionWidth();
+        this.dimension.y = textureRegion.getRegionHeight();
+    }
+
+    public void render(SpriteBatch batch) {
+        batch.draw(textureRegion.getTexture(), position.x, position.y, origin.x,
+                origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation,
+                textureRegion.getRegionX(), textureRegion.getRegionY(), textureRegion.getRegionWidth(),
+                textureRegion.getRegionHeight(), false, false);
+    }
 
     public Vector2 getPosition() {
         return position;

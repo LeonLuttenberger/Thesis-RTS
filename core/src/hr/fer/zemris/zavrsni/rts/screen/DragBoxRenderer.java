@@ -42,4 +42,20 @@ public class DragBoxRenderer {
             shapeRenderer.end();
         }
     }
+
+    public int getX() {
+        return (int) rectangle.x;
+    }
+
+    public int getY() {
+        return (int) rectangle.y;
+    }
+
+    public int getWidth() {
+        return (int) rectangle.width;
+    }
+
+    public int getHeight() {
+        return (int) rectangle.height;
+    }
 }

@@ -72,19 +72,35 @@ public class InteractionController extends InputAdapter {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        dragBoxRenderer.handleTouchDrag(screenX, screenY);
-
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            dragBoxRenderer.handleTouchDrag(screenX, screenY);
+        }
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        dragBoxRenderer.handleTouchUp();
+        if (button == Input.Buttons.LEFT) {
+            dragBoxRenderer.handleTouchUp();
+            handleUnitSelection();
+        }
         return false;
+    }
+
+    private void handleUnitSelection() {
+        Vector3 selectionStart = camera.unproject(new Vector3(dragBoxRenderer.getX(), dragBoxRenderer.getY(), 0));
+        Vector3 selectionEnd = camera.unproject(new Vector3(
+                dragBoxRenderer.getX() + dragBoxRenderer.getWidth(),
+                dragBoxRenderer.getY() + dragBoxRenderer.getHeight(),
+                0));
+
+        controller.getGameState().selectUnitsInArea(selectionStart, selectionEnd);
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (button != Input.Buttons.RIGHT) return false;
+
         SimpleUnit unit = controller.getGameState().getLevel().getUnit();
 
         Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
