@@ -4,6 +4,14 @@ public class GameState {
 
     private Level level;
 
+    public GameState() {
+        reset();
+    }
+
+    private void reset() {
+
+    }
+
     public Level getLevel() {
         return level;
     }

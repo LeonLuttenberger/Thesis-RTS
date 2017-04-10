@@ -1,24 +1,39 @@
 package hr.fer.zemris.zavrsni.rts.objects;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class AbstractGameObject {
 
-    private final Body body;
+    protected Vector2 position = new Vector2();
+    protected Vector2 origin = new Vector2();
+    protected Vector2 dimension = new Vector2(1, 1);
+    protected Vector2 scale = new Vector2(1, 1);
+    protected float rotation = 0f;
 
-    public AbstractGameObject(World world, Vector2 position, BodyType bodyType) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = bodyType;
-        bodyDef.position.set(position);
+    public abstract void render(SpriteBatch batch);
 
-        this.body = world.createBody(bodyDef);
+    public Vector2 getPosition() {
+        return position;
     }
 
-    public Body getBody() {
-        return body;
+    public Vector2 getOrigin() {
+        return origin;
+    }
+
+    public Vector2 getDimension() {
+        return dimension;
+    }
+
+    public Vector2 getScale() {
+        return scale;
+    }
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
     }
 }

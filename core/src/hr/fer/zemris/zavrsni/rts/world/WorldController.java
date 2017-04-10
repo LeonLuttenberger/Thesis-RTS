@@ -10,18 +10,12 @@ public class WorldController implements Disposable, IUpdatable {
 
     private final Game game;
     private final GameState gameState;
-    private final IsometricCameraHelper cameraHelper;
 
     public WorldController(Game game, Level level) {
         this.game = game;
-        this.cameraHelper = new IsometricCameraHelper();
 
         this.gameState = new GameState();
         this.gameState.setLevel(level);
-    }
-
-    public IsometricCameraHelper getCameraHelper() {
-        return cameraHelper;
     }
 
     public GameState getGameState() {
@@ -30,7 +24,7 @@ public class WorldController implements Disposable, IUpdatable {
 
     @Override
     public void update(float deltaTime) {
-        cameraHelper.update(deltaTime);
+
     }
 
     @Override

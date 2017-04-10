@@ -3,11 +3,14 @@ package hr.fer.zemris.zavrsni.rts.world;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 
 public class Level {
 
     public static final String TAG = Level.class.getName();
+
+    private SimpleUnit unit;
 
     private final int width;
     private final int height;
@@ -25,8 +28,15 @@ public class Level {
                 tileModifiers[i][j] = mapLayer.getCell(i, j).getTile().getProperties().get("modifier", Float.class);
             }
         }
+
+        unit = new SimpleUnit();
     }
 
     public void render(SpriteBatch batch) {
+        unit.render(batch);
+    }
+
+    public SimpleUnit getUnit() {
+        return unit;
     }
 }
