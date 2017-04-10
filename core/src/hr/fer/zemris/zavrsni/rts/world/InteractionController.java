@@ -21,6 +21,10 @@ public class InteractionController extends InputAdapter {
     }
 
     public void handleInput(float deltaTime) {
+        handleCameraControls(deltaTime);
+    }
+
+    private void handleCameraControls(float deltaTime) {
         // Camera Controls (move)
         float camMoveSpeed = 100 * deltaTime;
         float camMoveSpeedAccelerationFactor = 5;
