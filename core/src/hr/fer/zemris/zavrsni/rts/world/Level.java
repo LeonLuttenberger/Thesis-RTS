@@ -6,11 +6,14 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 
+import java.util.Collections;
+import java.util.List;
+
 public class Level {
 
     public static final String TAG = Level.class.getName();
 
-    private SimpleUnit unit;
+    private List<SimpleUnit> units;
 
     private final int width;
     private final int height;
@@ -29,14 +32,16 @@ public class Level {
             }
         }
 
-        unit = new SimpleUnit();
+        units = Collections.singletonList(new SimpleUnit());
     }
 
     public void render(SpriteBatch batch) {
-        unit.render(batch);
+        for (SimpleUnit unit : units) {
+            unit.render(batch);
+        }
     }
 
-    public SimpleUnit getUnit() {
-        return unit;
+    public List<SimpleUnit> getUnits() {
+        return Collections.unmodifiableList(units);
     }
 }

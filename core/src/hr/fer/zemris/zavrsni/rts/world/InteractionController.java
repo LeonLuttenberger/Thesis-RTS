@@ -101,12 +101,13 @@ public class InteractionController extends InputAdapter {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button != Input.Buttons.RIGHT) return false;
 
-        SimpleUnit unit = controller.getGameState().getLevel().getUnit();
-
         Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
-        unit.getPosition().set(position.x, position.y);
-
         System.out.println(position);
+
+        for (SimpleUnit unit : controller.getGameState().getSelectedUnits()) {
+            unit.getPosition().set(position.x, position.y);
+        }
+
         return false;
     }
 }
