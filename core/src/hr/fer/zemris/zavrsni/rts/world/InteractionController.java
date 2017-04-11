@@ -105,7 +105,8 @@ public class InteractionController extends InputAdapter {
         System.out.println(position);
 
         for (SimpleUnit unit : controller.getGameState().getSelectedUnits()) {
-            unit.getPosition().set(position.x, position.y);
+            unit.setCenterX(position.x);
+            unit.setCenterY(position.y);
         }
 
         return false;

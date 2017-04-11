@@ -50,4 +50,20 @@ public abstract class AbstractGameObject {
     public void setRotation(float rotation) {
         this.rotation = rotation;
     }
+
+    public float getCenterX() {
+        return position.x + dimension.x / 2;
+    }
+
+    public void setCenterX(float x) {
+        position.x = x - dimension.x / 2;
+    }
+
+    public float getCenterY() {
+        return position.y + dimension.y / 2;
+    }
+
+    public void setCenterY(float y) {
+        position.y = y - dimension.y / 2;
+    }
 }

@@ -36,7 +36,7 @@ public class GameState {
         );
 
         for (SimpleUnit unit : level.getUnits()) {
-            if (selectionArea.contains(unit.getPosition().x, unit.getPosition().y)) {
+            if (selectionArea.contains(unit.getCenterX(), unit.getCenterY())) {
                 unit.setSelected(true);
             } else {
                 unit.setSelected(false);
