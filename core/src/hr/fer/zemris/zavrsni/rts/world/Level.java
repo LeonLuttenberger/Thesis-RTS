@@ -44,4 +44,16 @@ public class Level {
     public List<SimpleUnit> getUnits() {
         return Collections.unmodifiableList(units);
     }
+
+    public float getTileModifier(int x, int y) {
+        return tileModifiers[x][y];
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }
