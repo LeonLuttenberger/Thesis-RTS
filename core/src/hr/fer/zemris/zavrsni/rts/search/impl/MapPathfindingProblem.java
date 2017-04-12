@@ -1,12 +1,14 @@
 package hr.fer.zemris.zavrsni.rts.search.impl;
 
-import hr.fer.zemris.zavrsni.rts.search.Directions;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.world.Level;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 public class MapPathfindingProblem implements ISearchProblem<MapPosition> {
 
@@ -71,8 +73,13 @@ public class MapPathfindingProblem implements ISearchProblem<MapPosition> {
 
     private void addNewState(List<Successor<MapPosition>> successors, MapPosition pos, MapPosition newPos,
                              Directions direction) {
-        double stepCost = (level.getTileModifier(pos.x, pos.y) + level.getTileModifier(newPos.x, newPos.y)) / 2;
+        double distance = distance(pos, newPos);
+        double stepCost = distance * (level.getTileModifier(pos.x, pos.y) + level.getTileModifier(newPos.x, newPos.y)) / 2;
 
-        successors.add(new Successor<>(newPos, direction, stepCost));
+        successors.add(new Successor<>(newPos, direction.getDirection(), stepCost));
+    }
+
+    private double distance(MapPosition pos1, MapPosition pos2) {
+        return sqrt(pow(pos2.x - pos1.x, 2) + pow(pos2.y - pos1.y, 2));
     }
 }

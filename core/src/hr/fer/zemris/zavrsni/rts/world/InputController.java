@@ -2,19 +2,20 @@ package hr.fer.zemris.zavrsni.rts.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
 import hr.fer.zemris.zavrsni.rts.screen.DragBoxRenderer;
 
-public class InteractionController extends InputAdapter {
+public class InputController extends InputAdapter {
 
     private DragBoxRenderer dragBoxRenderer;
     private OrthographicCamera camera;
     private WorldController controller;
 
-    public InteractionController(DragBoxRenderer dragBoxRenderer, OrthographicCamera camera, WorldController controller) {
+    public InputController(DragBoxRenderer dragBoxRenderer, OrthographicCamera camera, WorldController controller) {
         this.dragBoxRenderer = dragBoxRenderer;
         this.camera = camera;
         this.controller = controller;
@@ -22,6 +23,16 @@ public class InteractionController extends InputAdapter {
 
     public void handleInput(float deltaTime) {
         handleCameraControls(deltaTime);
+
+        SimpleUnit unit = controller.getGameState().getLevel().getUnits().get(0);
+
+        if (Gdx.input.isKeyPressed(Keys.W)) {
+            unit.getVelocity().y = 25;
+        }
+
+        if (Gdx.input.isKeyPressed(Keys.D)) {
+            unit.getVelocity().x = 50;
+        }
     }
 
     private void handleCameraControls(float deltaTime) {
@@ -102,12 +113,10 @@ public class InteractionController extends InputAdapter {
         if (button != Input.Buttons.RIGHT) return false;
 
         Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
-        System.out.println(position);
-
-        for (SimpleUnit unit : controller.getGameState().getSelectedUnits()) {
-            unit.setCenterX(position.x);
-            unit.setCenterY(position.y);
-        }
+        controller.getPathFindingController().moveUnitsToLocation(
+                controller.getGameState().getSelectedUnits(),
+                position
+        );
 
         return false;
     }

@@ -13,11 +13,11 @@ public class SearchNode<T> {
 
     private T state;
     private SearchNode<T> parent;
-    private Directions transition;
+    private Transition transition;
     private double cost;
     private double heuristic;
 
-    public SearchNode(T state, SearchNode<T> parent, Directions transition, double cost, double heuristic) {
+    public SearchNode(T state, SearchNode<T> parent, Transition transition, double cost, double heuristic) {
         this.state = Objects.requireNonNull(state);
         this.parent = parent;
         this.transition = transition;
@@ -33,7 +33,7 @@ public class SearchNode<T> {
         return parent;
     }
 
-    public Directions getTransition() {
+    public Transition getTransition() {
         return transition;
     }
 
@@ -49,8 +49,8 @@ public class SearchNode<T> {
         return parent == null;
     }
 
-    public List<Directions> backtrack() {
-        LinkedList<Directions> moves = new LinkedList<>();
+    public List<Transition> backtrack() {
+        LinkedList<Transition> moves = new LinkedList<>();
 
         SearchNode<T> node = this;
         while (!node.isRootNode()) {

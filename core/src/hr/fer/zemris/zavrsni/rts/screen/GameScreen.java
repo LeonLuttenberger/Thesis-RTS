@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
-import hr.fer.zemris.zavrsni.rts.world.InteractionController;
+import hr.fer.zemris.zavrsni.rts.world.InputController;
 import hr.fer.zemris.zavrsni.rts.world.Level;
 import hr.fer.zemris.zavrsni.rts.world.WorldController;
 import hr.fer.zemris.zavrsni.rts.world.WorldRenderer;
@@ -23,7 +23,7 @@ public class GameScreen extends AbstractGameScreen {
     private SpriteBatch batch;
     private OrthographicCamera camera;
 
-    private InteractionController interactionController;
+    private InputController inputController;
     private DragBoxRenderer dragBoxRenderer = new DragBoxRenderer();
 
     public GameScreen(Game game) {
@@ -36,13 +36,13 @@ public class GameScreen extends AbstractGameScreen {
         controller = new WorldController(game, new Level(tiledMap));
         renderer = new WorldRenderer(controller, tiledMap, batch);
 
-        interactionController = new InteractionController(dragBoxRenderer, camera, controller);
-        setInputProcessor(interactionController);
+        inputController = new InputController(dragBoxRenderer, camera, controller);
+        setInputProcessor(inputController);
     }
 
     @Override
     public void render(float delta) {
-        interactionController.handleInput(delta);
+        inputController.handleInput(delta);
 
         controller.update(delta);
 

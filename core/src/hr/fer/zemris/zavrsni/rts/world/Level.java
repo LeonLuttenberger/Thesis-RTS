@@ -19,6 +19,9 @@ public class Level {
     private final int height;
     private final float[][] tileModifiers;
 
+    private final int tileWidth;
+    private final int tileHeight;
+
     public Level(TiledMap tiledMap) {
         width = tiledMap.getProperties().get("width", Integer.class);
         height = tiledMap.getProperties().get("height", Integer.class);
@@ -33,6 +36,9 @@ public class Level {
         }
 
         units = Collections.singletonList(new SimpleUnit());
+
+        tileWidth = tiledMap.getProperties().get("tilewidth", Integer.class);
+        tileHeight = tiledMap.getProperties().get("tileheight", Integer.class);
     }
 
     public void render(SpriteBatch batch) {
@@ -55,5 +61,13 @@ public class Level {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getTileWidth() {
+        return tileWidth;
+    }
+
+    public int getTileHeight() {
+        return tileHeight;
     }
 }

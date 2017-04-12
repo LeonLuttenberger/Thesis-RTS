@@ -1,10 +1,10 @@
 package hr.fer.zemris.zavrsni.rts.search.algorithms;
 
-import hr.fer.zemris.zavrsni.rts.search.Directions;
 import hr.fer.zemris.zavrsni.rts.search.IHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem.Successor;
 import hr.fer.zemris.zavrsni.rts.search.SearchNode;
+import hr.fer.zemris.zavrsni.rts.search.Transition;
 
 import java.util.AbstractQueue;
 import java.util.HashSet;
@@ -13,9 +13,9 @@ import java.util.Set;
 
 public abstract class AbstractSearchAlgorithm<T> {
 
-    public abstract List<Directions> search(ISearchProblem<T> problem);
+    public abstract List<Transition> search(ISearchProblem<T> problem);
 
-    protected List<Directions> generalSearch(ISearchProblem<T> problem, AbstractQueue<SearchNode<T>> frontier,
+    protected final List<Transition> generalSearch(ISearchProblem<T> problem, AbstractQueue<SearchNode<T>> frontier,
                                              IHeuristic<T> heuristic) {
         T startState = problem.getStartState();
         SearchNode<T> searchNode = new SearchNode<>(

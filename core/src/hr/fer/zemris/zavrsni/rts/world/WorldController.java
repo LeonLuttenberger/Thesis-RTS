@@ -3,6 +3,7 @@ package hr.fer.zemris.zavrsni.rts.world;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.Disposable;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
+import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
 
 public class WorldController implements Disposable, IUpdatable {
 
@@ -10,21 +11,30 @@ public class WorldController implements Disposable, IUpdatable {
 
     private final Game game;
     private final GameState gameState;
+    private final PathFindingController pathFindingController;
 
     public WorldController(Game game, Level level) {
         this.game = game;
 
         this.gameState = new GameState();
         this.gameState.setLevel(level);
+
+        pathFindingController = new PathFindingController(level);
     }
 
     public GameState getGameState() {
         return gameState;
     }
 
+    public PathFindingController getPathFindingController() {
+        return pathFindingController;
+    }
+
     @Override
     public void update(float deltaTime) {
-
+        for (SimpleUnit unit : gameState.getLevel().getUnits()) {
+            unit.update(deltaTime);
+        }
     }
 
     @Override

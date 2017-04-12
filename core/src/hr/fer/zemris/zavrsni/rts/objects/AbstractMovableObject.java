@@ -6,7 +6,7 @@ import hr.fer.zemris.zavrsni.rts.IUpdatable;
 
 public abstract class AbstractMovableObject extends AbstractGameObject implements IUpdatable {
 
-    private Vector2 velocity;
+    private Vector2 velocity = new Vector2();
 
     public Vector2 getVelocity() {
         return velocity;
