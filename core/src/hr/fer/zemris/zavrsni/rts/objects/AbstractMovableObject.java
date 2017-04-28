@@ -7,10 +7,7 @@ import hr.fer.zemris.zavrsni.rts.IUpdatable;
 public abstract class AbstractMovableObject extends AbstractGameObject implements IUpdatable {
 
     private Vector2 velocity = new Vector2();
-
-    public Vector2 getVelocity() {
-        return velocity;
-    }
+    private boolean isMoving;
 
     public AbstractMovableObject(TextureRegion textureRegion) {
         super(textureRegion);
@@ -20,5 +17,25 @@ public abstract class AbstractMovableObject extends AbstractGameObject implement
     public void update(float deltaTime) {
         position.x += velocity.x * deltaTime;
         position.y += velocity.y * deltaTime;
+    }
+
+    public Vector2 getVelocity() {
+        return velocity;
+    }
+
+    public float getSpeed() {
+        return velocity.len();
+    }
+
+    public void setSpeed(float speed) {
+        velocity.setLength(speed);
+    }
+
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void setMoving(boolean moving) {
+        isMoving = moving;
     }
 }

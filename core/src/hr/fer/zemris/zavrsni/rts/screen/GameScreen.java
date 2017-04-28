@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
+import hr.fer.zemris.zavrsni.rts.world.IWorldController;
 import hr.fer.zemris.zavrsni.rts.world.InputController;
 import hr.fer.zemris.zavrsni.rts.world.Level;
 import hr.fer.zemris.zavrsni.rts.world.WorldController;
@@ -17,7 +18,7 @@ public class GameScreen extends AbstractGameScreen {
 
     private static final String TAG = GameScreen.class.getName();
 
-    private WorldController controller;
+    private IWorldController controller;
     private WorldRenderer renderer;
 
     private SpriteBatch batch;

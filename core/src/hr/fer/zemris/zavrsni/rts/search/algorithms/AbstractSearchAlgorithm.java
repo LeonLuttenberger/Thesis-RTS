@@ -41,7 +41,7 @@ public abstract class AbstractSearchAlgorithm<T> {
             for (Successor<T> successor : problem.getSuccessors(node.getState())) {
 
                 SearchNode<T> newNode = new SearchNode<>(successor.state, node, successor.action,
-                        node.getCost() + successor.stepCost, heuristic.calculateHeuristic(node.getState(), problem));
+                        node.getCost() + successor.stepCost, heuristic.calculateHeuristic(successor.state, problem));
 
                 frontier.add(newNode);
             }

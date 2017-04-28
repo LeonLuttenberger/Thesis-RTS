@@ -6,10 +6,10 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 
 public class WorldRenderer extends IsometricTiledMapRenderer {
 
-    private WorldController controller;
+    private IWorldController controller;
     private SpriteBatch spriteBatch;
 
-    public WorldRenderer(WorldController controller, TiledMap tiledMap, SpriteBatch spriteBatch) {
+    public WorldRenderer(IWorldController controller, TiledMap tiledMap, SpriteBatch spriteBatch) {
         super(tiledMap, spriteBatch);
 
         this.controller = controller;

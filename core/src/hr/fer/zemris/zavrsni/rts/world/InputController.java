@@ -13,9 +13,9 @@ public class InputController extends InputAdapter {
 
     private DragBoxRenderer dragBoxRenderer;
     private OrthographicCamera camera;
-    private WorldController controller;
+    private IWorldController controller;
 
-    public InputController(DragBoxRenderer dragBoxRenderer, OrthographicCamera camera, WorldController controller) {
+    public InputController(DragBoxRenderer dragBoxRenderer, OrthographicCamera camera, IWorldController controller) {
         this.dragBoxRenderer = dragBoxRenderer;
         this.camera = camera;
         this.controller = controller;

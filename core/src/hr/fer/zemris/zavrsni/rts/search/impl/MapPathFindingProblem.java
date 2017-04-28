@@ -10,13 +10,13 @@ import java.util.Objects;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-public class MapPathfindingProblem implements ISearchProblem<MapPosition> {
+public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
 
     private final MapPosition startPosition;
     private final MapPosition endPosition;
     private final Level level;
 
-    public MapPathfindingProblem(MapPosition startPosition, MapPosition endPosition, Level level) {
+    public MapPathFindingProblem(MapPosition startPosition, MapPosition endPosition, Level level) {
         this.startPosition = Objects.requireNonNull(startPosition, "Start position cannot be null.");
         this.endPosition = Objects.requireNonNull(endPosition, "End position cannot be null.");
         this.level = Objects.requireNonNull(level, "Level cannot be null.");
@@ -74,7 +74,9 @@ public class MapPathfindingProblem implements ISearchProblem<MapPosition> {
     private void addNewState(List<Successor<MapPosition>> successors, MapPosition pos, MapPosition newPos,
                              Directions direction) {
         double distance = distance(pos, newPos);
-        double stepCost = distance * (level.getTileModifier(pos.x, pos.y) + level.getTileModifier(newPos.x, newPos.y)) / 2;
+        double stepCost = distance *
+                        (1 / level.getTileModifier(pos.x, pos.y) +
+                        1 / level.getTileModifier(newPos.x, newPos.y)) / 2;
 
         successors.add(new Successor<>(newPos, direction.getDirection(), stepCost));
     }
