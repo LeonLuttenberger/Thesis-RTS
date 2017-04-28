@@ -2,9 +2,9 @@ package hr.fer.zemris.zavrsni.rts.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-public class WorldRenderer extends IsometricTiledMapRenderer {
+public class WorldRenderer extends OrthogonalTiledMapRenderer {
 
     private IWorldController controller;
     private SpriteBatch spriteBatch;

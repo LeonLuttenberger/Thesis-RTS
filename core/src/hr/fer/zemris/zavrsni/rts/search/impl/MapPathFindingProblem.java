@@ -49,23 +49,23 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
             addNewState(successors, state, new MapPosition(state.x + 1, state.y), Directions.EAST);
         }
         if (state.y > 0) {
-            addNewState(successors, state, new MapPosition(state.x, state.y - 1), Directions.NORTH);
+            addNewState(successors, state, new MapPosition(state.x, state.y - 1), Directions.SOUTH);
         }
         if (state.y < level.getHeight() - 1) {
-            addNewState(successors, state, new MapPosition(state.x, state.y + 1), Directions.SOUTH);
+            addNewState(successors, state, new MapPosition(state.x, state.y + 1), Directions.NORTH);
         }
 
         if (state.x > 0 && state.y > 0) {
-            addNewState(successors, state, new MapPosition(state.x - 1, state.y - 1), Directions.NORTH_EAST);
+            addNewState(successors, state, new MapPosition(state.x - 1, state.y - 1), Directions.SOUTH_WEST);
         }
         if (state.x < level.getWidth() - 1 && state.y > 0) {
-            addNewState(successors, state, new MapPosition(state.x + 1, state.y - 1), Directions.NORTH_WEST);
+            addNewState(successors, state, new MapPosition(state.x + 1, state.y - 1), Directions.SOUTH_EAST);
         }
         if (state.x > 0 && state.y < level.getHeight() - 1) {
-            addNewState(successors, state, new MapPosition(state.x - 1, state.y + 1), Directions.SOUTH_EAST);
+            addNewState(successors, state, new MapPosition(state.x - 1, state.y + 1), Directions.NORTH_WEST);
         }
         if (state.x < level.getWidth() - 1 && state.y < level.getHeight() - 1) {
-            addNewState(successors, state, new MapPosition(state.x + 1, state.y + 1), Directions.SOUTH_WEST);
+            addNewState(successors, state, new MapPosition(state.x + 1, state.y + 1), Directions.NORTH_EAST);
         }
 
         return successors;
