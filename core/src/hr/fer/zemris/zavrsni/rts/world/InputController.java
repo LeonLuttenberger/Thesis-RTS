@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
 import hr.fer.zemris.zavrsni.rts.screen.DragBoxRenderer;
@@ -115,7 +116,7 @@ public class InputController extends InputAdapter {
         Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
         controller.getPathFindingController().moveUnitsToLocation(
                 controller.getGameState().getSelectedUnits(),
-                position
+                new Vector2(position.x, position.y)
         );
 
         return false;

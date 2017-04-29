@@ -1,7 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.world;
 
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
 import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
@@ -11,16 +10,12 @@ import hr.fer.zemris.zavrsni.rts.search.algorithms.AbstractSearchAlgorithm;
 import hr.fer.zemris.zavrsni.rts.search.impl.ArealDistanceHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPathFindingProblem;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPosition;
+import hr.fer.zemris.zavrsni.rts.util.Vector2Pool;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
 public class PathFindingController implements IUpdatable {
 
-    private Map<SimpleUnit, SearchResult> routes = new HashMap<>();
     private Level level;
 
     private AbstractSearchAlgorithm<MapPosition> searchAlgorithm = new AStarSearch<>(new ArealDistanceHeuristic());
@@ -29,66 +24,50 @@ public class PathFindingController implements IUpdatable {
         this.level = level;
     }
 
-    public void moveUnitsToLocation(List<SimpleUnit> units, Vector3 destination) {
+    public void moveUnitsToLocation(List<SimpleUnit> units, Vector2 destination) {
         MapPosition goalTile = getTile(destination);
-        Vector3 startPosition = new Vector3();
-
-//        System.out.println("Goal position: " + destination);
-//        System.out.println("Goal tile: " + goalTile);
+        Vector2 startPosition = Vector2Pool.getInstance().obtain();
 
         for (SimpleUnit unit : units) {
-            startPosition.set(unit.getCenterX(), unit.getCenterY(), 0);
+            startPosition.set(unit.getCenterX(), unit.getCenterY());
             MapPosition startTile = getTile(startPosition);
-//            System.out.println("Start position: " + startPosition);
-//            System.out.println("Start tile: " + startTile);
 
             ISearchProblem<MapPosition> problem = new MapPathFindingProblem(startTile, goalTile, level);
             List<Transition> transitions = searchAlgorithm.search(problem);
 
-            if (transitions == null) {
-                continue;
-            } else if (transitions instanceof LinkedList) {
-                routes.put(unit, new SearchResult((LinkedList<Transition>) transitions, destination));
-            } else {
-                routes.put(unit, new SearchResult(new LinkedList<>(transitions), destination));
+            unit.clearWaypoints();
+            if (transitions == null) continue;
+
+            Vector2 currentPosition = startPosition;
+            for (Transition transition : transitions) {
+                currentPosition = new Vector2(
+                        currentPosition.x + transition.dx * level.getTileWidth(),
+                        currentPosition.y + transition.dy * level.getTileHeight()
+                );
+                unit.addWaypoint(currentPosition);
             }
-
+            unit.addWaypoint(destination);
         }
+
+        Vector2Pool.getInstance().free(startPosition);
     }
 
-    private Matrix4 invIsoTransform;
-    {
-        Matrix4 isoTransform = new Matrix4();
-        isoTransform.idt();
-        isoTransform.translate(0, 32, 0);
-        isoTransform.scale((float) Math.sqrt(0.5), (float) Math.sqrt(0.5) / 2, 1);
-        isoTransform.rotate(0, 0, 1, -45);
-
-        invIsoTransform = new Matrix4(isoTransform.inv());
-    }
-
-    private MapPosition getTile(Vector3 position) {
-        Vector3 copy = new Vector3(position);
-        copy.mul(invIsoTransform);
-
-        int tileX = (int) (copy.x / level.getTileWidth());
-        int tileY = (int) (copy.y / level.getTileHeight());
+    private MapPosition getTile(Vector2 position) {
+        int tileX = (int) (position.x / level.getTileWidth());
+        int tileY = (int) (position.y / level.getTileHeight());
 
         return new MapPosition(tileX, tileY);
     }
 
-    private static class SearchResult {
-        final Queue<Transition> transitions;
-        final Vector3 goalPosition;
-
-        SearchResult(Queue<Transition> transitions, Vector3 goalPosition) {
-            this.transitions = transitions;
-            this.goalPosition = goalPosition;
-        }
-    }
-
     @Override
     public void update(float deltaTime) {
+        for (SimpleUnit unit : level.getUnits()) {
+            if (!unit.hasWaypoint()) continue;
 
+            Vector2 position = Vector2Pool.getInstance().obtain().set(unit.getCenterX(), unit.getCenterY());
+            MapPosition tile = getTile(position);
+
+            unit.moveTowardsWaypoint(unit.getMaxSpeed() * level.getTileModifier(tile.x, tile.y));
+        }
     }
 }

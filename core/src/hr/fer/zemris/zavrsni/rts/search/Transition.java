@@ -2,10 +2,10 @@ package hr.fer.zemris.zavrsni.rts.search;
 
 public class Transition {
 
-    public final double dx;
-    public final double dy;
+    public final float dx;
+    public final float dy;
 
-    public Transition(double dx, double dy) {
+    public Transition(float dx, float dy) {
         this.dx = dx;
         this.dy = dy;
     }
