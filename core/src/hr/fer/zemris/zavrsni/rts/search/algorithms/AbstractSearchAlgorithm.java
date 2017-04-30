@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.search.algorithms;
 
+import com.badlogic.gdx.Gdx;
 import hr.fer.zemris.zavrsni.rts.search.IHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem.Successor;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class AbstractSearchAlgorithm<T> {
+
+    private static final String TAG = AbstractSearchAlgorithm.class.getName();
 
     public abstract List<Transition> search(ISearchProblem<T> problem);
 
@@ -29,6 +32,7 @@ public abstract class AbstractSearchAlgorithm<T> {
         while (!frontier.isEmpty()) {
             SearchNode<T> node = frontier.remove();
             if (problem.isGoalState(node.getState())) {
+                Gdx.app.log(TAG, "Path found after " + expanded.size() + " expanded states.");
                 return node.backtrack();
             }
 
@@ -47,6 +51,7 @@ public abstract class AbstractSearchAlgorithm<T> {
             }
         }
 
+        Gdx.app.log(TAG, "Path not found after " + expanded.size() + " expanded states.");
         return null;
     }
 }

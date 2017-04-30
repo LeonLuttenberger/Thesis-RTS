@@ -92,7 +92,7 @@ public final class Assets implements Disposable {
             simpleUnit = atlas.findRegion(UNIT_REGION_NAME);
 
             Array<AtlasRegion> soldierRunning = atlas.findRegions(SOLDIER_REGION_NAME);
-            soldierAnimation = new Animation<>(0.033f, soldierRunning, PlayMode.LOOP);
+            soldierAnimation = new Animation<>(1/60f, soldierRunning, PlayMode.LOOP);
         }
     }
 
