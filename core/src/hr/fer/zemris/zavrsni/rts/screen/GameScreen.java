@@ -2,11 +2,14 @@ package hr.fer.zemris.zavrsni.rts.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.world.IWorldController;
 import hr.fer.zemris.zavrsni.rts.world.InputController;
@@ -23,6 +26,7 @@ public class GameScreen extends AbstractGameScreen {
 
     private SpriteBatch batch;
     private OrthographicCamera camera;
+    private OrthographicCamera cameraGUI;
 
     private InputController inputController;
     private DragBoxRenderer dragBoxRenderer = new DragBoxRenderer();
@@ -32,6 +36,11 @@ public class GameScreen extends AbstractGameScreen {
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+
+        cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
+        cameraGUI.position.set(0, 0, 0);
+        cameraGUI.setToOrtho(true);
+        cameraGUI.update();
 
         TiledMap tiledMap = new TmxMapLoader().load(Constants.TILED_MAP_TMX);
         controller = new WorldController(game, new Level(tiledMap));
@@ -44,7 +53,6 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void render(float delta) {
         inputController.handleInput(delta);
-
         controller.update(delta);
 
         // Sets the clear screen color to: Cornflower Blue
@@ -62,7 +70,36 @@ public class GameScreen extends AbstractGameScreen {
         renderer.setView(camera);
         renderer.render();
 
+        renderGUI(batch);
+
         dragBoxRenderer.render();
+    }
+
+    private void renderGUI(SpriteBatch batch) {
+        batch.setProjectionMatrix(cameraGUI.combined);
+        batch.begin();
+
+        renderGUIFPSCounter(batch);
+
+        batch.end();
+    }
+
+    private void renderGUIFPSCounter(SpriteBatch batch) {
+        float x = cameraGUI.viewportWidth - 40;
+        float y = 10;
+        int fps = Gdx.graphics.getFramesPerSecond();
+
+        BitmapFont fpsFont = Assets.getInstance().getFonts().defaultSmall;
+        if (fps >= 59) {
+            fpsFont.setColor(Color.GREEN);
+        } else if (fps > 30) {
+            fpsFont.setColor(Color.YELLOW);
+        } else {
+            fpsFont.setColor(Color.RED);
+        }
+
+        fpsFont.draw(batch, "FPS: " + fps, x, y);
+        fpsFont.setColor(Color.WHITE);
     }
 
     @Override
@@ -70,5 +107,9 @@ public class GameScreen extends AbstractGameScreen {
         camera.viewportWidth = width;
         camera.viewportHeight = height;
         camera.update();
+
+        cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;
+        cameraGUI.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
+        cameraGUI.position.set(cameraGUI.viewportWidth / 2, cameraGUI.viewportHeight / 2, 0);
     }
 }
