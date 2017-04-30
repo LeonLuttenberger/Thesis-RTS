@@ -7,10 +7,12 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.AbstractUnit;
 import hr.fer.zemris.zavrsni.rts.screen.DragBoxRenderer;
 
 public class InputController extends InputAdapter {
+
+    private static final String TAG = InputController.class.getName();
 
     private DragBoxRenderer dragBoxRenderer;
     private OrthographicCamera camera;
@@ -25,7 +27,7 @@ public class InputController extends InputAdapter {
     public void handleInput(float deltaTime) {
         handleCameraControls(deltaTime);
 
-        SimpleUnit unit = controller.getGameState().getLevel().getUnits().get(0);
+        AbstractUnit unit = controller.getGameState().getLevel().getUnits().get(0);
 
         if (Gdx.input.isKeyPressed(Keys.W)) {
             unit.getVelocity().y = 25;

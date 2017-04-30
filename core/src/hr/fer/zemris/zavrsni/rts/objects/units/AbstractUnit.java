@@ -15,6 +15,7 @@ public abstract class AbstractUnit extends AbstractMovableObject {
     private static final int TOLERANCE = 10;
 
     protected final Animation<TextureRegion> animation;
+    private boolean flipX;
 
     protected boolean isSelected;
     protected final Queue<Vector2> waypoints = new LinkedList<>();
@@ -45,7 +46,11 @@ public abstract class AbstractUnit extends AbstractMovableObject {
         }
 
         TextureRegion frame = animation.getKeyFrame(stateTime);
-        boolean flipX = velocity.x < 0;
+        if (velocity.x < 0) {
+            flipX = true;
+        } else if (velocity.x > 0) {
+            flipX = false;
+        }
 
         batch.draw(frame.getTexture(), position.x, position.y, origin.x, origin.y,
                 dimension.x, dimension.y, scale.x, scale.y, rotation,

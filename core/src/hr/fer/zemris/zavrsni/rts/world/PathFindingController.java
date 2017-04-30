@@ -2,7 +2,7 @@ package hr.fer.zemris.zavrsni.rts.world;
 
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
-import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.AbstractUnit;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.search.Transition;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AStarSearch;
@@ -24,11 +24,11 @@ public class PathFindingController implements IUpdatable {
         this.level = level;
     }
 
-    public void moveUnitsToLocation(List<SimpleUnit> units, Vector2 destination) {
+    public void moveUnitsToLocation(List<AbstractUnit> units, Vector2 destination) {
         MapPosition goalTile = getTile(destination);
         Vector2 startPosition = Vector2Pool.getInstance().obtain();
 
-        for (SimpleUnit unit : units) {
+        for (AbstractUnit unit : units) {
             startPosition.set(unit.getCenterX(), unit.getCenterY());
             MapPosition startTile = getTile(startPosition);
 
@@ -61,7 +61,7 @@ public class PathFindingController implements IUpdatable {
 
     @Override
     public void update(float deltaTime) {
-        for (SimpleUnit unit : level.getUnits()) {
+        for (AbstractUnit unit : level.getUnits()) {
             if (!unit.hasWaypoint()) continue;
 
             Vector2 position = Vector2Pool.getInstance().obtain().set(unit.getCenterX(), unit.getCenterY());

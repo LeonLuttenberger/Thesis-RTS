@@ -2,7 +2,7 @@ package hr.fer.zemris.zavrsni.rts.world;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.AbstractUnit;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +35,7 @@ public class GameState {
                 Math.abs(areaEnd.y - areaStart.y)
         );
 
-        for (SimpleUnit unit : level.getUnits()) {
+        for (AbstractUnit unit : level.getUnits()) {
             if (selectionArea.contains(unit.getCenterX(), unit.getCenterY())) {
                 unit.setSelected(true);
             } else {
@@ -44,9 +44,9 @@ public class GameState {
         }
     }
 
-    public List<SimpleUnit> getSelectedUnits() {
+    public List<AbstractUnit> getSelectedUnits() {
         return level.getUnits().stream()
-                .filter(SimpleUnit::isSelected)
+                .filter(AbstractUnit::isSelected)
                 .collect(Collectors.toList());
     }
 }

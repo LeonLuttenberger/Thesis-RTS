@@ -3,6 +3,7 @@ package hr.fer.zemris.zavrsni.rts.world;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hr.fer.zemris.zavrsni.rts.objects.units.AbstractUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 
@@ -13,7 +14,7 @@ public class Level {
 
     public static final String TAG = Level.class.getName();
 
-    private List<SimpleUnit> units;
+    private List<AbstractUnit> units;
 
     private final int width;
     private final int height;
@@ -42,12 +43,12 @@ public class Level {
     }
 
     public void render(SpriteBatch batch) {
-        for (SimpleUnit unit : units) {
+        for (AbstractUnit unit : units) {
             unit.render(batch);
         }
     }
 
-    public List<SimpleUnit> getUnits() {
+    public List<AbstractUnit> getUnits() {
         return Collections.unmodifiableList(units);
     }
 
