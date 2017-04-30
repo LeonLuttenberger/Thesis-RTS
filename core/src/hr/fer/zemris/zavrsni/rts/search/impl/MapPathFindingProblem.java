@@ -73,6 +73,10 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
 
     private void addNewState(List<Successor<MapPosition>> successors, MapPosition pos, MapPosition newPos,
                              Directions direction) {
+        if (level.getTileModifier(newPos.x, newPos.y) == 0) {
+            return;
+        }
+
         double distance = distance(pos, newPos);
         double stepCost = distance *
                         (1 / level.getTileModifier(pos.x, pos.y) +

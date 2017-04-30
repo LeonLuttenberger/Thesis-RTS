@@ -11,7 +11,9 @@ import java.util.Queue;
 
 public class SimpleUnit extends AbstractMovableObject {
 
-    public static final float DEFAULT_SPEED = 100;
+    public static final float DEFAULT_SPEED = 100 * 5;
+
+    private static final int TOLERANCE = 10;
 
     private boolean isSelected;
     private Queue<Vector2> waypoints = new LinkedList<>();
@@ -50,7 +52,7 @@ public class SimpleUnit extends AbstractMovableObject {
 
         Vector2 waypoint = waypoints.peek();
 
-        if (Math.abs(waypoint.x - getCenterX()) < 1 && Math.abs(waypoint.y - getCenterY()) < 1) {
+        if (Math.abs(waypoint.x - getCenterX()) < TOLERANCE && Math.abs(waypoint.y - getCenterY()) < TOLERANCE) {
             waypoints.poll();
         }
     }

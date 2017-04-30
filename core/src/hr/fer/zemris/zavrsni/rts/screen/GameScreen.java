@@ -31,7 +31,7 @@ public class GameScreen extends AbstractGameScreen {
         super(game);
 
         batch = new SpriteBatch();
-        camera = new OrthographicCamera();
+        camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
 
         TiledMap tiledMap = new TmxMapLoader().load(Constants.TILED_MAP_TMX);
         controller = new WorldController(game, new Level(tiledMap));
