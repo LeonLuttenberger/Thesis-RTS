@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.objects;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
@@ -7,10 +8,13 @@ import hr.fer.zemris.zavrsni.rts.IUpdatable;
 public abstract class AbstractMovableObject extends AbstractGameObject implements IUpdatable {
 
     protected Vector2 velocity = new Vector2();
-    private boolean isMoving;
 
-    public AbstractMovableObject(TextureRegion textureRegion) {
-        super(textureRegion);
+    public AbstractMovableObject(Animation<TextureRegion> animation) {
+        super(animation);
+    }
+
+    public AbstractMovableObject(Animation<TextureRegion> animation, float width, float height) {
+        super(animation, width, height);
     }
 
     @Override
@@ -34,10 +38,6 @@ public abstract class AbstractMovableObject extends AbstractGameObject implement
     public abstract float getMaxSpeed();
 
     public boolean isMoving() {
-        return isMoving;
-    }
-
-    public void setMoving(boolean moving) {
-        isMoving = moving;
+        return !velocity.isZero();
     }
 }

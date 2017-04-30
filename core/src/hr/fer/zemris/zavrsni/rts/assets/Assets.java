@@ -4,8 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 
@@ -17,6 +22,7 @@ public final class Assets implements Disposable {
     private static final Assets INSTANCE = new Assets();
 
     private static final String UNIT_REGION_NAME = "pikachu";
+    private static final String SOLDIER_REGION_NAME = "soldier";
 
     public static Assets getInstance() {
         return INSTANCE;
@@ -79,10 +85,14 @@ public final class Assets implements Disposable {
     }
 
     public static class AssetUnits {
-        public final TextureAtlas.AtlasRegion simpleUnit;
+        public final AtlasRegion simpleUnit;
+        public final Animation<TextureRegion> soldierAnimation;
 
         public AssetUnits(TextureAtlas atlas) {
             simpleUnit = atlas.findRegion(UNIT_REGION_NAME);
+
+            Array<AtlasRegion> soldierRunning = atlas.findRegions(SOLDIER_REGION_NAME);
+            soldierAnimation = new Animation<>(0.033f, soldierRunning, PlayMode.LOOP);
         }
     }
 

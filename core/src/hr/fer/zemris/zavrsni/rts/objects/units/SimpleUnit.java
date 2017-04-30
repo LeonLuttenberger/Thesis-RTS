@@ -1,7 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.objects.units;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
@@ -12,14 +12,13 @@ import java.util.Queue;
 public class SimpleUnit extends AbstractMovableObject {
 
     public static final float DEFAULT_SPEED = 100 * 5;
-
     private static final int TOLERANCE = 10;
 
     private boolean isSelected;
     private Queue<Vector2> waypoints = new LinkedList<>();
 
     public SimpleUnit() {
-        super(Assets.getInstance().getUnits().simpleUnit);
+        super(Assets.getInstance().getUnits().soldierAnimation, 60, 60);
     }
 
     @Override
@@ -29,16 +28,22 @@ public class SimpleUnit extends AbstractMovableObject {
 
     @Override
     public void render(SpriteBatch batch) {
-        if (isSelected) {
-            Color old = batch.getColor();
-            batch.setColor(Color.RED);
-
-            super.render(batch);
-
-            batch.setColor(old);
-        } else {
-            super.render(batch);
+        if (!isMoving()) {
+            TextureRegion textureRegion = animation.getKeyFrame(0);
+            renderWithTexture(batch, textureRegion);
+            return;
         }
+
+        if (velocity.x < 0) {
+            TextureRegion frame = getCurrentFrame();
+            batch.draw(frame.getTexture(), position.x, position.y, origin.x,
+                    origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation,
+                    frame.getRegionX(), frame.getRegionY(), frame.getRegionWidth(),
+                    frame.getRegionHeight(), true, false);
+            return;
+        }
+
+        super.render(batch);
     }
 
     @Override
