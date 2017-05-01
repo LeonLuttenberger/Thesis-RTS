@@ -3,10 +3,12 @@ package hr.fer.zemris.zavrsni.rts.world;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import hr.fer.zemris.zavrsni.rts.objects.units.AbstractUnit;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,7 +16,8 @@ public class Level {
 
     public static final String TAG = Level.class.getName();
 
-    private List<AbstractUnit> units;
+    private final List<Unit> units = new ArrayList<>();
+    private final List<Building> buildings = new ArrayList<>();
 
     private final int width;
     private final int height;
@@ -36,20 +39,44 @@ public class Level {
             }
         }
 
-        units = Collections.singletonList(new SimpleUnit());
+        units.add(new SimpleUnit());
 
         tileWidth = tiledMap.getProperties().get("tilewidth", Integer.class);
         tileHeight = tiledMap.getProperties().get("tileheight", Integer.class);
     }
 
     public void render(SpriteBatch batch) {
-        for (AbstractUnit unit : units) {
+        for (Unit unit : units) {
             unit.render(batch);
+        }
+
+        for (Building building : buildings) {
+            building.render(batch);
         }
     }
 
-    public List<AbstractUnit> getUnits() {
+    public List<Unit> getUnits() {
         return Collections.unmodifiableList(units);
+    }
+
+    public void addUnit(Unit unit) {
+        units.add(unit);
+    }
+
+    public void removeUnit(Unit unit) {
+        units.remove(unit);
+    }
+
+    public List<Building> getBuildings() {
+        return Collections.unmodifiableList(buildings);
+    }
+
+    public void addBuilding(Building building) {
+        buildings.add(building);
+    }
+
+    public void removeBuilding(Building building) {
+        buildings.remove(building);
     }
 
     public float getTileModifier(int x, int y) {

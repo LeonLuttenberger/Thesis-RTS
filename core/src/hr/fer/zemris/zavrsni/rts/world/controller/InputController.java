@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.world;
+package hr.fer.zemris.zavrsni.rts.world.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,8 +7,10 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.objects.units.AbstractUnit;
-import hr.fer.zemris.zavrsni.rts.screen.DragBoxRenderer;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.SimpleBuilding;
+import hr.fer.zemris.zavrsni.rts.world.Level;
+import hr.fer.zemris.zavrsni.rts.world.renderer.DragBoxRenderer;
 
 public class InputController extends InputAdapter {
 
@@ -18,6 +20,8 @@ public class InputController extends InputAdapter {
     private OrthographicCamera camera;
     private IWorldController controller;
 
+    private Building newBuilding;
+
     public InputController(DragBoxRenderer dragBoxRenderer, OrthographicCamera camera, IWorldController controller) {
         this.dragBoxRenderer = dragBoxRenderer;
         this.camera = camera;
@@ -26,16 +30,6 @@ public class InputController extends InputAdapter {
 
     public void handleInput(float deltaTime) {
         handleCameraControls(deltaTime);
-
-        AbstractUnit unit = controller.getGameState().getLevel().getUnits().get(0);
-
-        if (Gdx.input.isKeyPressed(Keys.W)) {
-            unit.getVelocity().y = 25;
-        }
-
-        if (Gdx.input.isKeyPressed(Keys.D)) {
-            unit.getVelocity().x = 50;
-        }
     }
 
     private void handleCameraControls(float deltaTime) {
@@ -84,6 +78,10 @@ public class InputController extends InputAdapter {
         camera.translate(x, y);
     }
 
+    public Building getNewBuilding() {
+        return newBuilding;
+    }
+
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
@@ -113,13 +111,50 @@ public class InputController extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button != Input.Buttons.RIGHT) return false;
+        if (button == Input.Buttons.LEFT) {
+            if (newBuilding != null) {
+                controller.getGameState().getLevel().addBuilding(newBuilding);
+                newBuilding = null;
+            }
 
-        Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
-        controller.getPathFindingController().moveUnitsToLocation(
-                controller.getGameState().getSelectedUnits(),
-                new Vector2(position.x, position.y)
-        );
+        } else if (button == Input.Buttons.RIGHT) {
+            Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
+            controller.getPathFindingController().moveUnitsToLocation(
+                    controller.getGameState().getSelectedUnits(),
+                    new Vector2(position.x, position.y)
+            );
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Keys.B) {
+            newBuilding = new SimpleBuilding();
+            mouseMoved(Gdx.input.getX(), Gdx.input.getY());
+        } else if (keycode == Keys.ESCAPE) {
+            newBuilding = null;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        if (newBuilding != null) {
+            Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
+
+            Level level = controller.getGameState().getLevel();
+            position.set(
+                    position.x - position.x % level.getTileWidth() + level.getTileWidth() / 2,
+                    position.y - position.y % level.getTileHeight() + level.getTileHeight() / 2,
+                    0
+            );
+
+            newBuilding.setCenterX(position.x);
+            newBuilding.setCenterY(position.y);
+        }
 
         return false;
     }

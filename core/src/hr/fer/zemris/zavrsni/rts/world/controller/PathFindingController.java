@@ -1,8 +1,8 @@
-package hr.fer.zemris.zavrsni.rts.world;
+package hr.fer.zemris.zavrsni.rts.world.controller;
 
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
-import hr.fer.zemris.zavrsni.rts.objects.units.AbstractUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.search.Transition;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AStarSearch;
@@ -11,6 +11,7 @@ import hr.fer.zemris.zavrsni.rts.search.impl.ArealDistanceHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPathFindingProblem;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPosition;
 import hr.fer.zemris.zavrsni.rts.util.Vector2Pool;
+import hr.fer.zemris.zavrsni.rts.world.Level;
 
 import java.util.List;
 
@@ -24,11 +25,11 @@ public class PathFindingController implements IUpdatable {
         this.level = level;
     }
 
-    public void moveUnitsToLocation(List<AbstractUnit> units, Vector2 destination) {
+    public void moveUnitsToLocation(List<Unit> units, Vector2 destination) {
         MapPosition goalTile = getTile(destination);
         Vector2 startPosition = Vector2Pool.getInstance().obtain();
 
-        for (AbstractUnit unit : units) {
+        for (Unit unit : units) {
             startPosition.set(unit.getCenterX(), unit.getCenterY());
             MapPosition startTile = getTile(startPosition);
 
@@ -61,7 +62,7 @@ public class PathFindingController implements IUpdatable {
 
     @Override
     public void update(float deltaTime) {
-        for (AbstractUnit unit : level.getUnits()) {
+        for (Unit unit : level.getUnits()) {
             if (!unit.hasWaypoint()) continue;
 
             Vector2 position = Vector2Pool.getInstance().obtain().set(unit.getCenterX(), unit.getCenterY());

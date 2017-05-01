@@ -21,8 +21,8 @@ public final class Assets implements Disposable {
     private static final String TAG = Assets.class.getName();
     private static final Assets INSTANCE = new Assets();
 
-    private static final String UNIT_REGION_NAME = "pikachu";
     private static final String SOLDIER_REGION_NAME = "soldier";
+    private static final String MANUFACTORY_REGION_NAME = "manufactory";
 
     public static Assets getInstance() {
         return INSTANCE;
@@ -31,11 +31,20 @@ public final class Assets implements Disposable {
     private AssetManager assetManager;
 
     private AssetUnits units;
+    private AssetBuildings buildings;
     private AssetFonts fonts;
+
+    private boolean initialized =  false;
 
     private Assets() {}
 
     public void init(AssetManager assetManager) {
+        if (initialized) {
+            dispose();
+            return;
+        }
+        initialized = true;
+
         this.assetManager = assetManager;
 
         // set asset manager error handler
@@ -64,6 +73,7 @@ public final class Assets implements Disposable {
 
         // create game resource objects
         units = new AssetUnits(atlas);
+        buildings = new AssetBuildings(atlas);
         fonts = new AssetFonts();
     }
 
@@ -84,15 +94,24 @@ public final class Assets implements Disposable {
         return fonts;
     }
 
+    public AssetBuildings getBuildings() {
+        return buildings;
+    }
+
     public static class AssetUnits {
-        public final AtlasRegion simpleUnit;
         public final Animation<TextureRegion> soldierAnimation;
 
         public AssetUnits(TextureAtlas atlas) {
-            simpleUnit = atlas.findRegion(UNIT_REGION_NAME);
-
             Array<AtlasRegion> soldierRunning = atlas.findRegions(SOLDIER_REGION_NAME);
             soldierAnimation = new Animation<>(1/60f, soldierRunning, PlayMode.LOOP);
+        }
+    }
+
+    public static class AssetBuildings {
+        public final TextureRegion manufactory;
+
+        public AssetBuildings(TextureAtlas atlas) {
+            manufactory = atlas.findRegion(MANUFACTORY_REGION_NAME);
         }
     }
 

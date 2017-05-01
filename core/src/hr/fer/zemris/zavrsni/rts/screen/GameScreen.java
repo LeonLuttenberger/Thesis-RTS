@@ -11,11 +11,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
-import hr.fer.zemris.zavrsni.rts.world.IWorldController;
-import hr.fer.zemris.zavrsni.rts.world.InputController;
 import hr.fer.zemris.zavrsni.rts.world.Level;
-import hr.fer.zemris.zavrsni.rts.world.WorldController;
-import hr.fer.zemris.zavrsni.rts.world.WorldRenderer;
+import hr.fer.zemris.zavrsni.rts.world.controller.IWorldController;
+import hr.fer.zemris.zavrsni.rts.world.controller.InputController;
+import hr.fer.zemris.zavrsni.rts.world.controller.WorldController;
+import hr.fer.zemris.zavrsni.rts.world.renderer.DragBoxRenderer;
+import hr.fer.zemris.zavrsni.rts.world.renderer.WorldRenderer;
 
 public class GameScreen extends AbstractGameScreen {
 
@@ -67,6 +68,7 @@ public class GameScreen extends AbstractGameScreen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
+        renderer.setGhostNewBuilding(inputController.getNewBuilding());
         renderer.setView(camera);
         renderer.render();
 

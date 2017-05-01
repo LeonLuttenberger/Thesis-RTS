@@ -10,7 +10,7 @@ import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public abstract class AbstractUnit extends AbstractMovableObject {
+public abstract class Unit extends AbstractMovableObject {
 
     private static final int TOLERANCE = 10;
 
@@ -22,7 +22,7 @@ public abstract class AbstractUnit extends AbstractMovableObject {
 
     private float stateTime;
 
-    public AbstractUnit(Animation<TextureRegion> animation, float width, float height) {
+    public Unit(Animation<TextureRegion> animation, float width, float height) {
         this.animation = animation;
 
         this.dimension.x = width;

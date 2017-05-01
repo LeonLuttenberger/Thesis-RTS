@@ -1,7 +1,9 @@
-package hr.fer.zemris.zavrsni.rts.world;
+package hr.fer.zemris.zavrsni.rts.world.controller;
 
 import com.badlogic.gdx.Game;
-import hr.fer.zemris.zavrsni.rts.objects.units.AbstractUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.world.GameState;
+import hr.fer.zemris.zavrsni.rts.world.Level;
 
 public class WorldController implements IWorldController {
 
@@ -32,7 +34,7 @@ public class WorldController implements IWorldController {
     public void update(float deltaTime) {
         pathFindingController.update(deltaTime);
 
-        for (AbstractUnit unit : gameState.getLevel().getUnits()) {
+        for (Unit unit : gameState.getLevel().getUnits()) {
             unit.update(deltaTime);
         }
     }

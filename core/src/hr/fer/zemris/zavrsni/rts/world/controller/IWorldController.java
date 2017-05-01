@@ -1,7 +1,8 @@
-package hr.fer.zemris.zavrsni.rts.world;
+package hr.fer.zemris.zavrsni.rts.world.controller;
 
 import com.badlogic.gdx.utils.Disposable;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
+import hr.fer.zemris.zavrsni.rts.world.GameState;
 
 public interface IWorldController extends Disposable, IUpdatable {
 
