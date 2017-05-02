@@ -1,7 +1,5 @@
-package hr.fer.zemris.zavrsni.rts;
+package hr.fer.zemris.zavrsni.rts.console;
 
-import com.strongjoshua.console.CommandExecutor;
-import com.strongjoshua.console.Console;
 import com.strongjoshua.console.LogLevel;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
@@ -10,17 +8,12 @@ import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
 
-public class CheatCommandExecutor extends CommandExecutor {
+public class InGameCommandExecutor extends MyRTSCommandExecutor {
 
     private final IGameState gameState;
 
-    public CheatCommandExecutor(IGameState gameState) {
+    public InGameCommandExecutor(IGameState gameState) {
         this.gameState = gameState;
-    }
-
-    @Override
-    protected void setConsole(Console c) {
-        super.setConsole(c);
     }
 
     public void spawnBoulder(int x, int y) {
@@ -43,10 +36,6 @@ public class CheatCommandExecutor extends CommandExecutor {
         int width = gameState.getLevel().getWidth();
         int height = gameState.getLevel().getHeight();
         console.log("Map size in tiles is: (" + width + ", " + height + ")", LogLevel.DEFAULT);
-    }
-
-    public void clear() {
-        console.clear();
     }
 
     public void resetGame() {

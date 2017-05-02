@@ -4,15 +4,20 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.strongjoshua.console.Console;
 import com.strongjoshua.console.GUIConsole;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.console.InGameCommandExecutor;
+import hr.fer.zemris.zavrsni.rts.console.MyRTSCommandExecutor;
 import hr.fer.zemris.zavrsni.rts.screen.GameScreen;
+import hr.fer.zemris.zavrsni.rts.screen.MenuScreen;
 
 public class MyRTS extends Game {
 
 	private Console cheatConsole;
+	private boolean isFirstScreen = true;
 
 	@Override
 	public void create () {
@@ -20,15 +25,29 @@ public class MyRTS extends Game {
 
 		Assets.getInstance().init(new AssetManager());
 
-		GameScreen gameScreen = new GameScreen(this);
-		setScreen(gameScreen);
-
 		cheatConsole = new GUIConsole();
 		cheatConsole.setSizePercent(100, 33);
 		cheatConsole.setPositionPercent(0, 67);
 		cheatConsole.setDisplayKeyID(Keys.GRAVE);
 
-		cheatConsole.setCommandExecutor(new CheatCommandExecutor(gameScreen.getController().getGameState()));
+		setScreen(new MenuScreen(this));
+	}
+
+	@Override
+	public void setScreen(Screen screen) {
+		super.setScreen(screen);
+
+		if (screen instanceof GameScreen) {
+			GameScreen gameScreen = (GameScreen) screen;
+			cheatConsole.setCommandExecutor(new InGameCommandExecutor(gameScreen.getController().getGameState()));
+		} else if (screen instanceof MenuScreen) {
+			cheatConsole.setCommandExecutor(new MyRTSCommandExecutor());
+		}
+
+		if (!isFirstScreen) {
+			cheatConsole.resetInputProcessing();
+		}
+		isFirstScreen = false;
 	}
 
 	@Override
