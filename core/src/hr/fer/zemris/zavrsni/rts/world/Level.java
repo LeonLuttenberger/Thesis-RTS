@@ -3,7 +3,9 @@ package hr.fer.zemris.zavrsni.rts.world;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
@@ -19,6 +21,7 @@ public class Level {
 
     private final List<Unit> units = new ArrayList<>();
     private final List<Building> buildings = new ArrayList<>();
+    private final List<Resource> resources = new ArrayList<>();
 
     private final int width;
     private final int height;
@@ -46,6 +49,13 @@ public class Level {
         tileWidth = tiledMap.getProperties().get("tilewidth", Integer.class);
         tileHeight = tiledMap.getProperties().get("tileheight", Integer.class);
 
+        if (tileWidth != Constants.TILE_WIDTH) {
+            throw new RuntimeException("Tile width must be " + Constants.TILE_WIDTH);
+        }
+        if (tileHeight != Constants.TILE_HEIGHT) {
+            throw new RuntimeException("Tile height must be " + Constants.TILE_HEIGHT);
+        }
+
         additionalTileModifiers = new float[width][height];
         for (float[] rowTileModifiers : additionalTileModifiers) {
             Arrays.fill(rowTileModifiers, 1);
@@ -59,6 +69,10 @@ public class Level {
 
         for (Building building : buildings) {
             building.render(batch);
+        }
+
+        for (Resource resource : resources) {
+            resource.render(batch);
         }
     }
 
@@ -78,27 +92,49 @@ public class Level {
         return Collections.unmodifiableList(buildings);
     }
 
-    public void addBuilding(Building building) {
-        buildings.add(building);
-
-        int xTileStart = (int) (building.getPosition().x / tileWidth);
-        int yTileStart = (int) (building.getPosition().y / tileHeight);
-        int xTileEnd = (int) ((building.getPosition().x + building.getDimension().x) / tileWidth);
-        int yTileEnd = (int) ((building.getPosition().y + building.getDimension().y) / tileHeight);
+    private void setAdditionalTileModifier(AbstractGameObject object, float value) {
+        int xTileStart = (int) (object.getPosition().x / tileWidth);
+        int yTileStart = (int) (object.getPosition().y / tileHeight);
+        int xTileEnd = (int) ((object.getPosition().x + object.getDimension().x) / tileWidth);
+        int yTileEnd = (int) ((object.getPosition().y + object.getDimension().y) / tileHeight);
 
         for (int i = xTileStart; i < xTileEnd; i++) {
             for (int j = yTileStart; j < yTileEnd; j++) {
-                additionalTileModifiers[i][j] = 0;
+                additionalTileModifiers[i][j] = value;
             }
         }
     }
 
+    public void addBuilding(Building building) {
+        buildings.add(building);
+        setAdditionalTileModifier(building, 0);
+    }
+
     public void removeBuilding(Building building) {
         buildings.remove(building);
+        setAdditionalTileModifier(building, 1);
+    }
+
+    public List<Resource> getResources() {
+        return Collections.unmodifiableList(resources);
+    }
+
+    public void addResource(Resource resource) {
+        resources.add(resource);
+        setAdditionalTileModifier(resource, resource.getTerrainModifier());
+    }
+
+    public void removeResource(Resource resource) {
+        resources.remove(resource);
+        setAdditionalTileModifier(resource, 1);
     }
 
     public float getTileModifier(int x, int y) {
         return defaultTileModifiers[x][y] * additionalTileModifiers[x][y];
+    }
+
+    public float getTerrainModifier(float x, float y) {
+        return getTileModifier((int) (x / tileWidth), (int) (y / tileHeight));
     }
 
     public int getWidth() {

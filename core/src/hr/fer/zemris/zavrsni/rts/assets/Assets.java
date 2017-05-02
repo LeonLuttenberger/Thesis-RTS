@@ -23,6 +23,7 @@ public final class Assets implements Disposable {
 
     private static final String SOLDIER_REGION_NAME = "soldier";
     private static final String MANUFACTORY_REGION_NAME = "manufactory";
+    private static final String BOULDER_REGION_NAME = "boulder";
 
     public static Assets getInstance() {
         return INSTANCE;
@@ -32,6 +33,7 @@ public final class Assets implements Disposable {
 
     private AssetUnits units;
     private AssetBuildings buildings;
+    private AssetResources resources;
     private AssetFonts fonts;
 
     private boolean initialized =  false;
@@ -74,6 +76,7 @@ public final class Assets implements Disposable {
         // create game resource objects
         units = new AssetUnits(atlas);
         buildings = new AssetBuildings(atlas);
+        resources = new AssetResources(atlas);
         fonts = new AssetFonts();
     }
 
@@ -98,6 +101,10 @@ public final class Assets implements Disposable {
         return buildings;
     }
 
+    public AssetResources getResources() {
+        return resources;
+    }
+
     public static class AssetUnits {
         public final Animation<TextureRegion> soldierAnimation;
 
@@ -112,6 +119,14 @@ public final class Assets implements Disposable {
 
         public AssetBuildings(TextureAtlas atlas) {
             manufactory = atlas.findRegion(MANUFACTORY_REGION_NAME);
+        }
+    }
+
+    public static class AssetResources {
+        public final TextureRegion rock;
+
+        public AssetResources(TextureAtlas atlas) {
+            rock = atlas.findRegion(BOULDER_REGION_NAME);
         }
     }
 

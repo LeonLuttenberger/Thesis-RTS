@@ -50,7 +50,7 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "com.strongjoshua:libgdx-inGameConsole:0.5.3"
     }
 }
 

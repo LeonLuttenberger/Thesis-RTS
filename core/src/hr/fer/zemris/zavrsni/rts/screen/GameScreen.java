@@ -12,11 +12,11 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.world.Level;
-import hr.fer.zemris.zavrsni.rts.world.controller.IWorldController;
-import hr.fer.zemris.zavrsni.rts.world.controller.InputController;
-import hr.fer.zemris.zavrsni.rts.world.controller.WorldController;
-import hr.fer.zemris.zavrsni.rts.world.renderer.DragBoxRenderer;
-import hr.fer.zemris.zavrsni.rts.world.renderer.WorldRenderer;
+import hr.fer.zemris.zavrsni.rts.world.controllers.IWorldController;
+import hr.fer.zemris.zavrsni.rts.world.controllers.InputController;
+import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
+import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
+import hr.fer.zemris.zavrsni.rts.world.renderers.WorldRenderer;
 
 public class GameScreen extends AbstractGameScreen {
 
@@ -113,5 +113,9 @@ public class GameScreen extends AbstractGameScreen {
         cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;
         cameraGUI.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
         cameraGUI.position.set(cameraGUI.viewportWidth / 2, cameraGUI.viewportHeight / 2, 0);
+    }
+
+    public IWorldController getController() {
+        return controller;
     }
 }

@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.world.renderer;
+package hr.fer.zemris.zavrsni.rts.world.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

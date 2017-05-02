@@ -1,11 +1,11 @@
-package hr.fer.zemris.zavrsni.rts.world.renderer;
+package hr.fer.zemris.zavrsni.rts.world.renderers;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
-import hr.fer.zemris.zavrsni.rts.world.controller.IWorldController;
+import hr.fer.zemris.zavrsni.rts.world.controllers.IWorldController;
 
 public class WorldRenderer extends OrthogonalTiledMapRenderer {
 

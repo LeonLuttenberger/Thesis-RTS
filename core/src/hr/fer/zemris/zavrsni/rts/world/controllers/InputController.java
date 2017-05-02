@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.world.controller;
+package hr.fer.zemris.zavrsni.rts.world.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,7 +10,9 @@ import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.SimpleBuilding;
 import hr.fer.zemris.zavrsni.rts.world.Level;
-import hr.fer.zemris.zavrsni.rts.world.renderer.DragBoxRenderer;
+import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
+
+import java.util.function.Consumer;
 
 public class InputController extends InputAdapter {
 
@@ -19,6 +21,8 @@ public class InputController extends InputAdapter {
     private DragBoxRenderer dragBoxRenderer;
     private OrthographicCamera camera;
     private IWorldController controller;
+
+    private Consumer<Void> onConsoleSelected;
 
     private Building newBuilding;
 
@@ -82,6 +86,10 @@ public class InputController extends InputAdapter {
         return newBuilding;
     }
 
+    public void setOnConsoleSelected(Consumer<Void> onConsoleSelected) {
+        this.onConsoleSelected = onConsoleSelected;
+    }
+
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
@@ -130,7 +138,12 @@ public class InputController extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Keys.B) {
+        if (keycode == Keys.GRAVE) {
+            if (onConsoleSelected != null) {
+                onConsoleSelected.accept(null);
+            }
+
+        } else if (keycode == Keys.B) {
             newBuilding = new SimpleBuilding();
             mouseMoved(Gdx.input.getX(), Gdx.input.getY());
         } else if (keycode == Keys.ESCAPE) {

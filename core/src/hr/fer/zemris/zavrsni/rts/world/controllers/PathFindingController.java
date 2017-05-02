@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.world.controller;
+package hr.fer.zemris.zavrsni.rts.world.controllers;
 
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;

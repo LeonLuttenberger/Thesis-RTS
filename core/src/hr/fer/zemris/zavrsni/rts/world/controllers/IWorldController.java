@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.world.controller;
+package hr.fer.zemris.zavrsni.rts.world.controllers;
 
 import com.badlogic.gdx.utils.Disposable;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
