@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.SimpleBuilding;
-import hr.fer.zemris.zavrsni.rts.world.Level;
+import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 import java.util.function.Consumer;
@@ -158,7 +158,7 @@ public class InputController extends InputAdapter {
         if (newBuilding != null) {
             Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
 
-            Level level = controller.getGameState().getLevel();
+            ILevel level = controller.getGameState().getLevel();
             position.set(
                     position.x - position.x % level.getTileWidth() + level.getTileWidth() / 2,
                     position.y - position.y % level.getTileHeight() + level.getTileHeight() / 2,

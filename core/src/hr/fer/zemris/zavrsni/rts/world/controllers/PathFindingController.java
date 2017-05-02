@@ -11,17 +11,17 @@ import hr.fer.zemris.zavrsni.rts.search.impl.ArealDistanceHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPathFindingProblem;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPosition;
 import hr.fer.zemris.zavrsni.rts.util.Vector2Pool;
-import hr.fer.zemris.zavrsni.rts.world.Level;
+import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.List;
 
 public class PathFindingController implements IUpdatable {
 
-    private Level level;
+    private ILevel level;
 
     private AbstractSearchAlgorithm<MapPosition> searchAlgorithm = new AStarSearch<>(new ArealDistanceHeuristic());
 
-    public PathFindingController(Level level) {
+    public PathFindingController(ILevel level) {
         this.level = level;
     }
 
@@ -66,12 +66,7 @@ public class PathFindingController implements IUpdatable {
             if (!unit.hasWaypoint()) continue;
 
             Vector2 position = Vector2Pool.getInstance().obtain().set(unit.getCenterX(), unit.getCenterY());
-            MapPosition tile = getTile(position);
-
-            float tileModifier = level.getTileModifier(tile.x, tile.y);
-            if (tileModifier == 0f) {
-                tileModifier = 0.1f;
-            }
+            float tileModifier = level.getTerrainModifier(position.x, position.y);
 
             unit.moveTowardsWaypoint(unit.getMaxSpeed() * tileModifier);
         }

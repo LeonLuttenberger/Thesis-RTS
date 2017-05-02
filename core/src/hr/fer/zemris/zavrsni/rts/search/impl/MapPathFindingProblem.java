@@ -1,7 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.search.impl;
 
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
-import hr.fer.zemris.zavrsni.rts.world.Level;
+import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
 
     private final MapPosition startPosition;
     private final MapPosition endPosition;
-    private final Level level;
+    private final ILevel level;
 
-    public MapPathFindingProblem(MapPosition startPosition, MapPosition endPosition, Level level) {
+    public MapPathFindingProblem(MapPosition startPosition, MapPosition endPosition, ILevel level) {
         this.startPosition = Objects.requireNonNull(startPosition, "Start position cannot be null.");
         this.endPosition = Objects.requireNonNull(endPosition, "End position cannot be null.");
         this.level = Objects.requireNonNull(level, "Level cannot be null.");
@@ -55,16 +55,20 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
             addNewState(successors, state, new MapPosition(state.x, state.y + 1), Directions.NORTH);
         }
 
-        if (state.x > 0 && state.y > 0) {
+        if (state.x > 0 && state.y > 0 && level.getTileModifier(state.x - 1, state.y) > 0
+                && level.getTileModifier(state.x, state.y - 1) > 0) {
             addNewState(successors, state, new MapPosition(state.x - 1, state.y - 1), Directions.SOUTH_WEST);
         }
-        if (state.x < level.getWidth() - 1 && state.y > 0) {
+        if (state.x < level.getWidth() - 1 && state.y > 0 && level.getTileModifier(state.x + 1, state.y) > 0
+                && level.getTileModifier(state.x, state.y - 1) > 0) {
             addNewState(successors, state, new MapPosition(state.x + 1, state.y - 1), Directions.SOUTH_EAST);
         }
-        if (state.x > 0 && state.y < level.getHeight() - 1) {
+        if (state.x > 0 && state.y < level.getHeight() - 1 && level.getTileModifier(state.x - 1, state.y) > 0
+                && level.getTileModifier(state.x, state.y + 1) > 0) {
             addNewState(successors, state, new MapPosition(state.x - 1, state.y + 1), Directions.NORTH_WEST);
         }
-        if (state.x < level.getWidth() - 1 && state.y < level.getHeight() - 1) {
+        if (state.x < level.getWidth() - 1 && state.y < level.getHeight() - 1 && level.getTileModifier(state.x + 1, state.y) > 0
+                && level.getTileModifier(state.x, state.y + 1) > 0) {
             addNewState(successors, state, new MapPosition(state.x + 1, state.y + 1), Directions.NORTH_EAST);
         }
 

@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Level {
+public class Level implements ILevel {
 
     public static final String TAG = Level.class.getName();
 
@@ -62,6 +62,7 @@ public class Level {
         }
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         for (Unit unit : units) {
             unit.render(batch);
@@ -76,18 +77,22 @@ public class Level {
         }
     }
 
+    @Override
     public List<Unit> getUnits() {
         return Collections.unmodifiableList(units);
     }
 
+    @Override
     public void addUnit(Unit unit) {
         units.add(unit);
     }
 
+    @Override
     public void removeUnit(Unit unit) {
         units.remove(unit);
     }
 
+    @Override
     public List<Building> getBuildings() {
         return Collections.unmodifiableList(buildings);
     }
@@ -105,50 +110,56 @@ public class Level {
         }
     }
 
+    @Override
     public void addBuilding(Building building) {
         buildings.add(building);
         setAdditionalTileModifier(building, 0);
     }
 
+    @Override
     public void removeBuilding(Building building) {
         buildings.remove(building);
         setAdditionalTileModifier(building, 1);
     }
 
+    @Override
     public List<Resource> getResources() {
         return Collections.unmodifiableList(resources);
     }
 
+    @Override
     public void addResource(Resource resource) {
         resources.add(resource);
         setAdditionalTileModifier(resource, resource.getTerrainModifier());
     }
 
+    @Override
     public void removeResource(Resource resource) {
         resources.remove(resource);
         setAdditionalTileModifier(resource, 1);
     }
 
+    @Override
     public float getTileModifier(int x, int y) {
         return defaultTileModifiers[x][y] * additionalTileModifiers[x][y];
     }
 
-    public float getTerrainModifier(float x, float y) {
-        return getTileModifier((int) (x / tileWidth), (int) (y / tileHeight));
-    }
-
+    @Override
     public int getWidth() {
         return width;
     }
 
+    @Override
     public int getHeight() {
         return height;
     }
 
+    @Override
     public int getTileWidth() {
         return tileWidth;
     }
 
+    @Override
     public int getTileHeight() {
         return tileHeight;
     }

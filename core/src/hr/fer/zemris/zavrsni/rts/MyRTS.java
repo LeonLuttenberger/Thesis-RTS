@@ -5,7 +5,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
-import com.strongjoshua.console.CommandExecutor;
 import com.strongjoshua.console.Console;
 import com.strongjoshua.console.GUIConsole;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
@@ -21,23 +20,15 @@ public class MyRTS extends Game {
 
 		Assets.getInstance().init(new AssetManager());
 
-		setScreen(new GameScreen(this));
+		GameScreen gameScreen = new GameScreen(this);
+		setScreen(gameScreen);
 
 		cheatConsole = new GUIConsole();
 		cheatConsole.setSizePercent(100, 33);
 		cheatConsole.setPositionPercent(0, 67);
 		cheatConsole.setDisplayKeyID(Keys.GRAVE);
 
-		cheatConsole.setCommandExecutor(new CommandExecutor() {
-			@Override
-			protected void setConsole(Console c) {
-				super.setConsole(c);
-			}
-
-			public void greet(String name) {
-				console.log("Hello " + name);
-			}
-		});
+		cheatConsole.setCommandExecutor(new CheatCommandExecutor(gameScreen.getController().getGameState()));
 	}
 
 	@Override
