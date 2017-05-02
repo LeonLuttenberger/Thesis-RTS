@@ -68,7 +68,12 @@ public class PathFindingController implements IUpdatable {
             Vector2 position = Vector2Pool.getInstance().obtain().set(unit.getCenterX(), unit.getCenterY());
             MapPosition tile = getTile(position);
 
-            unit.moveTowardsWaypoint(unit.getMaxSpeed() * level.getTileModifier(tile.x, tile.y));
+            float tileModifier = level.getTileModifier(tile.x, tile.y);
+            if (tileModifier == 0f) {
+                tileModifier = 0.1f;
+            }
+
+            unit.moveTowardsWaypoint(unit.getMaxSpeed() * tileModifier);
         }
     }
 }
