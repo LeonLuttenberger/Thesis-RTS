@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
+import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.Level;
 import hr.fer.zemris.zavrsni.rts.world.controllers.IWorldController;
 import hr.fer.zemris.zavrsni.rts.world.controllers.InputController;
@@ -35,17 +36,21 @@ public class GameScreen extends AbstractGameScreen {
     public GameScreen(Game game) {
         super(game);
 
+        TiledMap tiledMap = new TmxMapLoader().load(Constants.TILED_MAP_TMX);
+        ILevel level = new Level(tiledMap);
+
         batch = new SpriteBatch();
+        controller = new WorldController(game, level);
+        renderer = new WorldRenderer(controller, tiledMap, batch);
+
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+        camera.translate(level.getWidth() * level.getTileWidth() / 2, level.getHeight() * level.getTileHeight() / 2);
+        camera.update();
 
         cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
         cameraGUI.position.set(0, 0, 0);
         cameraGUI.setToOrtho(true);
         cameraGUI.update();
-
-        TiledMap tiledMap = new TmxMapLoader().load(Constants.TILED_MAP_TMX);
-        controller = new WorldController(game, new Level(tiledMap));
-        renderer = new WorldRenderer(controller, tiledMap, batch);
 
         inputController = new InputController(dragBoxRenderer, camera, controller);
         setInputProcessor(inputController);

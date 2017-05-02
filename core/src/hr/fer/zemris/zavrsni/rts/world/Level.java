@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
-import hr.fer.zemris.zavrsni.rts.objects.units.SimpleUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 
@@ -43,8 +42,6 @@ public class Level implements ILevel {
                 defaultTileModifiers[i][j] = mapLayer.getCell(i, j).getTile().getProperties().get("modifier", Float.class);
             }
         }
-
-        units.add(new SimpleUnit());
 
         tileWidth = tiledMap.getProperties().get("tilewidth", Integer.class);
         tileHeight = tiledMap.getProperties().get("tileheight", Integer.class);

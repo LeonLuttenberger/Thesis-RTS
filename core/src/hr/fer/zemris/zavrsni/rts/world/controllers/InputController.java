@@ -12,8 +12,6 @@ import hr.fer.zemris.zavrsni.rts.objects.buildings.SimpleBuilding;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
-import java.util.function.Consumer;
-
 public class InputController extends InputAdapter {
 
     private static final String TAG = InputController.class.getName();
@@ -21,8 +19,6 @@ public class InputController extends InputAdapter {
     private DragBoxRenderer dragBoxRenderer;
     private OrthographicCamera camera;
     private IWorldController controller;
-
-    private Consumer<Void> onConsoleSelected;
 
     private Building newBuilding;
 
@@ -56,9 +52,6 @@ public class InputController extends InputAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             translateCamera(0, -camMoveSpeed);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
-            camera.position.set(0, 0, camera.position.z);
-        }
 
         // Camera Controls (zoom)
         float camZoomSpeed = 1 * deltaTime;
@@ -84,10 +77,6 @@ public class InputController extends InputAdapter {
 
     public Building getNewBuilding() {
         return newBuilding;
-    }
-
-    public void setOnConsoleSelected(Consumer<Void> onConsoleSelected) {
-        this.onConsoleSelected = onConsoleSelected;
     }
 
     @Override
@@ -138,13 +127,8 @@ public class InputController extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Keys.GRAVE) {
-            if (onConsoleSelected != null) {
-                onConsoleSelected.accept(null);
-            }
-
-        } else if (keycode == Keys.B) {
-            newBuilding = new SimpleBuilding();
+        if (keycode == Keys.B) {
+            newBuilding = new SimpleBuilding(); //TODO
             mouseMoved(Gdx.input.getX(), Gdx.input.getY());
         } else if (keycode == Keys.ESCAPE) {
             newBuilding = null;

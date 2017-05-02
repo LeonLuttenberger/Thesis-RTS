@@ -16,4 +16,8 @@ public interface IGameState {
     List<Unit> getSelectedUnits();
 
     void reset();
+
+    int getMinerals();
+
+    void addMinerals(int minerals);
 }
