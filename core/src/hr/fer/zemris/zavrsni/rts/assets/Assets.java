@@ -19,14 +19,18 @@ import static hr.fer.zemris.zavrsni.rts.util.Constants.TEXTURE_ATLAS_OBJECTS;
 public final class Assets implements Disposable {
 
     private static final String TAG = Assets.class.getName();
-    private static final Assets INSTANCE = new Assets();
+    private static Assets instance;
 
     private static final String SOLDIER_REGION_NAME = "soldier";
     private static final String MANUFACTORY_REGION_NAME = "manufactory";
     private static final String BOULDER_REGION_NAME = "boulder";
 
     public static Assets getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new Assets();
+        }
+
+        return instance;
     }
 
     private AssetManager assetManager;
