@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import hr.fer.zemris.zavrsni.rts.MyRTS;
+import hr.fer.zemris.zavrsni.rts.util.Constants;
 
 public class DesktopLauncher {
 
@@ -25,9 +26,18 @@ public class DesktopLauncher {
 					"images",
 					"textures"
 			);
+
+			TexturePacker.processIfModified(
+					settings,
+					"../assets-raw/images-ui",
+					"images",
+					"textures-ui"
+			);
 		}
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.width = (int) Constants.VIEWPORT_GUI_WIDTH;
+		config.height = (int) Constants.VIEWPORT_GUI_HEIGHT;
 
 		config.title = "My RTS";
 

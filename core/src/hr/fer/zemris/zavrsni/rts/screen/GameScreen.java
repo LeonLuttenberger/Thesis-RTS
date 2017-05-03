@@ -111,8 +111,8 @@ public class GameScreen extends AbstractGameScreen {
 
     @Override
     public void resize(int width, int height) {
-        camera.viewportWidth = width;
-        camera.viewportHeight = height;
+        camera.viewportHeight = Constants.VIEWPORT_HEIGHT;
+        camera.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
         camera.update();
 
         cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;
