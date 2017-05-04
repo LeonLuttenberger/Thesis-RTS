@@ -13,11 +13,14 @@ import hr.fer.zemris.zavrsni.rts.console.InGameCommandExecutor;
 import hr.fer.zemris.zavrsni.rts.console.MyRTSCommandExecutor;
 import hr.fer.zemris.zavrsni.rts.screen.GameScreen;
 import hr.fer.zemris.zavrsni.rts.screen.MenuScreen;
+import hr.fer.zemris.zavrsni.rts.util.Constants;
+import hr.fer.zemris.zavrsni.rts.util.GameSettings;
 
 public class MyRTS extends Game {
 
 	private Console cheatConsole;
 	private boolean isFirstScreen = true;
+	private GameSettings settings;
 
 	@Override
 	public void create () {
@@ -30,7 +33,10 @@ public class MyRTS extends Game {
 		cheatConsole.setPositionPercent(0, 67);
 		cheatConsole.setDisplayKeyID(Keys.GRAVE);
 
-		setScreen(new MenuScreen(this));
+		settings = new GameSettings(Constants.SETTINGS);
+		settings.load();
+
+		setScreen(new MenuScreen(this, settings));
 	}
 
 	@Override

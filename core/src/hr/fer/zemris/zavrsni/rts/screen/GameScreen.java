@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
+import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.Level;
 import hr.fer.zemris.zavrsni.rts.world.controllers.IWorldController;
@@ -33,8 +34,8 @@ public class GameScreen extends AbstractGameScreen {
     private InputController inputController;
     private DragBoxRenderer dragBoxRenderer = new DragBoxRenderer();
 
-    public GameScreen(Game game) {
-        super(game);
+    public GameScreen(Game game, IGameSettings gameSettings) {
+        super(game, gameSettings);
 
         TiledMap tiledMap = new TmxMapLoader().load(Constants.TILED_MAP_TMX);
         ILevel level = new Level(tiledMap);
@@ -86,7 +87,9 @@ public class GameScreen extends AbstractGameScreen {
         batch.setProjectionMatrix(cameraGUI.combined);
         batch.begin();
 
-        renderGUIFPSCounter(batch);
+        if (gameSettings.showFPSCounter()) {
+            renderGUIFPSCounter(batch);
+        }
 
         batch.end();
     }

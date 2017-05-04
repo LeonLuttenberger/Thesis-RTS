@@ -7,14 +7,18 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
+import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
 
 public class MenuScreen extends AbstractGameScreen {
 
@@ -24,18 +28,25 @@ public class MenuScreen extends AbstractGameScreen {
     private Skin mainMenuSkin;
     private Skin uiSkin;
 
-    //menu
+    // menu
     private Image imgBackground;
     private Button btnNewGame;
-    private TextButton btnQuitGame;
+    private Button btnSettings;
+    private Button btnQuitGame;
 
-    //debug
-    private final float DEBUG_REBUILD_INTERVAL = 5.0f;
-    private boolean debugEnabled = false;
+    // options
+    private Window windowSettings;
+    private Button btnSaveSettings;
+    private Button btnCancelSettings;
+    private CheckBox checkFPS;
+
+    // debug
+    private static final float DEBUG_REBUILD_INTERVAL = 5.0f;
+    private static final boolean DEBUG_ENABLED = false;
     private float debugRebuildStage;
 
-    public MenuScreen(Game game) {
-        super(game);
+    public MenuScreen(Game game, IGameSettings gameSettings) {
+        super(game, gameSettings);
     }
 
     @Override
@@ -43,7 +54,7 @@ public class MenuScreen extends AbstractGameScreen {
         Gdx.gl20.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (debugEnabled) {
+        if (DEBUG_ENABLED) {
             debugRebuildStage -= deltaTime;
             if (debugRebuildStage <= 0) {
                 debugRebuildStage = DEBUG_REBUILD_INTERVAL;
@@ -53,7 +64,7 @@ public class MenuScreen extends AbstractGameScreen {
 
         stage.act(deltaTime);
         stage.draw();
-        stage.setDebugAll(true);
+        stage.setDebugAll(DEBUG_ENABLED);
     }
 
     private void rebuildStage() {
@@ -69,6 +80,8 @@ public class MenuScreen extends AbstractGameScreen {
         // build all layers
         Table layerBackground = buildBackgroundLayer();
         Table layerNavigation = buildMenuNavigation();
+        windowSettings = buildOptionsWindowLayer();
+        windowSettings.setVisible(false);
 
         // assemble stage for menu screen
         stage.clear();
@@ -78,6 +91,7 @@ public class MenuScreen extends AbstractGameScreen {
         stack.setSize(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
         stack.add(layerBackground);
         stack.add(layerNavigation);
+        stack.add(windowSettings);
     }
 
     private Table buildBackgroundLayer() {
@@ -97,7 +111,17 @@ public class MenuScreen extends AbstractGameScreen {
         btnNewGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game, gameSettings));
+            }
+        });
+        table.row();
+
+        btnSettings = new TextButton("Settings", uiSkin);
+        table.add(btnSettings);
+        btnSettings.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                onOpenSettings();
             }
         });
         table.row();
@@ -112,6 +136,88 @@ public class MenuScreen extends AbstractGameScreen {
         });
 
         return table;
+    }
+
+    private Window buildOptionsWindowLayer() {
+        Window window = new Window("Settings", uiSkin);
+
+        window.add(buildOptWinDebug()).row();
+        window.add(buildOptWinButtons());
+
+        window.pack();
+        window.setColor(1, 1, 1, 0.8f);
+
+        return window;
+    }
+
+    private Table buildOptWinDebug() {
+        Table table = new Table();
+
+        table.pad(10, 10, 0, 10);
+        table.columnDefaults(0).padRight(10);
+        table.columnDefaults(1).padRight(10);
+
+        checkFPS = new CheckBox("", uiSkin);
+        table.add(new Label("FPS Counter", uiSkin));
+        table.add(checkFPS);
+        table.row();
+
+        return table;
+    }
+
+    private Table buildOptWinButtons() {
+        Table table = new Table();
+
+        btnSaveSettings = new TextButton("Save", uiSkin);
+        table.add(btnSaveSettings);
+        btnSaveSettings.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                onSaveClicked();
+            }
+        });
+
+        btnCancelSettings = new TextButton("Cancel", uiSkin);
+        table.add(btnCancelSettings);
+        btnCancelSettings.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                onCloseSettings();
+            }
+        });
+
+        return table;
+    }
+
+    private void loadSettings() {
+        gameSettings.load();
+        checkFPS.setChecked(gameSettings.showFPSCounter());
+    }
+
+    private void saveSettings() {
+        gameSettings.setShowFPSCounter(checkFPS.isChecked());
+        gameSettings.save();
+    }
+
+    private void onSaveClicked() {
+        saveSettings();
+        onCloseSettings();
+    }
+
+    private void onCloseSettings() {
+        btnNewGame.setVisible(true);
+        btnSettings.setVisible(true);
+        btnQuitGame.setVisible(true);
+        windowSettings.setVisible(false);
+    }
+
+    private void onOpenSettings() {
+        loadSettings();
+
+        btnNewGame.setVisible(false);
+        btnSettings.setVisible(false);
+        btnQuitGame.setVisible(false);
+        windowSettings.setVisible(true);
     }
 
     @Override

@@ -4,13 +4,16 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
+import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
 
 public abstract class AbstractGameScreen extends ScreenAdapter {
 
     protected final Game game;
+    protected final IGameSettings gameSettings;
 
-    public AbstractGameScreen(Game game) {
+    public AbstractGameScreen(Game game, IGameSettings gameSettings) {
         this.game = game;
+        this.gameSettings = gameSettings;
     }
 
     protected void setInputProcessor(InputProcessor inputProcessor) {

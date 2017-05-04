@@ -25,4 +25,6 @@ public final class Constants {
     // Location of description file for skins
     public static final String SKIN_UI = "images/textures-ui.json";
     public static final String SKIN_LIBGDX_UI = "uiskin/star-soldier-ui.json";
+
+    public static final String SETTINGS = "myrts.cfg";
 }
