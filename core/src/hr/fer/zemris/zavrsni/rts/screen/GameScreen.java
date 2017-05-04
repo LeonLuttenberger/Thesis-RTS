@@ -2,13 +2,21 @@ package hr.fer.zemris.zavrsni.rts.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
@@ -29,10 +37,14 @@ public class GameScreen extends AbstractGameScreen {
 
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    private OrthographicCamera cameraGUI;
 
     private InputController inputController;
     private DragBoxRenderer dragBoxRenderer = new DragBoxRenderer();
+
+    private Stage stageUI;
+    private Skin uiSkin;
+
+    private Label labelFPS;
 
     public GameScreen(Game game, IGameSettings gameSettings) {
         super(game, gameSettings);
@@ -48,19 +60,38 @@ public class GameScreen extends AbstractGameScreen {
         camera.translate(level.getWidth() * level.getTileWidth() / 2, level.getHeight() * level.getTileHeight() / 2);
         camera.update();
 
-        cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
-        cameraGUI.position.set(0, 0, 0);
-        cameraGUI.setToOrtho(true);
-        cameraGUI.update();
-
         inputController = new InputController(dragBoxRenderer, camera, controller);
-        setInputProcessor(inputController);
+    }
+
+    private void rebuildStage() {
+        uiSkin = Assets.getInstance().getUiSkin();
+
+        Table layerUI = buildUILayer();
+
+        // assemble stage for menu screen
+        stageUI.clear();
+        Stack stack = new Stack();
+        stageUI.addActor(stack);
+
+        stack.setSize(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
+        stack.add(layerUI);
+    }
+
+    private Table buildUILayer() {
+        Table table = new Table();
+
+        if (gameSettings.showFPSCounter()) {
+            labelFPS = new Label("", uiSkin);
+            table.right().top().add(labelFPS);
+        }
+
+        return table;
     }
 
     @Override
-    public void render(float delta) {
-        inputController.handleInput(delta);
-        controller.update(delta);
+    public void render(float deltaTime) {
+        inputController.handleInput(deltaTime);
+        controller.update(deltaTime);
 
         // Sets the clear screen color to: Cornflower Blue
         Gdx.gl20.glClearColor(
@@ -78,38 +109,27 @@ public class GameScreen extends AbstractGameScreen {
         renderer.setView(camera);
         renderer.render();
 
-        renderGUI(batch);
+        stageUI.act(deltaTime);
+        stageUI.draw();
+
+        renderFPSCounter();
 
         dragBoxRenderer.render();
     }
 
-    private void renderGUI(SpriteBatch batch) {
-        batch.setProjectionMatrix(cameraGUI.combined);
-        batch.begin();
+    private void renderFPSCounter() {
 
-        if (gameSettings.showFPSCounter()) {
-            renderGUIFPSCounter(batch);
-        }
-
-        batch.end();
-    }
-
-    private void renderGUIFPSCounter(SpriteBatch batch) {
-        float x = cameraGUI.viewportWidth - 40;
-        float y = 10;
         int fps = Gdx.graphics.getFramesPerSecond();
 
-        BitmapFont fpsFont = Assets.getInstance().getFonts().defaultSmall;
         if (fps >= 59) {
-            fpsFont.setColor(Color.GREEN);
+            labelFPS.setColor(Color.GREEN);
         } else if (fps > 30) {
-            fpsFont.setColor(Color.YELLOW);
+            labelFPS.setColor(Color.YELLOW);
         } else {
-            fpsFont.setColor(Color.RED);
+            labelFPS.setColor(Color.RED);
         }
 
-        fpsFont.draw(batch, "FPS: " + fps, x, y);
-        fpsFont.setColor(Color.WHITE);
+        labelFPS.setText(Integer.toString(fps));
     }
 
     @Override
@@ -118,9 +138,31 @@ public class GameScreen extends AbstractGameScreen {
         camera.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
         camera.update();
 
-        cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;
-        cameraGUI.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
-        cameraGUI.position.set(cameraGUI.viewportWidth / 2, cameraGUI.viewportHeight / 2, 0);
+        stageUI.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void show() {
+        stageUI = new Stage(new StretchViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT));
+        InputMultiplexer inputMultiplexer = new InputMultiplexer(stageUI, inputController);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+
+        inputMultiplexer.addProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Keys.ESCAPE) {
+                    game.setScreen(new MenuScreen(game, gameSettings));
+                }
+                return false;
+            }
+        });
+
+        rebuildStage();
+    }
+
+    @Override
+    public void hide() {
+        stageUI.dispose();
     }
 
     public IWorldController getController() {

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
 
@@ -72,10 +73,7 @@ public class MenuScreen extends AbstractGameScreen {
                 Gdx.files.internal(Constants.SKIN_UI),
                 new TextureAtlas(Constants.TEXTURE_ATLAS_UI)
         );
-        uiSkin = new Skin(
-                Gdx.files.internal(Constants.SKIN_LIBGDX_UI),
-                new TextureAtlas(Constants.TEXTURE_ATLAS_LIBGDX_UI)
-        );
+        uiSkin = Assets.getInstance().getUiSkin();
 
         // build all layers
         Table layerBackground = buildBackgroundLayer();

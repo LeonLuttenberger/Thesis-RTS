@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
@@ -38,7 +38,8 @@ public final class Assets implements Disposable {
     private AssetUnits units;
     private AssetBuildings buildings;
     private AssetResources resources;
-    private AssetFonts fonts;
+
+    private Skin uiSkin;
 
     private boolean initialized =  false;
 
@@ -74,31 +75,27 @@ public final class Assets implements Disposable {
 
         // enable texture filtering for pixel smoothing
         for (Texture t : atlas.getTextures()) {
-            t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
         }
 
         // create game resource objects
         units = new AssetUnits(atlas);
         buildings = new AssetBuildings(atlas);
         resources = new AssetResources(atlas);
-        fonts = new AssetFonts();
+
+        uiSkin = new Skin(
+                Gdx.files.internal(Constants.SKIN_LIBGDX_UI),
+                new TextureAtlas(Constants.TEXTURE_ATLAS_LIBGDX_UI)
+        );
     }
 
     @Override
     public void dispose() {
         assetManager.dispose();
-
-        fonts.defaultSmall.dispose();
-        fonts.defaultNormal.dispose();
-        fonts.defaultLarge.dispose();
     }
 
     public AssetUnits getUnits() {
         return units;
-    }
-
-    public AssetFonts getFonts() {
-        return fonts;
     }
 
     public AssetBuildings getBuildings() {
@@ -107,6 +104,10 @@ public final class Assets implements Disposable {
 
     public AssetResources getResources() {
         return resources;
+    }
+
+    public Skin getUiSkin() {
+        return uiSkin;
     }
 
     public static class AssetUnits {
@@ -131,27 +132,6 @@ public final class Assets implements Disposable {
 
         public AssetResources(TextureAtlas atlas) {
             rock = atlas.findRegion(BOULDER_REGION_NAME);
-        }
-    }
-
-    public static class AssetFonts {
-        public final BitmapFont defaultSmall;
-        public final BitmapFont defaultNormal;
-        public final BitmapFont defaultLarge;
-
-        public AssetFonts() {
-            defaultSmall = new BitmapFont(Gdx.files.internal(Constants.ARIAL_FONT), true);
-            defaultNormal = new BitmapFont(Gdx.files.internal(Constants.ARIAL_FONT), true);
-            defaultLarge = new BitmapFont(Gdx.files.internal(Constants.ARIAL_FONT), true);
-
-            defaultSmall.getData().setScale(0.75f);
-            defaultNormal.getData().setScale(1.0f);
-            defaultLarge.getData().setScale(2.0f);
-
-            // enable linear texture filtering for smooth fonts
-            defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-            defaultNormal.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-            defaultLarge.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
         }
     }
 }
