@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.search.SearchResult;
 import hr.fer.zemris.zavrsni.rts.search.Transition;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AStarSearch;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AbstractSearchAlgorithm;
@@ -34,13 +35,13 @@ public class PathFindingController implements IUpdatable {
             MapPosition startTile = getTile(startPosition);
 
             ISearchProblem<MapPosition> problem = new MapPathFindingProblem(startTile, goalTile, level);
-            List<Transition> transitions = searchAlgorithm.search(problem);
+            SearchResult<MapPosition> searchResult = searchAlgorithm.search(problem);
 
             unit.clearWaypoints();
-            if (transitions == null) continue;
+            if (searchResult == null) continue;
 
             Vector2 currentPosition = startPosition;
-            for (Transition transition : transitions) {
+            for (Transition transition : searchResult.getTransitions()) {
                 currentPosition = new Vector2(
                         currentPosition.x + transition.dx * level.getTileWidth(),
                         currentPosition.y + transition.dy * level.getTileHeight()

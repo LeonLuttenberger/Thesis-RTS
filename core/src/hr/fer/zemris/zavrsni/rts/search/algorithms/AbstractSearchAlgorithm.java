@@ -5,20 +5,19 @@ import hr.fer.zemris.zavrsni.rts.search.IHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.search.ISearchProblem.Successor;
 import hr.fer.zemris.zavrsni.rts.search.SearchNode;
-import hr.fer.zemris.zavrsni.rts.search.Transition;
+import hr.fer.zemris.zavrsni.rts.search.SearchResult;
 
 import java.util.AbstractQueue;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public abstract class AbstractSearchAlgorithm<T> {
 
     private static final String TAG = AbstractSearchAlgorithm.class.getName();
 
-    public abstract List<Transition> search(ISearchProblem<T> problem);
+    public abstract SearchResult<T> search(ISearchProblem<T> problem);
 
-    protected final List<Transition> generalSearch(ISearchProblem<T> problem, AbstractQueue<SearchNode<T>> frontier,
+    protected final SearchResult<T> generalSearch(ISearchProblem<T> problem, AbstractQueue<SearchNode<T>> frontier,
                                              IHeuristic<T> heuristic) {
         T startState = problem.getStartState();
         SearchNode<T> searchNode = new SearchNode<>(
@@ -33,7 +32,7 @@ public abstract class AbstractSearchAlgorithm<T> {
             SearchNode<T> node = frontier.remove();
             if (problem.isGoalState(node.getState())) {
                 Gdx.app.log(TAG, "Path found after " + expanded.size() + " expanded states.");
-                return node.backtrack();
+                return new SearchResult<>(node.backtrack(), expanded, frontier);
             }
 
             if (expanded.contains(node.getState())) {
