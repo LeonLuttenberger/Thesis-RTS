@@ -62,6 +62,7 @@ public class PathFindingController implements IUpdatable {
 
     @Override
     public void update(float deltaTime) {
+        // move units
         for (Unit unit : level.getUnits()) {
             if (!unit.hasWaypoint()) continue;
 

@@ -22,6 +22,7 @@ public final class Assets implements Disposable {
     private static Assets instance;
 
     private static final String SOLDIER_REGION_NAME = "soldier";
+    private static final String WORKER_REGION_NAME = "robot";
     private static final String MANUFACTORY_REGION_NAME = "manufactory";
     private static final String BOULDER_REGION_NAME = "boulder";
 
@@ -112,10 +113,14 @@ public final class Assets implements Disposable {
 
     public static class AssetUnits {
         public final Animation<TextureRegion> soldierAnimation;
+        public final Animation<TextureRegion> workerAnimation;
 
         public AssetUnits(TextureAtlas atlas) {
             Array<AtlasRegion> soldierRunning = atlas.findRegions(SOLDIER_REGION_NAME);
             soldierAnimation = new Animation<>(1/60f, soldierRunning, PlayMode.LOOP);
+
+            Array<AtlasRegion> workerRunning = atlas.findRegions(WORKER_REGION_NAME);
+            workerAnimation = new Animation<>(1 / 60f, workerRunning, PlayMode.LOOP);
         }
     }
 
