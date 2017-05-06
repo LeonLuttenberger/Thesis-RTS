@@ -38,4 +38,8 @@ public class LimitedExpansionProblem<T> implements ISearchProblem<T> {
     public void reset() {
         expandedStates = 0;
     }
+
+    public ISearchProblem<T> getProblem() {
+        return problem;
+    }
 }

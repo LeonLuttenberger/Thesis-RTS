@@ -1,7 +1,5 @@
 package hr.fer.zemris.zavrsni.rts.search.impl;
 
-import hr.fer.zemris.zavrsni.rts.search.Transition;
-
 public enum Directions {
 
     NORTH (new Transition(0, 1)),

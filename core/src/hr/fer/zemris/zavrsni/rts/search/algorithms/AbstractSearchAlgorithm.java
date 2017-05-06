@@ -21,7 +21,7 @@ public abstract class AbstractSearchAlgorithm<T> {
                                              IHeuristic<T> heuristic) {
         T startState = problem.getStartState();
         SearchNode<T> searchNode = new SearchNode<>(
-                startState, null, null, 0,
+                startState, null, 0,
                 heuristic.calculateHeuristic(startState, problem)
         );
 
@@ -29,11 +29,12 @@ public abstract class AbstractSearchAlgorithm<T> {
         frontier.add(searchNode);
 
         while (!frontier.isEmpty()) {
-            SearchNode<T> node = frontier.remove();
+            SearchNode<T> node = frontier.peek();
             if (problem.isGoalState(node.getState())) {
                 Gdx.app.log(TAG, "Path found after " + expanded.size() + " expanded states.");
                 return new SearchResult<>(node.backtrack(), expanded, frontier);
             }
+            frontier.poll();
 
             if (expanded.contains(node.getState())) {
                 continue;
@@ -43,8 +44,8 @@ public abstract class AbstractSearchAlgorithm<T> {
 
             for (Successor<T> successor : problem.getSuccessors(node.getState())) {
 
-                SearchNode<T> newNode = new SearchNode<>(successor.state, node, successor.action,
-                        node.getCost() + successor.stepCost, heuristic.calculateHeuristic(successor.state, problem));
+                SearchNode<T> newNode = new SearchNode<>(successor.state, node, node.getCost() + successor.stepCost,
+                        heuristic.calculateHeuristic(successor.state, problem));
 
                 frontier.add(newNode);
             }

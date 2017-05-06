@@ -47,7 +47,7 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
     public void spawnSoldierUnit(int x, int y) {
         if (!isPositionValid(x, y)) return;
 
-        Unit unit = new SoldierUnit();
+        Unit unit = new SoldierUnit(gameState.getLevel());
         unit.getPosition().set(x * Constants.TILE_WIDTH, y * Constants.TILE_HEIGHT);
 
         gameState.getLevel().addUnit(unit);
@@ -57,7 +57,7 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
     public void spawnWorkerUnit(int x, int y) {
         if (!isPositionValid(x, y)) return;
 
-        WorkerUnit worker = new WorkerUnit();
+        WorkerUnit worker = new WorkerUnit(gameState.getLevel());
         worker.getPosition().set(x * Constants.TILE_WIDTH, y * Constants.TILE_HEIGHT);
 
         gameState.getLevel().addUnit(worker);

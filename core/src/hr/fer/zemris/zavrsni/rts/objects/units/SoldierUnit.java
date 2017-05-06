@@ -1,6 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.objects.units;
 
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public class SoldierUnit extends Unit {
 
@@ -8,8 +9,8 @@ public class SoldierUnit extends Unit {
     private static final int UNIT_HEIGHT = 48;
     private static final float DEFAULT_SPEED = 100 * 5;
 
-    public SoldierUnit() {
-        super(Assets.getInstance().getUnits().soldierAnimation, UNIT_WIDTH, UNIT_HEIGHT);
+    public SoldierUnit(ILevel level) {
+        super(Assets.getInstance().getUnits().soldierAnimation, level, UNIT_WIDTH, UNIT_HEIGHT);
     }
 
     @Override

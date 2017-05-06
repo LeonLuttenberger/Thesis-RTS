@@ -1,30 +1,29 @@
 package hr.fer.zemris.zavrsni.rts.search;
 
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
 public class SearchResult<T> {
 
-    private final List<Transition> transitions;
+    private final Queue<T> statesQueue;
     private final Set<T> closedSet;
-    private final Queue<SearchNode<T>> queue;
+    private final Queue<SearchNode<T>> frontierQueue;
 
-    public SearchResult(List<Transition> transitions, Set<T> closedSet, Queue<SearchNode<T>> queue) {
-        this.transitions = transitions;
+    public SearchResult(Queue<T> statesQueue, Set<T> closedSet, Queue<SearchNode<T>> frontierQueue) {
+        this.statesQueue = statesQueue;
         this.closedSet = closedSet;
-        this.queue = queue;
+        this.frontierQueue = frontierQueue;
     }
 
-    public List<Transition> getTransitions() {
-        return transitions;
+    public Queue<T> getStatesQueue() {
+        return statesQueue;
     }
 
     public Set<T> getClosedSet() {
         return closedSet;
     }
 
-    public Queue<SearchNode<T>> getQueue() {
-        return queue;
+    public Queue<SearchNode<T>> getFrontierQueue() {
+        return frontierQueue;
     }
 }

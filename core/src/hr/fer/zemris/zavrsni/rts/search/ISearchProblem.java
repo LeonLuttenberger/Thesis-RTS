@@ -14,12 +14,10 @@ public interface ISearchProblem<T> {
 
     class Successor<T> {
         public final T state;
-        public final Transition action;
         public final double stepCost;
 
-        public Successor(T state, Transition action, double stepCost) {
+        public Successor(T state, double stepCost) {
             this.state = state;
-            this.action = action;
             this.stepCost = stepCost;
         }
     }

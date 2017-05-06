@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.search;
+package hr.fer.zemris.zavrsni.rts.search.impl;
 
 public class Transition {
 

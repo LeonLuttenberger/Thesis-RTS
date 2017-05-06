@@ -43,40 +43,47 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
         List<Successor<MapPosition>> successors = new ArrayList<>();
 
         if (state.x > 0) {
-            addNewState(successors, state, new MapPosition(state.x - 1, state.y), Directions.WEST);
+            // left
+            addNewState(successors, state, new MapPosition(state.x - 1, state.y));
         }
         if (state.x < level.getWidth() - 1) {
-            addNewState(successors, state, new MapPosition(state.x + 1, state.y), Directions.EAST);
+            // right
+            addNewState(successors, state, new MapPosition(state.x + 1, state.y));
         }
         if (state.y > 0) {
-            addNewState(successors, state, new MapPosition(state.x, state.y - 1), Directions.SOUTH);
+            // down
+            addNewState(successors, state, new MapPosition(state.x, state.y - 1));
         }
         if (state.y < level.getHeight() - 1) {
-            addNewState(successors, state, new MapPosition(state.x, state.y + 1), Directions.NORTH);
+            // up
+            addNewState(successors, state, new MapPosition(state.x, state.y + 1));
         }
 
         if (state.x > 0 && state.y > 0 && level.getTileModifier(state.x - 1, state.y) > 0
                 && level.getTileModifier(state.x, state.y - 1) > 0) {
-            addNewState(successors, state, new MapPosition(state.x - 1, state.y - 1), Directions.SOUTH_WEST);
+            // down left
+            addNewState(successors, state, new MapPosition(state.x - 1, state.y - 1));
         }
         if (state.x < level.getWidth() - 1 && state.y > 0 && level.getTileModifier(state.x + 1, state.y) > 0
                 && level.getTileModifier(state.x, state.y - 1) > 0) {
-            addNewState(successors, state, new MapPosition(state.x + 1, state.y - 1), Directions.SOUTH_EAST);
+            // down right
+            addNewState(successors, state, new MapPosition(state.x + 1, state.y - 1));
         }
         if (state.x > 0 && state.y < level.getHeight() - 1 && level.getTileModifier(state.x - 1, state.y) > 0
                 && level.getTileModifier(state.x, state.y + 1) > 0) {
-            addNewState(successors, state, new MapPosition(state.x - 1, state.y + 1), Directions.NORTH_WEST);
+            // up left
+            addNewState(successors, state, new MapPosition(state.x - 1, state.y + 1));
         }
         if (state.x < level.getWidth() - 1 && state.y < level.getHeight() - 1 && level.getTileModifier(state.x + 1, state.y) > 0
                 && level.getTileModifier(state.x, state.y + 1) > 0) {
-            addNewState(successors, state, new MapPosition(state.x + 1, state.y + 1), Directions.NORTH_EAST);
+            // up right
+            addNewState(successors, state, new MapPosition(state.x + 1, state.y + 1));
         }
 
         return successors;
     }
 
-    private void addNewState(List<Successor<MapPosition>> successors, MapPosition pos, MapPosition newPos,
-                             Directions direction) {
+    private void addNewState(List<Successor<MapPosition>> successors, MapPosition pos, MapPosition newPos) {
         if (level.getTileModifier(newPos.x, newPos.y) == 0) {
             return;
         }
@@ -86,7 +93,7 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
                         (1 / level.getTileModifier(pos.x, pos.y) +
                         1 / level.getTileModifier(newPos.x, newPos.y)) / 2;
 
-        successors.add(new Successor<>(newPos, direction.getDirection(), stepCost));
+        successors.add(new Successor<>(newPos, stepCost));
     }
 
     private double distance(MapPosition pos1, MapPosition pos2) {
