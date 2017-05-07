@@ -20,8 +20,8 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapPosition> {
             new ArealDistanceHeuristic(), 2));
     private static final AbstractSearchAlgorithm<MapPosition> A_STAR_SEARCH = new AStarSearch<>();
 
-    private static final int MAX_STATES_TO_EXPAND = 100;
-    private static final int MAX_MOVES = 20;
+    private static final int MAX_STATES_TO_EXPAND = 50;
+    private static final int MAX_MOVES = 10;
 
     private MapPosition currentPosition;
     private MapPosition goalPosition;
