@@ -142,7 +142,7 @@ public abstract class Unit extends AbstractMovableObject {
 
     private boolean moveToNextPosition(float deltaTime) {
         MapPosition nextPosition = searchResult.getStatesQueue().peek();
-        float speed = level.getTerrainModifier(position.x, position.y) * getMaxSpeed();
+        float speed = level.getTerrainModifier(getCenterX(), getCenterY()) * getMaxSpeed();
 
         float currentGoalX = (nextPosition.x * level.getTileWidth() + level.getTileWidth() / 2f);
         float currentGoalY = (nextPosition.y * level.getTileHeight() + level.getTileHeight() / 2f);

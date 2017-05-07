@@ -31,9 +31,7 @@ public interface ILevel {
 
     float getTileModifier(int x, int y);
 
-    default float getTerrainModifier(float x, float y) {
-        return getTileModifier((int) (x / getTileWidth()), (int) (y / getTileHeight()));
-    }
+    float getTerrainModifier(float x, float y);
 
     int getWidth();
 

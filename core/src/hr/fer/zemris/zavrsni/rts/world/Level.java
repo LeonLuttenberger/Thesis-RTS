@@ -142,6 +142,29 @@ public class Level implements ILevel {
     }
 
     @Override
+    public float getTerrainModifier(float x, float y) {
+        int tileX = (int) ((x - tileWidth / 2) / tileWidth);
+        int tileY = (int) ((y - tileHeight / 2) / tileHeight);
+
+        int remainderX = (int) ((x - tileWidth / 2) % tileWidth);
+        int remainderY = (int) ((y - tileHeight / 2) % tileHeight);
+
+        // D C
+        // A B
+        float modifierA = getTileModifier(tileX, tileY);
+        float modifierB = getTileModifier(tileX + 1, tileY);
+        float modifierC = getTileModifier(tileX + 1, tileY + 1);
+        float modifierD = getTileModifier(tileX, tileY + 1);
+
+        float weightA = ((tileWidth - remainderX) * (tileHeight - remainderY)) / (float) (tileWidth * tileHeight);
+        float weightB = (remainderX * (tileHeight - remainderY)) / (float) (tileWidth * tileHeight);
+        float weightC = (remainderX * remainderY) / (float) (tileWidth * tileHeight);
+        float weightD = ((tileWidth - remainderX) * remainderY) / (float) (tileWidth * tileHeight);
+
+        return weightA * modifierA + weightB * modifierB + weightC * modifierC + weightD * modifierD;
+    }
+
+    @Override
     public int getWidth() {
         return width;
     }
