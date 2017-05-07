@@ -5,10 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.SimpleBuilding;
+import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
@@ -116,10 +116,9 @@ public class InputController extends InputAdapter {
 
         } else if (button == Input.Buttons.RIGHT) {
             Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
-            controller.getPathFindingController().moveUnitsToLocation(
-                    controller.getGameState().getSelectedUnits(),
-                    new Vector2(position.x, position.y)
-            );
+            for (Unit unit : controller.getGameState().getSelectedUnits()) {
+                unit.goToLocation(position.x, position.y);
+            }
         }
 
         return false;

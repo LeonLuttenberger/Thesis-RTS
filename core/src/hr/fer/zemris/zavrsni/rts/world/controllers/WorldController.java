@@ -12,29 +12,20 @@ public class WorldController implements IWorldController {
 
     private final Game game;
     private final IGameState gameState;
-    private final PathFindingController pathFindingController;
 
     public WorldController(Game game, ILevel level) {
         this.game = game;
 
         this.gameState = new GameState();
         this.gameState.setLevel(level);
-
-        pathFindingController = new PathFindingController(level);
     }
 
     public IGameState getGameState() {
         return gameState;
     }
 
-    public PathFindingController getPathFindingController() {
-        return pathFindingController;
-    }
-
     @Override
     public void update(float deltaTime) {
-        pathFindingController.update(deltaTime);
-
         for (Unit unit : gameState.getLevel().getUnits()) {
             unit.update(deltaTime);
         }
