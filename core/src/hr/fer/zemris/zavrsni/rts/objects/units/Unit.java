@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
 import hr.fer.zemris.zavrsni.rts.search.LimitedExpansionProblem;
 import hr.fer.zemris.zavrsni.rts.search.SearchResult;
+import hr.fer.zemris.zavrsni.rts.search.WeightedHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AStarSearch;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AbstractSearchAlgorithm;
 import hr.fer.zemris.zavrsni.rts.search.impl.ArealDistanceHeuristic;
@@ -20,36 +21,40 @@ public abstract class Unit extends AbstractMovableObject {
     private static final String TAG = Unit.class.getName();
 
     private static final AbstractSearchAlgorithm<MapPosition> A_STAR_SEARCH =
-            new AStarSearch<>(new ArealDistanceHeuristic());
+            new AStarSearch<>(new WeightedHeuristic<>(new ArealDistanceHeuristic(), 2));
 
     private static final float TOLERANCE = 10;
-    private static final int MAX_STATES_TO_EXPAND = 200;
-    private static final int MAX_MOVES = 10;
+    private static final int MAX_STATES_TO_EXPAND = 100;
+    private static final int MAX_MOVES = 20;
 
     protected final Animation<TextureRegion> animation;
     protected final ILevel level;
-    private boolean flipX;
+    protected final float defaultSpeed;
 
+    private boolean flipX;
     protected boolean isSelected;
     private float stateTime;
 
     private final Vector2 goalPosition = new Vector2();
     private MapPosition goalTile;
     private boolean hasDestination;
-    private LimitedExpansionProblem<MapPosition> searchProblem;
+    private LimitedExpansionProblem<MapPosition, MapPathFindingProblem> searchProblem;
     private SearchResult<MapPosition> searchResult;
     private int movesMade;
 
-    public Unit(Animation<TextureRegion> animation, ILevel level, float width, float height) {
+    public Unit(Animation<TextureRegion> animation, ILevel level, float width, float height, float defaultSpeed) {
         this.animation = animation;
         this.level = level;
 
         this.dimension.x = width;
         this.dimension.y = height;
+
+        this.defaultSpeed = defaultSpeed;
     }
 
-    @Override
-    public abstract float getMaxSpeed();
+    public float getDefaultSpeed() {
+        return defaultSpeed;
+    }
 
     @Override
     public void render(SpriteBatch batch) {
@@ -84,7 +89,7 @@ public abstract class Unit extends AbstractMovableObject {
                 if (distance(getCenterX(), getCenterY(), goalPosition.x, goalPosition.y) > TOLERANCE) {
                     velocity.x = goalPosition.x - getCenterX();
                     velocity.y = goalPosition.y - getCenterY();
-                    velocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * getMaxSpeed());
+                    velocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed);
                     super.update(deltaTime);
                 } else {
                     velocity.setLength(0);
@@ -103,6 +108,7 @@ public abstract class Unit extends AbstractMovableObject {
                 movesMade = 0;
 
                 if (searchResult == null) {
+                    Gdx.app.log(TAG, "Could not find path to destination.");
                     hasDestination = false;
                     searchResult = null;
                     searchProblem = null;
@@ -117,6 +123,15 @@ public abstract class Unit extends AbstractMovableObject {
             boolean nextPositionReached = moveToNextPosition(deltaTime);
             if (nextPositionReached) {
                 movesMade++;
+
+                for (MapPosition closedPosition : searchResult.getClosedSet()) {
+                    float cachedModifier = searchProblem.getProblem().getCachedModifier(closedPosition);
+                    float currentModifier = level.getTileModifier(closedPosition.x, closedPosition.y);
+                    if (cachedModifier != currentModifier) {
+                        searchResult.getStatesQueue().clear();
+                        return;
+                    }
+                }
             }
 
             if (movesMade >= MAX_MOVES) {
@@ -142,7 +157,7 @@ public abstract class Unit extends AbstractMovableObject {
 
     private boolean moveToNextPosition(float deltaTime) {
         MapPosition nextPosition = searchResult.getStatesQueue().peek();
-        float speed = level.getTerrainModifier(getCenterX(), getCenterY()) * getMaxSpeed();
+        float speed = level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed;
 
         float currentGoalX = (nextPosition.x * level.getTileWidth() + level.getTileWidth() / 2f);
         float currentGoalY = (nextPosition.y * level.getTileHeight() + level.getTileHeight() / 2f);

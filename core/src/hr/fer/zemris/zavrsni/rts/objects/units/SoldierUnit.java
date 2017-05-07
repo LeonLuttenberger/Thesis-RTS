@@ -7,14 +7,9 @@ public class SoldierUnit extends Unit {
 
     private static final int UNIT_WIDTH = 48;
     private static final int UNIT_HEIGHT = 48;
-    private static final float DEFAULT_SPEED = 100 * 5;
+    private static final float DEFAULT_SPEED = 200;
 
     public SoldierUnit(ILevel level) {
-        super(Assets.getInstance().getUnits().soldierAnimation, level, UNIT_WIDTH, UNIT_HEIGHT);
-    }
-
-    @Override
-    public float getMaxSpeed() {
-        return DEFAULT_SPEED;
+        super(Assets.getInstance().getUnits().soldierAnimation, level, UNIT_WIDTH, UNIT_HEIGHT, DEFAULT_SPEED);
     }
 }

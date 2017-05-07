@@ -2,14 +2,14 @@ package hr.fer.zemris.zavrsni.rts.search;
 
 import java.util.List;
 
-public class LimitedExpansionProblem<T> implements ISearchProblem<T> {
+public class LimitedExpansionProblem<T, S extends ISearchProblem<T>> implements ISearchProblem<T> {
 
-    private final ISearchProblem<T> problem;
+    private final S problem;
     private final int maxStatesToExpand;
 
     private int expandedStates = 0;
 
-    public LimitedExpansionProblem(ISearchProblem<T> problem, int maxStatesToExpand) {
+    public LimitedExpansionProblem(S problem, int maxStatesToExpand) {
         this.problem = problem;
         this.maxStatesToExpand = maxStatesToExpand;
     }
@@ -39,7 +39,7 @@ public class LimitedExpansionProblem<T> implements ISearchProblem<T> {
         expandedStates = 0;
     }
 
-    public ISearchProblem<T> getProblem() {
+    public S getProblem() {
         return problem;
     }
 }

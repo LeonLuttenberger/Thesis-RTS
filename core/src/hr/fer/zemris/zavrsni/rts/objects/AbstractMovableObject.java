@@ -25,8 +25,6 @@ public abstract class AbstractMovableObject extends AbstractGameObject implement
         velocity.setLength(speed);
     }
 
-    public abstract float getMaxSpeed();
-
     public boolean isMoving() {
         return !velocity.isZero();
     }

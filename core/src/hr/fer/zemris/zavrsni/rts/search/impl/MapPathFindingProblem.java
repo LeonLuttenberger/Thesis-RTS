@@ -4,7 +4,9 @@ import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static java.lang.Math.pow;
@@ -15,6 +17,8 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
     private final MapPosition startPosition;
     private final MapPosition endPosition;
     private final ILevel level;
+
+    private final Map<MapPosition, Float> modifierCache = new HashMap<>();
 
     public MapPathFindingProblem(MapPosition startPosition, MapPosition endPosition, ILevel level) {
         this.startPosition = Objects.requireNonNull(startPosition, "Start position cannot be null.");
@@ -40,6 +44,8 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
 
     @Override
     public List<Successor<MapPosition>> getSuccessors(MapPosition state) {
+        modifierCache.put(state, level.getTileModifier(state.x, state.y));
+
         List<Successor<MapPosition>> successors = new ArrayList<>();
 
         if (state.x > 0) {
@@ -98,5 +104,9 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
 
     private double distance(MapPosition pos1, MapPosition pos2) {
         return sqrt(pow(pos2.x - pos1.x, 2) + pow(pos2.y - pos1.y, 2));
+    }
+
+    public float getCachedModifier(MapPosition position) {
+        return modifierCache.get(position);
     }
 }

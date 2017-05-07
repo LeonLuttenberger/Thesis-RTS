@@ -10,11 +10,6 @@ public class WorkerUnit extends Unit {
     private static final float DEFAULT_SPEED = 100 * 5;
 
     public WorkerUnit(ILevel level) {
-        super(Assets.getInstance().getUnits().workerAnimation, level, UNIT_WIDTH, UNIT_HEIGHT);
-    }
-
-    @Override
-    public float getMaxSpeed() {
-        return DEFAULT_SPEED;
+        super(Assets.getInstance().getUnits().workerAnimation, level, UNIT_WIDTH, UNIT_HEIGHT, DEFAULT_SPEED);
     }
 }
