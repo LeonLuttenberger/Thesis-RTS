@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
@@ -138,6 +139,7 @@ public class MenuScreen extends AbstractGameScreen {
 
     private Window buildOptionsWindowLayer() {
         Window window = new Window("Settings", uiSkin);
+        window.getTitleLabel().setAlignment(Align.center);
 
         window.add(buildOptWinDebug()).row();
         window.add(buildOptWinButtons());

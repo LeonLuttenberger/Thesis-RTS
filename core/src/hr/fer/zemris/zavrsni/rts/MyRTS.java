@@ -19,7 +19,6 @@ import hr.fer.zemris.zavrsni.rts.util.GameSettings;
 public class MyRTS extends Game {
 
 	private Console cheatConsole;
-	private boolean isFirstScreen = true;
 	private GameSettings settings;
 
 	@Override
@@ -46,14 +45,11 @@ public class MyRTS extends Game {
 		if (screen instanceof GameScreen) {
 			GameScreen gameScreen = (GameScreen) screen;
 			cheatConsole.setCommandExecutor(new InGameCommandExecutor(gameScreen.getController().getGameState()));
-		} else if (screen instanceof MenuScreen) {
+		} else {
 			cheatConsole.setCommandExecutor(new MyRTSCommandExecutor());
 		}
 
-		if (!isFirstScreen) {
-			cheatConsole.resetInputProcessing();
-		}
-		isFirstScreen = false;
+		cheatConsole.resetInputProcessing();
 	}
 
 	@Override
