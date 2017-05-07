@@ -40,15 +40,30 @@ public class SearchNode<T> {
         return heuristic;
     }
 
-    public Queue<T> backtrack() {
-        LinkedList<T> moves = new LinkedList<>();
+    public Queue<SearchNode<T>> backtrack() {
+        LinkedList<SearchNode<T>> moves = new LinkedList<>();
 
         SearchNode<T> node = this;
         while (node != null) {
-            moves.addFirst(node.state);
+            moves.addFirst(node);
             node = node.getParent();
         }
 
         return moves;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SearchNode<?> that = (SearchNode<?>) o;
+
+        return state.equals(that.state);
+    }
+
+    @Override
+    public int hashCode() {
+        return state.hashCode();
     }
 }

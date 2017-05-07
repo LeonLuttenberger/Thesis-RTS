@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
-import hr.fer.zemris.zavrsni.rts.search.LimitedExpansionProblem;
+import hr.fer.zemris.zavrsni.rts.search.CachingProblemHeuristic;
+import hr.fer.zemris.zavrsni.rts.search.IHeuristic;
+import hr.fer.zemris.zavrsni.rts.search.SearchNode;
 import hr.fer.zemris.zavrsni.rts.search.SearchResult;
 import hr.fer.zemris.zavrsni.rts.search.WeightedHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AStarSearch;
@@ -14,14 +16,16 @@ import hr.fer.zemris.zavrsni.rts.search.algorithms.AbstractSearchAlgorithm;
 import hr.fer.zemris.zavrsni.rts.search.impl.ArealDistanceHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPathFindingProblem;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPosition;
+import hr.fer.zemris.zavrsni.rts.search.impl.RTAAStarProblem;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public abstract class Unit extends AbstractMovableObject {
 
     private static final String TAG = Unit.class.getName();
 
-    private static final AbstractSearchAlgorithm<MapPosition> A_STAR_SEARCH =
-            new AStarSearch<>(new WeightedHeuristic<>(new ArealDistanceHeuristic(), 2));
+    private static final IHeuristic<MapPosition> HEURISTIC = new CachingProblemHeuristic<>(new WeightedHeuristic<>(
+            new ArealDistanceHeuristic(), 2));
+    private static final AbstractSearchAlgorithm<MapPosition> A_STAR_SEARCH = new AStarSearch<>();
 
     private static final float TOLERANCE = 10;
     private static final int MAX_STATES_TO_EXPAND = 100;
@@ -36,9 +40,10 @@ public abstract class Unit extends AbstractMovableObject {
     private float stateTime;
 
     private final Vector2 goalPosition = new Vector2();
-    private MapPosition goalTile;
+    private SearchNode<MapPosition> currentState;
+    private MapPosition goalState;
     private boolean hasDestination;
-    private LimitedExpansionProblem<MapPosition, MapPathFindingProblem> searchProblem;
+    private RTAAStarProblem<MapPosition, MapPathFindingProblem> searchProblem;
     private SearchResult<MapPosition> searchResult;
     private int movesMade;
 
@@ -82,56 +87,73 @@ public abstract class Unit extends AbstractMovableObject {
                 frame.getRegionHeight(), flipX, false);
     }
 
+    private void resetSearch() {
+        if (searchResult != null) {
+            double currentStateCost = currentState.getCost();
+            double currentStateHeuristic = currentState.getHeuristic();
+
+            for (SearchNode<MapPosition> searchNode : searchResult.getClosedSet()) {
+                double f = currentStateCost + currentStateHeuristic;
+                double correctedHeuristic = f - searchNode.getCost();
+                searchProblem.cacheHeuristic(searchNode.getState(), correctedHeuristic);
+            }
+        }
+
+        searchProblem.setNewStartState(getMapPosition(getCenterX(), getCenterY()));
+        searchResult = A_STAR_SEARCH.search(searchProblem, HEURISTIC);
+        movesMade = 0;
+    }
+
+    private void stopSearch() {
+        hasDestination = false;
+        searchResult = null;
+        searchProblem = null;
+        velocity.setLength(0);
+    }
+
     @Override
     public void update(float deltaTime) {
         if (hasDestination) {
-            if (isOnTile(goalTile)) {
+            if (isOnTile(goalState)) {
                 if (distance(getCenterX(), getCenterY(), goalPosition.x, goalPosition.y) > TOLERANCE) {
                     velocity.x = goalPosition.x - getCenterX();
                     velocity.y = goalPosition.y - getCenterY();
                     velocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed);
                     super.update(deltaTime);
                 } else {
-                    velocity.setLength(0);
-                    searchResult = null;
-                    searchProblem = null;
-                    hasDestination = false;
+                    stopSearch();
                 }
                 return;
             }
 
             if (searchResult == null || searchResult.getStatesQueue().isEmpty()) {
-                searchProblem = new LimitedExpansionProblem<>(new MapPathFindingProblem(
-                    getMapPosition(getCenterX(), getCenterY()), goalTile, level
-                ), MAX_STATES_TO_EXPAND);
-                searchResult = A_STAR_SEARCH.search(searchProblem);
-                movesMade = 0;
+                resetSearch();
 
                 if (searchResult == null) {
                     Gdx.app.log(TAG, "Could not find path to destination.");
-                    hasDestination = false;
-                    searchResult = null;
-                    searchProblem = null;
-                    velocity.setLength(0);
+                    stopSearch();
                     return;
                 }
 
-                MapPosition peek = searchResult.getFrontierQueue().peek().getState();
-                Gdx.app.log(TAG, "Moving towards " + peek);
+                currentState = searchResult.getStatesQueue().peek();
+                Gdx.app.log(TAG, "Moving towards " + currentState.getState());
+            }
+
+            // check for changes
+            for (SearchNode<MapPosition> stateOnPath : searchResult.getStatesQueue()) {
+                MapPosition positionOnPath = stateOnPath.getState();
+
+                float cachedModifier = searchProblem.getProblem().getProblem().getCachedModifier(positionOnPath);
+                float currentModifier = level.getTileModifier(positionOnPath.x, positionOnPath.y);
+                if (cachedModifier != currentModifier) {
+                    searchResult.getStatesQueue().clear();
+                    return;
+                }
             }
 
             boolean nextPositionReached = moveToNextPosition(deltaTime);
             if (nextPositionReached) {
                 movesMade++;
-
-                for (MapPosition closedPosition : searchResult.getClosedSet()) {
-                    float cachedModifier = searchProblem.getProblem().getCachedModifier(closedPosition);
-                    float currentModifier = level.getTileModifier(closedPosition.x, closedPosition.y);
-                    if (cachedModifier != currentModifier) {
-                        searchResult.getStatesQueue().clear();
-                        return;
-                    }
-                }
             }
 
             if (movesMade >= MAX_MOVES) {
@@ -156,7 +178,8 @@ public abstract class Unit extends AbstractMovableObject {
     }
 
     private boolean moveToNextPosition(float deltaTime) {
-        MapPosition nextPosition = searchResult.getStatesQueue().peek();
+        currentState = searchResult.getStatesQueue().peek();
+        MapPosition nextPosition = currentState.getState();
         float speed = level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed;
 
         float currentGoalX = (nextPosition.x * level.getTileWidth() + level.getTileWidth() / 2f);
@@ -191,9 +214,16 @@ public abstract class Unit extends AbstractMovableObject {
 
     public void goToLocation(float x, float y) {
         goalPosition.set(x, y);
-        goalTile = getMapPosition(x, y);
+        goalState = getMapPosition(x, y);
         hasDestination = true;
-        Gdx.app.log(TAG, "Set goal to: " + goalTile);
+        searchResult = null;
+
+        searchProblem = new RTAAStarProblem<>(
+                new MapPathFindingProblem(getMapPosition(getCenterX(), getCenterY()), goalState, level),
+                MAX_STATES_TO_EXPAND
+        );
+
+        Gdx.app.log(TAG, "Set goal to: " + goalState);
     }
 
     public boolean isSelected() {

@@ -5,7 +5,6 @@ import hr.fer.zemris.zavrsni.rts.IUpdatable;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AStarSearch;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AbstractSearchAlgorithm;
-import hr.fer.zemris.zavrsni.rts.search.impl.ArealDistanceHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPosition;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
@@ -15,7 +14,7 @@ public class PathFindingController implements IUpdatable {
 
     private ILevel level;
 
-    private AbstractSearchAlgorithm<MapPosition> searchAlgorithm = new AStarSearch<>(new ArealDistanceHeuristic());
+    private AbstractSearchAlgorithm<MapPosition> searchAlgorithm = new AStarSearch<>();
 
     public PathFindingController(ILevel level) {
         this.level = level;

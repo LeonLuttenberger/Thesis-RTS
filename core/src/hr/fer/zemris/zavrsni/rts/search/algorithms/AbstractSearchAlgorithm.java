@@ -15,7 +15,7 @@ public abstract class AbstractSearchAlgorithm<T> {
 
     private static final String TAG = AbstractSearchAlgorithm.class.getName();
 
-    public abstract SearchResult<T> search(ISearchProblem<T> problem);
+    public abstract SearchResult<T> search(ISearchProblem<T> problem, IHeuristic<T> heuristic);
 
     protected final SearchResult<T> generalSearch(ISearchProblem<T> problem, AbstractQueue<SearchNode<T>> frontier,
                                              IHeuristic<T> heuristic) {
@@ -25,7 +25,7 @@ public abstract class AbstractSearchAlgorithm<T> {
                 heuristic.calculateHeuristic(startState, problem)
         );
 
-        Set<T> expanded = new HashSet<>();
+        Set<SearchNode<T>> expanded = new HashSet<>();
         frontier.add(searchNode);
 
         while (!frontier.isEmpty()) {
@@ -36,11 +36,11 @@ public abstract class AbstractSearchAlgorithm<T> {
             }
             frontier.poll();
 
-            if (expanded.contains(node.getState())) {
+            if (expanded.contains(node)) {
                 continue;
             }
 
-            expanded.add(node.getState());
+            expanded.add(node);
 
             for (Successor<T> successor : problem.getSuccessors(node.getState())) {
 

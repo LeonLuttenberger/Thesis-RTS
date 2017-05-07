@@ -9,14 +9,8 @@ import java.util.PriorityQueue;
 
 public class AStarSearch<T> extends AbstractSearchAlgorithm<T> {
 
-    private final IHeuristic<T> heuristic;
-
-    public AStarSearch(IHeuristic<T> heuristic) {
-        this.heuristic = heuristic;
-    }
-
     @Override
-    public SearchResult<T> search(ISearchProblem<T> problem) {
+    public SearchResult<T> search(ISearchProblem<T> problem, IHeuristic<T> heuristic) {
         return generalSearch(problem, new PriorityQueue<>(SearchNode.BY_COST_AND_HEURISTIC), heuristic);
     }
 }

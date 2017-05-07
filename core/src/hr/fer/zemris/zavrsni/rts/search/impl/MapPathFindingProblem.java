@@ -24,6 +24,8 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
         this.startPosition = Objects.requireNonNull(startPosition, "Start position cannot be null.");
         this.endPosition = Objects.requireNonNull(endPosition, "End position cannot be null.");
         this.level = Objects.requireNonNull(level, "Level cannot be null.");
+
+        modifierCache.put(startPosition, level.getTileModifier(startPosition.x, startPosition.y));
     }
 
     @Override
@@ -44,8 +46,6 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
 
     @Override
     public List<Successor<MapPosition>> getSuccessors(MapPosition state) {
-        modifierCache.put(state, level.getTileModifier(state.x, state.y));
-
         List<Successor<MapPosition>> successors = new ArrayList<>();
 
         if (state.x > 0) {
@@ -84,6 +84,10 @@ public class MapPathFindingProblem implements ISearchProblem<MapPosition> {
                 && level.getTileModifier(state.x, state.y + 1) > 0) {
             // up right
             addNewState(successors, state, new MapPosition(state.x + 1, state.y + 1));
+        }
+
+        for (Successor<MapPosition> successor : successors) {
+            modifierCache.put(successor.state, level.getTileModifier(successor.state.x, successor.state.y));
         }
 
         return successors;
