@@ -6,17 +6,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
-import hr.fer.zemris.zavrsni.rts.search.CachingProblemHeuristic;
-import hr.fer.zemris.zavrsni.rts.search.IHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.SearchNode;
 import hr.fer.zemris.zavrsni.rts.search.SearchResult;
-import hr.fer.zemris.zavrsni.rts.search.WeightedHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AStarSearch;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AbstractSearchAlgorithm;
+import hr.fer.zemris.zavrsni.rts.search.heuristic.CachingProblemHeuristic;
+import hr.fer.zemris.zavrsni.rts.search.heuristic.IHeuristic;
+import hr.fer.zemris.zavrsni.rts.search.heuristic.WeightedHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.impl.ArealDistanceHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPathFindingProblem;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapPosition;
-import hr.fer.zemris.zavrsni.rts.search.impl.RTAAStarProblem;
+import hr.fer.zemris.zavrsni.rts.search.problem.RTAAStarProblem;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public abstract class Unit extends AbstractMovableObject {

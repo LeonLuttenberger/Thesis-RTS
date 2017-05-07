@@ -1,8 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.search.impl;
-
-import hr.fer.zemris.zavrsni.rts.search.CachingProblem;
-import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
-import hr.fer.zemris.zavrsni.rts.search.LimitedExpansionProblem;
+package hr.fer.zemris.zavrsni.rts.search.problem;
 
 public class RTAAStarProblem<T, S extends ISearchProblem<T>> extends CachingProblem<T, LimitedExpansionProblem<T, S>> {
 

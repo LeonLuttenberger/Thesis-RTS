@@ -1,6 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.search.impl;
 
-import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.ArrayList;

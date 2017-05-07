@@ -1,7 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.search.impl;
 
-import hr.fer.zemris.zavrsni.rts.search.IHeuristic;
-import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.search.heuristic.IHeuristic;
+import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;

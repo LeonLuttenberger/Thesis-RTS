@@ -1,9 +1,9 @@
 package hr.fer.zemris.zavrsni.rts.search.algorithms;
 
-import hr.fer.zemris.zavrsni.rts.search.IHeuristic;
-import hr.fer.zemris.zavrsni.rts.search.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.search.SearchNode;
 import hr.fer.zemris.zavrsni.rts.search.SearchResult;
+import hr.fer.zemris.zavrsni.rts.search.heuristic.IHeuristic;
+import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem;
 
 import java.util.PriorityQueue;
 
