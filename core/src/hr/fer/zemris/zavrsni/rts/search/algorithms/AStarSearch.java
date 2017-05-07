@@ -7,7 +7,9 @@ import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem;
 
 import java.util.PriorityQueue;
 
-public class AStarSearch<T> extends AbstractSearchAlgorithm<T> {
+import static hr.fer.zemris.zavrsni.rts.search.algorithms.AlgorithmUtils.generalSearch;
+
+public class AStarSearch<T> implements ISearchAlgorithm<T> {
 
     @Override
     public SearchResult<T> search(ISearchProblem<T> problem, IHeuristic<T> heuristic) {

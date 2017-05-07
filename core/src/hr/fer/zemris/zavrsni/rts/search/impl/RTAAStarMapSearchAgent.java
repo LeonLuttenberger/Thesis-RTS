@@ -5,7 +5,7 @@ import hr.fer.zemris.zavrsni.rts.search.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.search.SearchNode;
 import hr.fer.zemris.zavrsni.rts.search.SearchResult;
 import hr.fer.zemris.zavrsni.rts.search.algorithms.AStarSearch;
-import hr.fer.zemris.zavrsni.rts.search.algorithms.AbstractSearchAlgorithm;
+import hr.fer.zemris.zavrsni.rts.search.algorithms.ISearchAlgorithm;
 import hr.fer.zemris.zavrsni.rts.search.heuristic.CachingProblemHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.heuristic.IHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.heuristic.WeightedHeuristic;
@@ -18,7 +18,7 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapPosition> {
 
     private static final IHeuristic<MapPosition> HEURISTIC = new CachingProblemHeuristic<>(new WeightedHeuristic<>(
             new ArealDistanceHeuristic(), 2));
-    private static final AbstractSearchAlgorithm<MapPosition> A_STAR_SEARCH = new AStarSearch<>();
+    private static final ISearchAlgorithm<MapPosition> A_STAR_SEARCH = new AStarSearch<>();
 
     private static final int MAX_STATES_TO_EXPAND = 50;
     private static final int MAX_MOVES = 10;
@@ -113,6 +113,8 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapPosition> {
         searchProblem.setNewStartState(currentPosition);
         searchResult = A_STAR_SEARCH.search(searchProblem, HEURISTIC);
         movesMade = 0;
+
+        Gdx.app.log(TAG, "Path found after " + searchResult.getClosedSet().size() + " expanded states.");
     }
 
     @Override

@@ -1,6 +1,5 @@
 package hr.fer.zemris.zavrsni.rts.search.algorithms;
 
-import com.badlogic.gdx.Gdx;
 import hr.fer.zemris.zavrsni.rts.search.SearchNode;
 import hr.fer.zemris.zavrsni.rts.search.SearchResult;
 import hr.fer.zemris.zavrsni.rts.search.heuristic.IHeuristic;
@@ -11,13 +10,11 @@ import java.util.AbstractQueue;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class AbstractSearchAlgorithm<T> {
+final class AlgorithmUtils {
 
-    private static final String TAG = AbstractSearchAlgorithm.class.getName();
+    private AlgorithmUtils() {}
 
-    public abstract SearchResult<T> search(ISearchProblem<T> problem, IHeuristic<T> heuristic);
-
-    protected final SearchResult<T> generalSearch(ISearchProblem<T> problem, AbstractQueue<SearchNode<T>> frontier,
+    static <T> SearchResult<T> generalSearch(ISearchProblem<T> problem, AbstractQueue<SearchNode<T>> frontier,
                                              IHeuristic<T> heuristic) {
         T startState = problem.getStartState();
         SearchNode<T> searchNode = new SearchNode<>(
@@ -31,7 +28,6 @@ public abstract class AbstractSearchAlgorithm<T> {
         while (!frontier.isEmpty()) {
             SearchNode<T> node = frontier.peek();
             if (problem.isGoalState(node.getState())) {
-                Gdx.app.log(TAG, "Path found after " + expanded.size() + " expanded states.");
                 return new SearchResult<>(node.backtrack(), expanded, frontier);
             }
             frontier.poll();
@@ -51,7 +47,6 @@ public abstract class AbstractSearchAlgorithm<T> {
             }
         }
 
-        Gdx.app.log(TAG, "Path not found after " + expanded.size() + " expanded states.");
         return null;
     }
 }
