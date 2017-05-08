@@ -19,7 +19,7 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
     private static final String TAG = RTAAStarMapSearchAgent.class.getName();
 
     private static final IHeuristic<MapTile> HEURISTIC = new CachingProblemHeuristic<>(new WeightedHeuristic<>(
-            new ArealDistanceHeuristic(), 1.5
+            new ArealDistanceHeuristic(), 2
     ));
     private static final ISearchAlgorithm<MapTile> A_STAR_SEARCH = new AStarSearch<>();
 
@@ -29,7 +29,7 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
     private MapTile currentPosition;
     private MapTile goalPosition;
     private SearchNode<MapTile> currentState;
-    private RTAAStarProblem<MapTile, MoveToTileProblem> searchProblem;
+    private RTAAStarProblem<MapTile, MoveToAdjacentTileProblem> searchProblem;
     private SearchResult<MapTile> searchResult;
     private int movesMade;
 
@@ -46,7 +46,8 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
 
         searchResult = null;
         searchProblem = new RTAAStarProblem<>(
-                new MoveToTileProblem(startState, goalState, level),
+//                new MoveToTileProblem(startState, goalState, level),
+                new MoveToAdjacentTileProblem(startState, goalState, level),
                 MAX_STATES_TO_EXPAND
         );
 
@@ -60,7 +61,6 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
 
         if (!previousPosition.equals(currentPosition)) {
             movesMade++;
-            System.out.println(movesMade);
         }
 
         if (searchResult != null && !searchResult.getStatesQueue().isEmpty()) {
@@ -84,6 +84,11 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
 
         // check for changes
         checkForChanges();
+
+        if (searchResult.getStatesQueue().size() == 1 &&
+                currentPosition.equals(searchResult.getStatesQueue().peek().getState())) {
+            return null;
+        }
 
         return searchResult.getStatesQueue().peek().getState();
     }
@@ -114,7 +119,7 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
             }
         }
 
-        searchProblem.setNewStartState(currentPosition);
+        searchProblem.setStartState(currentPosition);
         searchResult = A_STAR_SEARCH.search(searchProblem, HEURISTIC);
         movesMade = 0;
 

@@ -6,6 +6,8 @@ public interface ISearchProblem<T> {
 
     T getStartState();
 
+    void setStartState(T startState);
+
     T getGoalState();
 
     boolean isGoalState(T state);

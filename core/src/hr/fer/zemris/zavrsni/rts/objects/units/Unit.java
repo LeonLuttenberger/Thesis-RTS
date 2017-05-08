@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
 import hr.fer.zemris.zavrsni.rts.search.ISearchAgent;
-import hr.fer.zemris.zavrsni.rts.search.impl.MapPosition;
+import hr.fer.zemris.zavrsni.rts.search.impl.MapTile;
 import hr.fer.zemris.zavrsni.rts.search.impl.RTAAStarMapSearchAgent;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
@@ -23,10 +23,10 @@ public abstract class Unit extends AbstractMovableObject {
     private boolean isSelected;
     private float stateTime;
 
-    private final ISearchAgent<MapPosition> searchAgent;
+    private final ISearchAgent<MapTile> searchAgent;
     private final Vector2 goalPosition = new Vector2();
-    private MapPosition goalState;
-    private MapPosition waypointTile;
+    private MapTile goalTile;
+    private MapTile waypointTile;
 
     public Unit(Animation<TextureRegion> animation, ILevel level, float width, float height, float defaultSpeed) {
         this.animation = animation;
@@ -39,7 +39,7 @@ public abstract class Unit extends AbstractMovableObject {
         this.defaultSpeed = defaultSpeed;
     }
 
-    public float getDefaultSpeed() {
+    public final float getDefaultSpeed() {
         return defaultSpeed;
     }
 
@@ -67,24 +67,31 @@ public abstract class Unit extends AbstractMovableObject {
 
     @Override
     public void update(float deltaTime) {
-        if (goalState != null) {
-            if (isOnTile(goalState)) {
+        if (goalTile != null) {
+            if (isOnTile(goalTile)) {
                 if (distance(getCenterX(), getCenterY(), goalPosition.x, goalPosition.y) > TOLERANCE) {
                     velocity.x = goalPosition.x - getCenterX();
                     velocity.y = goalPosition.y - getCenterY();
                     velocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed);
                 } else {
                     searchAgent.stopSearch();
-                    goalState = null;
+                    goalTile = null;
                     velocity.setLength(0);
                 }
             } else {
-                if (isOnTile(waypointTile)) {
+                if (waypointTile != null && isOnTile(waypointTile)) {
                     waypointTile = searchAgent.update(waypointTile);
                 }
 
-                float currentGoalX = (waypointTile.x * level.getTileWidth() + level.getTileWidth() / 2f);
-                float currentGoalY = (waypointTile.y * level.getTileHeight() + level.getTileHeight() / 2f);
+                MapTile nextTile;
+                if (waypointTile == null) {
+                    nextTile = goalTile;
+                } else {
+                    nextTile = waypointTile;
+                }
+
+                float currentGoalX = (nextTile.x * level.getTileWidth() + level.getTileWidth() / 2f);
+                float currentGoalY = (nextTile.y * level.getTileHeight() + level.getTileHeight() / 2f);
 
                 float dx = currentGoalX - getCenterX();
                 float dy = currentGoalY - getCenterY();
@@ -94,10 +101,21 @@ public abstract class Unit extends AbstractMovableObject {
             }
         }
 
+        float newX = getCenterX() + velocity.x * deltaTime;
+        float newY = getCenterY() + velocity.y * deltaTime;
+
+        int newTileX = (int) (newX / level.getTileWidth());
+        int newTileY = (int) (newY / level.getTileHeight());
+        if (level.getTileModifier(newTileX, newTileY) <= 0) {
+            searchAgent.stopSearch();
+            goalTile = null;
+            velocity.setLength(0);
+        }
+
         super.update(deltaTime);
     }
 
-    private boolean isOnTile(MapPosition tile) {
+    private boolean isOnTile(MapTile tile) {
         float centerX = getCenterX();
         float centerY = getCenterY();
         float tilePosX = tile.x * level.getTileWidth();
@@ -115,30 +133,30 @@ public abstract class Unit extends AbstractMovableObject {
         return (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
-    private MapPosition getMapPosition(float x, float y) {
-        return new MapPosition(
+    protected final MapTile getMapTile(float x, float y) {
+        return new MapTile(
                 (int) (x / level.getTileWidth()),
                 (int) (y / level.getTileHeight())
         );
     }
 
-    private MapPosition getCurrentMapPosition() {
-        return getMapPosition(getCenterX(), getCenterY());
+    protected final MapTile getCurrentMapTile() {
+        return getMapTile(getCenterX(), getCenterY());
     }
 
-    public void goToLocation(float x, float y) {
+    public void issueCommandTo(float x, float y) {
         goalPosition.set(x, y);
-        goalState = getMapPosition(x, y);
+        goalTile = getMapTile(x, y);
 
-        searchAgent.pathfind(getCurrentMapPosition(), goalState);
-        waypointTile = searchAgent.update(getCurrentMapPosition());
+        searchAgent.pathfind(getCurrentMapTile(), goalTile);
+        waypointTile = searchAgent.update(getCurrentMapTile());
     }
 
-    public boolean isSelected() {
+    public final boolean isSelected() {
         return isSelected;
     }
 
-    public void setSelected(boolean selected) {
+    public final void setSelected(boolean selected) {
         isSelected = selected;
     }
 }

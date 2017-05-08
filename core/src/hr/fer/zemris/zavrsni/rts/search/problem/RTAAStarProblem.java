@@ -17,8 +17,8 @@ public class RTAAStarProblem<T, S extends ISearchProblem<T>> extends CachingProb
         }
     }
 
-    public void setNewStartState(T newStartState) {
-        this.newStartState = newStartState;
-        this.getProblem().reset();
+    @Override
+    public void setStartState(T startState) {
+        super.setStartState(startState);
     }
 }

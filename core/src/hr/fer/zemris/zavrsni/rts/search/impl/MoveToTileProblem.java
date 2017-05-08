@@ -9,12 +9,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static hr.fer.zemris.zavrsni.rts.search.impl.LevelUtils.canMoveEast;
+import static hr.fer.zemris.zavrsni.rts.search.impl.LevelUtils.canMoveNorth;
+import static hr.fer.zemris.zavrsni.rts.search.impl.LevelUtils.canMoveSouth;
+import static hr.fer.zemris.zavrsni.rts.search.impl.LevelUtils.canMoveWest;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
 public class MoveToTileProblem implements ISearchProblem<MapTile> {
 
-    private final MapTile startPosition;
+    private MapTile startPosition;
     private final MapTile endPosition;
     private final ILevel level;
 
@@ -34,6 +38,11 @@ public class MoveToTileProblem implements ISearchProblem<MapTile> {
     }
 
     @Override
+    public void setStartState(MapTile startState) {
+        this.startPosition = startState;
+    }
+
+    @Override
     public MapTile getGoalState() {
         return endPosition;
     }
@@ -48,10 +57,10 @@ public class MoveToTileProblem implements ISearchProblem<MapTile> {
     public List<Successor<MapTile>> getSuccessors(MapTile state) {
         List<Successor<MapTile>> successors = new ArrayList<>();
 
-        boolean canMoveNorth = canMoveNorth(state);
-        boolean canMoveSouth = canMoveSouth(state);
-        boolean canMoveEast = canMoveEast(state);
-        boolean canMoveWest = canMoveWest(state);
+        boolean canMoveNorth = canMoveNorth(level, state);
+        boolean canMoveSouth = canMoveSouth(level, state);
+        boolean canMoveEast = canMoveEast(level, state);
+        boolean canMoveWest = canMoveWest(level, state);
 
         if (canMoveNorth) {
             addNewState(successors, state, state.x, state.y + 1);
@@ -99,30 +108,6 @@ public class MoveToTileProblem implements ISearchProblem<MapTile> {
 
     private double distance(MapTile pos1, MapTile pos2) {
         return sqrt(pow(pos2.x - pos1.x, 2) + pow(pos2.y - pos1.y, 2));
-    }
-
-    private boolean canMoveNorth(MapTile position) {
-        if (position.y >= level.getHeight() - 1) return false;
-        if (level.getTileModifier(position.x, position.y + 1) <= 0) return false;
-        return true;
-    }
-
-    private boolean canMoveSouth(MapTile position) {
-        if (position.y <= 0) return false;
-        if (level.getTileModifier(position.x, position.y - 1) <= 0) return false;
-        return true;
-    }
-
-    private boolean canMoveEast(MapTile position) {
-        if (position.x >= level.getWidth()) return false;
-        if (level.getTileModifier(position.x + 1, position.y) <= 0) return false;
-        return true;
-    }
-
-    private boolean canMoveWest(MapTile position) {
-        if (position.x <= 0) return false;
-        if (level.getTileModifier(position.x - 1, position.y) <= 0) return false;
-        return true;
     }
 
     public float getCachedModifier(MapTile position) {

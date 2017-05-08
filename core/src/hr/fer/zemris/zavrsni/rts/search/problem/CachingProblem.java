@@ -20,6 +20,11 @@ public class CachingProblem<T, S extends ISearchProblem<T>> implements ISearchPr
     }
 
     @Override
+    public void setStartState(T startState) {
+        problem.setStartState(startState);
+    }
+
+    @Override
     public T getGoalState() {
         return problem.getGoalState();
     }

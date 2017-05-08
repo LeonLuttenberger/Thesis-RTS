@@ -117,7 +117,7 @@ public class InputController extends InputAdapter {
         } else if (button == Input.Buttons.RIGHT) {
             Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
             for (Unit unit : controller.getGameState().getSelectedUnits()) {
-                unit.goToLocation(position.x, position.y);
+                unit.issueCommandTo(position.x, position.y);
             }
         }
 

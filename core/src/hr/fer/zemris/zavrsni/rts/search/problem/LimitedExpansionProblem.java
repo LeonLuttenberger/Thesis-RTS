@@ -20,6 +20,12 @@ public class LimitedExpansionProblem<T, S extends ISearchProblem<T>> implements 
     }
 
     @Override
+    public void setStartState(T startState) {
+        problem.setStartState(startState);
+        expandedStates = 0;
+    }
+
+    @Override
     public T getGoalState() {
         return problem.getGoalState();
     }
@@ -33,10 +39,6 @@ public class LimitedExpansionProblem<T, S extends ISearchProblem<T>> implements 
     public List<Successor<T>> getSuccessors(T state) {
         expandedStates++;
         return problem.getSuccessors(state);
-    }
-
-    public void reset() {
-        expandedStates = 0;
     }
 
     public S getProblem() {
