@@ -62,16 +62,16 @@ public class Level implements ILevel {
 
     @Override
     public void render(SpriteBatch batch) {
-        for (Unit unit : units) {
-            unit.render(batch);
+        for (Resource resource : resources) {
+            resource.render(batch);
         }
 
         for (Building building : buildings) {
             building.render(batch);
         }
 
-        for (Resource resource : resources) {
-            resource.render(batch);
+        for (Unit unit : units) {
+            unit.render(batch);
         }
     }
 

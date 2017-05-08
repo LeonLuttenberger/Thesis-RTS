@@ -12,10 +12,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
@@ -30,6 +32,8 @@ import hr.fer.zemris.zavrsni.rts.world.renderers.WorldRenderer;
 
 public class GameScreen extends AbstractGameScreen {
 
+    private static float RESOURCE_BAR_HEIGHT = 20;
+
     private IWorldController controller;
     private WorldRenderer renderer;
 
@@ -43,6 +47,7 @@ public class GameScreen extends AbstractGameScreen {
     private Skin uiSkin;
 
     private Label labelFPS;
+    private Label labelMinerals;
 
     public GameScreen(Game game, IGameSettings gameSettings) {
         super(game, gameSettings);
@@ -64,24 +69,47 @@ public class GameScreen extends AbstractGameScreen {
     private void rebuildStage() {
         uiSkin = Assets.getInstance().getUiSkin();
 
-        Table layerUI = buildUILayer();
+        Table tableDebug = buildDebugDisplay();
+        Table resourceBar = buildResourceBar();
 
         // assemble stage for menu screen
         stageUI.clear();
-        Stack stack = new Stack();
-        stageUI.addActor(stack);
-
-        stack.setSize(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
-        stack.add(layerUI);
+        stageUI.addActor(resourceBar);
+        stageUI.addActor(tableDebug);
+//        stageUI.setDebugAll(true);
     }
 
-    private Table buildUILayer() {
+    private Table buildDebugDisplay() {
         Table table = new Table();
+
+        float screenWidth = stageUI.getWidth();
+        float screenHeight = stageUI.getHeight();
+        table.setBounds(0, 0, screenWidth, screenHeight - RESOURCE_BAR_HEIGHT);
 
         if (gameSettings.showFPSCounter()) {
             labelFPS = new Label("", uiSkin);
             table.right().top().add(labelFPS);
         }
+
+        return table;
+    }
+
+    private Table buildResourceBar() {
+        Table table = new Table();
+
+        float screenWidth = stageUI.getWidth();
+        float screenHeight = stageUI.getHeight();
+
+        labelMinerals = new Label("0", uiSkin);
+        Image image = new Image(Assets.getInstance().getIcons().minerals);
+        image.setScaling(Scaling.fit);
+
+        table.setBounds(0, screenHeight - RESOURCE_BAR_HEIGHT, screenWidth, RESOURCE_BAR_HEIGHT);
+        table.align(Align.left);
+        table.defaults().padRight(10);
+
+        table.add(image);
+        table.add(labelMinerals).spaceRight(20);
 
         return table;
     }
@@ -111,12 +139,12 @@ public class GameScreen extends AbstractGameScreen {
         stageUI.draw();
 
         renderFPSCounter();
+        renderResourceBar();
 
         dragBoxRenderer.render();
     }
 
     private void renderFPSCounter() {
-
         int fps = Gdx.graphics.getFramesPerSecond();
 
         if (fps >= 59) {
@@ -128,6 +156,10 @@ public class GameScreen extends AbstractGameScreen {
         }
 
         labelFPS.setText(Integer.toString(fps));
+    }
+
+    private void renderResourceBar() {
+        labelMinerals.setText(Integer.toString(controller.getGameState().getMinerals()));
     }
 
     @Override

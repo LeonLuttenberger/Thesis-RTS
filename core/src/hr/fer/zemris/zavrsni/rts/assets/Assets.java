@@ -4,13 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 
@@ -20,11 +15,6 @@ public final class Assets implements Disposable {
 
     private static final String TAG = Assets.class.getName();
     private static Assets instance;
-
-    private static final String SOLDIER_REGION_NAME = "soldier";
-    private static final String WORKER_REGION_NAME = "robot";
-    private static final String MANUFACTORY_REGION_NAME = "manufactory";
-    private static final String BOULDER_REGION_NAME = "boulder";
 
     public static Assets getInstance() {
         if (instance == null) {
@@ -36,9 +26,10 @@ public final class Assets implements Disposable {
 
     private AssetManager assetManager;
 
-    private AssetUnits units;
-    private AssetBuildings buildings;
-    private AssetResources resources;
+    private AssetsUnits units;
+    private AssetsBuildings buildings;
+    private AssetsResources resources;
+    private AssetsIcons icons;
 
     private Skin uiSkin;
 
@@ -80,9 +71,10 @@ public final class Assets implements Disposable {
         }
 
         // create game resource objects
-        units = new AssetUnits(atlas);
-        buildings = new AssetBuildings(atlas);
-        resources = new AssetResources(atlas);
+        units = new AssetsUnits(atlas);
+        buildings = new AssetsBuildings(atlas);
+        resources = new AssetsResources(atlas);
+        icons = new AssetsIcons(atlas);
 
         uiSkin = new Skin(
                 Gdx.files.internal(Constants.SKIN_LIBGDX_UI),
@@ -95,48 +87,23 @@ public final class Assets implements Disposable {
         assetManager.dispose();
     }
 
-    public AssetUnits getUnits() {
+    public AssetsUnits getUnits() {
         return units;
     }
 
-    public AssetBuildings getBuildings() {
+    public AssetsBuildings getBuildings() {
         return buildings;
     }
 
-    public AssetResources getResources() {
+    public AssetsResources getResources() {
         return resources;
+    }
+
+    public AssetsIcons getIcons() {
+        return icons;
     }
 
     public Skin getUiSkin() {
         return uiSkin;
-    }
-
-    public static class AssetUnits {
-        public final Animation<TextureRegion> soldierAnimation;
-        public final Animation<TextureRegion> workerAnimation;
-
-        public AssetUnits(TextureAtlas atlas) {
-            Array<AtlasRegion> soldierRunning = atlas.findRegions(SOLDIER_REGION_NAME);
-            soldierAnimation = new Animation<>(1/60f, soldierRunning, PlayMode.LOOP);
-
-            Array<AtlasRegion> workerRunning = atlas.findRegions(WORKER_REGION_NAME);
-            workerAnimation = new Animation<>(1 / 60f, workerRunning, PlayMode.LOOP);
-        }
-    }
-
-    public static class AssetBuildings {
-        public final TextureRegion manufactory;
-
-        public AssetBuildings(TextureAtlas atlas) {
-            manufactory = atlas.findRegion(MANUFACTORY_REGION_NAME);
-        }
-    }
-
-    public static class AssetResources {
-        public final TextureRegion rock;
-
-        public AssetResources(TextureAtlas atlas) {
-            rock = atlas.findRegion(BOULDER_REGION_NAME);
-        }
     }
 }
