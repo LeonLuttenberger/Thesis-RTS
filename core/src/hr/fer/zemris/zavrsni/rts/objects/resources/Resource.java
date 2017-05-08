@@ -4,16 +4,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
+import hr.fer.zemris.zavrsni.rts.world.IGameState;
 
-public class Resource extends AbstractGameObject {
+public abstract class Resource extends AbstractGameObject {
 
     private final TextureRegion region;
     private final float terrainModifier;
-    private final int totalDurability;
+    private final float totalDurability;
 
-    private int remainingDurability;
+    private float remainingDurability;
 
-    public Resource(TextureRegion region, float terrainModifier, int totalDurability) {
+    public Resource(TextureRegion region, float terrainModifier, float totalDurability) {
         this.region = region;
         this.dimension.x = Constants.TILE_WIDTH;
         this.dimension.y = Constants.TILE_HEIGHT;
@@ -35,15 +36,17 @@ public class Resource extends AbstractGameObject {
         return terrainModifier;
     }
 
-    public int getTotalDurability() {
+    public float getTotalDurability() {
         return totalDurability;
     }
 
-    public int getRemainingDurability() {
+    public float getRemainingDurability() {
         return remainingDurability;
     }
 
-    public void removeDurability(int delta) {
+    public void removeDurability(float delta) {
         remainingDurability -= delta;
     }
+
+    public abstract void onResourceDestroyed(IGameState gameState);
 }

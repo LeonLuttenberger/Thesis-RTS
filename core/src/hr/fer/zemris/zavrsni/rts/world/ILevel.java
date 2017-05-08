@@ -1,7 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import hr.fer.zemris.zavrsni.rts.IUpdatable;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
@@ -9,7 +8,7 @@ import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 
 import java.util.List;
 
-public interface ILevel extends IUpdatable {
+public interface ILevel {
 
     void render(SpriteBatch batch);
 
