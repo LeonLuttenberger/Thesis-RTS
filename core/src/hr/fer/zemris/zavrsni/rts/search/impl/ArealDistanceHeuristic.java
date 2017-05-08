@@ -6,11 +6,11 @@ import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-public class ArealDistanceHeuristic implements IHeuristic<MapPosition> {
+public class ArealDistanceHeuristic implements IHeuristic<MapTile> {
 
     @Override
-    public double calculateHeuristic(MapPosition state, ISearchProblem<MapPosition> problem) {
-        MapPosition goalState = problem.getGoalState();
-        return 5 * sqrt(pow(state.x - goalState.x, 2) + pow(state.y - goalState.y, 2));
+    public double calculateHeuristic(MapTile state, ISearchProblem<MapTile> problem) {
+        MapTile goalState = problem.getGoalState();
+        return sqrt(pow(state.x - goalState.x, 2) + pow(state.y - goalState.y, 2));
     }
 }

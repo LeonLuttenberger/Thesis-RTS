@@ -12,22 +12,25 @@ import hr.fer.zemris.zavrsni.rts.search.heuristic.WeightedHeuristic;
 import hr.fer.zemris.zavrsni.rts.search.problem.RTAAStarProblem;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public class RTAAStarMapSearchAgent implements ISearchAgent<MapPosition> {
+import java.util.Map.Entry;
+
+public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
 
     private static final String TAG = RTAAStarMapSearchAgent.class.getName();
 
-    private static final IHeuristic<MapPosition> HEURISTIC = new CachingProblemHeuristic<>(new WeightedHeuristic<>(
-            new ArealDistanceHeuristic(), 2));
-    private static final ISearchAlgorithm<MapPosition> A_STAR_SEARCH = new AStarSearch<>();
+    private static final IHeuristic<MapTile> HEURISTIC = new CachingProblemHeuristic<>(new WeightedHeuristic<>(
+            new ArealDistanceHeuristic(), 1.5
+    ));
+    private static final ISearchAlgorithm<MapTile> A_STAR_SEARCH = new AStarSearch<>();
 
     private static final int MAX_STATES_TO_EXPAND = 50;
     private static final int MAX_MOVES = 10;
 
-    private MapPosition currentPosition;
-    private MapPosition goalPosition;
-    private SearchNode<MapPosition> currentState;
-    private RTAAStarProblem<MapPosition, MapPathFindingProblem> searchProblem;
-    private SearchResult<MapPosition> searchResult;
+    private MapTile currentPosition;
+    private MapTile goalPosition;
+    private SearchNode<MapTile> currentState;
+    private RTAAStarProblem<MapTile, MoveToTileProblem> searchProblem;
+    private SearchResult<MapTile> searchResult;
     private int movesMade;
 
     private final ILevel level;
@@ -37,13 +40,13 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapPosition> {
     }
 
     @Override
-    public void pathfind(MapPosition startState, MapPosition goalState) {
+    public void pathfind(MapTile startState, MapTile goalState) {
         this.currentPosition = startState;
         this.goalPosition = goalState;
 
         searchResult = null;
         searchProblem = new RTAAStarProblem<>(
-                new MapPathFindingProblem(startState, goalState, level),
+                new MoveToTileProblem(startState, goalState, level),
                 MAX_STATES_TO_EXPAND
         );
 
@@ -51,12 +54,13 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapPosition> {
     }
 
     @Override
-    public MapPosition update(MapPosition currentPosition) {
-        MapPosition previousPosition = this.currentPosition;
+    public MapTile update(MapTile currentPosition) {
+        MapTile previousPosition = this.currentPosition;
         this.currentPosition = currentPosition;
 
         if (!previousPosition.equals(currentPosition)) {
             movesMade++;
+            System.out.println(movesMade);
         }
 
         if (searchResult != null && !searchResult.getStatesQueue().isEmpty()) {
@@ -85,8 +89,8 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapPosition> {
     }
 
     private void checkForChanges() {
-        for (SearchNode<MapPosition> stateOnPath : searchResult.getStatesQueue()) {
-            MapPosition positionOnPath = stateOnPath.getState();
+        for (SearchNode<MapTile> stateOnPath : searchResult.getStatesQueue()) {
+            MapTile positionOnPath = stateOnPath.getState();
 
             float cachedModifier = searchProblem.getProblem().getProblem().getCachedModifier(positionOnPath);
             float currentModifier = level.getTileModifier(positionOnPath.x, positionOnPath.y);
@@ -103,10 +107,10 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapPosition> {
             double currentStateCost = currentState.getCost();
             double currentStateHeuristic = currentState.getHeuristic();
 
-            for (SearchNode<MapPosition> searchNode : searchResult.getClosedSet()) {
+            for (Entry<MapTile, Double> entry : searchResult.getClosedSet().entrySet()) {
                 double f = currentStateCost + currentStateHeuristic;
-                double correctedHeuristic = f - searchNode.getCost();
-                searchProblem.cacheHeuristic(searchNode.getState(), correctedHeuristic);
+                double correctedHeuristic = f - entry.getValue();
+                searchProblem.cacheHeuristic(entry.getKey(), correctedHeuristic);
             }
         }
 

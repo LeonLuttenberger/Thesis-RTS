@@ -1,11 +1,11 @@
 package hr.fer.zemris.zavrsni.rts.search.impl;
 
-public class MapPosition {
+public class MapTile {
 
     public final int x;
     public final int y;
 
-    public MapPosition(int x, int y) {
+    public MapTile(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -15,7 +15,7 @@ public class MapPosition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MapPosition that = (MapPosition) o;
+        MapTile that = (MapTile) o;
 
         if (x != that.x) return false;
         return y == that.y;

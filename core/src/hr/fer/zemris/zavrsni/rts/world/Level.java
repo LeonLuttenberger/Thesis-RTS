@@ -16,11 +16,10 @@ import java.util.List;
 
 public class Level implements ILevel {
 
-    public static final String TAG = Level.class.getName();
-
     private final List<Unit> units = new ArrayList<>();
     private final List<Building> buildings = new ArrayList<>();
     private final List<Resource> resources = new ArrayList<>();
+    private final AbstractGameObject[][] objectMap;
 
     private final int width;
     private final int height;
@@ -33,7 +32,9 @@ public class Level implements ILevel {
     public Level(TiledMap tiledMap) {
         width = tiledMap.getProperties().get("width", Integer.class);
         height = tiledMap.getProperties().get("height", Integer.class);
+
         defaultTileModifiers = new float[width][height];
+        objectMap = new AbstractGameObject[width][height];
 
         TiledMapTileLayer mapLayer = (TiledMapTileLayer) tiledMap.getLayers().get(Constants.TERRAIN_LAYER);
 
@@ -94,15 +95,16 @@ public class Level implements ILevel {
         return Collections.unmodifiableList(buildings);
     }
 
-    private void setAdditionalTileModifier(AbstractGameObject object, float value) {
+    private void setAdditionalTileModifier(AbstractGameObject object, float value, boolean isAdded) {
         int xTileStart = (int) (object.getPosition().x / tileWidth);
         int yTileStart = (int) (object.getPosition().y / tileHeight);
-        int xTileEnd = (int) ((object.getPosition().x + object.getDimension().x) / tileWidth);
-        int yTileEnd = (int) ((object.getPosition().y + object.getDimension().y) / tileHeight);
+        int xTileEnd = (int) ((object.getPosition().x + object.getDimension().x - 1) / tileWidth);
+        int yTileEnd = (int) ((object.getPosition().y + object.getDimension().y - 1) / tileHeight);
 
-        for (int i = xTileStart; i < xTileEnd; i++) {
-            for (int j = yTileStart; j < yTileEnd; j++) {
+        for (int i = xTileStart; i <= xTileEnd; i++) {
+            for (int j = yTileStart; j <= yTileEnd; j++) {
                 additionalTileModifiers[i][j] = value;
+                objectMap[i][j] = isAdded ? object : null;
             }
         }
     }
@@ -110,13 +112,13 @@ public class Level implements ILevel {
     @Override
     public void addBuilding(Building building) {
         buildings.add(building);
-        setAdditionalTileModifier(building, 0);
+        setAdditionalTileModifier(building, 0, true);
     }
 
     @Override
     public void removeBuilding(Building building) {
         buildings.remove(building);
-        setAdditionalTileModifier(building, 1);
+        setAdditionalTileModifier(building, 1, false);
     }
 
     @Override
@@ -127,13 +129,13 @@ public class Level implements ILevel {
     @Override
     public void addResource(Resource resource) {
         resources.add(resource);
-        setAdditionalTileModifier(resource, resource.getTerrainModifier());
+        setAdditionalTileModifier(resource, resource.getTerrainModifier(), true);
     }
 
     @Override
     public void removeResource(Resource resource) {
         resources.remove(resource);
-        setAdditionalTileModifier(resource, 1);
+        setAdditionalTileModifier(resource, 1, false);
     }
 
     @Override
@@ -162,6 +164,11 @@ public class Level implements ILevel {
         float weightD = ((tileWidth - remainderX) * remainderY) / (float) (tileWidth * tileHeight);
 
         return weightA * modifierA + weightB * modifierB + weightC * modifierC + weightD * modifierD;
+    }
+
+    @Override
+    public AbstractGameObject getObjectOnTile(int x, int y) {
+        return objectMap[x][y];
     }
 
     @Override

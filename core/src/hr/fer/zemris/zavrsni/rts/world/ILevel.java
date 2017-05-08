@@ -1,6 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
@@ -32,6 +33,8 @@ public interface ILevel {
     float getTileModifier(int x, int y);
 
     float getTerrainModifier(float x, float y);
+
+    AbstractGameObject getObjectOnTile(int x, int y);
 
     int getWidth();
 
