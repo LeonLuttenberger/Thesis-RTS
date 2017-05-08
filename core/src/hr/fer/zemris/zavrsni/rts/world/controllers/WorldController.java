@@ -1,7 +1,10 @@
 package hr.fer.zemris.zavrsni.rts.world.controllers;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
+import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.world.GameState;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
@@ -49,6 +52,17 @@ public class WorldController implements IWorldController {
         deltaTime = wasPausedLastUpdate ? 0 : deltaTime;
         wasPausedLastUpdate = false;
 
+        List<Squad> squadsToRemove = new ArrayList<>();
+        for (Squad squad : gameState.getSquads()) {
+            squad.update(deltaTime);
+            if (squad.isSearchStopped()) {
+                squadsToRemove.add(squad);
+            }
+        }
+        for (Squad squad : squadsToRemove) {
+            gameState.removeSquad(squad);
+        }
+
         ILevel level = gameState.getLevel();
         for (Unit unit : level.getUnits()) {
             unit.update(deltaTime);
@@ -64,6 +78,28 @@ public class WorldController implements IWorldController {
         for (Resource resource : resourcesToRemove) {
             level.removeResource(resource);
         }
+    }
+
+    public void selectUnitsInArea(Vector3 areaStart, Vector3 areaEnd) {
+        Rectangle selectionArea = new Rectangle(
+                Math.min(areaStart.x, areaEnd.x),
+                Math.min(areaStart.y, areaEnd.y),
+                Math.abs(areaEnd.x - areaStart.x),
+                Math.abs(areaEnd.y - areaStart.y)
+        );
+
+        for (Unit unit : gameState.getLevel().getUnits()) {
+            if (selectionArea.contains(unit.getCenterX(), unit.getCenterY())) {
+                unit.setSelected(true);
+            } else {
+                unit.setSelected(false);
+            }
+        }
+    }
+
+    @Override
+    public void sendSelectedUnitsTo(Vector3 destination) {
+        gameState.createSquadFromSelected().sendToLocation(destination.x, destination.y);
     }
 
     @Override

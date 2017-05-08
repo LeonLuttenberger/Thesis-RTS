@@ -1,9 +1,8 @@
 package hr.fer.zemris.zavrsni.rts.world;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
+import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 
 import java.util.ArrayList;
@@ -16,6 +15,8 @@ public class GameState implements IGameState {
 
     private int minerals;
 
+    private final List<Squad> squads = new ArrayList<>();
+
     public GameState() {
         reset();
     }
@@ -23,6 +24,7 @@ public class GameState implements IGameState {
     @Override
     public void reset() {
         minerals = 0;
+        squads.clear();
 
         if (level != null) {
             ArrayList<Unit> units = new ArrayList<>(level.getUnits());
@@ -47,28 +49,25 @@ public class GameState implements IGameState {
     }
 
     @Override
-    public void selectUnitsInArea(Vector3 areaStart, Vector3 areaEnd) {
-        Rectangle selectionArea = new Rectangle(
-                Math.min(areaStart.x, areaEnd.x),
-                Math.min(areaStart.y, areaEnd.y),
-                Math.abs(areaEnd.x - areaStart.x),
-                Math.abs(areaEnd.y - areaStart.y)
-        );
+    public Squad createSquadFromSelected() {
+        List<Unit> units = level.getUnits().stream()
+                .filter(Unit::isSelected)
+                .collect(Collectors.toList());
 
-        for (Unit unit : level.getUnits()) {
-            if (selectionArea.contains(unit.getCenterX(), unit.getCenterY())) {
-                unit.setSelected(true);
-            } else {
-                unit.setSelected(false);
-            }
-        }
+        Squad newSquad = new Squad(units);
+        squads.add(newSquad);
+
+        return newSquad;
     }
 
     @Override
-    public List<Unit> getSelectedUnits() {
-        return level.getUnits().stream()
-                .filter(Unit::isSelected)
-                .collect(Collectors.toList());
+    public List<Squad> getSquads() {
+        return squads;
+    }
+
+    @Override
+    public void removeSquad(Squad squad) {
+        squads.remove(squad);
     }
 
     @Override

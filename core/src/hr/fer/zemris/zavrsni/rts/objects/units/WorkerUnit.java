@@ -36,7 +36,7 @@ public class WorkerUnit extends Unit {
     }
 
     @Override
-    public void issueCommandTo(float x, float y) {
+    public void sendToDestination(float x, float y) {
         int tileX = (int) (x / level.getTileWidth());
         int tileY = (int) (y / level.getTileHeight());
 
@@ -46,6 +46,6 @@ public class WorkerUnit extends Unit {
             System.out.println("I'll go get the resource now...");
         }
 
-        super.issueCommandTo(x, y);
+        super.sendToDestination(x, y);
     }
 }
