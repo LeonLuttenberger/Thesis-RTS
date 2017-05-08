@@ -30,8 +30,6 @@ import hr.fer.zemris.zavrsni.rts.world.renderers.WorldRenderer;
 
 public class GameScreen extends AbstractGameScreen {
 
-    private static final String TAG = GameScreen.class.getName();
-
     private IWorldController controller;
     private WorldRenderer renderer;
 
@@ -143,6 +141,8 @@ public class GameScreen extends AbstractGameScreen {
 
     @Override
     public void show() {
+        controller.resume();
+
         stageUI = new Stage(new StretchViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT));
         InputMultiplexer inputMultiplexer = new InputMultiplexer(stageUI, inputController);
         Gdx.input.setInputProcessor(inputMultiplexer);
@@ -162,6 +162,7 @@ public class GameScreen extends AbstractGameScreen {
 
     @Override
     public void hide() {
+        controller.pause();
         stageUI.dispose();
     }
 

@@ -7,4 +7,8 @@ import hr.fer.zemris.zavrsni.rts.world.IGameState;
 public interface IWorldController extends Disposable, IUpdatable {
 
     IGameState getGameState();
+
+    void pause();
+
+    void resume();
 }

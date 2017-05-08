@@ -9,13 +9,18 @@ public class Resource extends AbstractGameObject {
 
     private final TextureRegion region;
     private final float terrainModifier;
+    private final int totalDurability;
 
-    public Resource(TextureRegion region, float terrainModifier) {
+    private int remainingDurability;
+
+    public Resource(TextureRegion region, float terrainModifier, int totalDurability) {
         this.region = region;
         this.dimension.x = Constants.TILE_WIDTH;
         this.dimension.y = Constants.TILE_HEIGHT;
 
         this.terrainModifier = terrainModifier;
+        this.totalDurability = totalDurability;
+        this.remainingDurability = totalDurability;
     }
 
     @Override
@@ -28,5 +33,17 @@ public class Resource extends AbstractGameObject {
 
     public float getTerrainModifier() {
         return terrainModifier;
+    }
+
+    public int getTotalDurability() {
+        return totalDurability;
+    }
+
+    public int getRemainingDurability() {
+        return remainingDurability;
+    }
+
+    public void removeDurability(int delta) {
+        remainingDurability -= delta;
     }
 }

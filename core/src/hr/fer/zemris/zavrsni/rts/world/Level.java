@@ -13,8 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Level implements ILevel {
+
+    private static final Predicate<Resource> RESOURCE_REMOVAL_PREDICATE = r -> r.getRemainingDurability() <= 0;
 
     private final List<Unit> units = new ArrayList<>();
     private final List<Building> buildings = new ArrayList<>();
@@ -73,6 +76,15 @@ public class Level implements ILevel {
         for (Resource resource : resources) {
             resource.render(batch);
         }
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        for (Unit unit : units) {
+            unit.update(deltaTime);
+        }
+
+        resources.removeIf(RESOURCE_REMOVAL_PREDICATE);
     }
 
     @Override
@@ -140,6 +152,9 @@ public class Level implements ILevel {
 
     @Override
     public float getTileModifier(int x, int y) {
+        if (x < 0 || x >= width) return 0;
+        if (y < 0 || y >= height) return 0;
+
         return defaultTileModifiers[x][y] * additionalTileModifiers[x][y];
     }
 
