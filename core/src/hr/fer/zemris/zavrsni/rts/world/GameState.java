@@ -54,7 +54,7 @@ public class GameState implements IGameState {
                 .filter(Unit::isSelected)
                 .collect(Collectors.toList());
 
-        Squad newSquad = new Squad(units);
+        Squad newSquad = new Squad(units, level);
         squads.add(newSquad);
 
         return newSquad;

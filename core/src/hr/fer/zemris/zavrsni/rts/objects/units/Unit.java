@@ -56,7 +56,8 @@ public abstract class Unit extends AbstractMovableObject {
             if (velocity.x < 0) {
                 flipX = true;
             } else if (velocity.x > 0) {
-                flipX = false;
+//                flipX = false;
+                flipX = true;
             }
         }
 
@@ -167,6 +168,12 @@ public abstract class Unit extends AbstractMovableObject {
 
     public boolean isSearchStopped() {
         return goalTile == null;
+    }
+
+    public void stopSearch() {
+        searchAgent.stopSearch();
+        goalTile = null;
+        velocity.setLength(0);
     }
 
     public Vector2 getCurrentGoal() {
