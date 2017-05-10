@@ -28,6 +28,7 @@ import hr.fer.zemris.zavrsni.rts.world.controllers.IWorldController;
 import hr.fer.zemris.zavrsni.rts.world.controllers.InputController;
 import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
+import hr.fer.zemris.zavrsni.rts.world.renderers.HealthBarRenderer;
 import hr.fer.zemris.zavrsni.rts.world.renderers.WorldRenderer;
 
 public class GameScreen extends AbstractGameScreen {
@@ -42,6 +43,7 @@ public class GameScreen extends AbstractGameScreen {
 
     private InputController inputController;
     private DragBoxRenderer dragBoxRenderer = new DragBoxRenderer();
+    private HealthBarRenderer healthBarRenderer;
 
     private Stage stageUI;
     private Skin uiSkin;
@@ -64,6 +66,8 @@ public class GameScreen extends AbstractGameScreen {
         camera.update();
 
         inputController = new InputController(dragBoxRenderer, camera, controller);
+
+        healthBarRenderer = new HealthBarRenderer(controller.getGameState());
     }
 
     private void rebuildStage() {
@@ -135,13 +139,14 @@ public class GameScreen extends AbstractGameScreen {
         renderer.setView(camera);
         renderer.render();
 
-        stageUI.act(deltaTime);
-        stageUI.draw();
+        dragBoxRenderer.render();
+        healthBarRenderer.render(camera);
 
         renderFPSCounter();
         renderResourceBar();
 
-        dragBoxRenderer.render();
+        stageUI.act(deltaTime);
+        stageUI.draw();
     }
 
     private void renderFPSCounter() {

@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.search.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.search.impl.MapTile;
 import hr.fer.zemris.zavrsni.rts.search.impl.RTAAStarMapSearchAgent;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public abstract class Unit extends AbstractMovableObject {
+public abstract class Unit extends AbstractMovableObject implements IDamageable {
 
     private static final float TOLERANCE = 4;
 
@@ -19,11 +20,11 @@ public abstract class Unit extends AbstractMovableObject {
     protected final ILevel level;
 
     private final float defaultSpeed;
-    private final float maxHealth;
+    private final int maxHealth;
     private final float attackRange;
-    private final float attackPower;
+    private final int attackPower;
 
-    private float health;
+    private int health;
 
     private boolean flipX;
     private float stateTime;
@@ -35,7 +36,7 @@ public abstract class Unit extends AbstractMovableObject {
     private MapTile waypointTile;
 
     public Unit(Animation<TextureRegion> animation, ILevel level, float width, float height,
-                float defaultSpeed, float maxHealth, float attackRange, float attackPower) {
+                float defaultSpeed, int maxHealth, float attackRange, int attackPower) {
         this.animation = animation;
         this.level = level;
         this.searchAgent = new RTAAStarMapSearchAgent(level);
@@ -55,19 +56,11 @@ public abstract class Unit extends AbstractMovableObject {
         return defaultSpeed;
     }
 
-    public float getMaxHealth() {
-        return maxHealth;
-    }
-
-    public float getHealth() {
-        return health;
-    }
-
     public float getAttackRange() {
         return attackRange;
     }
 
-    public float getAttackPower() {
+    public int getAttackPower() {
         return attackPower;
     }
 
@@ -211,4 +204,24 @@ public abstract class Unit extends AbstractMovableObject {
     public abstract boolean isHostile();
 
     public abstract boolean isSupport();
+
+    @Override
+    public int getMaxHitPoints() {
+        return maxHealth;
+    }
+
+    @Override
+    public int getCurrentHitPoints() {
+        return health;
+    }
+
+    @Override
+    public void addHitPoints(int repair) {
+        health += repair;
+    }
+
+    @Override
+    public void removeHitPoints(int damage) {
+        health += damage;
+    }
 }

@@ -51,16 +51,20 @@ public class Squad implements IUpdatable {
             return;
         }
 
-        if (squadMembers.size() <= 1) return;
+        if (squadMembers.size() > 1) {
+            for (PlayerUnit squadMember : squadMembers) {
+                if (squadMember == squadLeader) continue;
+                applyGoal(squadMember, squadLeader.getCurrentGoal());
+            }
+            squadMembers.forEach(functionApplyCohesion);
+            squadMembers.forEach(functionApplyAlignment);
+            squadMembers.forEach(functionApplySquadSeparation);
 
-        for (PlayerUnit squadMember : squadMembers) {
-            if (squadMember == squadLeader) continue;
-            applyGoal(squadMember, squadLeader.getCurrentGoal());
+            // TODO make the leader avoid bumping into aliens
+            squadMembers.forEach(functionApplyEnemySeparation);
         }
-        squadMembers.forEach(functionApplyCohesion);
-        squadMembers.forEach(functionApplyAlignment);
-        squadMembers.forEach(functionApplySquadSeparation);
-        squadMembers.forEach(functionApplyEnemySeparation);
+
+//        squadMembers.forEach(functionApplyEnemySeparation);
         squadMembers.forEach(functionApplyTerrainSeparation);
     }
 

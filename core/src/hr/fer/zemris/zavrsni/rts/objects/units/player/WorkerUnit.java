@@ -10,9 +10,9 @@ public class WorkerUnit extends PlayerUnit {
     private static final int UNIT_WIDTH = 24;
     private static final int UNIT_HEIGHT = 48;
     private static final float DEFAULT_SPEED = 200;
-    private static final float MAX_HEALTH = 50;
+    private static final int MAX_HEALTH = 500;
     private static final float ATTACK_RANGE = 30;
-    private static final float ATTACK_POWER = 0.1f;
+    private static final int ATTACK_POWER = 1;
 
     private Resource targetResource;
 
