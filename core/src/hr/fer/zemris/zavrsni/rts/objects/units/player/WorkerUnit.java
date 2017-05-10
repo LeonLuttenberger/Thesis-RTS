@@ -10,12 +10,15 @@ public class WorkerUnit extends PlayerUnit {
     private static final int UNIT_WIDTH = 24;
     private static final int UNIT_HEIGHT = 48;
     private static final float DEFAULT_SPEED = 200;
-    private static final int MAX_HEALTH = 10;
+    private static final float MAX_HEALTH = 50;
+    private static final float ATTACK_RANGE = 30;
+    private static final float ATTACK_POWER = 0.1f;
 
     private Resource targetResource;
 
     public WorkerUnit(ILevel level) {
-        super(Assets.getInstance().getUnits().workerAnimation, level, UNIT_WIDTH, UNIT_HEIGHT, DEFAULT_SPEED, MAX_HEALTH);
+        super(Assets.getInstance().getUnits().workerAnimation, level, UNIT_WIDTH, UNIT_HEIGHT,
+                DEFAULT_SPEED, MAX_HEALTH, ATTACK_RANGE, ATTACK_POWER);
     }
 
     @Override
@@ -44,9 +47,13 @@ public class WorkerUnit extends PlayerUnit {
         AbstractGameObject objectOnTile = level.getObjectOnTile(tileX, tileY);
         if ((objectOnTile instanceof Resource)) {
             targetResource = (Resource) objectOnTile;
-            System.out.println("I'll go get the resource now...");
         }
 
         super.sendToDestination(x, y);
+    }
+
+    @Override
+    public boolean isSupport() {
+        return true;
     }
 }

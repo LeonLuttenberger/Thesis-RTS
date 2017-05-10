@@ -3,7 +3,6 @@ package hr.fer.zemris.zavrsni.rts.world;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
-import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 
@@ -55,10 +54,10 @@ public class GameState implements IGameState {
 
     @Override
     public Squad createSquadFromSelected() {
-        List<Unit> units = level.getPlayerUnits().stream()
-                .filter(Unit::isSelected)
+        List<PlayerUnit> units = level.getPlayerUnits().stream()
+                .filter(PlayerUnit::isSelected)
                 .collect(Collectors.toList());
-        
+
         if (units.isEmpty()) return null;
 
         Squad newSquad = new Squad(units, level);
