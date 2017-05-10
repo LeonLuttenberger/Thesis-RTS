@@ -1,6 +1,8 @@
-package hr.fer.zemris.zavrsni.rts.search.impl;
+package hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem;
 
-import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.LevelUtils;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.HashSet;

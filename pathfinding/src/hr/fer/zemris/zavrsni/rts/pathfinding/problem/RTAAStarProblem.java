@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.search.problem;
+package hr.fer.zemris.zavrsni.rts.pathfinding.problem;
 
 public class RTAAStarProblem<T, S extends ISearchProblem<T>> extends CachingProblem<T, LimitedExpansionProblem<T, S>> {
 

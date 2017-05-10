@@ -3,6 +3,7 @@ package hr.fer.zemris.zavrsni.rts.world.controllers;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
@@ -63,8 +64,15 @@ public class WorldController implements IWorldController {
             unit.update(deltaTime);
         }
 
+        removeDeadUnits();
         removeUnnecessarySquads();
         removeCollectedResources();
+    }
+
+    private void removeDeadUnits() {
+        ILevel level = gameState.getLevel();
+        removeFromLevelIf(level.getPlayerUnits(), IDamageable::isDestroyed, level::removePlayerUnit, null);
+        removeFromLevelIf(level.getHostileUnits(), IDamageable::isDestroyed, level::removeHostileUnit, null);
     }
 
     private void removeUnnecessarySquads() {

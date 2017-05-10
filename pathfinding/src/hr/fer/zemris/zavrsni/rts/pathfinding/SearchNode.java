@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.search;
+package hr.fer.zemris.zavrsni.rts.pathfinding;
 
 import java.util.Comparator;
 import java.util.LinkedList;

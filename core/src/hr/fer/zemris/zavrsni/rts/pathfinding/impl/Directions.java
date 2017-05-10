@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.search.impl;
+package hr.fer.zemris.zavrsni.rts.pathfinding.impl;
 
 public enum Directions {
 

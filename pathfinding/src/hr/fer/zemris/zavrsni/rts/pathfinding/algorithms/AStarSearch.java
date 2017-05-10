@@ -1,10 +1,10 @@
-package hr.fer.zemris.zavrsni.rts.search.algorithms;
+package hr.fer.zemris.zavrsni.rts.pathfinding.algorithms;
 
-import hr.fer.zemris.zavrsni.rts.search.SearchNode;
-import hr.fer.zemris.zavrsni.rts.search.SearchResult;
-import hr.fer.zemris.zavrsni.rts.search.heuristic.IHeuristic;
-import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem;
-import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem.Successor;
+import hr.fer.zemris.zavrsni.rts.pathfinding.SearchNode;
+import hr.fer.zemris.zavrsni.rts.pathfinding.SearchResult;
+import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.IHeuristic;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem.Successor;
 
 import java.util.HashMap;
 import java.util.Map;

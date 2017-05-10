@@ -1,15 +1,17 @@
-package hr.fer.zemris.zavrsni.rts.search.impl;
+package hr.fer.zemris.zavrsni.rts.pathfinding.impl;
 
 import com.badlogic.gdx.Gdx;
-import hr.fer.zemris.zavrsni.rts.search.ISearchAgent;
-import hr.fer.zemris.zavrsni.rts.search.SearchNode;
-import hr.fer.zemris.zavrsni.rts.search.SearchResult;
-import hr.fer.zemris.zavrsni.rts.search.algorithms.AStarSearch;
-import hr.fer.zemris.zavrsni.rts.search.algorithms.ISearchAlgorithm;
-import hr.fer.zemris.zavrsni.rts.search.heuristic.CachingProblemHeuristic;
-import hr.fer.zemris.zavrsni.rts.search.heuristic.IHeuristic;
-import hr.fer.zemris.zavrsni.rts.search.heuristic.WeightedHeuristic;
-import hr.fer.zemris.zavrsni.rts.search.problem.RTAAStarProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
+import hr.fer.zemris.zavrsni.rts.pathfinding.SearchNode;
+import hr.fer.zemris.zavrsni.rts.pathfinding.SearchResult;
+import hr.fer.zemris.zavrsni.rts.pathfinding.algorithms.AStarSearch;
+import hr.fer.zemris.zavrsni.rts.pathfinding.algorithms.ISearchAlgorithm;
+import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.CachingProblemHeuristic;
+import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.IHeuristic;
+import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.WeightedHeuristic;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.heuristic.ArealDistanceHeuristic;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem.MoveToAdjacentTileProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.RTAAStarProblem;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.Map.Entry;

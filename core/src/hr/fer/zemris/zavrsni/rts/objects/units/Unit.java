@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
-import hr.fer.zemris.zavrsni.rts.search.ISearchAgent;
-import hr.fer.zemris.zavrsni.rts.search.impl.MapTile;
-import hr.fer.zemris.zavrsni.rts.search.impl.RTAAStarMapSearchAgent;
+import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.RTAAStarMapSearchAgent;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public abstract class Unit extends AbstractMovableObject implements IDamageable {
@@ -19,12 +19,14 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
     private final Animation<TextureRegion> animation;
     protected final ILevel level;
 
-    private final float defaultSpeed;
-    private final int maxHealth;
-    private final float attackRange;
-    private final int attackPower;
+    protected final float defaultSpeed;
+    protected final int maxHealth;
+    protected final float attackRange;
+    protected final int attackPower;
+    protected final float attackCooldown;
 
-    private int health;
+    protected int health;
+    protected float timeSinceLastAttack = 0;
 
     private boolean flipX;
     private float stateTime;
@@ -36,7 +38,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
     private MapTile waypointTile;
 
     public Unit(Animation<TextureRegion> animation, ILevel level, float width, float height,
-                float defaultSpeed, int maxHealth, float attackRange, int attackPower) {
+                float defaultSpeed, int maxHealth, float attackRange, int attackPower, float attackCooldown) {
         this.animation = animation;
         this.level = level;
         this.searchAgent = new RTAAStarMapSearchAgent(level);
@@ -48,6 +50,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
         this.maxHealth = maxHealth;
         this.attackRange = attackRange;
         this.attackPower = attackPower;
+        this.attackCooldown = attackCooldown;
 
         this.health = maxHealth;
     }
@@ -90,7 +93,12 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
 
     @Override
     public void update(float deltaTime) {
+        updateMovements(deltaTime);
 
+        super.update(deltaTime);
+    }
+
+    private void updateMovements(float deltaTime) {
         // make sure velocity doesn't pass the max
         float maxSpeed = level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed;
         if (velocity.len() > maxSpeed) {
@@ -108,8 +116,6 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
             goalTile = null;
             velocity.setLength(0);
         }
-
-        super.update(deltaTime);
     }
 
     public void updateSearchAgent() {
@@ -217,11 +223,11 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
 
     @Override
     public void addHitPoints(int repair) {
-        health += repair;
+        health = Math.max(health + repair, maxHealth);
     }
 
     @Override
     public void removeHitPoints(int damage) {
-        health -= damage;
+        health = Math.max(health - damage, 0);
     }
 }

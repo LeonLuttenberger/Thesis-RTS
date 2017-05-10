@@ -10,13 +10,15 @@ public abstract class PlayerUnit extends Unit {
     private boolean isSelected = false;
 
     public PlayerUnit(Animation<TextureRegion> animation, ILevel level, float width, float height,
-                      float defaultSpeed, int maxHealth, float attackRange, int attackPower) {
-        super(animation, level, width, height, defaultSpeed, maxHealth, attackRange, attackPower);
+                      float defaultSpeed, int maxHealth, float attackRange, int attackPower, float attackCooldown) {
+        super(animation, level, width, height, defaultSpeed, maxHealth, attackRange, attackPower, attackCooldown);
     }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+
+        
     }
 
     @Override

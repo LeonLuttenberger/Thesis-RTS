@@ -1,7 +1,7 @@
-package hr.fer.zemris.zavrsni.rts.search.heuristic;
+package hr.fer.zemris.zavrsni.rts.pathfinding.heuristic;
 
-import hr.fer.zemris.zavrsni.rts.search.problem.CachingProblem;
-import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.CachingProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem;
 
 import java.util.OptionalDouble;
 

@@ -1,6 +1,6 @@
-package hr.fer.zemris.zavrsni.rts.search.heuristic;
+package hr.fer.zemris.zavrsni.rts.pathfinding.heuristic;
 
-import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem;
 
 public class WeightedHeuristic<T, H extends IHeuristic<T>> implements IHeuristic<T> {
 

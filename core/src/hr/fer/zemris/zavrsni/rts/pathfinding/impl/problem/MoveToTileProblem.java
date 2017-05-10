@@ -1,6 +1,7 @@
-package hr.fer.zemris.zavrsni.rts.search.impl;
+package hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem;
 
-import hr.fer.zemris.zavrsni.rts.search.problem.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.ArrayList;
@@ -9,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static hr.fer.zemris.zavrsni.rts.search.impl.LevelUtils.canMoveEast;
-import static hr.fer.zemris.zavrsni.rts.search.impl.LevelUtils.canMoveNorth;
-import static hr.fer.zemris.zavrsni.rts.search.impl.LevelUtils.canMoveSouth;
-import static hr.fer.zemris.zavrsni.rts.search.impl.LevelUtils.canMoveWest;
+import static hr.fer.zemris.zavrsni.rts.pathfinding.impl.LevelUtils.canMoveEast;
+import static hr.fer.zemris.zavrsni.rts.pathfinding.impl.LevelUtils.canMoveNorth;
+import static hr.fer.zemris.zavrsni.rts.pathfinding.impl.LevelUtils.canMoveSouth;
+import static hr.fer.zemris.zavrsni.rts.pathfinding.impl.LevelUtils.canMoveWest;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
