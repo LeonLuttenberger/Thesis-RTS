@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.assets.AssetHealthBar;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
@@ -21,6 +22,9 @@ public class HealthBarRenderer {
     private final AssetHealthBar healthBarAssets;
     private final SpriteBatch batch;
 
+    private boolean isEnabledForPlayerUnits = true;
+    private boolean isEnabledForHostileUnits = true;
+
     public HealthBarRenderer(IGameState gameState) {
         this.gameState = gameState;
         this.healthBarAssets = Assets.getInstance().getHealthBar();
@@ -32,13 +36,29 @@ public class HealthBarRenderer {
         );
     }
 
+    public void setEnabledForPlayerUnits(boolean enabledForPlayerUnits) {
+        isEnabledForPlayerUnits = enabledForPlayerUnits;
+    }
+
+    public void setEnabledForHostileUnits(boolean enabledForHostileUnits) {
+        isEnabledForHostileUnits = enabledForHostileUnits;
+    }
+
     public void render(OrthographicCamera camera) {
         ILevel level = gameState.getLevel();
 
         batch.begin();
 
-        for (PlayerUnit playerUnit : level.getPlayerUnits()) {
-            drawHealthBar(camera, playerUnit, playerUnit.getPosition(), playerUnit.getDimension());
+        if (isEnabledForPlayerUnits) {
+            for (PlayerUnit playerUnit : level.getPlayerUnits()) {
+                drawHealthBar(camera, playerUnit, playerUnit.getPosition(), playerUnit.getDimension());
+            }
+        }
+
+        if (isEnabledForHostileUnits) {
+            for (HostileUnit hostileUnit : level.getHostileUnits()) {
+                drawHealthBar(camera, hostileUnit, hostileUnit.getPosition(), hostileUnit.getDimension());
+            }
         }
 
         batch.end();

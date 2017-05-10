@@ -7,4 +7,10 @@ public interface IGameSettings {
 
     boolean showFPSCounter();
     void setShowFPSCounter(boolean showFPSCounter);
+
+    boolean showPlayerUnitHealthBars();
+    void setShowPlayerUnitHealthBars(boolean showPlayerUnitHealthBars);
+
+    boolean showHostileUnitHealthBars();
+    void setShowHostileUnitHealthBars(boolean showHostileUnitHealthBars);
 }

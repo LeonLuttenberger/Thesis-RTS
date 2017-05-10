@@ -4,6 +4,7 @@ import com.strongjoshua.console.LogLevel;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.AlienBugUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
@@ -82,5 +83,19 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
 
     public void resetGame() {
         gameState.reset();
+    }
+
+    public void damagePlayerUnits(int damage) {
+        for (PlayerUnit unit : gameState.getLevel().getPlayerUnits()) {
+            unit.removeHitPoints(damage);
+        }
+        console.log("Player units damaged", LogLevel.SUCCESS);
+    }
+
+    public void healPlayerUnits(int healing) {
+        for (PlayerUnit unit : gameState.getLevel().getPlayerUnits()) {
+            unit.addHitPoints(healing);
+        }
+        console.log("Player units healed", LogLevel.SUCCESS);
     }
 }

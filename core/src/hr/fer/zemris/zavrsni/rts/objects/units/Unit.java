@@ -222,6 +222,6 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
 
     @Override
     public void removeHitPoints(int damage) {
-        health += damage;
+        health -= damage;
     }
 }

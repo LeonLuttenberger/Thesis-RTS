@@ -180,6 +180,9 @@ public class GameScreen extends AbstractGameScreen {
     public void show() {
         controller.resume();
 
+        healthBarRenderer.setEnabledForPlayerUnits(gameSettings.showPlayerUnitHealthBars());
+        healthBarRenderer.setEnabledForHostileUnits(gameSettings.showHostileUnitHealthBars());
+
         stageUI = new Stage(new StretchViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT));
         InputMultiplexer inputMultiplexer = new InputMultiplexer(stageUI, inputController);
         Gdx.input.setInputProcessor(inputMultiplexer);

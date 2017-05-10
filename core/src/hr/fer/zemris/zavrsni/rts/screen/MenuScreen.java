@@ -41,6 +41,8 @@ public class MenuScreen extends AbstractGameScreen {
     private Button btnSaveSettings;
     private Button btnCancelSettings;
     private CheckBox checkFPS;
+    private CheckBox checkPlayerHealthBars;
+    private CheckBox checkHostileHealthBars;
 
     // debug
     private static final float DEBUG_REBUILD_INTERVAL = 5.0f;
@@ -162,6 +164,16 @@ public class MenuScreen extends AbstractGameScreen {
         table.add(checkFPS);
         table.row();
 
+        checkPlayerHealthBars = new CheckBox("", uiSkin);
+        table.add(new Label("Show player unit health bars", uiSkin));
+        table.add(checkPlayerHealthBars);
+        table.row();
+
+        checkHostileHealthBars = new CheckBox("", uiSkin);
+        table.add(new Label("Show hostile unit health bars", uiSkin));
+        table.add(checkHostileHealthBars);
+        table.row();
+
         return table;
     }
 
@@ -192,10 +204,14 @@ public class MenuScreen extends AbstractGameScreen {
     private void loadSettings() {
         gameSettings.load();
         checkFPS.setChecked(gameSettings.showFPSCounter());
+        checkPlayerHealthBars.setChecked(gameSettings.showPlayerUnitHealthBars());
+        checkHostileHealthBars.setChecked(gameSettings.showHostileUnitHealthBars());
     }
 
     private void saveSettings() {
         gameSettings.setShowFPSCounter(checkFPS.isChecked());
+        gameSettings.setShowPlayerUnitHealthBars(checkPlayerHealthBars.isChecked());
+        gameSettings.setShowHostileUnitHealthBars(checkHostileHealthBars.isChecked());
         gameSettings.save();
     }
 
