@@ -4,7 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
-import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 
 import java.util.List;
 
@@ -12,11 +13,17 @@ public interface ILevel {
 
     void render(SpriteBatch batch);
 
-    List<Unit> getUnits();
+    List<PlayerUnit> getPlayerUnits();
 
-    void addUnit(Unit unit);
+    List<HostileUnit> getHostileUnits();
 
-    void removeUnit(Unit unit);
+    void addPlayerUnit(PlayerUnit unit);
+
+    void addHostileUnit(HostileUnit unit);
+
+    void removePlayerUnit(PlayerUnit unit);
+
+    void removeHostileUnit(HostileUnit unit);
 
     List<Building> getBuildings();
 

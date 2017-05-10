@@ -64,7 +64,7 @@ public class WorldController implements IWorldController {
         }
 
         ILevel level = gameState.getLevel();
-        for (Unit unit : level.getUnits()) {
+        for (Unit unit : level.getPlayerUnits()) {
             unit.update(deltaTime);
         }
 
@@ -88,7 +88,7 @@ public class WorldController implements IWorldController {
                 Math.abs(areaEnd.y - areaStart.y)
         );
 
-        for (Unit unit : gameState.getLevel().getUnits()) {
+        for (Unit unit : gameState.getLevel().getPlayerUnits()) {
             if (selectionArea.contains(unit.getCenterX(), unit.getCenterY())) {
                 unit.setSelected(true);
             } else {
@@ -99,7 +99,11 @@ public class WorldController implements IWorldController {
 
     @Override
     public void sendSelectedUnitsTo(Vector3 destination) {
-        gameState.createSquadFromSelected().sendToLocation(destination.x, destination.y);
+        Squad squad = gameState.createSquadFromSelected();
+
+        if (squad != null) {
+            squad.sendToLocation(destination.x, destination.y);
+        }
     }
 
     @Override

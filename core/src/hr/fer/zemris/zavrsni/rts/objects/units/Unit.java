@@ -18,6 +18,9 @@ public abstract class Unit extends AbstractMovableObject {
     private final Animation<TextureRegion> animation;
     protected final ILevel level;
     private final float defaultSpeed;
+    private final float maxHealth;
+
+    private float health;
 
     private boolean flipX;
     private boolean isSelected;
@@ -29,7 +32,8 @@ public abstract class Unit extends AbstractMovableObject {
     private MapTile goalTile;
     private MapTile waypointTile;
 
-    public Unit(Animation<TextureRegion> animation, ILevel level, float width, float height, float defaultSpeed) {
+    public Unit(Animation<TextureRegion> animation, ILevel level, float width, float height,
+                float defaultSpeed, float maxHealth) {
         this.animation = animation;
         this.level = level;
         this.searchAgent = new RTAAStarMapSearchAgent(level);
@@ -38,10 +42,21 @@ public abstract class Unit extends AbstractMovableObject {
         this.dimension.y = height;
 
         this.defaultSpeed = defaultSpeed;
+        this.maxHealth = maxHealth;
+
+        this.health = maxHealth;
     }
 
     public final float getDefaultSpeed() {
         return defaultSpeed;
+    }
+
+    public float getMaxHealth() {
+        return maxHealth;
+    }
+
+    public float getHealth() {
+        return health;
     }
 
     @Override
@@ -56,6 +71,7 @@ public abstract class Unit extends AbstractMovableObject {
             if (velocity.x < 0) {
                 flipX = true;
             } else if (velocity.x > 0) {
+                //TODO
 //                flipX = false;
                 flipX = true;
             }
@@ -187,4 +203,6 @@ public abstract class Unit extends AbstractMovableObject {
     public final void setSelected(boolean selected) {
         isSelected = selected;
     }
+
+    public abstract boolean isHostile();
 }

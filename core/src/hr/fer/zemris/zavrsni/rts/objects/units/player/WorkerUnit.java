@@ -1,20 +1,21 @@
-package hr.fer.zemris.zavrsni.rts.objects.units;
+package hr.fer.zemris.zavrsni.rts.objects.units.player;
 
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public class WorkerUnit extends Unit {
+public class WorkerUnit extends PlayerUnit {
 
     private static final int UNIT_WIDTH = 24;
     private static final int UNIT_HEIGHT = 48;
     private static final float DEFAULT_SPEED = 200;
+    private static final int MAX_HEALTH = 10;
 
     private Resource targetResource;
 
     public WorkerUnit(ILevel level) {
-        super(Assets.getInstance().getUnits().workerAnimation, level, UNIT_WIDTH, UNIT_HEIGHT, DEFAULT_SPEED);
+        super(Assets.getInstance().getUnits().workerAnimation, level, UNIT_WIDTH, UNIT_HEIGHT, DEFAULT_SPEED, MAX_HEALTH);
     }
 
     @Override

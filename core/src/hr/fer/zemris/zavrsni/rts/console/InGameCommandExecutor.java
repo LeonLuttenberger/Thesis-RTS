@@ -3,9 +3,9 @@ package hr.fer.zemris.zavrsni.rts.console;
 import com.strongjoshua.console.LogLevel;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
-import hr.fer.zemris.zavrsni.rts.objects.units.SoldierUnit;
-import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
-import hr.fer.zemris.zavrsni.rts.objects.units.WorkerUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.hostile.AlienBugUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
 
@@ -47,10 +47,10 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
     public void spawnSoldierUnit(int x, int y) {
         if (!isPositionValid(x, y)) return;
 
-        Unit unit = new SoldierUnit(gameState.getLevel());
+        SoldierUnit unit = new SoldierUnit(gameState.getLevel());
         unit.getPosition().set(x * Constants.TILE_WIDTH, y * Constants.TILE_HEIGHT);
 
-        gameState.getLevel().addUnit(unit);
+        gameState.getLevel().addPlayerUnit(unit);
         console.log("Spawned unit at " + x + " " + y, LogLevel.SUCCESS);
     }
 
@@ -60,8 +60,18 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
         WorkerUnit worker = new WorkerUnit(gameState.getLevel());
         worker.getPosition().set(x * Constants.TILE_WIDTH, y * Constants.TILE_HEIGHT);
 
-        gameState.getLevel().addUnit(worker);
+        gameState.getLevel().addPlayerUnit(worker);
         console.log("Spawned worker unit at " + x + " " + y, LogLevel.SUCCESS);
+    }
+
+    public void spawnBugUnit(int x, int y) {
+        if (!isPositionValid(x, y)) return;
+
+        AlienBugUnit alienBugUnit = new AlienBugUnit(gameState.getLevel());
+        alienBugUnit.getPosition().set(x * Constants.TILE_WIDTH, y * Constants.TILE_HEIGHT);
+
+        gameState.getLevel().addHostileUnit(alienBugUnit);
+        console.log("Spawned alien bug at " + x + " " + y, LogLevel.SUCCESS);
     }
 
     public void mapSize() {
