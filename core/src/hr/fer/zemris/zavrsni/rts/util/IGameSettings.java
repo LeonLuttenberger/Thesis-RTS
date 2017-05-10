@@ -13,4 +13,10 @@ public interface IGameSettings {
 
     boolean showHostileUnitHealthBars();
     void setShowHostileUnitHealthBars(boolean showHostileUnitHealthBars);
+
+    boolean showResourceHealthBars();
+    void setShowResourceHealthBars(boolean showResourceHealthBars);
+
+    boolean showBuildingHealthBars();
+    void setShowBuildingHealthBars(boolean showBuildingHealthBars);
 }

@@ -77,11 +77,11 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
         } else {
             frame = animation.getKeyFrame(stateTime);
             if (velocity.x < 0) {
-                flipX = true;
-            } else if (velocity.x > 0) {
                 //TODO
-//                flipX = false;
-                flipX = true;
+//                flipX = true;
+                flipX = false;
+            } else if (velocity.x > 0) {
+                flipX = false;
             }
         }
 
@@ -99,6 +99,14 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
     }
 
     private void updateMovements(float deltaTime) {
+        MapTile goalTile = searchAgent.getGoalState();
+        if (!isSearchStopped() && level.getTileModifier(goalTile.x, goalTile.y) == 0) {
+            if (searchAgent.isGoalState(getMapTile(getCenterX(), getCenterY()))) {
+                stopSearch();
+                return;
+            }
+        }
+
         // make sure velocity doesn't pass the max
         float maxSpeed = level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed;
         if (velocity.len() > maxSpeed) {
@@ -112,9 +120,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
         int newTileX = (int) (newX / level.getTileWidth());
         int newTileY = (int) (newY / level.getTileHeight());
         if (level.getTileModifier(newTileX, newTileY) <= 0) {
-            searchAgent.stopSearch();
-            goalTile = null;
-            velocity.setLength(0);
+            stopSearch();
         }
     }
 

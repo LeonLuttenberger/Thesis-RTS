@@ -82,7 +82,7 @@ public class WorldController implements IWorldController {
 
     private void removeCollectedResources() {
         ILevel level = gameState.getLevel();
-        removeFromLevelIf(level.getResources(), r -> r.getRemainingDurability() <= 0,
+        removeFromLevelIf(level.getResources(), r -> r.getCurrentHitPoints() <= 0,
                 level::removeResource, r -> r.onResourceDestroyed(gameState));
     }
 

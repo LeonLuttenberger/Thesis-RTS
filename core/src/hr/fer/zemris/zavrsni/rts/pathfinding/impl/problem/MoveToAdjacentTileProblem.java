@@ -59,7 +59,6 @@ public class MoveToAdjacentTileProblem implements ISearchProblem<MapTile> {
     @Override
     public boolean isGoalState(MapTile state) {
         return moveToTileProblem.isGoalState(state) || adjacentTiles.contains(state);
-
     }
 
     @Override

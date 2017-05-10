@@ -7,4 +7,8 @@ public interface ISearchAgent<T> {
     T update(T currentState);
 
     void stopSearch();
+
+    boolean isGoalState(T state);
+
+    T getGoalState();
 }

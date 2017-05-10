@@ -182,6 +182,8 @@ public class GameScreen extends AbstractGameScreen {
 
         healthBarRenderer.setEnabledForPlayerUnits(gameSettings.showPlayerUnitHealthBars());
         healthBarRenderer.setEnabledForHostileUnits(gameSettings.showHostileUnitHealthBars());
+        healthBarRenderer.setEnabledForBuildings(gameSettings.showBuildingHealthBars());
+        healthBarRenderer.setEnabledForResources(gameSettings.showResourceHealthBars());
 
         stageUI = new Stage(new StretchViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT));
         InputMultiplexer inputMultiplexer = new InputMultiplexer(stageUI, inputController);

@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.assets.AssetHealthBar;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
@@ -24,6 +26,8 @@ public class HealthBarRenderer {
 
     private boolean isEnabledForPlayerUnits = true;
     private boolean isEnabledForHostileUnits = true;
+    private boolean isEnabledForBuildings = true;
+    private boolean isEnabledForResources = false;
 
     public HealthBarRenderer(IGameState gameState) {
         this.gameState = gameState;
@@ -44,6 +48,14 @@ public class HealthBarRenderer {
         isEnabledForHostileUnits = enabledForHostileUnits;
     }
 
+    public void setEnabledForBuildings(boolean enabledForBuildings) {
+        isEnabledForBuildings = enabledForBuildings;
+    }
+
+    public void setEnabledForResources(boolean enabledForResources) {
+        isEnabledForResources = enabledForResources;
+    }
+
     public void render(OrthographicCamera camera) {
         ILevel level = gameState.getLevel();
 
@@ -58,6 +70,18 @@ public class HealthBarRenderer {
         if (isEnabledForHostileUnits) {
             for (HostileUnit hostileUnit : level.getHostileUnits()) {
                 drawHealthBar(camera, hostileUnit, hostileUnit.getPosition(), hostileUnit.getDimension());
+            }
+        }
+
+        if (isEnabledForBuildings) {
+            for (Building building : level.getBuildings()) {
+                drawHealthBar(camera, building, building.getPosition(), building.getDimension());
+            }
+        }
+
+        if (isEnabledForResources) {
+            for (Resource resource : level.getResources()) {
+                drawHealthBar(camera, resource, resource.getPosition(), resource.getDimension());
             }
         }
 

@@ -43,11 +43,8 @@ public class MenuScreen extends AbstractGameScreen {
     private CheckBox checkFPS;
     private CheckBox checkPlayerHealthBars;
     private CheckBox checkHostileHealthBars;
-
-    // debug
-    private static final float DEBUG_REBUILD_INTERVAL = 5.0f;
-    private static final boolean DEBUG_ENABLED = false;
-    private float debugRebuildStage;
+    private CheckBox checkResourceHealthBars;
+    private CheckBox checkBuildingHealthBars;
 
     public MenuScreen(Game game, IGameSettings gameSettings) {
         super(game, gameSettings);
@@ -58,17 +55,8 @@ public class MenuScreen extends AbstractGameScreen {
         Gdx.gl20.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (DEBUG_ENABLED) {
-            debugRebuildStage -= deltaTime;
-            if (debugRebuildStage <= 0) {
-                debugRebuildStage = DEBUG_REBUILD_INTERVAL;
-                rebuildStage();
-            }
-        }
-
         stage.act(deltaTime);
         stage.draw();
-        stage.setDebugAll(DEBUG_ENABLED);
     }
 
     private void rebuildStage() {
@@ -165,13 +153,23 @@ public class MenuScreen extends AbstractGameScreen {
         table.row();
 
         checkPlayerHealthBars = new CheckBox("", uiSkin);
-        table.add(new Label("Show player unit health bars", uiSkin));
+        table.add(new Label("Player unit health bars", uiSkin));
         table.add(checkPlayerHealthBars);
         table.row();
 
         checkHostileHealthBars = new CheckBox("", uiSkin);
-        table.add(new Label("Show hostile unit health bars", uiSkin));
+        table.add(new Label("Hostile unit health bars", uiSkin));
         table.add(checkHostileHealthBars);
+        table.row();
+
+        checkResourceHealthBars = new CheckBox("", uiSkin);
+        table.add(new Label("Resource health bars", uiSkin));
+        table.add(checkResourceHealthBars);
+        table.row();
+
+        checkBuildingHealthBars = new CheckBox("", uiSkin);
+        table.add(new Label("Building health bars", uiSkin));
+        table.add(checkBuildingHealthBars);
         table.row();
 
         return table;
@@ -206,12 +204,16 @@ public class MenuScreen extends AbstractGameScreen {
         checkFPS.setChecked(gameSettings.showFPSCounter());
         checkPlayerHealthBars.setChecked(gameSettings.showPlayerUnitHealthBars());
         checkHostileHealthBars.setChecked(gameSettings.showHostileUnitHealthBars());
+        checkResourceHealthBars.setChecked(gameSettings.showResourceHealthBars());
+        checkBuildingHealthBars.setChecked(gameSettings.showBuildingHealthBars());
     }
 
     private void saveSettings() {
         gameSettings.setShowFPSCounter(checkFPS.isChecked());
         gameSettings.setShowPlayerUnitHealthBars(checkPlayerHealthBars.isChecked());
         gameSettings.setShowHostileUnitHealthBars(checkHostileHealthBars.isChecked());
+        gameSettings.setShowResourceHealthBars(checkResourceHealthBars.isChecked());
+        gameSettings.setShowBuildingHealthBars(checkBuildingHealthBars.isChecked());
         gameSettings.save();
     }
 

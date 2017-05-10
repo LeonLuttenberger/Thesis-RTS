@@ -8,10 +8,14 @@ public class GameSettings implements IGameSettings {
     private static final String KEY_FPS_COUNTER = "showFPSCounter";
     private static final String KEY_PLAYER_HEALTH_BAR = "showPlayerUnitHealthBar";
     private static final String KEY_HOSTILE_HEALTH_BAR = "showHostileUnitHealthBar";
+    private static final String KEY_RESOURCE_HEALTH_BAR = "showHostileUnitHealthBar";
+    private static final String KEY_BUILDING_HEALTH_BAR = "showHostileUnitHealthBar";
 
     private boolean showFPSCounter = false;
     private boolean showPlayerUnitHealthBars = true;
     private boolean showHostileUnitHealthBars = true;
+    private boolean showResourceHealthBars = false;
+    private boolean showBuildingHealthBars = true;
 
     private final Preferences preferences;
 
@@ -24,6 +28,8 @@ public class GameSettings implements IGameSettings {
         showFPSCounter = preferences.getBoolean(KEY_FPS_COUNTER, false);
         showPlayerUnitHealthBars = preferences.getBoolean(KEY_PLAYER_HEALTH_BAR, true);
         showHostileUnitHealthBars = preferences.getBoolean(KEY_HOSTILE_HEALTH_BAR, true);
+        showResourceHealthBars = preferences.getBoolean(KEY_RESOURCE_HEALTH_BAR, false);
+        showBuildingHealthBars = preferences.getBoolean(KEY_BUILDING_HEALTH_BAR, true);
     }
 
     @Override
@@ -31,6 +37,8 @@ public class GameSettings implements IGameSettings {
         preferences.putBoolean(KEY_FPS_COUNTER, showFPSCounter);
         preferences.putBoolean(KEY_PLAYER_HEALTH_BAR, showPlayerUnitHealthBars);
         preferences.putBoolean(KEY_HOSTILE_HEALTH_BAR, showHostileUnitHealthBars);
+        preferences.putBoolean(KEY_RESOURCE_HEALTH_BAR, showResourceHealthBars);
+        preferences.putBoolean(KEY_BUILDING_HEALTH_BAR, showBuildingHealthBars);
 
         preferences.flush();
     }
@@ -63,5 +71,25 @@ public class GameSettings implements IGameSettings {
     @Override
     public void setShowHostileUnitHealthBars(boolean showHostileUnitHealthBars) {
         this.showHostileUnitHealthBars = showHostileUnitHealthBars;
+    }
+
+    @Override
+    public boolean showResourceHealthBars() {
+        return showResourceHealthBars;
+    }
+
+    @Override
+    public void setShowResourceHealthBars(boolean showResourceHealthBars) {
+        this.showResourceHealthBars = showResourceHealthBars;
+    }
+
+    @Override
+    public boolean showBuildingHealthBars() {
+        return showResourceHealthBars;
+    }
+
+    @Override
+    public void setShowBuildingHealthBars(boolean showBuildingHealthBars) {
+        this.showBuildingHealthBars = showBuildingHealthBars;
     }
 }

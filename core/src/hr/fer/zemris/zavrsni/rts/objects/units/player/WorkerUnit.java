@@ -25,11 +25,18 @@ public class WorkerUnit extends PlayerUnit {
     @Override
     public void update(float deltaTime) {
         if (targetResource != null) {
-            float dx = Math.abs(getCenterX() - targetResource.getCenterX());
-            float dy = Math.abs(getCenterY() - targetResource.getCenterY());
+            float dx = getCenterX() - targetResource.getCenterX();
+            float dy = getCenterY() - targetResource.getCenterY();
 
-            if (dx < 3 * level.getTileWidth() / 4f && dy < 3 * level.getTileHeight() / 4f) {
+            float horizontalDetectionLimit = (targetResource.getDimension().x + dimension.x) / 2 + 20;
+            float verticalDetectionLimit = (targetResource.getDimension().y + dimension.y) / 2 + 20;
+
+            if (Math.abs(dx) < horizontalDetectionLimit && Math.abs(dy) < verticalDetectionLimit) {
                 gatherResource();
+                velocity.setLength(0);
+            } else if (isSearchStopped()) {
+                velocity.set(dx, dy);
+                velocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()));
             }
         }
 
@@ -37,7 +44,7 @@ public class WorkerUnit extends PlayerUnit {
     }
 
     private void gatherResource() {
-        targetResource.removeDurability(1);
+        targetResource.removeHitPoints(1);
     }
 
     @Override

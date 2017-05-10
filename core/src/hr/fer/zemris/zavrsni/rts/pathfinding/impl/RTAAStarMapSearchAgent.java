@@ -48,7 +48,6 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
 
         searchResult = null;
         searchProblem = new RTAAStarProblem<>(
-//                new MoveToTileProblem(startState, goalState, level),
                 new MoveToAdjacentTileProblem(startState, goalState, level),
                 MAX_STATES_TO_EXPAND
         );
@@ -61,16 +60,19 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
         MapTile previousPosition = this.currentPosition;
         this.currentPosition = currentPosition;
 
+        // count the moves made
         if (!previousPosition.equals(currentPosition)) {
             movesMade++;
         }
 
+        // move on to the next state
         if (searchResult != null && !searchResult.getStatesQueue().isEmpty()) {
             if (searchResult.getStatesQueue().peek().getState().equals(currentPosition)) {
                 searchResult.getStatesQueue().poll();
             }
         }
 
+        // check if the search has to be re-done
         if (searchResult == null || searchResult.getStatesQueue().isEmpty() || movesMade >= MAX_MOVES) {
             resetSearch();
 
@@ -132,5 +134,15 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
     public void stopSearch() {
         searchResult = null;
         searchProblem = null;
+    }
+
+    @Override
+    public boolean isGoalState(MapTile tile) {
+        return searchProblem == null || searchProblem.isGoalState(tile);
+    }
+
+    @Override
+    public MapTile getGoalState() {
+        return goalPosition;
     }
 }

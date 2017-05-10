@@ -3,25 +3,26 @@ package hr.fer.zemris.zavrsni.rts.objects.resources;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
 
-public abstract class Resource extends AbstractGameObject {
+public abstract class Resource extends AbstractGameObject implements IDamageable {
 
     private final TextureRegion region;
     private final float terrainModifier;
-    private final float totalDurability;
 
-    private float remainingDurability;
+    private final int maxDurability;
+    private int remainingDurability;
 
-    public Resource(TextureRegion region, float terrainModifier, float totalDurability) {
+    public Resource(TextureRegion region, float terrainModifier, int maxDurability) {
         this.region = region;
         this.dimension.x = Constants.TILE_WIDTH;
         this.dimension.y = Constants.TILE_HEIGHT;
 
         this.terrainModifier = terrainModifier;
-        this.totalDurability = totalDurability;
-        this.remainingDurability = totalDurability;
+        this.maxDurability = maxDurability;
+        this.remainingDurability = maxDurability;
     }
 
     @Override
@@ -36,16 +37,24 @@ public abstract class Resource extends AbstractGameObject {
         return terrainModifier;
     }
 
-    public float getTotalDurability() {
-        return totalDurability;
+    @Override
+    public int getMaxHitPoints() {
+        return maxDurability;
     }
 
-    public float getRemainingDurability() {
+    @Override
+    public int getCurrentHitPoints() {
         return remainingDurability;
     }
 
-    public void removeDurability(float delta) {
-        remainingDurability -= delta;
+    @Override
+    public void addHitPoints(int repair) {
+        throw new UnsupportedOperationException("Cannot \'repair\' a resource.");
+    }
+
+    @Override
+    public void removeHitPoints(int damage) {
+        remainingDurability = Math.max(remainingDurability - damage, 0);
     }
 
     public abstract void onResourceDestroyed(IGameState gameState);
