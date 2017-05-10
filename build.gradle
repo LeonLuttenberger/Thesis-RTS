@@ -49,10 +49,16 @@ project(":core") {
 
 
     dependencies {
+        compile project(":pathfinding")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.strongjoshua:libgdx-inGameConsole:0.5.3"
     }
 }
+
+project(":pathfinding") {
+    apply plugin: "java"
+}
+
 
 tasks.eclipse.doLast {
     delete ".project"

@@ -7,6 +7,8 @@ import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 
 import java.util.ArrayList;
@@ -16,7 +18,8 @@ import java.util.List;
 
 public class Level implements ILevel {
 
-    private final List<Unit> units = new ArrayList<>();
+    private final List<PlayerUnit> playerUnits = new ArrayList<>();
+    private final List<HostileUnit> hostileUnits = new ArrayList<>();
     private final List<Building> buildings = new ArrayList<>();
     private final List<Resource> resources = new ArrayList<>();
     private final AbstractGameObject[][] objectMap;
@@ -70,24 +73,43 @@ public class Level implements ILevel {
             building.render(batch);
         }
 
-        for (Unit unit : units) {
+        for (Unit unit : playerUnits) {
+            unit.render(batch);
+        }
+
+        for (HostileUnit unit : hostileUnits) {
             unit.render(batch);
         }
     }
 
     @Override
-    public List<Unit> getUnits() {
-        return Collections.unmodifiableList(units);
+    public List<PlayerUnit> getPlayerUnits() {
+        return Collections.unmodifiableList(playerUnits);
     }
 
     @Override
-    public void addUnit(Unit unit) {
-        units.add(unit);
+    public List<HostileUnit> getHostileUnits() {
+        return Collections.unmodifiableList(hostileUnits);
     }
 
     @Override
-    public void removeUnit(Unit unit) {
-        units.remove(unit);
+    public void addPlayerUnit(PlayerUnit unit) {
+        playerUnits.add(unit);
+    }
+
+    @Override
+    public void addHostileUnit(HostileUnit unit) {
+        hostileUnits.add(unit);
+    }
+
+    @Override
+    public void removePlayerUnit(PlayerUnit unit) {
+        playerUnits.remove(unit);
+    }
+
+    @Override
+    public void removeHostileUnit(HostileUnit unit) {
+        hostileUnits.remove(unit);
     }
 
     @Override

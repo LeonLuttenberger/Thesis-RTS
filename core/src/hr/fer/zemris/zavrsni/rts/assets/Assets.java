@@ -30,6 +30,7 @@ public final class Assets implements Disposable {
     private AssetsBuildings buildings;
     private AssetsResources resources;
     private AssetsIcons icons;
+    private AssetHealthBar healthBar;
 
     private Skin uiSkin;
 
@@ -75,6 +76,7 @@ public final class Assets implements Disposable {
         buildings = new AssetsBuildings(atlas);
         resources = new AssetsResources(atlas);
         icons = new AssetsIcons(atlas);
+        healthBar = new AssetHealthBar(atlas);
 
         uiSkin = new Skin(
                 Gdx.files.internal(Constants.SKIN_LIBGDX_UI),
@@ -101,6 +103,10 @@ public final class Assets implements Disposable {
 
     public AssetsIcons getIcons() {
         return icons;
+    }
+
+    public AssetHealthBar getHealthBar() {
+        return healthBar;
     }
 
     public Skin getUiSkin() {

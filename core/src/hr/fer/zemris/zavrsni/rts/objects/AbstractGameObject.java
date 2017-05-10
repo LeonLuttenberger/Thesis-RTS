@@ -52,4 +52,16 @@ public abstract class AbstractGameObject {
     public final void setCenterY(float y) {
         position.y = y - dimension.y / 2;
     }
+
+    public static float distanceBetween(AbstractGameObject o1, AbstractGameObject o2) {
+        return distanceBetween(o1.getCenterX(), o1.getCenterY(), o2.getCenterX(), o2.getCenterY());
+    }
+
+    public static float distanceBetween(AbstractGameObject o1, float pointX, float pointY) {
+        return distanceBetween(o1.getCenterX(), o1.getCenterY(), pointX, pointY);
+    }
+
+    private static float distanceBetween(float x1, float y1, float x2, float y2) {
+        return (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
 }

@@ -8,13 +8,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.SimpleBuilding;
-import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 public class InputController extends InputAdapter {
-
-    private static final String TAG = InputController.class.getName();
 
     private DragBoxRenderer dragBoxRenderer;
     private OrthographicCamera camera;
@@ -103,7 +100,7 @@ public class InputController extends InputAdapter {
                 dragBoxRenderer.getY() + dragBoxRenderer.getHeight(),
                 0));
 
-        controller.getGameState().selectUnitsInArea(selectionStart, selectionEnd);
+        controller.selectUnitsInArea(selectionStart, selectionEnd);
     }
 
     @Override
@@ -116,9 +113,7 @@ public class InputController extends InputAdapter {
 
         } else if (button == Input.Buttons.RIGHT) {
             Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
-            for (Unit unit : controller.getGameState().getSelectedUnits()) {
-                unit.issueCommandTo(position.x, position.y);
-            }
+            controller.sendSelectedUnitsTo(position);
         }
 
         return false;

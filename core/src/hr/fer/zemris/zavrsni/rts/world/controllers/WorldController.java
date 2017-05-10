@@ -1,14 +1,20 @@
 package hr.fer.zemris.zavrsni.rts.world.controllers;
 
 import com.badlogic.gdx.Game;
-import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.world.GameState;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class WorldController implements IWorldController {
 
@@ -49,20 +55,78 @@ public class WorldController implements IWorldController {
         deltaTime = wasPausedLastUpdate ? 0 : deltaTime;
         wasPausedLastUpdate = false;
 
+        for (Squad squad : gameState.getSquads()) {
+            squad.update(deltaTime);
+        }
+
         ILevel level = gameState.getLevel();
-        for (Unit unit : level.getUnits()) {
+        for (Unit unit : level.getPlayerUnits()) {
             unit.update(deltaTime);
         }
 
-        List<Resource> resourcesToRemove = new ArrayList<>();
-        for (Resource resource : level.getResources()) {
-            if (resource.getRemainingDurability() <= 0) {
-                resource.onResourceDestroyed(gameState);
-                resourcesToRemove.add(resource);
+        removeDeadUnits();
+        removeUnnecessarySquads();
+        removeCollectedResources();
+    }
+
+    private void removeDeadUnits() {
+        ILevel level = gameState.getLevel();
+        removeFromLevelIf(level.getPlayerUnits(), IDamageable::isDestroyed, level::removePlayerUnit, null);
+        removeFromLevelIf(level.getHostileUnits(), IDamageable::isDestroyed, level::removeHostileUnit, null);
+    }
+
+    private void removeUnnecessarySquads() {
+        removeFromLevelIf(gameState.getSquads(), Squad::isSearchStopped,
+                gameState::removeSquad, null);
+    }
+
+    private void removeCollectedResources() {
+        ILevel level = gameState.getLevel();
+        removeFromLevelIf(level.getResources(), r -> r.getRemainingDurability() <= 0,
+                level::removeResource, r -> r.onResourceDestroyed(gameState));
+    }
+
+    private static <T> void removeFromLevelIf(List<T> objects, Predicate<T> condition,
+                                       Consumer<T> removeFunction, Consumer<T> removalEvent) {
+
+        List<T> toRemove = new ArrayList<>();
+        for (T object : objects) {
+            if (condition.test(object)) {
+                if (removalEvent != null) {
+                    removalEvent.accept(object);
+                }
+                toRemove.add(object);
             }
         }
-        for (Resource resource : resourcesToRemove) {
-            level.removeResource(resource);
+
+        for (T t : toRemove) {
+            removeFunction.accept(t);
+        }
+    }
+
+    public void selectUnitsInArea(Vector3 areaStart, Vector3 areaEnd) {
+        Rectangle selectionArea = new Rectangle(
+                Math.min(areaStart.x, areaEnd.x),
+                Math.min(areaStart.y, areaEnd.y),
+                Math.abs(areaEnd.x - areaStart.x),
+                Math.abs(areaEnd.y - areaStart.y)
+        );
+
+        for (PlayerUnit unit : gameState.getLevel().getPlayerUnits()) {
+            if (selectionArea.contains(unit.getCenterX(), unit.getCenterY())) {
+                unit.setSelected(true);
+            } else {
+                unit.setSelected(false);
+            }
+        }
+    }
+
+    @Override
+    public void sendSelectedUnitsTo(Vector3 destination) {
+        Squad squad = gameState.createSquadFromSelected();
+
+        if (squad != null) {
+            squad.sendToLocation(destination.x, destination.y);
         }
     }
 

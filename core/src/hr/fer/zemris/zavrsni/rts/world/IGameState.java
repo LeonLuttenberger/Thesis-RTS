@@ -1,7 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.world;
 
-import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 
 import java.util.List;
 
@@ -11,9 +10,11 @@ public interface IGameState {
 
     void setLevel(ILevel level);
 
-    void selectUnitsInArea(Vector3 areaStart, Vector3 areaEnd);
+    Squad createSquadFromSelected();
 
-    List<Unit> getSelectedUnits();
+    List<Squad> getSquads();
+
+    void removeSquad(Squad squad);
 
     void reset();
 
