@@ -6,14 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
-import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.RTAAStarMapSearchAgent;
 import hr.fer.zemris.zavrsni.rts.util.LevelUtils;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public abstract class Unit extends AbstractMovableObject implements IDamageable {
+public abstract class Unit extends AbstractMovableObject implements IDamageTrackable {
 
     private static final float TOLERANCE = 4;
 
@@ -28,6 +28,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
 
     protected int health;
     protected float timeSinceLastAttack = 0;
+    protected float timeSinceLastDamageTaken = 0;
 
     private boolean flipX;
     private float stateTime;
@@ -94,6 +95,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
 
     @Override
     public void update(float deltaTime) {
+        timeSinceLastDamageTaken += deltaTime;
         updateMovements(deltaTime);
 
         super.update(deltaTime);
@@ -233,5 +235,11 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
     @Override
     public void removeHitPoints(int damage) {
         health = Math.max(health - damage, 0);
+        timeSinceLastDamageTaken = 0;
+    }
+
+    @Override
+    public float timeSinceDamageLastTaken() {
+        return timeSinceLastDamageTaken;
     }
 }

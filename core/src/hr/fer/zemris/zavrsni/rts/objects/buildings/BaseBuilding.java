@@ -27,6 +27,8 @@ public class BaseBuilding extends Building {
 
     @Override
     public void update(float deltaTime) {
+        super.update(deltaTime);
+
         if (!trainingJobs.isEmpty()) {
             TrainingJob currentJob = trainingJobs.peek();
 

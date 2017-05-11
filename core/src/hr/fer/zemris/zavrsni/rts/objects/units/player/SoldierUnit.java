@@ -32,7 +32,6 @@ public class SoldierUnit extends PlayerUnit implements IBuildableUnit {
             for (HostileUnit unit : level.getHostileUnits()) {
                 float distance = AbstractGameObject.distanceBetween(this, unit);
                 if (distance < attackRange) {
-                    System.out.println("Attacking!");
                     unit.removeHitPoints(attackPower);
                     timeSinceLastAttack = 0;
                     break;

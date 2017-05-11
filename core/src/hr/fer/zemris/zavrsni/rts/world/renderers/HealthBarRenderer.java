@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.assets.AssetHealthBar;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
@@ -19,6 +20,7 @@ import hr.fer.zemris.zavrsni.rts.world.ILevel;
 public class HealthBarRenderer {
 
     private static final int HEALTH_BAR_HEIGHT = 5;
+    private static final float HIT_EFFECT_DURATION = 0.05f;
 
     private final IGameState gameState;
     private final AssetHealthBar healthBarAssets;
@@ -96,8 +98,15 @@ public class HealthBarRenderer {
         int maxHitPoints = damageable.getMaxHitPoints();
         int divisions = healthBarAssets.healthBars.size();
 
-        int healthBarIndex = Math.round((divisions  - 1) * hitPoints / (float) maxHitPoints);
-        AtlasRegion atlasRegion = healthBarAssets.healthBars.get(healthBarIndex);
+        AtlasRegion atlasRegion;
+        if (!(damageable instanceof IDamageTrackable) ||
+                ((IDamageTrackable) damageable).timeSinceDamageLastTaken() > HIT_EFFECT_DURATION) {
+
+            int healthBarIndex = Math.round((divisions  - 1) * hitPoints / (float) maxHitPoints);
+            atlasRegion = healthBarAssets.healthBars.get(healthBarIndex);
+        } else {
+            atlasRegion = healthBarAssets.healthBarHit;
+        }
 
         leftPointAboveObject.set(position.x, position.y + dimension.y, 0);
         rightPointAboveObject.set(position.x + dimension.x, position.y + dimension.y, 0);

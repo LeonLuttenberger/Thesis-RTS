@@ -1,6 +1,5 @@
 package hr.fer.zemris.zavrsni.rts.world.controllers;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
@@ -20,14 +19,12 @@ import java.util.function.Predicate;
 
 public class WorldController implements IWorldController {
 
-    private final Game game;
     private final IGameState gameState;
 
     private boolean isPaused = false;
     private boolean wasPausedLastUpdate = false;
 
-    public WorldController(Game game, ILevel level) {
-        this.game = game;
+    public WorldController(ILevel level) {
 
         this.gameState = new GameState();
         this.gameState.setLevel(level);

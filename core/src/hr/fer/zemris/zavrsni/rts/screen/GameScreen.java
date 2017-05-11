@@ -60,7 +60,7 @@ public class GameScreen extends AbstractGameScreen {
         ILevel level = new Level(tiledMap);
 
         batch = new SpriteBatch();
-        controller = new WorldController(game, level);
+        controller = new WorldController(level);
         renderer = new WorldRenderer(controller, tiledMap, batch);
 
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
