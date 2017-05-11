@@ -59,12 +59,9 @@ public class Squad implements IUpdatable {
             squadMembers.forEach(functionApplyCohesion);
             squadMembers.forEach(functionApplyAlignment);
             squadMembers.forEach(functionApplySquadSeparation);
-
-            // TODO make the leader avoid bumping into aliens
-            squadMembers.forEach(functionApplyEnemySeparation);
         }
 
-//        squadMembers.forEach(functionApplyEnemySeparation);
+        squadMembers.forEach(functionApplyEnemySeparation);
         squadMembers.forEach(functionApplyTerrainSeparation);
     }
 
@@ -112,17 +109,17 @@ public class Squad implements IUpdatable {
     private void applySquadSeparation(Unit unit) {
         float dx = 0, dy = 0;
 
-        for (Unit squadMember : squadMembers) {
-            if (unit == squadMember) continue;
+        for (Unit otherUnit : level.getPlayerUnits()) {
+            if (unit == otherUnit) continue;
 
             float unitRadius = Math.max(unit.getDimension().x, unit.getDimension().y) / 2f;
-            float otherUnitRadius = Math.max(squadMember.getDimension().x, squadMember.getDimension().y) / 2f;
+            float otherUnitRadius = Math.max(otherUnit.getDimension().x, otherUnit.getDimension().y) / 2f;
 
             float detectionLimit = unitRadius + otherUnitRadius + SQUADMATE_DETECTION_LIMIT_INCREASE;
-            float distance = distanceBetween(unit, squadMember);
+            float distance = distanceBetween(unit, otherUnit);
             if (distance <= detectionLimit) {
-                dx -= (squadMember.getCenterX() - unit.getCenterX());
-                dy -= (squadMember.getCenterY() - unit.getCenterY());
+                dx -= (otherUnit.getCenterX() - unit.getCenterX());
+                dy -= (otherUnit.getCenterY() - unit.getCenterY());
             }
         }
 
