@@ -57,16 +57,8 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
         this.health = maxHealth;
     }
 
-    public final float getDefaultSpeed() {
-        return defaultSpeed;
-    }
-
     public float getAttackRange() {
         return attackRange;
-    }
-
-    public int getAttackPower() {
-        return attackPower;
     }
 
     @Override

@@ -18,7 +18,6 @@ public class BaseBuilding extends Building {
     private static final int MAX_HIT_POINTS = 1000;
 
     private static final int TRAINING_INCREMENT = 1;
-
     private Queue<TrainingJob> trainingJobs = new ArrayDeque<>();
 
     public BaseBuilding(ILevel level) {

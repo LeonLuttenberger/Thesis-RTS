@@ -12,6 +12,8 @@ final class AssetConstants {
     static final String HEALTH_BAR_HIT_REGION_NAME = "health_bar_hit";
 
     static final String MANUFACTORY_REGION_NAME = "manufactory";
+    static final String GENERATOR_REGION_NAME = "generator";
+
     static final String BOULDER_REGION_NAME = "boulder";
     static final String MINERAL_REGION_NAME = "minerals";
 }

@@ -5,8 +5,8 @@ import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public class AlienBugUnit extends HostileUnit {
 
-    private static final int UNIT_WIDTH = 48;
-    private static final int UNIT_HEIGHT = 48;
+    private static final int UNIT_WIDTH = 32;
+    private static final int UNIT_HEIGHT = 32;
     private static final float DEFAULT_SPEED = 200;
     private static final int MAX_HEALTH = 200;
     private static final int ATTACK_RANGE = 30;
