@@ -1,5 +1,6 @@
-package hr.fer.zemris.zavrsni.rts.pathfinding.impl;
+package hr.fer.zemris.zavrsni.rts.util;
 
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public final class LevelUtils {
@@ -28,5 +29,12 @@ public final class LevelUtils {
         if (position.x <= 0) return false;
         if (level.getTileModifier(position.x - 1, position.y) <= 0) return false;
         return true;
+    }
+
+    public static MapTile getMapTile(ILevel level, float x, float y) {
+        return new MapTile(
+                (int) (x / level.getTileWidth()),
+                (int) (y / level.getTileHeight())
+        );
     }
 }

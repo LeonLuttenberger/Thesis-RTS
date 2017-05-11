@@ -5,16 +5,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public abstract class Building extends AbstractGameObject implements IUpdatable, IDamageable {
 
     private final TextureRegion region;
+    protected final ILevel level;
 
     protected final int maxHitPoints;
     protected int currentHitPoints;
 
-    public Building(TextureRegion region, float width, float height, int maxHitPoints) {
+    public Building(TextureRegion region, ILevel level, float width, float height, int maxHitPoints) {
         this.region = region;
+        this.level = level;
         this.dimension.set(width, height);
 
         this.maxHitPoints = maxHitPoints;

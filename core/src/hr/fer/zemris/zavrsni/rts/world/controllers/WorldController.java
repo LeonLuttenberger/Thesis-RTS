@@ -4,8 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.world.GameState;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
@@ -62,6 +64,12 @@ public class WorldController implements IWorldController {
         ILevel level = gameState.getLevel();
         for (Unit unit : level.getPlayerUnits()) {
             unit.update(deltaTime);
+        }
+        for (HostileUnit unit : level.getHostileUnits()) {
+            unit.update(deltaTime);
+        }
+        for (Building building : level.getBuildings()) {
+            building.update(deltaTime);
         }
 
         removeDeadUnits();

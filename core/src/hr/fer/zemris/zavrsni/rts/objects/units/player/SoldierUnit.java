@@ -2,10 +2,11 @@ package hr.fer.zemris.zavrsni.rts.objects.units.player;
 
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
+import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public class SoldierUnit extends PlayerUnit {
+public class SoldierUnit extends PlayerUnit implements IBuildableUnit {
 
     private static final int UNIT_WIDTH = 48;
     private static final int UNIT_HEIGHT = 48;
@@ -14,6 +15,7 @@ public class SoldierUnit extends PlayerUnit {
     private static final int ATTACK_RANGE = 150;
     private static final int ATTACK_POWER = 10;
     private static final float ATTACK_COOLDOWN = 1;
+    private static final int TRAINING_COST = 1000;
 
     public SoldierUnit(ILevel level) {
         super(Assets.getInstance().getUnits().soldierAnimation, level, UNIT_WIDTH, UNIT_HEIGHT,
@@ -42,5 +44,10 @@ public class SoldierUnit extends PlayerUnit {
     @Override
     public boolean isSupport() {
         return false;
+    }
+
+    @Override
+    public int getTrainingCost() {
+        return TRAINING_COST;
     }
 }

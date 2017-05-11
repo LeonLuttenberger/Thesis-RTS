@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
@@ -66,6 +68,7 @@ public class GameScreen extends AbstractGameScreen {
         camera.update();
 
         inputController = new InputController(dragBoxRenderer, camera, controller);
+        inputController.setOnBuildingSelected(b -> ((BaseBuilding) b).buildUnit(SoldierUnit::new));
 
         healthBarRenderer = new HealthBarRenderer(controller.getGameState());
     }

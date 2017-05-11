@@ -6,10 +6,12 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.SimpleBuilding;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
+
+import java.util.function.Consumer;
 
 public class InputController extends InputAdapter {
 
@@ -17,12 +19,18 @@ public class InputController extends InputAdapter {
     private OrthographicCamera camera;
     private IWorldController controller;
 
+    private Consumer<Building> onBuildingSelected;
+
     private Building newBuilding;
 
     public InputController(DragBoxRenderer dragBoxRenderer, OrthographicCamera camera, IWorldController controller) {
         this.dragBoxRenderer = dragBoxRenderer;
         this.camera = camera;
         this.controller = controller;
+    }
+
+    public void setOnBuildingSelected(Consumer<Building> onBuildingSelected) {
+        this.onBuildingSelected = onBuildingSelected;
     }
 
     public void handleInput(float deltaTime) {
@@ -109,6 +117,17 @@ public class InputController extends InputAdapter {
             if (newBuilding != null) {
                 controller.getGameState().getLevel().addBuilding(newBuilding);
                 newBuilding = null;
+            } else {
+                // select existing building
+                Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
+                for (Building building : controller.getGameState().getLevel().getBuildings()) {
+                    if (building.containsPoint(position.x, position.y)) {
+                        if (onBuildingSelected != null) {
+                            onBuildingSelected.accept(building);
+                        }
+                        break;
+                    }
+                }
             }
 
         } else if (button == Input.Buttons.RIGHT) {
@@ -122,7 +141,7 @@ public class InputController extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Keys.B) {
-            newBuilding = new SimpleBuilding(); //TODO
+            newBuilding = new BaseBuilding(controller.getGameState().getLevel()); //TODO
             mouseMoved(Gdx.input.getX(), Gdx.input.getY());
         } else if (keycode == Keys.ESCAPE) {
             newBuilding = null;

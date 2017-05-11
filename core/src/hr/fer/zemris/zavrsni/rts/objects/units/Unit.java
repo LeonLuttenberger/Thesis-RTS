@@ -10,6 +10,7 @@ import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.RTAAStarMapSearchAgent;
+import hr.fer.zemris.zavrsni.rts.util.LevelUtils;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public abstract class Unit extends AbstractMovableObject implements IDamageable {
@@ -181,10 +182,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageable 
     }
 
     private MapTile getMapTile(float x, float y) {
-        return new MapTile(
-                (int) (x / level.getTileWidth()),
-                (int) (y / level.getTileHeight())
-        );
+        return LevelUtils.getMapTile(level, x, y);
     }
 
     private MapTile getCurrentMapTile() {

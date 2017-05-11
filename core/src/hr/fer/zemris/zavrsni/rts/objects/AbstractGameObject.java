@@ -53,6 +53,15 @@ public abstract class AbstractGameObject {
         position.y = y - dimension.y / 2;
     }
 
+    public final boolean containsPoint(float x, float y) {
+        if (x < position.x) return false;
+        if (y < position.y) return false;
+        if (x > position.x + dimension.x) return false;
+        if (y > position.y + dimension.y) return false;
+
+        return true;
+    }
+
     public static float distanceBetween(AbstractGameObject o1, AbstractGameObject o2) {
         return distanceBetween(o1.getCenterX(), o1.getCenterY(), o2.getCenterX(), o2.getCenterY());
     }
