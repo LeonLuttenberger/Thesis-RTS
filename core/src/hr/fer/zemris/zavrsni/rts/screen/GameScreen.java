@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
@@ -26,7 +27,6 @@ import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.Level;
-import hr.fer.zemris.zavrsni.rts.world.controllers.IWorldController;
 import hr.fer.zemris.zavrsni.rts.world.controllers.InputController;
 import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
@@ -37,7 +37,7 @@ public class GameScreen extends AbstractGameScreen {
 
     private static float RESOURCE_BAR_HEIGHT = 20;
 
-    private IWorldController controller;
+    private WorldController controller;
     private WorldRenderer renderer;
 
     private OrthographicCamera camera;
@@ -78,10 +78,13 @@ public class GameScreen extends AbstractGameScreen {
         Table tableDebug = buildDebugDisplay();
         Table resourceBar = buildResourceBar();
 
-        // assemble stage for menu screen
+        Stack stack = new Stack();
+        stack.setSize(stageUI.getWidth(), stageUI.getHeight());
+        stack.addActor(tableDebug);
+
         stageUI.clear();
+        stageUI.addActor(stack);
         stageUI.addActor(resourceBar);
-        stageUI.addActor(tableDebug);
     }
 
     private Table buildDebugDisplay() {
@@ -89,7 +92,7 @@ public class GameScreen extends AbstractGameScreen {
 
         float screenWidth = stageUI.getWidth();
         float screenHeight = stageUI.getHeight();
-        table.setBounds(0, 0, screenWidth, screenHeight - RESOURCE_BAR_HEIGHT);
+        table.setBounds(0, screenHeight - RESOURCE_BAR_HEIGHT, screenWidth, RESOURCE_BAR_HEIGHT);
 
         if (gameSettings.showFPSCounter()) {
             labelFPS = new Label("", uiSkin);
@@ -136,7 +139,6 @@ public class GameScreen extends AbstractGameScreen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
-        renderer.setGhostNewBuilding(inputController.getNewBuilding());
         renderer.setView(camera);
         renderer.render();
 
@@ -211,7 +213,7 @@ public class GameScreen extends AbstractGameScreen {
         stageUI.dispose();
     }
 
-    public IWorldController getController() {
+    public WorldController getController() {
         return controller;
     }
 }

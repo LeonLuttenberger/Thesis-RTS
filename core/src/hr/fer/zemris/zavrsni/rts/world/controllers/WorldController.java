@@ -2,6 +2,8 @@ package hr.fer.zemris.zavrsni.rts.world.controllers;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
+import hr.fer.zemris.zavrsni.rts.IUpdatable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
@@ -17,7 +19,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class WorldController implements IWorldController {
+public class WorldController implements Disposable, IUpdatable {
 
     private final IGameState gameState;
 
@@ -34,17 +36,14 @@ public class WorldController implements IWorldController {
         return gameState;
     }
 
-    @Override
     public void pause() {
         isPaused = true;
     }
 
-    @Override
     public void resume() {
         isPaused = false;
     }
 
-    @Override
     public void update(float deltaTime) {
         if (isPaused) {
             wasPausedLastUpdate = true;
@@ -126,7 +125,6 @@ public class WorldController implements IWorldController {
         }
     }
 
-    @Override
     public void sendSelectedUnitsTo(Vector3 destination) {
         Squad squad = gameState.createSquadFromSelected();
 

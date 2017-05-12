@@ -50,4 +50,6 @@ public interface ILevel {
     int getTileWidth();
 
     int getTileHeight();
+
+    void reset();
 }

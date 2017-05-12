@@ -10,6 +10,7 @@ import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class Level implements ILevel {
     private static final String PROP_KEY_BASE_X = "location_base_x";
     private static final String PROP_KEY_BASE_Y = "location_base_y";
 
+    private final TiledMap tiledMap;
+
     private final List<PlayerUnit> playerUnits = new ArrayList<>();
     private final List<HostileUnit> hostileUnits = new ArrayList<>();
     private final List<Building> buildings = new ArrayList<>();
@@ -42,6 +45,8 @@ public class Level implements ILevel {
     private final int tileHeight;
 
     public Level(TiledMap tiledMap) {
+        this.tiledMap = tiledMap;
+
         width = tiledMap.getProperties().get(PROP_KEY_WIDTH, Integer.class);
         height = tiledMap.getProperties().get(PROP_KEY_HEIGHT, Integer.class);
 
@@ -71,10 +76,10 @@ public class Level implements ILevel {
             Arrays.fill(rowTileModifiers, 1);
         }
 
-        initDefaultBases(tiledMap);
+        initDefaultMap();
     }
 
-    private void initDefaultBases(TiledMap tiledMap) {
+    private void initDefaultMap() {
         int baseLocationX = tiledMap.getProperties().get(PROP_KEY_BASE_X, Integer.class);
         int baseLocationY = height - tiledMap.getProperties().get(PROP_KEY_BASE_Y, Integer.class);
 
@@ -83,6 +88,15 @@ public class Level implements ILevel {
         base.setCenterY(baseLocationY * tileHeight + tileHeight / 2f);
 
         addBuilding(base);
+
+        spawnDefaultUnits(base);
+    }
+
+    private void spawnDefaultUnits(Building building) {
+        SoldierUnit soldier = new SoldierUnit(this);
+        soldier.getPosition().set(building.getPosition().x - tileWidth, building.getPosition().y);
+
+        addPlayerUnit(soldier);
     }
 
     @Override
@@ -236,5 +250,15 @@ public class Level implements ILevel {
     @Override
     public int getTileHeight() {
         return tileHeight;
+    }
+
+    @Override
+    public void reset() {
+        playerUnits.forEach(this::removePlayerUnit);
+        hostileUnits.forEach(this::removeHostileUnit);
+        buildings.forEach(this::removeBuilding);
+        resources.forEach(this::removeResource);
+
+        initDefaultMap();
     }
 }

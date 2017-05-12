@@ -1,9 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.world;
 
-import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
-import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
-import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 
 import java.util.ArrayList;
@@ -28,17 +25,7 @@ public class GameState implements IGameState {
         squads.clear();
 
         if (level != null) {
-            List<PlayerUnit> playerUnits = new ArrayList<>(level.getPlayerUnits());
-            playerUnits.forEach(level::removePlayerUnit);
-
-            List<HostileUnit> hostileUnits = new ArrayList<>(level.getHostileUnits());
-            hostileUnits.forEach(level::removeHostileUnit);
-
-            List<Building> buildings = new ArrayList<>(level.getBuildings());
-            buildings.forEach(level::removeBuilding);
-
-            List<Resource> resources = new ArrayList<>(level.getResources());
-            resources.forEach(level::removeResource);
+            level.reset();
         }
     }
 

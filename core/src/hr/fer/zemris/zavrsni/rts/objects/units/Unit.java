@@ -71,9 +71,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
         } else {
             frame = animation.getKeyFrame(stateTime);
             if (velocity.x < 0) {
-                //TODO
-//                flipX = true;
-                flipX = false;
+                flipX = true;
             } else if (velocity.x > 0) {
                 flipX = false;
             }

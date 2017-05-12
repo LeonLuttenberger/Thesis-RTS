@@ -5,16 +5,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
-import hr.fer.zemris.zavrsni.rts.world.controllers.IWorldController;
+import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
 
 public class WorldRenderer extends OrthogonalTiledMapRenderer {
 
-    private IWorldController controller;
+    private WorldController controller;
     private SpriteBatch spriteBatch;
 
     private Building ghostNewBuilding;
 
-    public WorldRenderer(IWorldController controller, TiledMap tiledMap, SpriteBatch spriteBatch) {
+    public WorldRenderer(WorldController controller, TiledMap tiledMap, SpriteBatch spriteBatch) {
         super(tiledMap, spriteBatch);
 
         this.controller = controller;
