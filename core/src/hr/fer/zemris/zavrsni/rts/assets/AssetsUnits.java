@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-import static hr.fer.zemris.zavrsni.rts.assets.AssetConstants.BUG_REGION_NAME;
-import static hr.fer.zemris.zavrsni.rts.assets.AssetConstants.SOLDIER_REGION_NAME;
-import static hr.fer.zemris.zavrsni.rts.assets.AssetConstants.WORKER_REGION_NAME;
+import static hr.fer.zemris.zavrsni.rts.assets.AssetNames.BUG;
+import static hr.fer.zemris.zavrsni.rts.assets.AssetNames.SOLDIER;
+import static hr.fer.zemris.zavrsni.rts.assets.AssetNames.WORKER;
 
 public class AssetsUnits {
 
@@ -18,13 +18,13 @@ public class AssetsUnits {
     public final Animation<TextureRegion> bugAnimation;
 
     public AssetsUnits(TextureAtlas atlas) {
-        Array<AtlasRegion> soldierRunning = atlas.findRegions(SOLDIER_REGION_NAME);
+        Array<AtlasRegion> soldierRunning = atlas.findRegions(SOLDIER);
         soldierAnimation = new Animation<>(1/60f, soldierRunning, PlayMode.LOOP);
 
-        Array<AtlasRegion> workerRunning = atlas.findRegions(WORKER_REGION_NAME);
+        Array<AtlasRegion> workerRunning = atlas.findRegions(WORKER);
         workerAnimation = new Animation<>(1 / 60f, workerRunning, PlayMode.LOOP);
 
-        Array<AtlasRegion> bugRunning = atlas.findRegions(BUG_REGION_NAME);
+        Array<AtlasRegion> bugRunning = atlas.findRegions(BUG);
         bugAnimation = new Animation<TextureRegion>(1 / 60f, bugRunning, PlayMode.LOOP);
     }
 }

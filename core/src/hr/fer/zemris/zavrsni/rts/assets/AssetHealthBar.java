@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static hr.fer.zemris.zavrsni.rts.assets.AssetConstants.HEALTH_BAR_HIT_REGION_NAME;
-import static hr.fer.zemris.zavrsni.rts.assets.AssetConstants.HEALTH_BAR_REGION_NAME;
+import static hr.fer.zemris.zavrsni.rts.assets.AssetNames.HEALTH_BAR;
+import static hr.fer.zemris.zavrsni.rts.assets.AssetNames.HEALTH_BAR_HIT;
 
 public class AssetHealthBar {
 
@@ -17,8 +17,8 @@ public class AssetHealthBar {
     public final AtlasRegion healthBarHit;
 
     public AssetHealthBar(TextureAtlas atlas) {
-        Array<AtlasRegion> regions = atlas.findRegions(HEALTH_BAR_REGION_NAME);
-        healthBarHit = atlas.findRegion(HEALTH_BAR_HIT_REGION_NAME);
+        Array<AtlasRegion> regions = atlas.findRegions(HEALTH_BAR);
+        healthBarHit = atlas.findRegion(HEALTH_BAR_HIT);
 
         List<AtlasRegion> list = new ArrayList<>();
         for (AtlasRegion region : regions) {

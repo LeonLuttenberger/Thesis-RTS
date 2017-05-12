@@ -8,6 +8,6 @@ public class AssetsIcons {
     public final TextureRegion minerals;
 
     public AssetsIcons(TextureAtlas atlas) {
-        minerals = atlas.findRegion(AssetConstants.MINERAL_REGION_NAME);
+        minerals = atlas.findRegion(AssetNames.ICON_MINERALS);
     }
 }

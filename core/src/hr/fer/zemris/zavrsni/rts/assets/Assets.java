@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Disposable;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 
 import static hr.fer.zemris.zavrsni.rts.util.Constants.TEXTURE_ATLAS_OBJECTS;
+import static hr.fer.zemris.zavrsni.rts.util.Constants.TEXTURE_ATLAS_UI;
 
 public final class Assets implements Disposable {
 
@@ -29,8 +30,10 @@ public final class Assets implements Disposable {
     private AssetsUnits units;
     private AssetsBuildings buildings;
     private AssetsResources resources;
+
     private AssetsIcons icons;
     private AssetHealthBar healthBar;
+    private AssetsUI assetsUI;
 
     private Skin uiSkin;
 
@@ -52,8 +55,9 @@ public final class Assets implements Disposable {
             Gdx.app.error(TAG, "Couldn't load asset '" + asset.fileName + "'", throwable);
         });
 
-        // load texture atlas
+        // load texture atlases
         assetManager.load(TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
+        assetManager.load(TEXTURE_ATLAS_UI, TextureAtlas.class);
 
         // start loading assets and wait until finished
         assetManager.finishLoading();
@@ -64,19 +68,22 @@ public final class Assets implements Disposable {
             Gdx.app.debug(TAG, "asset: " + a);
         }
 
-        TextureAtlas atlas = assetManager.get(TEXTURE_ATLAS_OBJECTS);
+        TextureAtlas objectsAtlas = assetManager.get(TEXTURE_ATLAS_OBJECTS);
+        TextureAtlas uiAtlas = assetManager.get(TEXTURE_ATLAS_UI);
 
         // enable texture filtering for pixel smoothing
-        for (Texture t : atlas.getTextures()) {
+        for (Texture t : objectsAtlas.getTextures()) {
             t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
         }
 
         // create game resource objects
-        units = new AssetsUnits(atlas);
-        buildings = new AssetsBuildings(atlas);
-        resources = new AssetsResources(atlas);
-        icons = new AssetsIcons(atlas);
-        healthBar = new AssetHealthBar(atlas);
+        units = new AssetsUnits(objectsAtlas);
+        buildings = new AssetsBuildings(objectsAtlas);
+        resources = new AssetsResources(objectsAtlas);
+
+        icons = new AssetsIcons(uiAtlas);
+        healthBar = new AssetHealthBar(uiAtlas);
+        assetsUI = new AssetsUI(uiAtlas);
 
         uiSkin = new Skin(
                 Gdx.files.internal(Constants.SKIN_LIBGDX_UI),
@@ -107,6 +114,10 @@ public final class Assets implements Disposable {
 
     public AssetHealthBar getHealthBar() {
         return healthBar;
+    }
+
+    public AssetsUI getAssetsUI() {
+        return assetsUI;
     }
 
     public Skin getUiSkin() {
