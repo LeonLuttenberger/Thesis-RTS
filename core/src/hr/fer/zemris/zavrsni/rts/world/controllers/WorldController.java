@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.world.controllers;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
@@ -13,6 +14,7 @@ import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.world.GameState;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
+import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +24,16 @@ import java.util.function.Predicate;
 public class WorldController implements Disposable, IUpdatable {
 
     private final IGameState gameState;
+    private final InputController inputController;
 
     private boolean isPaused = false;
     private boolean wasPausedLastUpdate = false;
 
-    public WorldController(ILevel level) {
-
+    public WorldController(ILevel level, OrthographicCamera camera, DragBoxRenderer dragBoxRenderer) {
         this.gameState = new GameState();
         this.gameState.setLevel(level);
+
+        this.inputController = new InputController(dragBoxRenderer, camera, this);
     }
 
     public IGameState getGameState() {
@@ -52,6 +56,8 @@ public class WorldController implements Disposable, IUpdatable {
 
         deltaTime = wasPausedLastUpdate ? 0 : deltaTime;
         wasPausedLastUpdate = false;
+
+        inputController.handleInput(deltaTime);
 
         for (Squad squad : gameState.getSquads()) {
             squad.update(deltaTime);
@@ -135,5 +141,9 @@ public class WorldController implements Disposable, IUpdatable {
 
     @Override
     public void dispose() {
+    }
+
+    public InputController getInputController() {
+        return inputController;
     }
 }

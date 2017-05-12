@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetsUI {
 
-    private final TextureRegion backgroundImage;
-    private final TextureRegion backgroundTexture;
+    public final TextureRegion backgroundImage;
+    public final TextureRegion backgroundTexture;
 
     public AssetsUI(TextureAtlas atlas) {
         backgroundImage = atlas.findRegion(AssetNames.WALLPAPER);

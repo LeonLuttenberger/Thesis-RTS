@@ -9,24 +9,16 @@ import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
-import java.util.function.Consumer;
-
 public class InputController extends InputAdapter {
 
     private DragBoxRenderer dragBoxRenderer;
     private OrthographicCamera camera;
     private WorldController controller;
 
-    private Consumer<Building> onBuildingSelected;
-
     public InputController(DragBoxRenderer dragBoxRenderer, OrthographicCamera camera, WorldController controller) {
         this.dragBoxRenderer = dragBoxRenderer;
         this.camera = camera;
         this.controller = controller;
-    }
-
-    public void setOnBuildingSelected(Consumer<Building> onBuildingSelected) {
-        this.onBuildingSelected = onBuildingSelected;
     }
 
     public void handleInput(float deltaTime) {
@@ -126,9 +118,7 @@ public class InputController extends InputAdapter {
             Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
             for (Building building : controller.getGameState().getLevel().getBuildings()) {
                 if (building.containsPoint(position.x, position.y)) {
-                    if (onBuildingSelected != null) {
-                        onBuildingSelected.accept(building);
-                    }
+                    // TODO
                     break;
                 }
             }

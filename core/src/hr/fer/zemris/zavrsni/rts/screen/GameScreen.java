@@ -17,17 +17,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
-import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.Level;
-import hr.fer.zemris.zavrsni.rts.world.controllers.InputController;
 import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 import hr.fer.zemris.zavrsni.rts.world.renderers.HealthBarRenderer;
@@ -42,7 +40,6 @@ public class GameScreen extends AbstractGameScreen {
 
     private OrthographicCamera camera;
 
-    private InputController inputController;
     private DragBoxRenderer dragBoxRenderer = new DragBoxRenderer();
     private HealthBarRenderer healthBarRenderer;
 
@@ -58,16 +55,13 @@ public class GameScreen extends AbstractGameScreen {
         TiledMap tiledMap = new TmxMapLoader().load(Constants.TILED_MAP_TMX);
         ILevel level = new Level(tiledMap);
 
-        SpriteBatch batch = new SpriteBatch();
-        controller = new WorldController(level);
-        renderer = new WorldRenderer(controller, tiledMap, batch);
-
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.translate(level.getWidth() * level.getTileWidth() / 2, level.getHeight() * level.getTileHeight() / 2);
         camera.update();
 
-        inputController = new InputController(dragBoxRenderer, camera, controller);
-        inputController.setOnBuildingSelected(b -> ((BaseBuilding) b).buildUnit(SoldierUnit::new));
+        SpriteBatch batch = new SpriteBatch();
+        controller = new WorldController(level, camera, dragBoxRenderer);
+        renderer = new WorldRenderer(controller, tiledMap, batch);
 
         healthBarRenderer = new HealthBarRenderer(controller.getGameState());
     }
@@ -77,6 +71,7 @@ public class GameScreen extends AbstractGameScreen {
 
         Table tableDebug = buildDebugDisplay();
         Table resourceBar = buildResourceBar();
+        Table infoBar = buildInfoBar();
 
         Stack stack = new Stack();
         stack.setSize(stageUI.getWidth(), stageUI.getHeight());
@@ -85,6 +80,7 @@ public class GameScreen extends AbstractGameScreen {
         stageUI.clear();
         stageUI.addActor(stack);
         stageUI.addActor(resourceBar);
+        stageUI.addActor(infoBar);
     }
 
     private Table buildDebugDisplay() {
@@ -122,9 +118,25 @@ public class GameScreen extends AbstractGameScreen {
         return table;
     }
 
+    private Table buildInfoBar() {
+        Window window = new Window("", uiSkin);
+
+        Image image = new Image(Assets.getInstance().getAssetsUI().backgroundTexture);
+        window.setBackground(image.getDrawable());
+
+        float screenWidth = stageUI.getWidth();
+        float screenHeight = stageUI.getHeight();
+
+        window.setBounds(
+                screenWidth / 6, 0,
+                2 * screenWidth / 3, screenHeight / 6
+        );
+
+        return window;
+    }
+
     @Override
     public void render(float deltaTime) {
-        inputController.handleInput(deltaTime);
         controller.update(deltaTime);
 
         // Sets the clear screen color to: Cornflower Blue
@@ -191,7 +203,7 @@ public class GameScreen extends AbstractGameScreen {
         healthBarRenderer.setEnabledForResources(gameSettings.showResourceHealthBars());
 
         stageUI = new Stage(new StretchViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT));
-        InputMultiplexer inputMultiplexer = new InputMultiplexer(stageUI, inputController);
+        InputMultiplexer inputMultiplexer = new InputMultiplexer(stageUI, controller.getInputController());
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         inputMultiplexer.addProcessor(new InputAdapter() {

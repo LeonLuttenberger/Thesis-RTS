@@ -72,14 +72,14 @@ public class Level implements ILevel {
         }
 
         additionalTileModifiers = new float[width][height];
-        for (float[] rowTileModifiers : additionalTileModifiers) {
-            Arrays.fill(rowTileModifiers, 1);
-        }
-
         initDefaultMap();
     }
 
     private void initDefaultMap() {
+        for (float[] rowTileModifiers : additionalTileModifiers) {
+            Arrays.fill(rowTileModifiers, 1);
+        }
+
         int baseLocationX = tiledMap.getProperties().get(PROP_KEY_BASE_X, Integer.class);
         int baseLocationY = height - tiledMap.getProperties().get(PROP_KEY_BASE_Y, Integer.class);
 
@@ -87,6 +87,7 @@ public class Level implements ILevel {
         base.setCenterX(baseLocationX * tileWidth + tileWidth / 2f);
         base.setCenterY(baseLocationY * tileHeight + tileHeight / 2f);
 
+        base.addHitPoints(base.getMaxHitPoints());
         addBuilding(base);
 
         spawnDefaultUnits(base);
@@ -254,10 +255,10 @@ public class Level implements ILevel {
 
     @Override
     public void reset() {
-        playerUnits.forEach(this::removePlayerUnit);
-        hostileUnits.forEach(this::removeHostileUnit);
-        buildings.forEach(this::removeBuilding);
-        resources.forEach(this::removeResource);
+        playerUnits.clear();
+        hostileUnits.clear();
+        buildings.clear();
+        resources.clear();
 
         initDefaultMap();
     }
