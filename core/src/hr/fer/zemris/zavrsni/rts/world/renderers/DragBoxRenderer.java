@@ -43,6 +43,11 @@ public class DragBoxRenderer {
         }
     }
 
+    public void resize(int width, int height) {
+        shapeRenderer.getProjectionMatrix().setToOrtho2D(0, height, width, -height);
+        shapeRenderer.updateMatrices();
+    }
+
     public int getX() {
         return (int) rectangle.x;
     }

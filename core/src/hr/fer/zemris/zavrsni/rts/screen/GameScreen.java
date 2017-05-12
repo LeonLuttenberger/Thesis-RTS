@@ -40,7 +40,6 @@ public class GameScreen extends AbstractGameScreen {
     private IWorldController controller;
     private WorldRenderer renderer;
 
-    private SpriteBatch batch;
     private OrthographicCamera camera;
 
     private InputController inputController;
@@ -59,7 +58,7 @@ public class GameScreen extends AbstractGameScreen {
         TiledMap tiledMap = new TmxMapLoader().load(Constants.TILED_MAP_TMX);
         ILevel level = new Level(tiledMap);
 
-        batch = new SpriteBatch();
+        SpriteBatch batch = new SpriteBatch();
         controller = new WorldController(level);
         renderer = new WorldRenderer(controller, tiledMap, batch);
 
@@ -83,7 +82,6 @@ public class GameScreen extends AbstractGameScreen {
         stageUI.clear();
         stageUI.addActor(resourceBar);
         stageUI.addActor(tableDebug);
-//        stageUI.setDebugAll(true);
     }
 
     private Table buildDebugDisplay() {
@@ -176,6 +174,8 @@ public class GameScreen extends AbstractGameScreen {
         camera.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
         camera.update();
 
+        dragBoxRenderer.resize(width, height);
+        healthBarRenderer.resize(width, height);
         stageUI.getViewport().update(width, height, true);
     }
 

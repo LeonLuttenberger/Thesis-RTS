@@ -90,6 +90,10 @@ public class HealthBarRenderer {
         batch.end();
     }
 
+    public void resize(int width, int height) {
+        batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+    }
+
     private final Vector3 leftPointAboveObject = new Vector3();
     private final Vector3 rightPointAboveObject = new Vector3();
 

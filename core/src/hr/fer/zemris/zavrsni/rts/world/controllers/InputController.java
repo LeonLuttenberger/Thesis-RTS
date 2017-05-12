@@ -2,12 +2,13 @@ package hr.fer.zemris.zavrsni.rts.world.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.GeneratorBuilding;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
@@ -84,11 +85,22 @@ public class InputController extends InputAdapter {
         return newBuilding;
     }
 
+    private final Vector3 dragLast = new Vector3(-1, -1, -1);
+
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             dragBoxRenderer.handleTouchDrag(screenX, screenY);
         }
+
+        if (Gdx.input.isButtonPressed(Buttons.MIDDLE)) {
+            if (dragLast.x != -1 || dragLast.y != -1 || dragLast.z != -1) {
+                translateCamera(dragLast.x - screenX, screenY - dragLast.y);
+            }
+        }
+
+        dragLast.set(screenX, screenY, 0);
+
         return false;
     }
 
@@ -98,6 +110,11 @@ public class InputController extends InputAdapter {
             dragBoxRenderer.handleTouchUp();
             handleUnitSelection();
         }
+
+        if (button == Buttons.MIDDLE) {
+            dragLast.set(-1, -1, -1);
+        }
+
         return false;
     }
 
@@ -141,7 +158,7 @@ public class InputController extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Keys.B) {
-            newBuilding = new BaseBuilding(controller.getGameState().getLevel()); //TODO
+            newBuilding = new GeneratorBuilding(controller.getGameState().getLevel()); //TODO
             mouseMoved(Gdx.input.getX(), Gdx.input.getY());
         } else if (keycode == Keys.ESCAPE) {
             newBuilding = null;

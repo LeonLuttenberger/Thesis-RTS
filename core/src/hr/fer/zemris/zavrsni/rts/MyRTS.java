@@ -63,4 +63,10 @@ public class MyRTS extends Game {
 		Assets.getInstance().dispose();
 		cheatConsole.dispose();
 	}
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		cheatConsole.refresh();
+	}
 }
