@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
@@ -17,6 +18,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class Level implements ILevel {
+
+    private static final String PROP_KEY_WIDTH = "width";
+    private static final String PROP_KEY_HEIGHT = "height";
+    private static final String PROP_KEY_MOFIDIER = "modifier";
+    private static final String PROP_KEY_TILE_WIDTH = "tilewidth";
+    private static final String PROP_KEY_TILE_HEIGHT = "tileheight";
+    private static final String PROP_KEY_BASE_X = "location_base_x";
+    private static final String PROP_KEY_BASE_Y = "location_base_y";
 
     private final List<PlayerUnit> playerUnits = new ArrayList<>();
     private final List<HostileUnit> hostileUnits = new ArrayList<>();
@@ -33,8 +42,8 @@ public class Level implements ILevel {
     private final int tileHeight;
 
     public Level(TiledMap tiledMap) {
-        width = tiledMap.getProperties().get("width", Integer.class);
-        height = tiledMap.getProperties().get("height", Integer.class);
+        width = tiledMap.getProperties().get(PROP_KEY_WIDTH, Integer.class);
+        height = tiledMap.getProperties().get(PROP_KEY_HEIGHT, Integer.class);
 
         defaultTileModifiers = new float[width][height];
         objectMap = new AbstractGameObject[width][height];
@@ -43,12 +52,12 @@ public class Level implements ILevel {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                defaultTileModifiers[i][j] = mapLayer.getCell(i, j).getTile().getProperties().get("modifier", Float.class);
+                defaultTileModifiers[i][j] = mapLayer.getCell(i, j).getTile().getProperties().get(PROP_KEY_MOFIDIER, Float.class);
             }
         }
 
-        tileWidth = tiledMap.getProperties().get("tilewidth", Integer.class);
-        tileHeight = tiledMap.getProperties().get("tileheight", Integer.class);
+        tileWidth = tiledMap.getProperties().get(PROP_KEY_TILE_WIDTH, Integer.class);
+        tileHeight = tiledMap.getProperties().get(PROP_KEY_TILE_HEIGHT, Integer.class);
 
         if (tileWidth != Constants.TILE_WIDTH) {
             throw new RuntimeException("Tile width must be " + Constants.TILE_WIDTH);
@@ -61,6 +70,19 @@ public class Level implements ILevel {
         for (float[] rowTileModifiers : additionalTileModifiers) {
             Arrays.fill(rowTileModifiers, 1);
         }
+
+        initDefaultBases(tiledMap);
+    }
+
+    private void initDefaultBases(TiledMap tiledMap) {
+        int baseLocationX = tiledMap.getProperties().get(PROP_KEY_BASE_X, Integer.class);
+        int baseLocationY = height - tiledMap.getProperties().get(PROP_KEY_BASE_Y, Integer.class);
+
+        Building base = new BaseBuilding(this);
+        base.setCenterX(baseLocationX * tileWidth + tileWidth / 2f);
+        base.setCenterY(baseLocationY * tileHeight + tileHeight / 2f);
+
+        addBuilding(base);
     }
 
     @Override

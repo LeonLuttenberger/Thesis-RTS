@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" nextobjectid="6">
+ <properties>
+  <property name="location_base_x" type="int" value="28"/>
+  <property name="location_base_y" type="int" value="7"/>
+  <property name="location_enemy_base_x" type="int" value="9"/>
+  <property name="location_enemy_base_y" type="int" value="33"/>
+ </properties>
  <tileset firstgid="1" name="Desert" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="48" columns="8">
   <image source="tmw_desert_spacing.png" width="265" height="199"/>
   <terraintypes>
@@ -10,17 +16,17 @@
   </terraintypes>
   <tile id="0" terrain="0,0,0,1">
    <properties>
-    <property name="modifier" type="float" value="0.75"/>
+    <property name="modifier" type="float" value="0"/>
    </properties>
   </tile>
   <tile id="1" terrain="0,0,1,1">
    <properties>
-    <property name="modifier" type="float" value="0.75"/>
+    <property name="modifier" type="float" value="0"/>
    </properties>
   </tile>
   <tile id="2" terrain="0,0,1,0">
    <properties>
-    <property name="modifier" type="float" value="0.75"/>
+    <property name="modifier" type="float" value="0"/>
    </properties>
   </tile>
   <tile id="3" terrain="3,3,3,0">
@@ -50,17 +56,17 @@
   </tile>
   <tile id="8" terrain="0,1,0,1">
    <properties>
-    <property name="modifier" type="float" value="0.75"/>
+    <property name="modifier" type="float" value="0"/>
    </properties>
   </tile>
   <tile id="9" terrain="1,1,1,1">
    <properties>
-    <property name="modifier" type="float" value="1"/>
+    <property name="modifier" type="float" value="0"/>
    </properties>
   </tile>
   <tile id="10" terrain="1,0,1,0">
    <properties>
-    <property name="modifier" type="float" value="0.75"/>
+    <property name="modifier" type="float" value="0"/>
    </properties>
   </tile>
   <tile id="11" terrain="3,0,3,3">
@@ -90,17 +96,17 @@
   </tile>
   <tile id="16" terrain="0,1,0,0">
    <properties>
-    <property name="modifier" type="float" value="0.75"/>
+    <property name="modifier" type="float" value="0"/>
    </properties>
   </tile>
   <tile id="17" terrain="1,1,0,0">
    <properties>
-    <property name="modifier" type="float" value="0.75"/>
+    <property name="modifier" type="float" value="0"/>
    </properties>
   </tile>
   <tile id="18" terrain="1,0,0,0">
    <properties>
-    <property name="modifier" type="float" value="0.75"/>
+    <property name="modifier" type="float" value="0"/>
    </properties>
   </tile>
   <tile id="19" terrain="1,1,1,0">
@@ -130,17 +136,17 @@
   </tile>
   <tile id="24" terrain="0,0,0,2">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="0.75"/>
    </properties>
   </tile>
   <tile id="25" terrain="0,0,2,2">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="0.75"/>
    </properties>
   </tile>
   <tile id="26" terrain="0,0,2,0">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="0.75"/>
    </properties>
   </tile>
   <tile id="27" terrain="1,0,1,1">
@@ -170,27 +176,27 @@
   </tile>
   <tile id="32" terrain="0,2,0,2">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="0.75"/>
    </properties>
   </tile>
   <tile id="33" terrain="2,2,2,2">
    <properties>
-    <property name="modifier" type="float" value="0.7"/>
+    <property name="modifier" type="float" value="1"/>
    </properties>
   </tile>
   <tile id="34" terrain="2,0,2,0">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="0.75"/>
    </properties>
   </tile>
   <tile id="35" terrain="2,2,2,0">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="1"/>
    </properties>
   </tile>
   <tile id="36" terrain="2,2,0,2">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="1"/>
    </properties>
   </tile>
   <tile id="37" terrain="0,0,0,0" probability="0.01">
@@ -210,27 +216,27 @@
   </tile>
   <tile id="40" terrain="0,2,0,0">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="0.75"/>
    </properties>
   </tile>
   <tile id="41" terrain="2,2,0,0">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="0.75"/>
    </properties>
   </tile>
   <tile id="42" terrain="2,0,0,0">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="0.75"/>
    </properties>
   </tile>
   <tile id="43" terrain="2,0,2,2">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="1"/>
    </properties>
   </tile>
   <tile id="44" terrain="0,2,2,2">
    <properties>
-    <property name="modifier" type="float" value="0"/>
+    <property name="modifier" type="float" value="1"/>
    </properties>
   </tile>
   <tile id="45" terrain="0,0,0,0" probability="0">
@@ -251,7 +257,8 @@
  </tileset>
  <layer name="Terrain Layer" width="40" height="40">
   <data encoding="base64" compression="zlib">
-   eJztmNkKwjAQRaN9cAPrAq5Yq3Xf6v9/nSM2VIbQJjEZR+nDwQZScrwztoORECLySBcIgZ7nc2y4KfyWDLx+Jb9nViNgDEwY+KioAXUgQN4+zpoCMwPmQAtoAx2CLFbA2oDEo9+hwG8DnIDtF/2K8ks086Tw2zH0uyMv7HcRr/6/EvvhnsPrsrxwX7rwU/0ODig/eV3mh3N1ld8eraWPaX6+64s9McesfrqcHfg1MpoifxcVEWjukyw+9AtFPl/I71pER3Of6j4bv7HI54s+MChhqLlPdZ/P3qMmFuo5h5NnTOhjM5tReN2yT51n5/v7J3F0vi46fk+ne7aX0i9l6If7mpufTX3f5wsqv9TAD2fJLT9VrTn7UeZnM5tR+v0LMQOHXwFnxe2/warGFRWf8QDjOLfP
+   eJzNmOtOAjEQhasi4h013iBZV4yIt8D7P53dpJOcDNPptt1BfnwRCO0ez1w6pXHONYZcea49U+Pn5DL2nHgumb6XPdCGvhH74F/n2SS8fvA8Ak//pOnZM/PMg2fcp5WwpiTGlC+TzHWvnoXnLXhW6lNKc2mdoT7LOFG+0P8vxUXKM9S3y9qkeHMmweuL8Jr7t96RPt4fsE+g10PEV/KC1wHWx8Zt94dYn0jpS+UJ9nCtX0r1oe2t6esb41iMUAdpwJh1ny1hn6XyjBL/qI64vlEkTh9s/VLZO1ffRlmbe8ZwnX2w7n+zSn6Dvp/E9+aF+hY7otTfL2PeB4p/Se5Z5mfr5PNyaJ019dMa+kZ8hjh/h/d9Z4g2/D004Aieg+dm63RNUr89M+Ac9s+dK3k/vx2QewN9HOmsxflHm/9PQR/lNerjuS7FO6VP0oXzz1TZ5yb4eFfhn6adI80XdIavXXzGRvj9PBesL+6/Nl+MnTxXpua5XEr859pwbuMcV+rj9zaEz8FUOxj3UWRtn/2twLinnou/L9BnOTWq5WOTueeB2z4/Ss9f6Q6DeaXlSxfnlaAZ+19Kn3aniYF5pemLnfE5+kogfamcj2Gtr7bWNH2p+0mM3BzVvqvpK6XW85R/NJ+W0seXGn1DUvvbmIW+P00wq9o=
   </data>
  </layer>
+ <objectgroup name="Object Layer 1"/>
 </map>
