@@ -5,6 +5,7 @@
   <property name="location_base_y" type="int" value="7"/>
   <property name="location_enemy_base_x" type="int" value="9"/>
   <property name="location_enemy_base_y" type="int" value="33"/>
+  <property name="rocks" value="29,15;30,16;32,18;35,16;33,19"/>
  </properties>
  <tileset firstgid="1" name="Desert" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="48" columns="8">
   <image source="tmw_desert_spacing.png" width="265" height="199"/>
