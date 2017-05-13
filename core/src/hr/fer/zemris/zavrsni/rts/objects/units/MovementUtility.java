@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.objects.units;
 
+import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
@@ -10,12 +11,12 @@ import static hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject.distanceBetwe
 
 public final class MovementUtility {
 
-    static final float COHESION_WEIGHT = 1;
-    static final float ALIGNMENT_WEIGHT = 20;
-    static final float GOAL_WEIGHT = 1;
-    static final float SQUAD_SEPARATION_WEIGHT = 4;
-    static final float ENEMY_SEPARATION_WEIGHT = 100;
-    static final float TERRAIN_SEPARATION_WEIGHT = 10;
+    static final float COHESION_WEIGHT = 0.5f;
+    static final float ALIGNMENT_WEIGHT = 10;
+    static final float GOAL_WEIGHT = 0.5f;
+    static final float SQUAD_SEPARATION_WEIGHT = 1;
+    static final float ENEMY_SEPARATION_WEIGHT = 40;
+    static final float TERRAIN_SEPARATION_WEIGHT = 5;
 
     static final float SQUADMATE_DETECTION_LIMIT_INCREASE = 2;
     static final float SUPPORT_ENEMY_RANGE_INCREASE = 10;
@@ -107,6 +108,25 @@ public final class MovementUtility {
         adjacentTiles.add(new MapTile(x, y - 1));
 
         return adjacentTiles;
+    }
+
+    public static <T extends Unit> T closestUnit(AbstractGameObject object, List<T> unitsToCheck) {
+        return closestUnit(object.getCenterX(), object.getCenterY(), unitsToCheck);
+    }
+
+    public static <T extends Unit> T closestUnit(float x, float y, List<T> units) {
+        T closestUnit = null;
+        float minDistance = Float.POSITIVE_INFINITY;
+
+        for (T otherUnit : units) {
+            float distance = distanceBetween(otherUnit, x, y);
+            if (closestUnit == null || distance < minDistance) {
+                minDistance = distance;
+                closestUnit = otherUnit;
+            }
+        }
+
+        return closestUnit;
     }
 
     private MovementUtility() {}

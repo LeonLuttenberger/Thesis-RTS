@@ -9,7 +9,7 @@ public class WorkerUnit extends PlayerUnit {
 
     private static final int UNIT_WIDTH = 16;
     private static final int UNIT_HEIGHT = 32;
-    private static final float DEFAULT_SPEED = 200;
+    private static final float DEFAULT_SPEED = 100;
     private static final int MAX_HEALTH = 50;
     private static final float ATTACK_RANGE = 30;
     private static final int ATTACK_POWER = 1;
@@ -33,10 +33,10 @@ public class WorkerUnit extends PlayerUnit {
 
             if (Math.abs(dx) < horizontalDetectionLimit && Math.abs(dy) < verticalDetectionLimit) {
                 gatherResource();
-                velocity.setLength(0);
+                newVelocity.setLength(0);
             } else if (isSearchStopped()) {
-                velocity.set(dx, dy);
-                velocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed);
+                newVelocity.set(dx, dy);
+                newVelocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed);
             }
         }
 

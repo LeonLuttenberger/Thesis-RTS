@@ -55,7 +55,7 @@ public abstract class Projectile extends AbstractMovableObject {
     public void update(float deltaTime) {
         if (isUsedUp()) return;
 
-        if (AbstractGameObject.distanceBetween(this, destinationX, destinationY) < HIT_RADIUS) {
+        if (AbstractGameObject.distanceBetween(this, target) < HIT_RADIUS) {
             isUsedUp = true;
             if (target instanceof IDamageTrackable) {
                 ((IDamageTrackable) target).removeHitPoints(attackPower);

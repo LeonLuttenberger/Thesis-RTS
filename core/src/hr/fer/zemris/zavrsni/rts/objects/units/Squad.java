@@ -2,12 +2,13 @@ package hr.fer.zemris.zavrsni.rts.objects.units;
 
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
+import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-import static hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject.distanceBetween;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.ALIGNMENT_WEIGHT;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.COHESION_WEIGHT;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.GOAL_WEIGHT;
@@ -18,15 +19,23 @@ public class Squad implements IUpdatable {
     private final Consumer<PlayerUnit> functionApplyAlignment = this::applyAlignment;
 
     private final List<PlayerUnit> squadMembers;
+    private final ILevel level;
 
     private PlayerUnit squadLeader;
 
-    public Squad(List<PlayerUnit> squadMembers) {
+    public Squad(List<PlayerUnit> squadMembers, ILevel level) {
         this.squadMembers = squadMembers;
+        this.level = level;
     }
 
     @Override
     public void update(float deltaTime) {
+        squadMembers.removeIf(IDamageable::isDestroyed);
+        if (squadLeader.isDestroyed()) {
+            if (squadMembers.isEmpty()) return;
+            squadLeader.transferPathfindingTo(squadMembers.get(0));
+        }
+
         squadLeader.updateSearchAgent();
         if (squadLeader.isSearchStopped()) {
             for (Unit squadMember : squadMembers) {
@@ -42,6 +51,9 @@ public class Squad implements IUpdatable {
             }
             squadMembers.forEach(functionApplyCohesion);
             squadMembers.forEach(functionApplyAlignment);
+        }
+        for (PlayerUnit squadMember : squadMembers) {
+            MovementUtility.applyTerrainSeparation(squadMember, level);
         }
     }
 
@@ -95,22 +107,12 @@ public class Squad implements IUpdatable {
     public void sendToLocation(float x, float y) {
         stopSearch();
 
-        PlayerUnit closestUnit = null;
-        float minDistance = Float.POSITIVE_INFINITY;
-        for (PlayerUnit unit : squadMembers) {
-            float distance = distanceBetween(unit, x, y);
-            if (distance < minDistance) {
-                closestUnit = unit;
-                minDistance = distance;
-            }
-        }
-
-        squadLeader = closestUnit;
+        squadLeader = MovementUtility.closestUnit(x, y, squadMembers);
         squadLeader.sendToDestination(x, y);
     }
 
     public boolean isSearchStopped() {
-        return squadLeader.isSearchStopped();
+        return squadMembers.isEmpty() || squadLeader.isSearchStopped();
     }
 
     public void stopSearch() {

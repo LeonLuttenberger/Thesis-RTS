@@ -12,10 +12,10 @@ public class SoldierUnit extends PlayerUnit implements IBuildableUnit, IRangedUn
 
     private static final int UNIT_WIDTH = 32;
     private static final int UNIT_HEIGHT = 32;
-    private static final float DEFAULT_SPEED = 200;
+    private static final float DEFAULT_SPEED = 100;
     private static final int MAX_HEALTH = 300;
     private static final int ATTACK_RANGE = 150;
-    private static final int ATTACK_POWER = 10;
+    private static final int ATTACK_POWER = 20;
     private static final float ATTACK_COOLDOWN = 1;
     private static final int TRAINING_COST = 1000;
 

@@ -9,7 +9,7 @@ import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-import java.util.List;
+import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUnit;
 
 public abstract class PlayerUnit extends Unit {
 
@@ -29,7 +29,7 @@ public abstract class PlayerUnit extends Unit {
 
         if (!readyForAttack()) return;
 
-        Unit nearestEnemy = closestEnemyUnit(level.getHostileUnits());
+        HostileUnit nearestEnemy = closestUnit(this, level.getHostileUnits());
         if (nearestEnemy != null && distanceBetween(this, nearestEnemy) < attackRange) {
             resetAttackCooldown();
 
@@ -41,21 +41,6 @@ public abstract class PlayerUnit extends Unit {
                 nearestEnemy.removeHitPoints(attackPower);
             }
         }
-    }
-
-    private HostileUnit closestEnemyUnit(List<HostileUnit> enemyUnits) {
-        HostileUnit closestEnemy = null;
-        float minDistance = Float.POSITIVE_INFINITY;
-
-        for (HostileUnit enemy : enemyUnits) {
-            float distance = distanceBetween(this, enemy);
-            if (closestEnemy == null || distance < minDistance) {
-                minDistance = distance;
-                closestEnemy = enemy;
-            }
-        }
-
-        return closestEnemy;
     }
 
     @Override

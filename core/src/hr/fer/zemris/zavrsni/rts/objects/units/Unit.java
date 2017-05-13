@@ -33,10 +33,10 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
     private boolean flipX;
     private float stateTime;
 
-    private final ISearchAgent<MapTile> searchAgent;
+    private ISearchAgent<MapTile> searchAgent;
     private final Vector2 goalPosition = new Vector2();
     private final Vector2 currentGoal = new Vector2();
-    private final Vector2 newVelocity = new Vector2();
+    protected final Vector2 newVelocity = new Vector2();
     private MapTile goalTile;
     private MapTile waypointTile;
 
@@ -90,9 +90,6 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
 
     @Override
     public void update(float deltaTime) {
-        // apply terrain separation
-        MovementUtility.applyTerrainSeparation(this, level);
-
         velocity.set(newVelocity);
 
         timeSinceLastAttack += deltaTime;
@@ -168,10 +165,6 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
         }
     }
 
-    public void adjustDirection(Vector2 direction) {
-        newVelocity.add(direction);
-    }
-
     public void adjustDirection(float x, float y) {
         newVelocity.add(x, y);
     }
@@ -208,6 +201,15 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
 
         searchAgent.pathfind(getCurrentMapTile(), goalTile);
         waypointTile = searchAgent.update(getCurrentMapTile());
+    }
+
+    public void transferPathfindingTo(Unit other) {
+        other.goalPosition.set(this.goalPosition);
+        other.currentGoal.set(this.currentGoal);
+        other.goalTile = this.goalTile;
+
+        other.searchAgent = this.searchAgent;
+        other.waypointTile = this.waypointTile;
     }
 
     public boolean isSearchStopped() {
