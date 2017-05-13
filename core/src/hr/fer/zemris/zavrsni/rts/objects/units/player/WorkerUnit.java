@@ -25,8 +25,8 @@ public class WorkerUnit extends PlayerUnit {
     @Override
     public void update(float deltaTime) {
         if (targetResource != null) {
-            float dx = getCenterX() - targetResource.getCenterX();
-            float dy = getCenterY() - targetResource.getCenterY();
+            float dx = targetResource.getCenterX() - getCenterX();
+            float dy = targetResource.getCenterY() - getCenterY();
 
             float horizontalDetectionLimit = (targetResource.getDimension().x + dimension.x) / 2 + 20;
             float verticalDetectionLimit = (targetResource.getDimension().y + dimension.y) / 2 + 20;
@@ -36,7 +36,7 @@ public class WorkerUnit extends PlayerUnit {
                 velocity.setLength(0);
             } else if (isSearchStopped()) {
                 velocity.set(dx, dy);
-                velocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()));
+                velocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed);
             }
         }
 
@@ -49,6 +49,8 @@ public class WorkerUnit extends PlayerUnit {
 
     @Override
     public void sendToDestination(float x, float y) {
+        targetResource = null;
+
         int tileX = (int) (x / level.getTileWidth());
         int tileY = (int) (y / level.getTileHeight());
 

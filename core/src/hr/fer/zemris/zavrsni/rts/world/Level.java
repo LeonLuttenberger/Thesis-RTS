@@ -8,6 +8,7 @@ import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
+import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
@@ -28,6 +29,7 @@ public class Level implements ILevel {
     private static final String PROP_KEY_TILE_HEIGHT = "tileheight";
     private static final String PROP_KEY_BASE_X = "location_base_x";
     private static final String PROP_KEY_BASE_Y = "location_base_y";
+    private static final String PROP_KEY_ROCKS = "rocks";
 
     private final TiledMap tiledMap;
 
@@ -93,6 +95,7 @@ public class Level implements ILevel {
         addBuilding(base);
 
         spawnDefaultUnits(base);
+        spawnRocks();
     }
 
     private void spawnDefaultUnits(Building building) {
@@ -100,6 +103,21 @@ public class Level implements ILevel {
         soldier.getPosition().set(building.getPosition().x - tileWidth, building.getPosition().y);
 
         addPlayerUnit(soldier);
+    }
+
+    private void spawnRocks() {
+        String rockLocations = tiledMap.getProperties().get(PROP_KEY_ROCKS, String.class);
+
+        for (String xyPair : rockLocations.split(";")) {
+            String[] xyPairArray = xyPair.split(",");
+
+            int rockX = Integer.parseInt(xyPairArray[0]);
+            int rockY = height - Integer.parseInt(xyPairArray[1]);
+
+            ResourceBoulder rock = new ResourceBoulder();
+            rock.getPosition().set(rockX * tileWidth, rockY * tileHeight);
+            addResource(rock);
+        }
     }
 
     @Override
