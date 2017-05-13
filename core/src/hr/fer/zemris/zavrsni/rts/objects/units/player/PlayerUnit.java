@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.units.IRangedUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
@@ -21,6 +22,9 @@ public abstract class PlayerUnit extends Unit {
 
     @Override
     public void update(float deltaTime) {
+        MovementUtility.applyEnemySeparation(this, level.getHostileUnits());
+        MovementUtility.applyFriendlySeparation(this, level.getPlayerUnits());
+
         super.update(deltaTime);
 
         if (!readyForAttack()) return;

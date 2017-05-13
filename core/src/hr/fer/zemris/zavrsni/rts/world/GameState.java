@@ -47,7 +47,7 @@ public class GameState implements IGameState {
 
         if (units.isEmpty()) return null;
 
-        Squad newSquad = new Squad(units, level);
+        Squad newSquad = new Squad(units);
         squads.add(newSquad);
 
         return newSquad;

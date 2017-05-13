@@ -36,6 +36,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
     private final ISearchAgent<MapTile> searchAgent;
     private final Vector2 goalPosition = new Vector2();
     private final Vector2 currentGoal = new Vector2();
+    private final Vector2 newVelocity = new Vector2();
     private MapTile goalTile;
     private MapTile waypointTile;
 
@@ -89,11 +90,17 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
 
     @Override
     public void update(float deltaTime) {
+        // apply terrain separation
+        MovementUtility.applyTerrainSeparation(this, level);
+
+        velocity.set(newVelocity);
+
         timeSinceLastAttack += deltaTime;
         timeSinceLastDamageTaken += deltaTime;
         updateMovements(deltaTime);
 
         super.update(deltaTime);
+        newVelocity.setLength(0);
     }
 
     private void updateMovements(float deltaTime) {
@@ -119,6 +126,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
         int newTileY = (int) (newY / level.getTileHeight());
         if (level.getTileModifier(newTileX, newTileY) <= 0) {
             stopSearch();
+            velocity.setLength(0);
         }
     }
 
@@ -127,13 +135,13 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
             if (isOnTile(goalTile)) {
                 currentGoal.set(goalPosition);
                 if (distance(getCenterX(), getCenterY(), goalPosition.x, goalPosition.y) > TOLERANCE) {
-                    velocity.x = goalPosition.x - getCenterX();
-                    velocity.y = goalPosition.y - getCenterY();
-                    velocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed);
+                    newVelocity.x = goalPosition.x - getCenterX();
+                    newVelocity.y = goalPosition.y - getCenterY();
+                    newVelocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed);
                 } else {
                     searchAgent.stopSearch();
                     goalTile = null;
-                    velocity.setLength(0);
+                    newVelocity.setLength(0);
                 }
             } else {
                 if (waypointTile != null && isOnTile(waypointTile)) {
@@ -154,10 +162,18 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
                 float dx = currentGoalX - getCenterX();
                 float dy = currentGoalY - getCenterY();
 
-                velocity.set(dx, dy);
-                velocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed);
+                newVelocity.set(dx, dy);
+                newVelocity.setLength(level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed);
             }
         }
+    }
+
+    public void adjustDirection(Vector2 direction) {
+        newVelocity.add(direction);
+    }
+
+    public void adjustDirection(float x, float y) {
+        newVelocity.add(x, y);
     }
 
     private boolean isOnTile(MapTile tile) {
