@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
@@ -77,7 +78,7 @@ public class MenuScreen extends AbstractGameScreen {
         Stack stack = new Stack();
         stage.addActor(stack);
 
-        stack.setSize(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
+        stack.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stack.add(layerBackground);
         stack.add(layerNavigation);
         stack.add(windowSettings);
@@ -87,6 +88,8 @@ public class MenuScreen extends AbstractGameScreen {
         Table table = new Table();
 
         imgBackground = new Image(mainMenuSkin, "background");
+        imgBackground.setScaling(Scaling.fill);
+        imgBackground.setSize(stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight());
         table.add(imgBackground);
 
         return table;
@@ -250,7 +253,7 @@ public class MenuScreen extends AbstractGameScreen {
 
     @Override
     public void show() {
-        stage = new Stage(new StretchViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT));
+        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
         rebuildStage();
     }

@@ -4,10 +4,11 @@ public final class Constants {
 
     private Constants() {}
 
-    public static final float VIEWPORT_WIDTH = 640;
-    public static final float VIEWPORT_HEIGHT = 480;
-    public static final float VIEWPORT_GUI_WIDTH = 640;
-    public static final float VIEWPORT_GUI_HEIGHT = 480;
+    public static final float VIEWPORT_WIDTH = 1280;
+    public static final float VIEWPORT_HEIGHT = 720;
+
+    public static final float DEFAULT_WINDOW_WIDTH = 1600;
+    public static final float DEFAULT_WINDOW_HEIGHT = 900;
 
     public static final int TILE_WIDTH = 32;
     public static final int TILE_HEIGHT = 32;

@@ -80,7 +80,7 @@ public class GameScreen extends AbstractGameScreen {
         stageUI.clear();
         stageUI.addActor(stack);
         stageUI.addActor(resourceBar);
-        stageUI.addActor(infoBar);
+//        stageUI.addActor(infoBar);
     }
 
     private Table buildDebugDisplay() {
@@ -202,8 +202,8 @@ public class GameScreen extends AbstractGameScreen {
         healthBarRenderer.setEnabledForBuildings(gameSettings.showBuildingHealthBars());
         healthBarRenderer.setEnabledForResources(gameSettings.showResourceHealthBars());
 
-        stageUI = new Stage(new StretchViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT));
-        InputMultiplexer inputMultiplexer = new InputMultiplexer(stageUI, controller.getInputController());
+        stageUI = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        InputMultiplexer inputMultiplexer = new InputMultiplexer(stageUI, controller.getInputProcessor());
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         inputMultiplexer.addProcessor(new InputAdapter() {

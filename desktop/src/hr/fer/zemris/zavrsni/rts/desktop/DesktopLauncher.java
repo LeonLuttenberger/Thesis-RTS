@@ -15,8 +15,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		if (rebuildAtlas) {
 			Settings settings = new Settings();
-			settings.maxWidth = 1024;
-			settings.maxHeight = 1024;
+			settings.maxWidth = 2048;
+			settings.maxHeight = 2048;
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
 
@@ -36,8 +36,8 @@ public class DesktopLauncher {
 		}
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = (int) Constants.VIEWPORT_GUI_WIDTH;
-		config.height = (int) Constants.VIEWPORT_GUI_HEIGHT;
+		config.width = (int) Constants.DEFAULT_WINDOW_WIDTH;
+		config.height = (int) Constants.DEFAULT_WINDOW_HEIGHT;
 
 		config.title = "My RTS";
 
