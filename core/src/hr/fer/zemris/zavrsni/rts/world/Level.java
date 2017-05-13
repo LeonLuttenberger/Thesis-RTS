@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
@@ -34,6 +35,7 @@ public class Level implements ILevel {
     private final List<HostileUnit> hostileUnits = new ArrayList<>();
     private final List<Building> buildings = new ArrayList<>();
     private final List<Resource> resources = new ArrayList<>();
+    private final List<Projectile> projectiles = new ArrayList<>();
     private final AbstractGameObject[][] objectMap;
 
     private final int width;
@@ -117,6 +119,10 @@ public class Level implements ILevel {
         for (HostileUnit unit : hostileUnits) {
             unit.render(batch);
         }
+
+        for (Projectile projectile : projectiles) {
+            projectile.render(batch);
+        }
     }
 
     @Override
@@ -195,6 +201,21 @@ public class Level implements ILevel {
     public void removeResource(Resource resource) {
         resources.remove(resource);
         setAdditionalTileModifier(resource, 1, false);
+    }
+
+    @Override
+    public List<Projectile> getProjectiles() {
+        return Collections.unmodifiableList(projectiles);
+    }
+
+    @Override
+    public void addProjectile(Projectile projectile) {
+        projectiles.add(projectile);
+    }
+
+    @Override
+    public void removeProjectile(Projectile projectile) {
+        projectiles.remove(projectile);
     }
 
     @Override

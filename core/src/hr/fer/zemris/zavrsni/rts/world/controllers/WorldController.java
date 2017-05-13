@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.world.controllers;
 
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -7,6 +8,7 @@ import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
@@ -59,11 +61,12 @@ public class WorldController implements Disposable, IUpdatable {
 
         inputController.handleInput(deltaTime);
 
+        ILevel level = gameState.getLevel();
+
         for (Squad squad : gameState.getSquads()) {
             squad.update(deltaTime);
         }
 
-        ILevel level = gameState.getLevel();
         for (Unit unit : level.getPlayerUnits()) {
             unit.update(deltaTime);
         }
@@ -73,10 +76,15 @@ public class WorldController implements Disposable, IUpdatable {
         for (Building building : level.getBuildings()) {
             building.update(deltaTime);
         }
+        for (Projectile projectile : level.getProjectiles()) {
+            projectile.update(deltaTime);
+        }
 
         removeDeadUnits();
         removeUnnecessarySquads();
         removeCollectedResources();
+        removeDestroyedBuildings();
+        removeUsedUpProjectile();
     }
 
     private void removeDeadUnits() {
@@ -92,8 +100,19 @@ public class WorldController implements Disposable, IUpdatable {
 
     private void removeCollectedResources() {
         ILevel level = gameState.getLevel();
-        removeFromLevelIf(level.getResources(), r -> r.getCurrentHitPoints() <= 0,
+        removeFromLevelIf(level.getResources(), IDamageable::isDestroyed,
                 level::removeResource, r -> r.onResourceDestroyed(gameState));
+    }
+
+    private void removeDestroyedBuildings() {
+        ILevel level = gameState.getLevel();
+        removeFromLevelIf(level.getBuildings(), IDamageable::isDestroyed,
+                level::removeBuilding, null);
+    }
+
+    private void removeUsedUpProjectile() {
+        ILevel level = gameState.getLevel();
+        removeFromLevelIf(level.getProjectiles(), Projectile::isUsedUp, level::removeProjectile, null);
     }
 
     private static <T> void removeFromLevelIf(List<T> objects, Predicate<T> condition,
@@ -102,15 +121,15 @@ public class WorldController implements Disposable, IUpdatable {
         List<T> toRemove = new ArrayList<>();
         for (T object : objects) {
             if (condition.test(object)) {
-                if (removalEvent != null) {
-                    removalEvent.accept(object);
-                }
                 toRemove.add(object);
             }
         }
 
         for (T t : toRemove) {
             removeFunction.accept(t);
+            if (removalEvent != null) {
+                removalEvent.accept(t);
+            }
         }
     }
 
@@ -143,7 +162,7 @@ public class WorldController implements Disposable, IUpdatable {
     public void dispose() {
     }
 
-    public InputController getInputController() {
+    public InputProcessor getInputProcessor() {
         return inputController;
     }
 }

@@ -8,8 +8,8 @@ public class GameSettings implements IGameSettings {
     private static final String KEY_FPS_COUNTER = "showFPSCounter";
     private static final String KEY_PLAYER_HEALTH_BAR = "showPlayerUnitHealthBar";
     private static final String KEY_HOSTILE_HEALTH_BAR = "showHostileUnitHealthBar";
-    private static final String KEY_RESOURCE_HEALTH_BAR = "showHostileUnitHealthBar";
-    private static final String KEY_BUILDING_HEALTH_BAR = "showHostileUnitHealthBar";
+    private static final String KEY_RESOURCE_HEALTH_BAR = "showResourceHealthBar";
+    private static final String KEY_BUILDING_HEALTH_BAR = "showBuildingHealthBar";
 
     private boolean showFPSCounter = false;
     private boolean showPlayerUnitHealthBars = true;

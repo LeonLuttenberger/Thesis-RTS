@@ -61,6 +61,10 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
         return attackRange;
     }
 
+    public int getAttackPower() {
+        return attackPower;
+    }
+
     @Override
     public void render(SpriteBatch batch) {
         stateTime += Gdx.graphics.getDeltaTime();
@@ -85,6 +89,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
 
     @Override
     public void update(float deltaTime) {
+        timeSinceLastAttack += deltaTime;
         timeSinceLastDamageTaken += deltaTime;
         updateMovements(deltaTime);
 
@@ -206,6 +211,14 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
     public abstract boolean isHostile();
 
     public abstract boolean isSupport();
+
+    public boolean readyForAttack() {
+        return timeSinceLastAttack > attackCooldown;
+    }
+
+    protected final void resetAttackCooldown() {
+        timeSinceLastAttack = 0;
+    }
 
     @Override
     public int getMaxHitPoints() {

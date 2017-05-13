@@ -2,11 +2,13 @@ package hr.fer.zemris.zavrsni.rts.objects.units.player;
 
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
+import hr.fer.zemris.zavrsni.rts.objects.projectiles.Bullet;
+import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
-import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.IRangedUnit;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public class SoldierUnit extends PlayerUnit implements IBuildableUnit {
+public class SoldierUnit extends PlayerUnit implements IBuildableUnit, IRangedUnit {
 
     private static final int UNIT_WIDTH = 32;
     private static final int UNIT_HEIGHT = 32;
@@ -23,24 +25,6 @@ public class SoldierUnit extends PlayerUnit implements IBuildableUnit {
     }
 
     @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-
-        timeSinceLastAttack += deltaTime;
-
-        if (timeSinceLastAttack > attackCooldown) {
-            for (HostileUnit unit : level.getHostileUnits()) {
-                float distance = AbstractGameObject.distanceBetween(this, unit);
-                if (distance < attackRange) {
-                    unit.removeHitPoints(attackPower);
-                    timeSinceLastAttack = 0;
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
     public boolean isSupport() {
         return false;
     }
@@ -48,5 +32,10 @@ public class SoldierUnit extends PlayerUnit implements IBuildableUnit {
     @Override
     public int getTrainingCost() {
         return TRAINING_COST;
+    }
+
+    @Override
+    public Projectile rangedAttack(AbstractGameObject target) {
+        return new Bullet(level, this, target, ATTACK_POWER);
     }
 }

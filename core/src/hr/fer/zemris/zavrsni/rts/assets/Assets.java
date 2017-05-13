@@ -30,6 +30,7 @@ public final class Assets implements Disposable {
     private AssetsUnits units;
     private AssetsBuildings buildings;
     private AssetsResources resources;
+    private AssetOthers others;
 
     private AssetsIcons icons;
     private AssetHealthBar healthBar;
@@ -80,6 +81,7 @@ public final class Assets implements Disposable {
         units = new AssetsUnits(objectsAtlas);
         buildings = new AssetsBuildings(objectsAtlas);
         resources = new AssetsResources(objectsAtlas);
+        others = new AssetOthers(objectsAtlas);
 
         icons = new AssetsIcons(uiAtlas);
         healthBar = new AssetHealthBar(uiAtlas);
@@ -106,6 +108,10 @@ public final class Assets implements Disposable {
 
     public AssetsResources getResources() {
         return resources;
+    }
+
+    public AssetOthers getOthers() {
+        return others;
     }
 
     public AssetsIcons getIcons() {

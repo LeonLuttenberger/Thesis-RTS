@@ -16,6 +16,8 @@ final class AssetNames {
 
     static final String BOULDER = "boulder";
 
+    static final String BULLET = "bullet";
+
     static final String ICON_MINERALS = "icon_minerals";
 
     static final String WALLPAPER = "background";

@@ -3,6 +3,7 @@ package hr.fer.zemris.zavrsni.rts.world;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
@@ -36,6 +37,12 @@ public interface ILevel {
     void addResource(Resource resource);
 
     void removeResource(Resource resource);
+
+    List<Projectile> getProjectiles();
+
+    void addProjectile(Projectile projectile);
+
+    void removeProjectile(Projectile projectile);
 
     float getTileModifier(int x, int y);
 
