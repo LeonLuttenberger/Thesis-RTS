@@ -72,4 +72,9 @@ public class GameState implements IGameState {
     public void addMinerals(int newMinerals) {
         minerals += newMinerals;
     }
+
+    @Override
+    public void removeMinerals(int mineralsToRemove) {
+        minerals -= mineralsToRemove;
+    }
 }

@@ -7,8 +7,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts.Cost;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
+import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
@@ -21,6 +25,7 @@ import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class WorldController implements Disposable, IUpdatable {
@@ -31,11 +36,21 @@ public class WorldController implements Disposable, IUpdatable {
     private boolean isPaused = false;
     private boolean wasPausedLastUpdate = false;
 
+    private BaseBuilding baseBuilding;
+
+    private Function<ILevel, Building> buildingSupplier;
+    Building ghostBuilding;
+
     public WorldController(ILevel level, OrthographicCamera camera, DragBoxRenderer dragBoxRenderer) {
         this.gameState = new GameState();
         this.gameState.setLevel(level);
 
         this.inputController = new InputController(dragBoxRenderer, camera, this);
+
+        baseBuilding = level.getBuildings().stream()
+                .filter(b -> b instanceof BaseBuilding)
+                .map(b -> (BaseBuilding) b)
+                .findFirst().orElseThrow(() -> new RuntimeException("Level does not contain a base."));
     }
 
     public IGameState getGameState() {
@@ -158,11 +173,47 @@ public class WorldController implements Disposable, IUpdatable {
         }
     }
 
-    @Override
-    public void dispose() {
-    }
-
     public InputProcessor getInputProcessor() {
         return inputController;
+    }
+
+    public void buildUnit(Function<ILevel, IBuildableUnit> function) {
+        baseBuilding.buildUnit(function);
+    }
+
+    public void suggestBuilding(Function<ILevel, Building> supplier, Class<? extends Building> buildingType) {
+        Cost cost = BuildingCosts.getCostFor(buildingType);
+        if (cost.isSatisfied(gameState)) {
+            buildingSupplier = supplier;
+            ghostBuilding = supplier.apply(gameState.getLevel());
+        }
+    }
+
+    void clearBuildingSuggestion() {
+        buildingSupplier = null;
+        ghostBuilding = null;
+    }
+
+    void buildBuilding() {
+        if (buildingSupplier != null) {
+            Cost cost = BuildingCosts.getCostFor(ghostBuilding.getClass());
+            if (!cost.isSatisfied(gameState)) return;
+
+            Building building = buildingSupplier.apply(gameState.getLevel());
+            building.getPosition().set(ghostBuilding.getPosition());
+
+            boolean isAdded = gameState.getLevel().addBuilding(building);
+            if (isAdded) {
+                cost.apply(gameState);
+            }
+        }
+    }
+
+    public Building getGhostBuilding() {
+        return ghostBuilding;
+    }
+
+    @Override
+    public void dispose() {
     }
 }

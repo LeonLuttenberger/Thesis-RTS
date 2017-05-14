@@ -11,17 +11,24 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.GeneratorBuilding;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
@@ -48,6 +55,7 @@ public class GameScreen extends AbstractGameScreen {
 
     private Label labelFPS;
     private Label labelMinerals;
+    private Window interactionMenu;
 
     public GameScreen(Game game, IGameSettings gameSettings) {
         super(game, gameSettings);
@@ -71,7 +79,7 @@ public class GameScreen extends AbstractGameScreen {
 
         Table tableDebug = buildDebugDisplay();
         Table resourceBar = buildResourceBar();
-        Table infoBar = buildInfoBar();
+        interactionMenu = buildInfoBar();
 
         Stack stack = new Stack();
         stack.setSize(stageUI.getWidth(), stageUI.getHeight());
@@ -80,7 +88,7 @@ public class GameScreen extends AbstractGameScreen {
         stageUI.clear();
         stageUI.addActor(stack);
         stageUI.addActor(resourceBar);
-//        stageUI.addActor(infoBar);
+        stageUI.addActor(interactionMenu);
     }
 
     private Table buildDebugDisplay() {
@@ -118,7 +126,7 @@ public class GameScreen extends AbstractGameScreen {
         return table;
     }
 
-    private Table buildInfoBar() {
+    private Window buildInfoBar() {
         Window window = new Window("", uiSkin);
 
         Image image = new Image(Assets.getInstance().getAssetsUI().backgroundTexture);
@@ -131,6 +139,34 @@ public class GameScreen extends AbstractGameScreen {
                 screenWidth / 6, 0,
                 2 * screenWidth / 3, screenHeight / 6
         );
+
+        Button btnBuildSoldier = new TextButton("Soldier", uiSkin);
+        btnBuildSoldier.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                controller.buildUnit(SoldierUnit::new);
+            }
+        });
+
+        Button btnWorker = new TextButton("Worker", uiSkin);
+        btnWorker.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                controller.buildUnit(WorkerUnit::new);
+            }
+        });
+
+        Button btnBuildGenerator = new TextButton("Generator", uiSkin);
+        btnBuildGenerator.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                controller.suggestBuilding(GeneratorBuilding::new, GeneratorBuilding.class);
+            }
+        });
+
+        window.add(btnBuildSoldier);
+        window.add(btnWorker);
+        window.add(btnBuildGenerator);
 
         return window;
     }
@@ -212,6 +248,10 @@ public class GameScreen extends AbstractGameScreen {
                 if (keycode == Keys.ESCAPE) {
                     game.setScreen(new MenuScreen(game, gameSettings));
                 }
+                if (keycode == Keys.H) {
+                    interactionMenu.setVisible(!interactionMenu.isVisible());
+                }
+
                 return false;
             }
         });

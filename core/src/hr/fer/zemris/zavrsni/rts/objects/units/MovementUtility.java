@@ -15,7 +15,7 @@ public final class MovementUtility {
     static final float ALIGNMENT_WEIGHT = 10;
     static final float GOAL_WEIGHT = 0.5f;
     static final float SQUAD_SEPARATION_WEIGHT = 1;
-    static final float ENEMY_SEPARATION_WEIGHT = 40;
+    static final float ENEMY_SEPARATION_WEIGHT = 20;
     static final float TERRAIN_SEPARATION_WEIGHT = 5;
 
     static final float SQUADMATE_DETECTION_LIMIT_INCREASE = 2;

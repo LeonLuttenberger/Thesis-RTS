@@ -1,14 +1,11 @@
 package hr.fer.zemris.zavrsni.rts.console;
 
 import com.strongjoshua.console.LogLevel;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.GeneratorBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.AlienBugUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
-import hr.fer.zemris.zavrsni.rts.util.LevelUtils;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
@@ -81,25 +78,9 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
         console.log("Spawned alien bug at " + x + " " + y, LogLevel.SUCCESS);
     }
 
-    public void buildGenerator(int x, int y) {
-        if (!isPositionValid(x, y)) return;
-
-        ILevel level = gameState.getLevel();
-        GeneratorBuilding building = new GeneratorBuilding(level);
-        building.setCenterX(x * level.getTileWidth() + level.getTileWidth() / 2f);
-        building.setCenterY(y * level.getTileHeight() + level.getTileHeight() / 2f);
-
-        MapTile startTile = LevelUtils.getMapTile(level, building.getPosition().x, building.getPosition().y);
-        MapTile endTile = LevelUtils.getMapTile(
-                level,
-                building.getPosition().x + building.getDimension().x,
-                building.getPosition().y + building.getDimension().y
-        );
-
-        if (!isPositionValid(startTile.x, startTile.y) || !isPositionValid(endTile.x, endTile.y)) return;
-
-        level.addBuilding(building);
-        console.log("Generator spawned at " + x + " " + y, LogLevel.SUCCESS);
+    public void addMinerals(int minerals) {
+        gameState.addMinerals(minerals);
+        console.log("Added " + minerals + " minerals.", LogLevel.SUCCESS);
     }
 
     public void mapSize() {

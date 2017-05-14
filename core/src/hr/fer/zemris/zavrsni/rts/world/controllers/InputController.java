@@ -3,10 +3,13 @@ package hr.fer.zemris.zavrsni.rts.world.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
+import hr.fer.zemris.zavrsni.rts.util.LevelUtils;
+import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 public class InputController extends InputAdapter {
@@ -113,19 +116,37 @@ public class InputController extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button == Input.Buttons.LEFT) {
-            // select existing building
-            Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
-            for (Building building : controller.getGameState().getLevel().getBuildings()) {
-                if (building.containsPoint(position.x, position.y)) {
-                    // TODO
-                    break;
-                }
-            }
-
-        } else if (button == Input.Buttons.RIGHT) {
+        if (button == Buttons.RIGHT) {
             Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
             controller.sendSelectedUnitsTo(position);
+        }
+
+        if (button == Buttons.LEFT) {
+            controller.buildBuilding();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        if (controller.ghostBuilding != null) {
+            Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
+
+            ILevel level = controller.getGameState().getLevel();
+            MapTile mapTile = LevelUtils.getMapTile(level, position.x, position.y);
+
+            controller.ghostBuilding.setCenterX(mapTile.x * level.getTileWidth() + level.getTileWidth() / 2f);
+            controller.ghostBuilding.setCenterY(mapTile.y * level.getTileHeight() + level.getTileHeight() / 2f);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Keys.C) {
+            controller.clearBuildingSuggestion();
         }
 
         return false;

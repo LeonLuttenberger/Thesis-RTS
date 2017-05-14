@@ -21,4 +21,6 @@ public interface IGameState {
     int getMinerals();
 
     void addMinerals(int minerals);
+
+    void removeMinerals(int minerals);
 }

@@ -18,9 +18,9 @@ public interface ILevel {
 
     List<HostileUnit> getHostileUnits();
 
-    void addPlayerUnit(PlayerUnit unit);
+    boolean addPlayerUnit(PlayerUnit unit);
 
-    void addHostileUnit(HostileUnit unit);
+    boolean addHostileUnit(HostileUnit unit);
 
     void removePlayerUnit(PlayerUnit unit);
 
@@ -28,19 +28,19 @@ public interface ILevel {
 
     List<Building> getBuildings();
 
-    void addBuilding(Building building);
+    boolean addBuilding(Building building);
 
     void removeBuilding(Building building);
 
     List<Resource> getResources();
 
-    void addResource(Resource resource);
+    boolean addResource(Resource resource);
 
     void removeResource(Resource resource);
 
     List<Projectile> getProjectiles();
 
-    void addProjectile(Projectile projectile);
+    boolean addProjectile(Projectile projectile);
 
     void removeProjectile(Projectile projectile);
 

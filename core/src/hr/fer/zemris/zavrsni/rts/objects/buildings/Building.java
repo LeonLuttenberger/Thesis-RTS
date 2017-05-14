@@ -23,6 +23,7 @@ public abstract class Building extends AbstractGameObject implements IUpdatable,
         this.dimension.set(width, height);
 
         this.maxHitPoints = maxHitPoints;
+        this.currentHitPoints = maxHitPoints;
     }
 
     @Override

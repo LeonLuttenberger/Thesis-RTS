@@ -154,13 +154,13 @@ public class Level implements ILevel {
     }
 
     @Override
-    public void addPlayerUnit(PlayerUnit unit) {
-        playerUnits.add(unit);
+    public boolean addPlayerUnit(PlayerUnit unit) {
+        return playerUnits.add(unit);
     }
 
     @Override
-    public void addHostileUnit(HostileUnit unit) {
-        hostileUnits.add(unit);
+    public boolean addHostileUnit(HostileUnit unit) {
+        return hostileUnits.add(unit);
     }
 
     @Override
@@ -192,10 +192,32 @@ public class Level implements ILevel {
         }
     }
 
+    private boolean isPlacementValid(AbstractGameObject object) {
+        int xTileStart = (int) (object.getPosition().x / tileWidth);
+        int yTileStart = (int) (object.getPosition().y / tileHeight);
+        int xTileEnd = (int) ((object.getPosition().x + object.getDimension().x - 1) / tileWidth);
+        int yTileEnd = (int) ((object.getPosition().y + object.getDimension().y - 1) / tileHeight);
+
+        for (int i = xTileStart; i <= xTileEnd; i++) {
+            for (int j = yTileStart; j <= yTileEnd; j++) {
+                if (getTileModifier(i, j) == 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     @Override
-    public void addBuilding(Building building) {
-        buildings.add(building);
-        setAdditionalTileModifier(building, 0, true);
+    public boolean addBuilding(Building building) {
+        if (isPlacementValid(building)) {
+            buildings.add(building);
+            setAdditionalTileModifier(building, 0, true);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -210,9 +232,14 @@ public class Level implements ILevel {
     }
 
     @Override
-    public void addResource(Resource resource) {
-        resources.add(resource);
-        setAdditionalTileModifier(resource, resource.getTerrainModifier(), true);
+    public boolean addResource(Resource resource) {
+        if (isPlacementValid(resource)) {
+            resources.add(resource);
+            setAdditionalTileModifier(resource, resource.getTerrainModifier(), true);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -227,8 +254,8 @@ public class Level implements ILevel {
     }
 
     @Override
-    public void addProjectile(Projectile projectile) {
-        projectiles.add(projectile);
+    public boolean addProjectile(Projectile projectile) {
+        return projectiles.add(projectile);
     }
 
     @Override

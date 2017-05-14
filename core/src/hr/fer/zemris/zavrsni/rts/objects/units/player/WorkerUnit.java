@@ -3,9 +3,10 @@ package hr.fer.zemris.zavrsni.rts.objects.units.player;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
+import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public class WorkerUnit extends PlayerUnit {
+public class WorkerUnit extends PlayerUnit implements IBuildableUnit {
 
     private static final int UNIT_WIDTH = 16;
     private static final int UNIT_HEIGHT = 32;
@@ -14,6 +15,7 @@ public class WorkerUnit extends PlayerUnit {
     private static final float ATTACK_RANGE = 30;
     private static final int ATTACK_POWER = 1;
     private static final float ATTACK_COOLDOWN = 1;
+    private static final int TRAINING_COST = 1500;
 
     private Resource targetResource;
 
@@ -65,5 +67,10 @@ public class WorkerUnit extends PlayerUnit {
     @Override
     public boolean isSupport() {
         return true;
+    }
+
+    @Override
+    public int getTrainingCost() {
+        return TRAINING_COST;
     }
 }
