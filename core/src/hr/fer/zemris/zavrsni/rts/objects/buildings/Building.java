@@ -2,12 +2,12 @@ package hr.fer.zemris.zavrsni.rts.objects.buildings;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import hr.fer.zemris.zavrsni.rts.IUpdatable;
+import hr.fer.zemris.zavrsni.rts.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public abstract class Building extends AbstractGameObject implements IUpdatable, IDamageTrackable<Building> {
+public abstract class Building extends AbstractGameObject implements IUpdateable, IDamageTrackable<Building> {
 
     private final TextureRegion region;
     protected final ILevel level;

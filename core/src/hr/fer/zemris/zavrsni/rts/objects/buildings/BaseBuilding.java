@@ -3,8 +3,7 @@ package hr.fer.zemris.zavrsni.rts.objects.buildings;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
-import hr.fer.zemris.zavrsni.rts.util.LevelUtils;
+import hr.fer.zemris.zavrsni.rts.util.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.ArrayDeque;
@@ -45,7 +44,7 @@ public class BaseBuilding extends PlayerBuilding {
             throw new UnsupportedOperationException("Base only build player units.");
         }
 
-        MapTile spawnPosition = LevelUtils.getMapTile(level, position.x - 1, position.y + dimension.y / 2);
+        MapTile spawnPosition = level.getTileForPosition(position.x - 1, position.y + dimension.y / 2);
 
         PlayerUnit unit = (PlayerUnit) buildableUnit;
         unit.position.x = level.getTileWidth() * spawnPosition.x;

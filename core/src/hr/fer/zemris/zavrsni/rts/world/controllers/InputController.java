@@ -7,8 +7,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
-import hr.fer.zemris.zavrsni.rts.util.LevelUtils;
+import hr.fer.zemris.zavrsni.rts.util.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
@@ -134,7 +133,7 @@ public class InputController extends InputAdapter {
             Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
 
             ILevel level = controller.getGameState().getLevel();
-            MapTile mapTile = LevelUtils.getMapTile(level, position.x, position.y);
+            MapTile mapTile = level.getTileForPosition(position.x, position.y);
 
             controller.ghostBuilding.setCenterX(mapTile.x * level.getTileWidth() + level.getTileWidth() / 2f);
             controller.ghostBuilding.setCenterY(mapTile.y * level.getTileHeight() + level.getTileHeight() / 2f);

@@ -7,6 +7,7 @@ import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
+import hr.fer.zemris.zavrsni.rts.util.MapTile;
 
 import java.util.List;
 
@@ -44,9 +45,9 @@ public interface ILevel {
 
     void removeProjectile(Projectile projectile);
 
-    float getTileModifier(int x, int y);
-
     float getTerrainModifier(float x, float y);
+
+    float getTileModifier(int x, int y);
 
     AbstractGameObject getObjectOnTile(int x, int y);
 
@@ -59,4 +60,11 @@ public interface ILevel {
     int getTileHeight();
 
     void reset();
+
+    default MapTile getTileForPosition(float x, float y) {
+        return new MapTile(
+                (int) (x / getTileWidth()),
+                (int) (y / getTileHeight())
+        );
+    }
 }

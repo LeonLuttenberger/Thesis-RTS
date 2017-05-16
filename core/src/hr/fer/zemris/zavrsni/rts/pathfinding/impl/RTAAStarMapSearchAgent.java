@@ -12,6 +12,7 @@ import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.WeightedHeuristic;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.heuristic.ArealDistanceHeuristic;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem.MoveToAdjacentTileProblem;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.RTAAStarProblem;
+import hr.fer.zemris.zavrsni.rts.util.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.Map.Entry;

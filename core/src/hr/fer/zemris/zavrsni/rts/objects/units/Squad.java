@@ -1,7 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.objects.units;
 
 import com.badlogic.gdx.math.Vector2;
-import hr.fer.zemris.zavrsni.rts.IUpdatable;
+import hr.fer.zemris.zavrsni.rts.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
@@ -13,7 +13,7 @@ import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.COHESION_W
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.GOAL_WEIGHT;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUnitInRange;
 
-public class Squad implements IUpdatable {
+public class Squad implements IUpdateable {
 
     private final Consumer<Unit> functionApplyCohesion = this::applyCohesion;
     private final Consumer<Unit> functionApplyAlignment = this::applyAlignment;

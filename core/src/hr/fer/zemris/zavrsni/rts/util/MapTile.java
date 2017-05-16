@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.pathfinding.impl;
+package hr.fer.zemris.zavrsni.rts.util;
 
 public class MapTile {
 

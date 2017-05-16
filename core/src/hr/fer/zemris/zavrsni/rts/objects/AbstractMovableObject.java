@@ -1,9 +1,9 @@
 package hr.fer.zemris.zavrsni.rts.objects;
 
 import com.badlogic.gdx.math.Vector2;
-import hr.fer.zemris.zavrsni.rts.IUpdatable;
+import hr.fer.zemris.zavrsni.rts.IUpdateable;
 
-public abstract class AbstractMovableObject extends AbstractGameObject implements IUpdatable {
+public abstract class AbstractMovableObject extends AbstractGameObject implements IUpdateable {
 
     public final Vector2 velocity = new Vector2();
 
@@ -13,7 +13,7 @@ public abstract class AbstractMovableObject extends AbstractGameObject implement
         position.y += velocity.y * deltaTime;
     }
 
-    public boolean isMoving() {
+    public final boolean isMoving() {
         return !velocity.isZero();
     }
 }

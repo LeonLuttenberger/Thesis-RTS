@@ -1,6 +1,6 @@
 package hr.fer.zemris.zavrsni.rts;
 
-public interface IUpdatable {
+public interface IUpdateable {
 
     void update(float deltaTime);
 }

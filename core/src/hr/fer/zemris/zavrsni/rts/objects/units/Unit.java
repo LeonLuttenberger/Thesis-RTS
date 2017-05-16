@@ -8,9 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.RTAAStarMapSearchAgent;
-import hr.fer.zemris.zavrsni.rts.util.LevelUtils;
+import hr.fer.zemris.zavrsni.rts.util.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public abstract class Unit extends AbstractMovableObject implements IDamageTrackable<Unit> {
@@ -103,7 +102,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
     private void updateMovements(float deltaTime) {
         MapTile goalTile = searchAgent.getGoalState();
         if (!isSearchStopped() && level.getTileModifier(goalTile.x, goalTile.y) == 0) {
-            if (searchAgent.isGoalState(getMapTile(getCenterX(), getCenterY()))) {
+            if (searchAgent.isGoalState(level.getTileForPosition(getCenterX(), getCenterY()))) {
                 stopSearch();
                 return;
             }
@@ -187,17 +186,13 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
         return (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
-    private MapTile getMapTile(float x, float y) {
-        return LevelUtils.getMapTile(level, x, y);
-    }
-
     private MapTile getCurrentMapTile() {
-        return getMapTile(getCenterX(), getCenterY());
+        return level.getTileForPosition(getCenterX(), getCenterY());
     }
 
     public void sendToDestination(float x, float y) {
         goalPosition.set(x, y);
-        goalTile = getMapTile(x, y);
+        goalTile = level.getTileForPosition(x, y);
 
         searchAgent.pathfind(getCurrentMapTile(), goalTile);
         waypointTile = searchAgent.update(getCurrentMapTile());

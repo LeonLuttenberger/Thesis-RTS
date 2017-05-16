@@ -1,7 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem;
 
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.util.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.ArrayList;

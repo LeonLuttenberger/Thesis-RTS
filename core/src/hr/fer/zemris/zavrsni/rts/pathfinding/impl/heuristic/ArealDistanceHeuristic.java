@@ -1,8 +1,8 @@
 package hr.fer.zemris.zavrsni.rts.pathfinding.impl.heuristic;
 
 import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.IHeuristic;
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.util.MapTile;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;

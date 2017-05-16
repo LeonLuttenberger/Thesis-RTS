@@ -156,7 +156,7 @@ public class GameScreen extends AbstractGameScreen {
             }
         });
 
-        Button btnBuildGenerator = new TextButton("Generator", uiSkin);
+        Button btnBuildGenerator = new TextButton("Turret", uiSkin);
         btnBuildGenerator.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
