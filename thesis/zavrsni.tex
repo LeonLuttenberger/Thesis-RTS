@@ -15,7 +15,7 @@
 \maketitle
 
 % Ispis stranice s napomenom o umetanju izvornika rada. Uklonite naredbu \izvornik ako želite izbaciti tu stranicu.
-\izvornik
+\izvornik{}
 
 % Dodavanje zahvale ili prazne stranice. Ako ne želite dodati zahvalu, naredbu ostavite radi prazne stranice.
 \zahvala{}
@@ -36,28 +36,31 @@
 
 \par Kretanje jedinica po mapi u okruženjima koji su nepoznati ili čije se stanje može promijeniti u stvarnom vremenu predstavlja poseban izazov. Naime, kretanje jedinica prema zadanom cilju mora glatko te moraju izvoditi pretragu u stvarnom vremenu. Nadalje, ako je cilj zadan nad grupom jedinicama, očekivano je da će se odabrane jedinice grupirati i kretati zajedno prema cilju. Moguća rješenja za ove probleme bit će obrađena u poglavlju \ref{pathfinding}.
 
-\chapter{Samostalno kretanje jedinica} \label{pathfinding}
+\chapter{Računalne igre}\label{games}
 
+\chapter{RTS}\label{rtsGames}
 
-\chapter{T.B.A.}
+\chapter{Kretanje jedinica}\label{pathfinding}
 
-\chapter{Implementacija jezgrenih funkcionalnosti}
+\chapter{Implementacija jezgrenih funkcionalnosti}\label{implementation}
 
-\chapter{Zaključak}
+\chapter{Zaključak}\label{conclusion}
 Zaključak.
 
 \bibliography{literatura}
-\bibliographystyle{fer} 
+\bibliographystyle{fer}
 
 \begin{sazetak}
-Računalne igre jedan su od vrlo značajnih pokretača razvoja računala. Postoji mnoštvo vrsta računalnih igara. Jednu od vrlo interesantnih vrsta igara čine strategije u stvarnom vremenu (engl. Real-Time Strategy, RTS). Razvoj takvih igara općenito uključuje pisanje mnogih podsustava i razvoj funkcionalnosti koje nisu specifične za konkretnu igru već ih je moguće višestruko iskorištavati. Takve funkcionalnosti moguće je izolirati u zaseban razvojni okvir. U okviru završnog rada potrebno je proučiti koji su sve elementi prisutni u RTS igri. Potrebno je napraviti programsku implementaciju osnovnih podsustava koje će biti moguće dijeliti između različitih RTS-igara. Također je potrebno implementirati prototip jedne konkretne igre koja sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina različitih funkcija (proizvodnja, obrana) te jedinica, upravljanje jedinicama (grupiranje, zadavanje ciljeva: dolazak na zadani položaj, pucanje, prikupljanje resursa) i osnovno upravljanje protivničkim jedinicama. Implementaciju je potrebno ostvariti u programskom jeziku Java. Radu je potrebno priložiti algoritme, izvorne kodove i rezultate uz potrebna objašnjenja i dokumentaciju. Citirati korištenu literaturu i navesti dobivenu pomoć.
+Računalne igre jedan su od vrlo značajnih pokretača razvoja računala. Postoji mnoštvo vrsta računalnih igara. Jednu od vrlo interesantnih vrsta igara čine strategije u stvarnom vremenu (engl. Real-Time Strategy, RTS). Razvoj takvih igara općenito uključuje pisanje mnogih podsustava i razvoj funkcionalnosti koje nisu specifične za konkretnu igru već ih je moguće višestruko iskorištavati. Takve funkcionalnosti moguće je izolirati u zaseban razvojni okvir. U okviru završnog rada potrebno je proučiti koji su sve elementi prisutni u RTS igri. Potrebno je napraviti programsku implementaciju osnovnih podsustava koje će biti moguće dijeliti između različitih RTS-igara. Također je potrebno implementirati prototip jedne konkretne igre koja sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina različitih funkcija (proizvodnja, obrana) te jedinica, upravljanje jedinicama (grupiranje, zadavanje ciljeva: dolazak na zadani položaj, pucanje, prikupljanje resursa) i osnovno upravljanje protivničkim jedinicama. 
+Implementaciju je potrebno ostvariti u programskom jeziku Java. Radu je potrebno priložiti algoritme, izvorne kodove i rezultate uz potrebna objašnjenja i dokumentaciju. Citirati korištenu literaturu i navesti dobivenu pomoć.
 
 \kljucnerijeci{Ključne riječi, odvojene zarezima.}
 \end{sazetak}
 
 \engtitle{Implementation of RTS game core}
 \begin{abstract}
-Abstract.
+Computer games are a significant catalyst in the development of computers. There are many genres of computer games. Real-Time Strategy games represent one of the more interesting genres. The development of those types of games is based on developing a variety of subsystems and functionalities which aren't specific for one game, and are thus fit for reuse. These functionalities can be isolated into a separate workspace. As part of thesis, it is necessary to study which elements are present in an RTS game and develop a program implementation of the basic subsystems which can be shared between various RTS games. A further requirement is to develop a game prototype which contains the basic elements, such as the construction of buildings with various functions (manufactory, defense) and units, the management of units (grouping, assigning a goal: arrival at a destination, shooting, resource gathering) and basic enemy control.
+The implementation is to be written in the Java programming language. The completed assignment must be handed over along with the used algorithms, source code and results with the necessary explanations and documentation. The literature that was used must be cited along with the recieved help.
 
 \keywords{Keywords.}
 \end{abstract}
