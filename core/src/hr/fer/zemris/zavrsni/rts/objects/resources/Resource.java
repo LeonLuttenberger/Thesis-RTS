@@ -7,7 +7,7 @@ import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
 import hr.fer.zemris.zavrsni.rts.world.IGameState;
 
-public abstract class Resource extends AbstractGameObject implements IDamageable {
+public abstract class Resource extends AbstractGameObject implements IDamageable<Resource> {
 
     private final TextureRegion region;
     private final float terrainModifier;

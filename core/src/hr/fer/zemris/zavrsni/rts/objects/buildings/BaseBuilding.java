@@ -11,7 +11,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.function.Function;
 
-public class BaseBuilding extends Building {
+public class BaseBuilding extends PlayerBuilding {
 
     private static final int WIDTH = 224;
     private static final int HEIGHT = 224;

@@ -13,7 +13,7 @@ import hr.fer.zemris.zavrsni.rts.pathfinding.impl.RTAAStarMapSearchAgent;
 import hr.fer.zemris.zavrsni.rts.util.LevelUtils;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public abstract class Unit extends AbstractMovableObject implements IDamageTrackable {
+public abstract class Unit extends AbstractMovableObject implements IDamageTrackable<Unit> {
 
     private static final float TOLERANCE = 4;
 

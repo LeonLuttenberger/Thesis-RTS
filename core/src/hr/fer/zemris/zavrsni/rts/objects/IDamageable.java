@@ -1,6 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.objects;
 
-public interface IDamageable {
+public interface IDamageable<T extends AbstractGameObject> {
 
     int getMaxHitPoints();
 
@@ -12,5 +12,13 @@ public interface IDamageable {
 
     default boolean isDestroyed() {
         return getCurrentHitPoints() == 0;
+    }
+
+    default T getObject() {
+        if (this instanceof AbstractGameObject) {
+            return (T) this;
+        }
+
+        throw new ClassCastException("IDamageable is not an AbstractGameObject.");
     }
 }

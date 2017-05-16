@@ -12,7 +12,7 @@ public final class BuildingCosts {
     private static final Map<Class<? extends Building>, Cost> buildingCosts = new HashMap<>();
 
     static {
-        buildingCosts.put(GeneratorBuilding.class, new Cost(300));
+        buildingCosts.put(TurretBuilding.class, new Cost(300));
     }
 
     public static Cost getCostFor(Class<? extends Building> buildingType) {

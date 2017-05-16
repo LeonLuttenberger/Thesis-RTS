@@ -1,7 +1,11 @@
 package hr.fer.zemris.zavrsni.rts.util;
 
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.HostileBuilding;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
+
+import java.util.stream.Stream;
 
 public final class LevelUtils {
 
@@ -36,5 +40,14 @@ public final class LevelUtils {
                 (int) (x / level.getTileWidth()),
                 (int) (y / level.getTileHeight())
         );
+    }
+
+    public static Iterable<IDamageable> getPlayerTargets(ILevel level) {
+        Stream<IDamageable> buildingStream = level.getBuildings().stream()
+                .filter(b -> b instanceof HostileBuilding)
+                .map(b -> (IDamageable) b);
+
+        Stream<IDamageable> concatStream = Stream.concat(level.getHostileUnits().stream(), buildingStream);
+        return concatStream::iterator;
     }
 }

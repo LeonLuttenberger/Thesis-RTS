@@ -7,7 +7,7 @@ import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public abstract class Building extends AbstractGameObject implements IUpdatable, IDamageTrackable {
+public abstract class Building extends AbstractGameObject implements IUpdatable, IDamageTrackable<Building> {
 
     private final TextureRegion region;
     protected final ILevel level;

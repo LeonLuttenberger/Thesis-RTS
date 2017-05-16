@@ -107,7 +107,7 @@ public class Squad implements IUpdatable {
     public void sendToLocation(float x, float y) {
         stopSearch();
 
-        squadLeader = MovementUtility.closestUnit(x, y, squadMembers);
+        squadLeader = MovementUtility.closestUnitInRange(x, y, squadMembers, Float.POSITIVE_INFINITY);
         squadLeader.sendToDestination(x, y);
     }
 

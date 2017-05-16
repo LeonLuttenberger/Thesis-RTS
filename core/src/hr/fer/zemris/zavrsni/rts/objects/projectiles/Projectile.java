@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public abstract class Projectile extends AbstractMovableObject {
@@ -13,8 +15,8 @@ public abstract class Projectile extends AbstractMovableObject {
 
     private final TextureRegion region;
     protected final ILevel level;
-    protected final AbstractGameObject source;
-    protected final AbstractGameObject target;
+    protected final IRangedAttacker<? extends AbstractGameObject> source;
+    protected final IDamageable<? extends AbstractGameObject> target;
 
     protected final float startX;
     protected final float startY;
@@ -25,8 +27,8 @@ public abstract class Projectile extends AbstractMovableObject {
 
     private boolean isUsedUp;
 
-    public Projectile(TextureRegion region, ILevel level,
-                      AbstractGameObject source, AbstractGameObject target, int attackPower) {
+    public Projectile(TextureRegion region, ILevel level, IRangedAttacker<? extends AbstractGameObject> source,
+                      IDamageable<? extends AbstractGameObject> target, int attackPower) {
 
         this.region = region;
         this.level = level;
@@ -34,10 +36,10 @@ public abstract class Projectile extends AbstractMovableObject {
         this.target = target;
         this.attackPower = attackPower;
 
-        this.startX = source.getCenterX();
-        this.startY = source.getCenterY();
-        this.destinationX = target.getCenterX();
-        this.destinationY = target.getCenterY();
+        this.startX = source.getAttacker().getCenterX();
+        this.startY = source.getAttacker().getCenterY();
+        this.destinationX = target.getObject().getCenterX();
+        this.destinationY = target.getObject().getCenterY();
 
         this.setCenterX(startX);
         this.setCenterY(startY);
@@ -55,10 +57,10 @@ public abstract class Projectile extends AbstractMovableObject {
     public void update(float deltaTime) {
         if (isUsedUp()) return;
 
-        if (AbstractGameObject.distanceBetween(this, target) < HIT_RADIUS) {
+        if (AbstractGameObject.distanceBetween(this, target.getObject()) < HIT_RADIUS) {
             isUsedUp = true;
             if (target instanceof IDamageTrackable) {
-                ((IDamageTrackable) target).removeHitPoints(attackPower);
+                target.removeHitPoints(attackPower);
             }
             return;
         }

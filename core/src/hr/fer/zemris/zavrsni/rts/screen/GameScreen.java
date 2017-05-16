@@ -26,7 +26,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.GeneratorBuilding;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.TurretBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 import hr.fer.zemris.zavrsni.rts.util.Constants;
@@ -160,7 +160,7 @@ public class GameScreen extends AbstractGameScreen {
         btnBuildGenerator.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.suggestBuilding(GeneratorBuilding::new, GeneratorBuilding.class);
+                controller.suggestBuilding(TurretBuilding::new, TurretBuilding.class);
             }
         });
 

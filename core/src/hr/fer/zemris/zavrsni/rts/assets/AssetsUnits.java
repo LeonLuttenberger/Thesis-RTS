@@ -25,6 +25,6 @@ public class AssetsUnits {
         workerAnimation = new Animation<>(1 / 60f, workerRunning, PlayMode.LOOP);
 
         Array<AtlasRegion> bugRunning = atlas.findRegions(BUG);
-        bugAnimation = new Animation<TextureRegion>(1 / 60f, bugRunning, PlayMode.LOOP);
+        bugAnimation = new Animation<>(1 / 60f, bugRunning, PlayMode.LOOP);
     }
 }

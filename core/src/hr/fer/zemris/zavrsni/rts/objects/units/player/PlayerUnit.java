@@ -2,14 +2,14 @@ package hr.fer.zemris.zavrsni.rts.objects.units.player;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
-import hr.fer.zemris.zavrsni.rts.objects.units.IRangedUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUnit;
+import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUnitInRange;
 
 public abstract class PlayerUnit extends Unit {
 
@@ -22,19 +22,19 @@ public abstract class PlayerUnit extends Unit {
 
     @Override
     public void update(float deltaTime) {
-        MovementUtility.applyEnemySeparation(this, level.getHostileUnits());
+//        MovementUtility.applyEnemySeparation(this, level.getHostileUnits());
         MovementUtility.applyFriendlySeparation(this, level.getPlayerUnits());
 
         super.update(deltaTime);
 
         if (!readyForAttack()) return;
 
-        HostileUnit nearestEnemy = closestUnit(this, level.getHostileUnits());
-        if (nearestEnemy != null && distanceBetween(this, nearestEnemy) < attackRange) {
+        HostileUnit nearestEnemy = closestUnitInRange(this, level.getHostileUnits(), attackRange);
+        if (nearestEnemy != null) {
             resetAttackCooldown();
 
-            if (this instanceof IRangedUnit) {
-                Projectile projectile = ((IRangedUnit) this).rangedAttack(nearestEnemy);
+            if (this instanceof IRangedAttacker) {
+                Projectile projectile = ((IRangedAttacker) this).rangedAttack(nearestEnemy);
                 level.addProjectile(projectile);
 
             } else {

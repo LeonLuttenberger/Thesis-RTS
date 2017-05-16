@@ -21,7 +21,7 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
     private static final String TAG = RTAAStarMapSearchAgent.class.getName();
 
     private static final IHeuristic<MapTile> HEURISTIC = new CachingProblemHeuristic<>(new WeightedHeuristic<>(
-            new ArealDistanceHeuristic(), 2
+            new ArealDistanceHeuristic(), 1.5
     ));
     private static final ISearchAlgorithm<MapTile> A_STAR_SEARCH = new AStarSearch<>();
 

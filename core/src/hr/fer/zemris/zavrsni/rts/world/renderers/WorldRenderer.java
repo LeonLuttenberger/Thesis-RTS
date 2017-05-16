@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts;
+import hr.fer.zemris.zavrsni.rts.world.IGameState;
 import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
 
 public class WorldRenderer extends OrthogonalTiledMapRenderer {
@@ -28,11 +31,24 @@ public class WorldRenderer extends OrthogonalTiledMapRenderer {
 
         if (controller.getGhostBuilding() != null) {
             Color oldColor = spriteBatch.getColor();
-            spriteBatch.setColor(1, 1, 1, 0.5f);
+
+            if (isCostSatisfied()) {
+                spriteBatch.setColor(1, 1, 1, 0.5f);
+            } else {
+                spriteBatch.setColor(1, 0, 0, 0.5f);
+            }
+
             controller.getGhostBuilding().render(spriteBatch);
             spriteBatch.setColor(oldColor);
         }
 
         spriteBatch.end();
+    }
+
+    private boolean isCostSatisfied() {
+        IGameState gameState = controller.getGameState();
+        Building ghostBuilding = controller.getGhostBuilding();
+
+        return BuildingCosts.getCostFor(ghostBuilding.getClass()).isSatisfied(gameState);
     }
 }

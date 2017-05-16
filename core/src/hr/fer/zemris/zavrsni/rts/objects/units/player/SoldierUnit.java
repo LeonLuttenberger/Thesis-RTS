@@ -2,13 +2,14 @@ package hr.fer.zemris.zavrsni.rts.objects.units.player;
 
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Bullet;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
-import hr.fer.zemris.zavrsni.rts.objects.units.IRangedUnit;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
-public class SoldierUnit extends PlayerUnit implements IBuildableUnit, IRangedUnit {
+public class SoldierUnit extends PlayerUnit implements IBuildableUnit, IRangedAttacker<SoldierUnit> {
 
     private static final int UNIT_WIDTH = 32;
     private static final int UNIT_HEIGHT = 32;
@@ -35,7 +36,7 @@ public class SoldierUnit extends PlayerUnit implements IBuildableUnit, IRangedUn
     }
 
     @Override
-    public Projectile rangedAttack(AbstractGameObject target) {
+    public Projectile rangedAttack(IDamageable<? extends AbstractGameObject> target) {
         return new Bullet(level, this, target, ATTACK_POWER);
     }
 }

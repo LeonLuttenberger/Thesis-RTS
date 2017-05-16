@@ -23,28 +23,25 @@ public abstract class HostileUnit extends Unit {
         List<HostileUnit> hostileUnits = level.getHostileUnits();
         List<PlayerUnit> playerUnits = level.getPlayerUnits();
 
-        PlayerUnit nearestPlayerUnit = MovementUtility.closestUnit(this, playerUnits);
-        if (nearestPlayerUnit != null) {
-            float distance = distanceBetween(this, nearestPlayerUnit);
+        PlayerUnit nearestThreat = MovementUtility.closestUnitInRange(this, playerUnits, ENEMY_DETECTION_RANGE);
+        if (nearestThreat != null) {
+            float dx = nearestThreat.getCenterX() - getCenterX();
+            float dy = nearestThreat.getCenterY() - getCenterY();
 
-            if (distance < ENEMY_DETECTION_RANGE) {
-                float dx = nearestPlayerUnit.getCenterX() - getCenterX();
-                float dy = nearestPlayerUnit.getCenterY() - getCenterY();
+            float length = (float) Math.sqrt(dx * dx + dy * dy);
+            dx /= length;
+            dy /= length;
 
-                float length = (float) Math.sqrt(dx * dx + dy * dy);
-                dx /= length;
-                dy /= length;
+            float speed = level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed;
+            adjustDirection(
+                    speed * dx,
+                    speed * dy
+            );
 
-                float speed = level.getTerrainModifier(getCenterX(), getCenterY()) * defaultSpeed;
-                adjustDirection(
-                        speed * dx,
-                        speed * dy
-                );
-            }
-
+            float distance = distanceBetween(this, nearestThreat);
             if (distance < attackRange && readyForAttack()) {
                 resetAttackCooldown();
-                nearestPlayerUnit.removeHitPoints(attackPower);
+                nearestThreat.removeHitPoints(attackPower);
             }
         }
 

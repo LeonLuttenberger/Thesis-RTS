@@ -14,7 +14,7 @@ public final class MovementUtility {
     static final float COHESION_WEIGHT = 0.5f;
     static final float ALIGNMENT_WEIGHT = 10;
     static final float GOAL_WEIGHT = 0.5f;
-    static final float SQUAD_SEPARATION_WEIGHT = 1;
+    static final float SQUAD_SEPARATION_WEIGHT = 1.5f;
     static final float ENEMY_SEPARATION_WEIGHT = 20;
     static final float TERRAIN_SEPARATION_WEIGHT = 5;
 
@@ -110,17 +110,17 @@ public final class MovementUtility {
         return adjacentTiles;
     }
 
-    public static <T extends Unit> T closestUnit(AbstractGameObject object, List<T> unitsToCheck) {
-        return closestUnit(object.getCenterX(), object.getCenterY(), unitsToCheck);
+    public static <T extends Unit> T closestUnitInRange(AbstractGameObject object, List<T> unitsToCheck, float range) {
+        return closestUnitInRange(object.getCenterX(), object.getCenterY(), unitsToCheck, range);
     }
 
-    public static <T extends Unit> T closestUnit(float x, float y, List<T> units) {
+    public static <T extends Unit> T closestUnitInRange(float x, float y, List<T> units, float range) {
         T closestUnit = null;
         float minDistance = Float.POSITIVE_INFINITY;
 
         for (T otherUnit : units) {
             float distance = distanceBetween(otherUnit, x, y);
-            if (closestUnit == null || distance < minDistance) {
+            if (distance < range && (closestUnit == null || distance < minDistance)) {
                 minDistance = distance;
                 closestUnit = otherUnit;
             }
