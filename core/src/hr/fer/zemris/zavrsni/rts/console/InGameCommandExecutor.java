@@ -39,7 +39,7 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
 
         ILevel level = gameState.getLevel();
         Resource boulder = new ResourceBoulder();
-        boulder.getPosition().set(x * level.getTileWidth(), y * level.getTileHeight());
+        boulder.position.set(x * level.getTileWidth(), y * level.getTileHeight());
 
         gameState.getLevel().addResource(boulder);
         console.log("Spawned boulder at " + x + " " + y, LogLevel.SUCCESS);
@@ -50,7 +50,7 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
 
         ILevel level = gameState.getLevel();
         SoldierUnit unit = new SoldierUnit(gameState.getLevel());
-        unit.getPosition().set(x * level.getTileWidth(), y * level.getTileHeight());
+        unit.position.set(x * level.getTileWidth(), y * level.getTileHeight());
 
         gameState.getLevel().addPlayerUnit(unit);
         console.log("Spawned unit at " + x + " " + y, LogLevel.SUCCESS);
@@ -61,7 +61,7 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
 
         ILevel level = gameState.getLevel();
         WorkerUnit worker = new WorkerUnit(gameState.getLevel());
-        worker.getPosition().set(x * level.getTileWidth(), y * level.getTileHeight());
+        worker.position.set(x * level.getTileWidth(), y * level.getTileHeight());
 
         gameState.getLevel().addPlayerUnit(worker);
         console.log("Spawned worker unit at " + x + " " + y, LogLevel.SUCCESS);
@@ -72,7 +72,7 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
 
         ILevel level = gameState.getLevel();
         AlienBugUnit alienBugUnit = new AlienBugUnit(level);
-        alienBugUnit.getPosition().set(x * level.getTileWidth(), y * level.getTileHeight());
+        alienBugUnit.position.set(x * level.getTileWidth(), y * level.getTileHeight());
 
         level.addHostileUnit(alienBugUnit);
         console.log("Spawned alien bug at " + x + " " + y, LogLevel.SUCCESS);

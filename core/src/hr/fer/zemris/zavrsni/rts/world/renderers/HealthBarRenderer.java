@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.assets.AssetHealthBar;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
@@ -65,25 +65,25 @@ public class HealthBarRenderer {
 
         if (isEnabledForPlayerUnits) {
             for (PlayerUnit playerUnit : level.getPlayerUnits()) {
-                drawHealthBar(camera, playerUnit, playerUnit.getPosition(), playerUnit.getDimension());
+                drawHealthBar(camera, playerUnit);
             }
         }
 
         if (isEnabledForHostileUnits) {
             for (HostileUnit hostileUnit : level.getHostileUnits()) {
-                drawHealthBar(camera, hostileUnit, hostileUnit.getPosition(), hostileUnit.getDimension());
+                drawHealthBar(camera, hostileUnit);
             }
         }
 
         if (isEnabledForBuildings) {
             for (Building building : level.getBuildings()) {
-                drawHealthBar(camera, building, building.getPosition(), building.getDimension());
+                drawHealthBar(camera, building);
             }
         }
 
         if (isEnabledForResources) {
             for (Resource resource : level.getResources()) {
-                drawHealthBar(camera, resource, resource.getPosition(), resource.getDimension());
+                drawHealthBar(camera, resource);
             }
         }
 
@@ -97,7 +97,9 @@ public class HealthBarRenderer {
     private final Vector3 leftPointAboveObject = new Vector3();
     private final Vector3 rightPointAboveObject = new Vector3();
 
-    private void drawHealthBar(OrthographicCamera camera, IDamageable damageable, Vector2 position, Vector2 dimension) {
+    private void drawHealthBar(OrthographicCamera camera, IDamageable<? extends AbstractGameObject> damageable) {
+        AbstractGameObject object = damageable.getObject();
+
         int hitPoints = damageable.getCurrentHitPoints();
         int maxHitPoints = damageable.getMaxHitPoints();
         int divisions = healthBarAssets.healthBars.size();
@@ -112,8 +114,8 @@ public class HealthBarRenderer {
             atlasRegion = healthBarAssets.healthBarHit;
         }
 
-        leftPointAboveObject.set(position.x, position.y + dimension.y, 0);
-        rightPointAboveObject.set(position.x + dimension.x, position.y + dimension.y, 0);
+        leftPointAboveObject.set(object.position.x, object.position.y + object.dimension.y, 0);
+        rightPointAboveObject.set(object.position.x + object.dimension.x, object.position.y + object.dimension.y, 0);
 
         Vector3 start = camera.project(leftPointAboveObject);
         Vector3 end = camera.project(rightPointAboveObject);

@@ -48,8 +48,8 @@ public class BaseBuilding extends PlayerBuilding {
         MapTile spawnPosition = LevelUtils.getMapTile(level, position.x - 1, position.y + dimension.y / 2);
 
         PlayerUnit unit = (PlayerUnit) buildableUnit;
-        unit.getPosition().x = level.getTileWidth() * spawnPosition.x;
-        unit.getPosition().y = level.getTileHeight() * spawnPosition.y;
+        unit.position.x = level.getTileWidth() * spawnPosition.x;
+        unit.position.y = level.getTileHeight() * spawnPosition.y;
 
         level.addPlayerUnit(unit);
     }

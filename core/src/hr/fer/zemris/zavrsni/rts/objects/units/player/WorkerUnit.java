@@ -30,8 +30,8 @@ public class WorkerUnit extends PlayerUnit implements IBuildableUnit {
             float dx = targetResource.getCenterX() - getCenterX();
             float dy = targetResource.getCenterY() - getCenterY();
 
-            float horizontalDetectionLimit = (targetResource.getDimension().x + dimension.x) / 2 + 20;
-            float verticalDetectionLimit = (targetResource.getDimension().y + dimension.y) / 2 + 20;
+            float horizontalDetectionLimit = (targetResource.dimension.x + dimension.x) / 2 + 20;
+            float verticalDetectionLimit = (targetResource.dimension.y + dimension.y) / 2 + 20;
 
             if (Math.abs(dx) < horizontalDetectionLimit && Math.abs(dy) < verticalDetectionLimit) {
                 gatherResource();

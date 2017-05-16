@@ -3,7 +3,6 @@ package hr.fer.zemris.zavrsni.rts.objects.units;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.IUpdatable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
-import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 import java.util.List;
@@ -12,18 +11,19 @@ import java.util.function.Consumer;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.ALIGNMENT_WEIGHT;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.COHESION_WEIGHT;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.GOAL_WEIGHT;
+import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUnitInRange;
 
 public class Squad implements IUpdatable {
 
-    private final Consumer<PlayerUnit> functionApplyCohesion = this::applyCohesion;
-    private final Consumer<PlayerUnit> functionApplyAlignment = this::applyAlignment;
+    private final Consumer<Unit> functionApplyCohesion = this::applyCohesion;
+    private final Consumer<Unit> functionApplyAlignment = this::applyAlignment;
 
-    private final List<PlayerUnit> squadMembers;
+    private final List<Unit> squadMembers;
     private final ILevel level;
 
-    private PlayerUnit squadLeader;
+    private Unit squadLeader;
 
-    public Squad(List<PlayerUnit> squadMembers, ILevel level) {
+    public Squad(List<Unit> squadMembers, ILevel level) {
         this.squadMembers = squadMembers;
         this.level = level;
     }
@@ -39,20 +39,20 @@ public class Squad implements IUpdatable {
         squadLeader.updateSearchAgent();
         if (squadLeader.isSearchStopped()) {
             for (Unit squadMember : squadMembers) {
-                squadMember.getVelocity().setLength(0);
+                squadMember.position.setLength(0);
             }
             return;
         }
 
         if (squadMembers.size() > 1) {
-            for (PlayerUnit squadMember : squadMembers) {
+            for (Unit squadMember : squadMembers) {
                 if (squadMember == squadLeader) continue;
                 applyGoal(squadMember, squadLeader.getCurrentGoal());
             }
             squadMembers.forEach(functionApplyCohesion);
             squadMembers.forEach(functionApplyAlignment);
         }
-        for (PlayerUnit squadMember : squadMembers) {
+        for (Unit squadMember : squadMembers) {
             MovementUtility.applyTerrainSeparation(squadMember, level);
         }
     }
@@ -82,7 +82,7 @@ public class Squad implements IUpdatable {
         for (Unit squadMember : squadMembers) {
             if (squadMember == unit) continue;
 
-            float angle = squadMember.getVelocity().angleRad();
+            float angle = squadMember.velocity.angleRad();
             dx += Math.cos(angle);
             dy += Math.sin(angle);
         }
@@ -90,7 +90,7 @@ public class Squad implements IUpdatable {
         dx = dx / (squadMembers.size() - 1);
         dy = dy / (squadMembers.size() - 1);
 
-        float angleRad = unit.getVelocity().angleRad();
+        float angleRad = unit.velocity.angleRad();
         unit.adjustDirection(
                 (float) (dx - Math.cos(angleRad)) * ALIGNMENT_WEIGHT,
                 (float) (dy - Math.sin(angleRad)) * ALIGNMENT_WEIGHT
@@ -107,7 +107,7 @@ public class Squad implements IUpdatable {
     public void sendToLocation(float x, float y) {
         stopSearch();
 
-        squadLeader = MovementUtility.closestUnitInRange(x, y, squadMembers, Float.POSITIVE_INFINITY);
+        squadLeader = closestUnitInRange(x, y, squadMembers, Float.POSITIVE_INFINITY);
         squadLeader.sendToDestination(x, y);
     }
 
@@ -121,7 +121,7 @@ public class Squad implements IUpdatable {
         }
 
         for (Unit unit : squadMembers) {
-            unit.getVelocity().setLength(0);
+            unit.velocity.setLength(0);
         }
     }
 }

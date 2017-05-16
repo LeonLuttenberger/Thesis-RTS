@@ -1,6 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.world;
 
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
+import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class GameState implements IGameState {
 
     @Override
     public Squad createSquadFromSelected() {
-        List<PlayerUnit> units = level.getPlayerUnits().stream()
+        List<Unit> units = level.getPlayerUnits().stream()
                 .filter(PlayerUnit::isSelected)
                 .collect(Collectors.toList());
 

@@ -200,7 +200,7 @@ public class WorldController implements Disposable, IUpdatable {
             if (!cost.isSatisfied(gameState)) return;
 
             Building building = buildingSupplier.apply(gameState.getLevel());
-            building.getPosition().set(ghostBuilding.getPosition());
+            building.position.set(ghostBuilding.position);
 
             boolean isAdded = gameState.getLevel().addBuilding(building);
             if (isAdded) {

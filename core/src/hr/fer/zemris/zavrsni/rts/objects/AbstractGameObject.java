@@ -5,37 +5,13 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class AbstractGameObject {
 
-    protected final Vector2 position = new Vector2();
-    protected final Vector2 origin = new Vector2();
-    protected final Vector2 dimension = new Vector2(1, 1);
-    protected final Vector2 scale = new Vector2(1, 1);
+    public final Vector2 position = new Vector2();
+    public final Vector2 origin = new Vector2();
+    public final Vector2 dimension = new Vector2(1, 1);
+    public final Vector2 scale = new Vector2(1, 1);
     protected float rotation = 0f;
 
     public abstract void render(SpriteBatch batch);
-
-    public final Vector2 getPosition() {
-        return position;
-    }
-
-    public final Vector2 getOrigin() {
-        return origin;
-    }
-
-    public final Vector2 getDimension() {
-        return dimension;
-    }
-
-    public final Vector2 getScale() {
-        return scale;
-    }
-
-    public final float getRotation() {
-        return rotation;
-    }
-
-    public final void setRotation(float rotation) {
-        this.rotation = rotation;
-    }
 
     public final float getCenterX() {
         return position.x + dimension.x / 2;

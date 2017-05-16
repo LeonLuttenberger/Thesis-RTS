@@ -27,8 +27,8 @@ public final class MovementUtility {
         for (Unit otherUnit : friendlies) {
             if (unit == otherUnit) continue;
 
-            float unitRadius = Math.max(unit.getDimension().x, unit.getDimension().y) / 2f;
-            float otherUnitRadius = Math.max(otherUnit.getDimension().x, otherUnit.getDimension().y) / 2f;
+            float unitRadius = Math.max(unit.dimension.x, unit.dimension.y) / 2f;
+            float otherUnitRadius = Math.max(otherUnit.dimension.x, otherUnit.dimension.y) / 2f;
 
             float detectionLimit = unitRadius + otherUnitRadius + SQUADMATE_DETECTION_LIMIT_INCREASE;
             float distance = distanceBetween(unit, otherUnit);
@@ -78,7 +78,7 @@ public final class MovementUtility {
         for (MapTile tile : adjacentTiles(currentTileX, currentTileY)) {
 
             if (level.getTileModifier(tile.x, tile.y) <= 0) {
-                float unitRadius = Math.max(unit.getDimension().x, unit.getDimension().y) / 2f;
+                float unitRadius = Math.max(unit.dimension.x, unit.dimension.y) / 2f;
                 float tileRadius = Math.max(level.getTileWidth(), level.getTileHeight()) / 2f;
 
                 float detectionLimit = unitRadius + tileRadius;

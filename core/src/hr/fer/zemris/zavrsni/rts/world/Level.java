@@ -100,7 +100,7 @@ public class Level implements ILevel {
 
     private void spawnDefaultUnits(Building building) {
         SoldierUnit soldier = new SoldierUnit(this);
-        soldier.getPosition().set(building.getPosition().x - tileWidth, building.getPosition().y);
+        soldier.position.set(building.position.x - tileWidth, building.position.y);
 
         addPlayerUnit(soldier);
     }
@@ -115,7 +115,7 @@ public class Level implements ILevel {
             int rockY = height - Integer.parseInt(xyPairArray[1]);
 
             ResourceBoulder rock = new ResourceBoulder();
-            rock.getPosition().set(rockX * tileWidth, rockY * tileHeight);
+            rock.position.set(rockX * tileWidth, rockY * tileHeight);
             addResource(rock);
         }
     }
@@ -179,10 +179,10 @@ public class Level implements ILevel {
     }
 
     private void setAdditionalTileModifier(AbstractGameObject object, float value, boolean isAdded) {
-        int xTileStart = (int) (object.getPosition().x / tileWidth);
-        int yTileStart = (int) (object.getPosition().y / tileHeight);
-        int xTileEnd = (int) ((object.getPosition().x + object.getDimension().x - 1) / tileWidth);
-        int yTileEnd = (int) ((object.getPosition().y + object.getDimension().y - 1) / tileHeight);
+        int xTileStart = (int) (object.position.x / tileWidth);
+        int yTileStart = (int) (object.position.y / tileHeight);
+        int xTileEnd = (int) ((object.position.x + object.dimension.x - 1) / tileWidth);
+        int yTileEnd = (int) ((object.position.y + object.dimension.y - 1) / tileHeight);
 
         for (int i = xTileStart; i <= xTileEnd; i++) {
             for (int j = yTileStart; j <= yTileEnd; j++) {
@@ -193,10 +193,10 @@ public class Level implements ILevel {
     }
 
     private boolean isPlacementValid(AbstractGameObject object) {
-        int xTileStart = (int) (object.getPosition().x / tileWidth);
-        int yTileStart = (int) (object.getPosition().y / tileHeight);
-        int xTileEnd = (int) ((object.getPosition().x + object.getDimension().x - 1) / tileWidth);
-        int yTileEnd = (int) ((object.getPosition().y + object.getDimension().y - 1) / tileHeight);
+        int xTileStart = (int) (object.position.x / tileWidth);
+        int yTileStart = (int) (object.position.y / tileHeight);
+        int xTileEnd = (int) ((object.position.x + object.dimension.x - 1) / tileWidth);
+        int yTileEnd = (int) ((object.position.y + object.dimension.y - 1) / tileHeight);
 
         for (int i = xTileStart; i <= xTileEnd; i++) {
             for (int j = yTileStart; j <= yTileEnd; j++) {
