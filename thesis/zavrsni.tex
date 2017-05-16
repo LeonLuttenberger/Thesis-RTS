@@ -23,22 +23,36 @@
 \tableofcontents
 
 \chapter{Uvod}
-\par Strategije u stvarnom vremenu (engl. \textit{Real-Time Strategy}, u nastavku RTS) su žanr računalnih igara temeljene na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. Za razliku od strategija na potez (engl. Turn-based strategy) gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. U širom smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu\cite{url:WhatDoesRTSMean}.
+% \par Strategije u stvarnom vremenu (engl. \textit{Real-Time Strategy}, u nastavku RTS) su žanr računalnih igara temeljene na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. Za razliku od strategija na potez (engl. Turn-based strategy) gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. U širom smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu\cite{url:WhatDoesRTSMean}.
 
-\par Odluke u RTS igrama se svode na dvije kategorije: mikro upravljanje i marko upravljanje\cite{article:HybridPathdinding}. Makro upravljanje predstavlja odluke na višoj razini apstrakcije, npr. koje jedinice i koje građevine graditi, kada započeti napad na protivnika, koje nadogradnje kupovati, itd. Mikro upravljanje se svodi na upravljanje samih jedinica, poput taktičkog pozicioniranja jedinica i uporabe njihovih specijalnih mogućnosti.
+% \par Odluke u RTS igrama se svode na dvije kategorije: mikro upravljanje i marko upravljanje\cite{article:HybridPathdinding}. Makro upravljanje predstavlja odluke na višoj razini apstrakcije, npr. koje jedinice i koje građevine graditi, kada započeti napad na protivnika, koje nadogradnje kupovati, itd. Mikro upravljanje se svodi na upravljanje samih jedinica, poput taktičkog pozicioniranja jedinica i uporabe njihovih specijalnih mogućnosti.
 
-\par Još jedna zanimljivost kod RTS igara se sastoji od mnogih podsustava koji nisu specifični za konkretnu igru, te ih je moguće izolirate u zasebne komponente:
-\begin{itemize}
-    \item prikaz mape.
-    \item kretanje jedinica po mapi.
-    \item sustav upravljanja resursima.
-\end{itemize}
+% \par Još jedna zanimljivost kod RTS igara se sastoji od mnogih podsustava koji nisu specifični za konkretnu igru, te ih je moguće izolirate u zasebne komponente:
+% \begin{itemize}
+%     \item prikaz mape.
+%     \item kretanje jedinica po mapi.
+%     \item sustav upravljanja resursima.
+% \end{itemize}
 
-\par Kretanje jedinica po mapi u okruženjima koji su nepoznati ili čije se stanje može promijeniti u stvarnom vremenu predstavlja poseban izazov. Naime, kretanje jedinica prema zadanom cilju mora glatko te moraju izvoditi pretragu u stvarnom vremenu. Nadalje, ako je cilj zadan nad grupom jedinicama, očekivano je da će se odabrane jedinice grupirati i kretati zajedno prema cilju. Moguća rješenja za ove probleme bit će obrađena u poglavlju \ref{pathfinding}.
+% \par Kretanje jedinica po mapi u okruženjima koji su nepoznati ili čije se stanje može promijeniti u stvarnom vremenu predstavlja poseban izazov. Naime, kretanje jedinica prema zadanom cilju mora glatko te moraju izvoditi pretragu u stvarnom vremenu. Nadalje, ako je cilj zadan nad grupom jedinicama, očekivano je da će se odabrane jedinice grupirati i kretati zajedno prema cilju. Moguća rješenja za ove probleme bit će obrađena u poglavlju \ref{pathfinding}.
 
-\chapter{Računalne igre}\label{games}
+\chapter{Pregled vrsti računalnih igara}\label{games}
 
-\chapter{RTS}\label{rtsGames}
+\chapter{RTS igre}\label{rtsGames}
+RTS žanr računalnih igara temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. Za razliku od ranije navedenih strategija na potez (engl. Turn-based strategy) gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu\cite{url:WhatDoesRTSMean}.
+
+%TODO napisi o cemu ce sve bit poglavlje
+
+\section{Značajke RTS igara}
+\par Tipična RTS igra sastoji se od mnogih različitih elemenata. Prije svega, svaka igra se odvija na mapi ograničene veličine koja je određena s raznim tipovima terena, poput trave, vode, planina, pustinje, itd. Tip terena može odrediti koje se jedinice mogu kretati po njemu. Primjerice, pravila igre mogu biti takva da se običan vojnik ne može kretati po vodi, dok neki drugi tip jedinice poput broda može. Kao posljedica toga, teren igra veliku ulogu jer može zahtijevati korištenje posebnih strategija.
+
+\par Još jedna bitna značajka RTS igara je skupljanje resursa. Ovisno o konkretnoj igri, resursi mogu biti drvo, minerali, nafta, zlato, itd. Oni se tipično skupljaju sa posebnom vrstom jedinica zvanom radnicima, te se koriste za izgradnju novih jedinica, zgrada, radnika, itd. Resursi također igraju veliku ulogu u strategij same igre. Primjerice, ako se igrač nalazi u situacij gdje ne može dalje napredovat zbog manjka nekog resursa, biti će prisiljen otići u potragu za istim. Analogno tome, višak izvora nekog resursa igrača može postaviti u opasnost jer će ostalim sudionicima igre biti prioritet napasti s ciljem da se ukradu resursi.
+
+\par Treća bitna značajka je izgradnja zgrada. Konkretne igre obično imaju mnogo različitih zgrada od kojih svaka ima svoj skup funkcionalnosti, poput treniranja novih jedinica, procesiranje resursa, istraživanje novih tehnologija, itd.  
+
+\par Posljedna bitna značajka RTS žanra su jedinice. Svaka RTS igra ima skup različitih jedinica koje igrač može odabrati i izgraditi za svoju vojsku. Svaka vrsta jedinice može imati svoje prednosti i mane. Npr. igra može kao vrstu jedinice imati konjanika koja ima prednost brzog kretanja po mapi, no ima manu da je izrazito ranjiva na kopljanike.
+
+\section{Primjeri popularnih RTS igara}
 
 \chapter{Kretanje jedinica}\label{pathfinding}
 
