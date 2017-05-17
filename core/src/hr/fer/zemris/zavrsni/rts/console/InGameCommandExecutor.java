@@ -1,19 +1,19 @@
 package hr.fer.zemris.zavrsni.rts.console;
 
 import com.strongjoshua.console.LogLevel;
+import hr.fer.zemris.zavrsni.rts.common.GameState;
+import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.AlienBugUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
-import hr.fer.zemris.zavrsni.rts.world.IGameState;
-import hr.fer.zemris.zavrsni.rts.world.ILevel;
 
 public class InGameCommandExecutor extends MyRTSCommandExecutor {
 
-    private final IGameState gameState;
+    private final GameState gameState;
 
-    public InGameCommandExecutor(IGameState gameState) {
+    public InGameCommandExecutor(GameState gameState) {
         this.gameState = gameState;
     }
 
@@ -79,7 +79,7 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
     }
 
     public void addMinerals(int minerals) {
-        gameState.addMinerals(minerals);
+        gameState.addResource("minerals", minerals);
         console.log("Added " + minerals + " minerals.", LogLevel.SUCCESS);
     }
 

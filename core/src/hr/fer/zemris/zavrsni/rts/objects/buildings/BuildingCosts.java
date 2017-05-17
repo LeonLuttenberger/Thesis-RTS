@@ -1,6 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.objects.buildings;
 
-import hr.fer.zemris.zavrsni.rts.world.IGameState;
+import hr.fer.zemris.zavrsni.rts.common.GameState;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,12 +26,12 @@ public final class BuildingCosts {
             this.minerals = minerals;
         }
 
-        public boolean isSatisfied(IGameState gameState) {
-            return gameState.getMinerals() >= minerals;
+        public boolean isSatisfied(GameState gameState) {
+            return gameState.getResources("minerals") >= minerals;
         }
 
-        public void apply(IGameState gameState) {
-            gameState.removeMinerals(minerals);
+        public void apply(GameState gameState) {
+            gameState.removeResource("minerals", minerals);
         }
     }
 }

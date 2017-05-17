@@ -4,22 +4,21 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
-import hr.fer.zemris.zavrsni.rts.IUpdateable;
+import com.badlogic.gdx.utils.Disposable;
+import hr.fer.zemris.zavrsni.rts.common.GameState;
+import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts.Cost;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
+import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
-import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
-import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
-import hr.fer.zemris.zavrsni.rts.world.GameState;
-import hr.fer.zemris.zavrsni.rts.world.IGameState;
-import hr.fer.zemris.zavrsni.rts.world.ILevel;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ import java.util.function.Predicate;
 
 public class WorldController implements Disposable, IUpdateable {
 
-    private final IGameState gameState;
+    private final GameState gameState;
     private final InputController inputController;
 
     private boolean isPaused = false;
@@ -53,7 +52,7 @@ public class WorldController implements Disposable, IUpdateable {
                 .findFirst().orElseThrow(() -> new RuntimeException("Level does not contain a base."));
     }
 
-    public IGameState getGameState() {
+    public GameState getGameState() {
         return gameState;
     }
 
@@ -116,7 +115,7 @@ public class WorldController implements Disposable, IUpdateable {
     private void removeCollectedResources() {
         ILevel level = gameState.getLevel();
         removeFromLevelIf(level.getResources(), IDamageable::isDestroyed,
-                level::removeResource, r -> r.onResourceDestroyed(gameState));
+                level::removeResource, r -> r.onDestroyed(gameState));
     }
 
     private void removeDestroyedBuildings() {

@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import hr.fer.zemris.zavrsni.rts.common.GameState;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts;
-import hr.fer.zemris.zavrsni.rts.world.IGameState;
 import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
 
 public class WorldRenderer extends OrthogonalTiledMapRenderer {
@@ -46,7 +46,7 @@ public class WorldRenderer extends OrthogonalTiledMapRenderer {
     }
 
     private boolean isCostSatisfied() {
-        IGameState gameState = controller.getGameState();
+        GameState gameState = controller.getGameState();
         Building ghostBuilding = controller.getGhostBuilding();
 
         return BuildingCosts.getCostFor(ghostBuilding.getClass()).isSatisfied(gameState);

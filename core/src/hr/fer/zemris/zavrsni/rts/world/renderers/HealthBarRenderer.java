@@ -7,15 +7,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.assets.AssetHealthBar;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.common.IGameState;
+import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
-import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
-import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
-import hr.fer.zemris.zavrsni.rts.world.IGameState;
-import hr.fer.zemris.zavrsni.rts.world.ILevel;
+import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 
 public class HealthBarRenderer {
 
@@ -106,7 +106,7 @@ public class HealthBarRenderer {
 
         AtlasRegion atlasRegion;
         if (!(damageable instanceof IDamageTrackable) ||
-                ((IDamageTrackable) damageable).timeSinceDamageLastTaken() > HIT_EFFECT_DURATION) {
+                ((IDamageTrackable<?>) damageable).timeSinceDamageLastTaken() > HIT_EFFECT_DURATION) {
 
             int healthBarIndex = Math.round((divisions  - 1) * hitPoints / (float) maxHitPoints);
             atlasRegion = healthBarAssets.healthBars.get(healthBarIndex);

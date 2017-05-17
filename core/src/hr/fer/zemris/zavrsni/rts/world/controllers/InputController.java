@@ -7,8 +7,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.util.MapTile;
-import hr.fer.zemris.zavrsni.rts.world.ILevel;
+import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 public class InputController extends InputAdapter {

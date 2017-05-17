@@ -28,6 +28,6 @@ public class CachingProblemHeuristic<T> implements IHeuristic<T> {
             }
         }
 
-        return 0;
+        return heuristic.calculateHeuristic(state, problem);
     }
 }

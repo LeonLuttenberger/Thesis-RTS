@@ -1,7 +1,8 @@
 package hr.fer.zemris.zavrsni.rts.objects.units.hostile;
 
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
-import hr.fer.zemris.zavrsni.rts.world.ILevel;
+import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 
 public class AlienBugUnit extends HostileUnit {
 

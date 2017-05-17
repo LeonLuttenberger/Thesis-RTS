@@ -1,13 +1,14 @@
 package hr.fer.zemris.zavrsni.rts.objects.units.player;
 
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Bullet;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
-import hr.fer.zemris.zavrsni.rts.world.ILevel;
+import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 
 public class SoldierUnit extends PlayerUnit implements IBuildableUnit, IRangedAttacker<SoldierUnit> {
 

@@ -1,10 +1,10 @@
 package hr.fer.zemris.zavrsni.rts.objects.buildings;
 
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
-import hr.fer.zemris.zavrsni.rts.objects.units.player.PlayerUnit;
-import hr.fer.zemris.zavrsni.rts.util.MapTile;
-import hr.fer.zemris.zavrsni.rts.world.ILevel;
+import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 
 import java.util.ArrayDeque;
 import java.util.Queue;

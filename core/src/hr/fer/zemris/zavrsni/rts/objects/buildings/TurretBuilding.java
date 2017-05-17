@@ -1,13 +1,13 @@
 package hr.fer.zemris.zavrsni.rts.objects.buildings;
 
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Bullet;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
-import hr.fer.zemris.zavrsni.rts.objects.units.hostile.HostileUnit;
-import hr.fer.zemris.zavrsni.rts.world.ILevel;
+import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUnitInRange;
 
@@ -38,7 +38,7 @@ public class TurretBuilding extends PlayerBuilding implements IRangedAttacker<Tu
         if (nearestEnemy != null) {
             resetAttackCooldown();
 
-            Projectile projectile = ((IRangedAttacker) this).rangedAttack(nearestEnemy);
+            Projectile projectile = this.rangedAttack(nearestEnemy);
             level.addProjectile(projectile);
         }
     }

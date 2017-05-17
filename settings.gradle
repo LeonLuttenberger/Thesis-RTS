@@ -1,2 +1,3 @@
-include 'desktop', 'core', 'pathfinding'
+include 'desktop', 'core'
+include 'pathfinding', 'genericrts'
 
