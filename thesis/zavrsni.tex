@@ -36,45 +36,94 @@
 
 % \par Kretanje jedinica po mapi u okruženjima koji su nepoznati ili čije se stanje može promijeniti u stvarnom vremenu predstavlja poseban izazov. Naime, kretanje jedinica prema zadanom cilju mora glatko te moraju izvoditi pretragu u stvarnom vremenu. Nadalje, ako je cilj zadan nad grupom jedinicama, očekivano je da će se odabrane jedinice grupirati i kretati zajedno prema cilju. Moguća rješenja za ove probleme bit će obrađena u poglavlju \ref{pathfinding}.
 
-\chapter{Pregled vrsti računalnih igara}\label{games}
+\chapter{Pregled vrsti računalnih igara}\label{ch:games}
 
-\chapter{RTS igre}\label{rtsGames}
-RTS žanr računalnih igara temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. Za razliku od ranije navedenih strategija na potez (engl. Turn-based strategy) gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu\cite{url:WhatDoesRTSMean}.
+\chapter{RTS igre}\label{ch:rtsGames}
+RTS žanr računalnih igara temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. 
+Za razliku od ranije navedenih strategija na potez (engl. Turn-based strategy) gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. 
+U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu\cite{url:WhatDoesRTSMean}.
 
 %TODO napisi o cemu ce sve bit poglavlje
 
-\section{Značajke RTS igara}
-\par Tipična RTS igra sastoji se od mnogih različitih elemenata. Prije svega, svaka igra se odvija na mapi ograničene veličine koja je određena s raznim tipovima terena, poput trave, vode, planina, pustinje, itd. Tip terena može odrediti koje se jedinice mogu kretati po njemu. Primjerice, pravila igre mogu biti takva da se običan vojnik ne može kretati po vodi, dok neki drugi tip jedinice poput broda može. Kao posljedica toga, teren igra veliku ulogu jer može zahtijevati korištenje posebnih strategija.
+\section{Opis RTS žanra}
 
-\par Još jedna bitna značajka RTS igara je skupljanje resursa. Ovisno o konkretnoj igri, resursi mogu biti drvo, minerali, nafta, zlato, itd. Oni se tipično skupljaju sa posebnom vrstom jedinica zvanom radnicima, te se koriste za izgradnju novih jedinica, zgrada, radnika, itd. Resursi također igraju veliku ulogu u strategij same igre. Primjerice, ako se igrač nalazi u situacij gdje ne može dalje napredovat zbog manjka nekog resursa, biti će prisiljen otići u potragu za istim. Analogno tome, višak izvora nekog resursa igrača može postaviti u opasnost jer će ostalim sudionicima igre biti prioritet napasti s ciljem da se ukradu resursi.
+%TODO napisi nesto
 
-\par Treća bitna značajka je izgradnja zgrada. Konkretne igre obično imaju mnogo različitih zgrada od kojih svaka ima svoj skup funkcionalnosti, poput treniranja novih jedinica, procesiranje resursa, istraživanje novih tehnologija, itd.  
+\subsection{Elementi RTS žanra}
 
-\par Posljedna bitna značajka RTS žanra su jedinice. Svaka RTS igra ima skup različitih jedinica koje igrač može odabrati i izgraditi za svoju vojsku. Svaka vrsta jedinice može imati svoje prednosti i mane. Npr. igra može kao vrstu jedinice imati konjanika koja ima prednost brzog kretanja po mapi, no ima manu da je izrazito ranjiva na kopljanike.
+\par Tipična RTS igra sastoji se od mnogih različitih elemenata. 
+Prije svega, svaka igra se odvija na mapi ograničene veličine koja je određena s raznim tipovima terena, poput trave, vode, planina, pustinje, itd. 
+Tip terena može odrediti koje se jedinice mogu kretati po njemu. 
+Primjerice, pravila igre mogu biti takva da se običan vojnik ne može kretati po vodi, dok neki drugi tip jedinice poput broda može. 
+Kao posljedica toga, teren igra veliku ulogu jer može zahtijevati korištenje posebnih strategija.
+
+\par Još jedna bitan element RTS igara je skupljanje resursa. 
+Ovisno o konkretnoj igri, resursi mogu biti drvo, minerali, nafta, zlato, itd. Oni se tipično skupljaju sa posebnom vrstom jedinica zvanom radnicima, te se koriste za izgradnju novih jedinica, zgrada, radnika, itd. 
+Resursi također igraju veliku ulogu u strategij same igre. 
+Primjerice, ako se igrač nalazi u situacij gdje ne može dalje napredovat zbog manjka nekog resursa, biti će prisiljen otići u potragu za istim. 
+Analogno tome, višak izvora nekog resursa igrača može postaviti u opasnost jer će ostalim sudionicima igre biti prioritet napasti s ciljem da se ukradu resursi.
+
+\par Osim resursa i mape, bitan element u svakoj RTS igri je izgradnja zgrada. 
+Konkretne igre obično imaju mnogo različitih zgrada od kojih svaka ima svoj skup funkcionalnosti, poput treniranja novih jedinica, procesiranje resursa, istraživanje novih tehnologija, itd.  
+
+\par Posljedni bitni element igara u RTS žanru su jedinice. 
+Svaka igra ima skup različitih jedinica koje igrač može odabrati i izgraditi za svoju vojsku. 
+Svaka vrsta jedinice može imati svoje prednosti i mane. 
+Npr.\ igra može kao vrstu jedinice imati konjanika koja ima prednost brzog kretanja po mapi, no ima manu da je izrazito ranjiv na kopljanike.
+
+\subsection{Strategija}
+
+\par Glavni cilj u igrama u RTS žanru analogan je igrama poput šaha, odnosno cilj je pametnom uporabom vlastite vojske poraziti vojsku od suparnika. 
+Za razliku od šaha, u računalnim strateškim igrama igrač započne igru \textit{praznih ruku}, odnosno igru može započeti sa samo jednim radnikom čiji je posao skupiti prve resurse s kojima će izgraditi prve jedinice te nove radnike i zgrade.
+
+\par Igrač jedinicama daje naredbe tako da ih odabere (npr.\ pritiskom tipke miša) i zada im odredište gdje se moraju pomaknut ili protivničku jedinicu koju moraju napasti. 
+Igrač također može odabrati zgradu i njoj dati naredbu što da proizvodi, poput novih jedinica ili istraživanja novih tehnologija koje će omogućiti izgradnju novih tipova jedinica i zgrada.
+
+\par Tokom igre, igrač mora odlučiti u koje će jedinice i tehnologije ulagat te koje će naredbe zadatati pojedinim jedinicama, odnosno koga napast, gdje se pozicionirat, kako ih grupirat, itd. 
+Kao posljedica toga, imati dobru strategiju je centralni aspekt igara u RTS žanru. 
+
+\par Također, ključno je imati na umu da će pojedine strategije samo funkcionirati protiv pojedinih protivnika i da određene situacije mogu zahtijevati promjenu strategije. 
+Primjerice, igrač se može odlučiti za strategiju ranog napada (engl. \textit{rush strategy}), odnosno odmah se fokusirati na izgradnju velikog broja osnovnih borbenih jedinica koje će što ranije moguće poslati u napad na protivnika.
+Kao kontrast tome, protivnik se može fokusirati na razvoj tehnologije što će ga ostaviti ranjivim na početku igre, ali će mu u kasnijim fazama igre omogućiti da gradi jedinice koje su jače od protivničkih.
 
 \section{Primjeri popularnih RTS igara}
 
-\chapter{Kretanje jedinica}\label{pathfinding}
+\chapter{Kretanje jedinica}\label{ch:pathfinding}
 
-\chapter{Implementacija jezgrenih funkcionalnosti}\label{implementation}
+\chapter{Implementacija jezgrenih funkcionalnosti}\label{ch:implementation}
 
-\chapter{Zaključak}\label{conclusion}
+\chapter{Zaključak}\label{ch:conclusion}
 Zaključak.
 
 \bibliography{literatura}
 \bibliographystyle{fer}
 
 \begin{sazetak}
-Računalne igre jedan su od vrlo značajnih pokretača razvoja računala. Postoji mnoštvo vrsta računalnih igara. Jednu od vrlo interesantnih vrsta igara čine strategije u stvarnom vremenu (engl. Real-Time Strategy, RTS). Razvoj takvih igara općenito uključuje pisanje mnogih podsustava i razvoj funkcionalnosti koje nisu specifične za konkretnu igru već ih je moguće višestruko iskorištavati. Takve funkcionalnosti moguće je izolirati u zaseban razvojni okvir. U okviru završnog rada potrebno je proučiti koji su sve elementi prisutni u RTS igri. Potrebno je napraviti programsku implementaciju osnovnih podsustava koje će biti moguće dijeliti između različitih RTS-igara. Također je potrebno implementirati prototip jedne konkretne igre koja sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina različitih funkcija (proizvodnja, obrana) te jedinica, upravljanje jedinicama (grupiranje, zadavanje ciljeva: dolazak na zadani položaj, pucanje, prikupljanje resursa) i osnovno upravljanje protivničkim jedinicama. 
-Implementaciju je potrebno ostvariti u programskom jeziku Java. Radu je potrebno priložiti algoritme, izvorne kodove i rezultate uz potrebna objašnjenja i dokumentaciju. Citirati korištenu literaturu i navesti dobivenu pomoć.
+Računalne igre jedan su od vrlo značajnih pokretača razvoja računala. Postoji mnoštvo vrsta računalnih igara. 
+Jednu od vrlo interesantnih vrsta igara čine strategije u stvarnom vremenu (engl. Real-Time Strategy, RTS). 
+Razvoj takvih igara općenito uključuje pisanje mnogih podsustava i razvoj funkcionalnosti koje nisu specifične za konkretnu igru već ih je moguće višestruko iskorištavati. 
+Takve funkcionalnosti moguće je izolirati u zaseban razvojni okvir. U okviru završnog rada potrebno je proučiti koji su sve elementi prisutni u RTS igri. 
+Potrebno je napraviti programsku implementaciju osnovnih podsustava koje će biti moguće dijeliti između različitih RTS-igara. 
+Također je potrebno implementirati prototip jedne konkretne igre koja sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina različitih funkcija (proizvodnja, obrana) te jedinica, upravljanje jedinicama (grupiranje, zadavanje ciljeva: dolazak na zadani položaj, pucanje, prikupljanje resursa) i osnovno upravljanje protivničkim jedinicama. 
+Implementaciju je potrebno ostvariti u programskom jeziku Java. 
+Radu je potrebno priložiti algoritme, izvorne kodove i rezultate uz potrebna objašnjenja i dokumentaciju. 
+Citirati korištenu literaturu i navesti dobivenu pomoć.
 
 \kljucnerijeci{Ključne riječi, odvojene zarezima.}
 \end{sazetak}
 
 \engtitle{Implementation of RTS game core}
 \begin{abstract}
-Computer games are a significant catalyst in the development of computers. There are many genres of computer games. Real-Time Strategy games represent one of the more interesting genres. The development of those types of games is based on developing a variety of subsystems and functionalities which aren't specific for one game, and are thus fit for reuse. These functionalities can be isolated into a separate workspace. As part of thesis, it is necessary to study which elements are present in an RTS game and develop a program implementation of the basic subsystems which can be shared between various RTS games. A further requirement is to develop a game prototype which contains the basic elements, such as the construction of buildings with various functions (manufactory, defense) and units, the management of units (grouping, assigning a goal: arrival at a destination, shooting, resource gathering) and basic enemy control.
-The implementation is to be written in the Java programming language. The completed assignment must be handed over along with the used algorithms, source code and results with the necessary explanations and documentation. The literature that was used must be cited along with the recieved help.
+Computer games are a significant catalyst in the development of computers. 
+There are many genres of computer games. 
+Real-Time Strategy games represent one of the more interesting genres. 
+The development of those types of games is based on developing a variety of subsystems and functionalities which aren't specific for one game, and are thus fit for reuse. 
+These functionalities can be isolated into a separate workspace. 
+As part of thesis, it is necessary to study which elements are present in an RTS game and develop a program implementation of the basic subsystems which can be shared between various RTS games. 
+A further requirement is to develop a game prototype which contains the basic elements, such as the construction of buildings with various functions (manufactory, defense) and units, the management of units (grouping, assigning a goal: arrival at a destination, shooting, resource gathering) and basic enemy control.
+The implementation is to be written in the Java programming language. 
+The completed assignment must be handed over along with the used algorithms, source code and results with the necessary explanations and documentation. 
+The literature that was used must be cited along with the recieved help.
 
 \keywords{Keywords.}
 \end{abstract}
