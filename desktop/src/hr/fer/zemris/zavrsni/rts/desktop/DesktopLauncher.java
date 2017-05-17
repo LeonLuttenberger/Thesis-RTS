@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import hr.fer.zemris.zavrsni.rts.MyRTS;
-import hr.fer.zemris.zavrsni.rts.util.Constants;
+import hr.fer.zemris.zavrsni.rts.common.Constants;
 
 public class DesktopLauncher {
 

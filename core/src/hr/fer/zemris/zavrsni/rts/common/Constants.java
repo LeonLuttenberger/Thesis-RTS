@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.util;
+package hr.fer.zemris.zavrsni.rts.common;
 
 public final class Constants {
 

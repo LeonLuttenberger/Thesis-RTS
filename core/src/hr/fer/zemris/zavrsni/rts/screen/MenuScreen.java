@@ -20,8 +20,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
-import hr.fer.zemris.zavrsni.rts.util.Constants;
-import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
+import hr.fer.zemris.zavrsni.rts.common.Constants;
+import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 
 public class MenuScreen extends AbstractGameScreen {
 

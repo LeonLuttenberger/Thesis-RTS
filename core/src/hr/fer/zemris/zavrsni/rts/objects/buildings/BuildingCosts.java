@@ -5,6 +5,8 @@ import hr.fer.zemris.zavrsni.rts.common.GameState;
 import java.util.HashMap;
 import java.util.Map;
 
+import static hr.fer.zemris.zavrsni.rts.common.GameResources.KEY_MINERALS;
+
 public final class BuildingCosts {
 
     public BuildingCosts() {}
@@ -27,7 +29,7 @@ public final class BuildingCosts {
         }
 
         public boolean isSatisfied(GameState gameState) {
-            return gameState.getResources("minerals") >= minerals;
+            return gameState.getResources(KEY_MINERALS) >= minerals;
         }
 
         public void apply(GameState gameState) {

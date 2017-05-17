@@ -24,7 +24,7 @@ public class GameState implements IGameState {
 
     @Override
     public void reset() {
-        resources.put("minerals", 0);
+        resources.put(GameResources.KEY_MINERALS, 0);
         squads.clear();
 
         if (level != null) {
@@ -69,7 +69,7 @@ public class GameState implements IGameState {
     @Override
     public int getResources(String name) {
         if (!resources.containsKey(name)) {
-            throw new RuntimeException(); //TODO
+            throw new NoSuchResourceException();
         }
 
         return resources.get(name);
@@ -78,7 +78,7 @@ public class GameState implements IGameState {
     @Override
     public void addResource(String name, int dResource) {
         if (!resources.containsKey(name)) {
-            throw new RuntimeException(); //TODO
+            throw new NoSuchResourceException();
         }
 
         resources.put(name, resources.get(name) + dResource);
@@ -87,7 +87,7 @@ public class GameState implements IGameState {
     @Override
     public void removeResource(String name, int dResource) {
         if (!resources.containsKey(name)) {
-            throw new RuntimeException(); //TODO
+            throw new NoSuchResourceException();
         }
 
         resources.put(name, resources.get(name) - dResource);

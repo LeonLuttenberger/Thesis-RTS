@@ -2,7 +2,7 @@ package hr.fer.zemris.zavrsni.rts.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.ScreenAdapter;
-import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
+import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 
 public abstract class AbstractGameScreen extends ScreenAdapter {
 

@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
-import hr.fer.zemris.zavrsni.rts.util.Constants;
+import hr.fer.zemris.zavrsni.rts.common.Constants;
 
-import static hr.fer.zemris.zavrsni.rts.util.Constants.TEXTURE_ATLAS_OBJECTS;
-import static hr.fer.zemris.zavrsni.rts.util.Constants.TEXTURE_ATLAS_UI;
+import static hr.fer.zemris.zavrsni.rts.common.Constants.TEXTURE_ATLAS_OBJECTS;
+import static hr.fer.zemris.zavrsni.rts.common.Constants.TEXTURE_ATLAS_UI;
 
 public final class Assets implements Disposable {
 

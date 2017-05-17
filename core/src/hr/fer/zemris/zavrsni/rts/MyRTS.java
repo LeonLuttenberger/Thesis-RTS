@@ -9,12 +9,12 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.strongjoshua.console.Console;
 import com.strongjoshua.console.GUIConsole;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.common.Constants;
+import hr.fer.zemris.zavrsni.rts.common.GameSettings;
 import hr.fer.zemris.zavrsni.rts.console.InGameCommandExecutor;
 import hr.fer.zemris.zavrsni.rts.console.MyRTSCommandExecutor;
 import hr.fer.zemris.zavrsni.rts.screen.GameScreen;
 import hr.fer.zemris.zavrsni.rts.screen.MenuScreen;
-import hr.fer.zemris.zavrsni.rts.util.Constants;
-import hr.fer.zemris.zavrsni.rts.util.GameSettings;
 
 public class MyRTS extends Game {
 

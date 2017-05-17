@@ -26,13 +26,14 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.common.Constants;
+import hr.fer.zemris.zavrsni.rts.common.GameResources;
+import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.Level;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.TurretBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
-import hr.fer.zemris.zavrsni.rts.util.Constants;
-import hr.fer.zemris.zavrsni.rts.util.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 import hr.fer.zemris.zavrsni.rts.world.renderers.HealthBarRenderer;
@@ -215,7 +216,7 @@ public class GameScreen extends AbstractGameScreen {
     }
 
     private void renderResourceBar() {
-        labelMinerals.setText(Integer.toString(controller.getGameState().getResources("minerals")));
+        labelMinerals.setText(Integer.toString(controller.getGameState().getResources(GameResources.KEY_MINERALS)));
     }
 
     @Override

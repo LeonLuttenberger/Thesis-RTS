@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.util;
+package hr.fer.zemris.zavrsni.rts.common;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
