@@ -2,6 +2,7 @@ package hr.fer.zemris.zavrsni.rts.objects.resources;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 
@@ -13,10 +14,10 @@ public abstract class Resource extends AbstractGameObject implements IDamageable
     private final int maxDurability;
     private int remainingDurability;
 
-    public Resource(TextureRegion region, int width, int height, float terrainModifier, int maxDurability) {
+    public Resource(TextureRegion region, ILevel level, float terrainModifier, int maxDurability) {
         this.region = region;
-        this.dimension.x = width;
-        this.dimension.y = height;
+        this.dimension.x = level.getTileWidth();
+        this.dimension.y = level.getTileHeight();
 
         this.terrainModifier = terrainModifier;
         this.maxDurability = maxDurability;

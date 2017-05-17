@@ -10,11 +10,7 @@ public final class Constants {
     public static final float DEFAULT_WINDOW_WIDTH = 800;
     public static final float DEFAULT_WINDOW_HEIGHT = 450;
 
-    public static final int TILE_WIDTH = 32;
-    public static final int TILE_HEIGHT = 32;
-
     public static final String TILED_MAP_TMX = "level/desert.tmx";
-    public static final String TERRAIN_LAYER = "Terrain Layer";
 
     public static final String TEXTURE_ATLAS_OBJECTS = "images/textures.atlas";
     public static final String TEXTURE_ATLAS_UI = "images/textures-ui.atlas";

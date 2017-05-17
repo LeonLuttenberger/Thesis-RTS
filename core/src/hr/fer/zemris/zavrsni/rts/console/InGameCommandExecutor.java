@@ -38,7 +38,7 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
         if (!isPositionValid(x, y)) return;
 
         ILevel level = gameState.getLevel();
-        Resource boulder = new ResourceBoulder();
+        Resource boulder = new ResourceBoulder(level);
         boulder.position.set(x * level.getTileWidth(), y * level.getTileHeight());
 
         gameState.getLevel().addResource(boulder);

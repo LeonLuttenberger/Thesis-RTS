@@ -13,7 +13,6 @@ import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
-import hr.fer.zemris.zavrsni.rts.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Level implements ILevel {
+
+    private static final String TERRAIN_LAYER = "Terrain Layer";
 
     private static final String PROP_KEY_WIDTH = "width";
     private static final String PROP_KEY_HEIGHT = "height";
@@ -57,7 +58,7 @@ public class Level implements ILevel {
         defaultTileModifiers = new float[width][height];
         objectMap = new AbstractGameObject[width][height];
 
-        TiledMapTileLayer mapLayer = (TiledMapTileLayer) tiledMap.getLayers().get(Constants.TERRAIN_LAYER);
+        TiledMapTileLayer mapLayer = (TiledMapTileLayer) tiledMap.getLayers().get(TERRAIN_LAYER);
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -67,13 +68,6 @@ public class Level implements ILevel {
 
         tileWidth = tiledMap.getProperties().get(PROP_KEY_TILE_WIDTH, Integer.class);
         tileHeight = tiledMap.getProperties().get(PROP_KEY_TILE_HEIGHT, Integer.class);
-
-        if (tileWidth != Constants.TILE_WIDTH) {
-            throw new RuntimeException("Tile width must be " + Constants.TILE_WIDTH);
-        }
-        if (tileHeight != Constants.TILE_HEIGHT) {
-            throw new RuntimeException("Tile height must be " + Constants.TILE_HEIGHT);
-        }
 
         additionalTileModifiers = new float[width][height];
         initDefaultMap();
@@ -114,7 +108,7 @@ public class Level implements ILevel {
             int rockX = Integer.parseInt(xyPairArray[0]);
             int rockY = height - Integer.parseInt(xyPairArray[1]);
 
-            ResourceBoulder rock = new ResourceBoulder();
+            ResourceBoulder rock = new ResourceBoulder(this);
             rock.position.set(rockX * tileWidth, rockY * tileHeight);
             addResource(rock);
         }
