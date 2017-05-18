@@ -39,7 +39,7 @@ public class Squad implements IUpdateable {
         squadLeader.updateSearchAgent();
         if (squadLeader.isSearchStopped()) {
             for (Unit squadMember : squadMembers) {
-                squadMember.position.setLength(0);
+                squadMember.velocity.setLength(0);
             }
             return;
         }

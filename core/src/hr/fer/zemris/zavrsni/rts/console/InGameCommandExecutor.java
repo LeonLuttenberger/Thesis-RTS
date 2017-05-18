@@ -5,7 +5,7 @@ import hr.fer.zemris.zavrsni.rts.common.GameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
-import hr.fer.zemris.zavrsni.rts.objects.units.hostile.AlienBugUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.hostile.AlienSoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 
@@ -67,14 +67,14 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
         console.log("Spawned worker unit at " + x + " " + y, LogLevel.SUCCESS);
     }
 
-    public void spawnBugUnit(int x, int y) {
+    public void spawnAlienSoldier(int x, int y) {
         if (!isPositionValid(x, y)) return;
 
         ILevel level = gameState.getLevel();
-        AlienBugUnit alienBugUnit = new AlienBugUnit(level);
-        alienBugUnit.position.set(x * level.getTileWidth(), y * level.getTileHeight());
+        AlienSoldierUnit alienSoldierUnit = new AlienSoldierUnit(level);
+        alienSoldierUnit.position.set(x * level.getTileWidth(), y * level.getTileHeight());
 
-        level.addHostileUnit(alienBugUnit);
+        level.addHostileUnit(alienSoldierUnit);
         console.log("Spawned alien bug at " + x + " " + y, LogLevel.SUCCESS);
     }
 

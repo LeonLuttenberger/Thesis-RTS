@@ -57,7 +57,7 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
     }
 
     @Override
-    public MapTile update(MapTile currentPosition) {
+    public MapTile getAction(MapTile currentPosition) {
         MapTile previousPosition = this.currentPosition;
         this.currentPosition = currentPosition;
 

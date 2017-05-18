@@ -11,7 +11,7 @@ import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
-import hr.fer.zemris.zavrsni.rts.pathfinding.imp.RTAAStarMapSearchAgent;
+import hr.fer.zemris.zavrsni.rts.pathfinding.imp.SearchAgentProvider;
 
 public abstract class Unit extends AbstractMovableObject implements IDamageTrackable<Unit> {
 
@@ -44,7 +44,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
                 float defaultSpeed, int maxHealth, float attackRange, int attackPower, float attackCooldown) {
         this.animation = animation;
         this.level = level;
-        this.searchAgent = new RTAAStarMapSearchAgent(level);
+        this.searchAgent = SearchAgentProvider.getSearchAgent(level);
 
         this.dimension.x = width;
         this.dimension.y = height;
@@ -138,7 +138,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
                 }
             } else {
                 if (waypointTile != null && isOnTile(waypointTile)) {
-                    waypointTile = searchAgent.update(waypointTile);
+                    waypointTile = searchAgent.getAction(waypointTile);
                 }
 
                 MapTile nextTile;
@@ -192,7 +192,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
         goalTile = level.getTileForPosition(x, y);
 
         searchAgent.pathfind(getCurrentMapTile(), goalTile);
-        waypointTile = searchAgent.update(getCurrentMapTile());
+        waypointTile = searchAgent.getAction(getCurrentMapTile());
     }
 
     public void transferPathfindingTo(Unit other) {
