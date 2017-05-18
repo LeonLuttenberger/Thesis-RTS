@@ -36,7 +36,6 @@ import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
 import hr.fer.zemris.zavrsni.rts.world.controllers.state.BuildingControllerState;
-import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 import hr.fer.zemris.zavrsni.rts.world.renderers.HealthBarRenderer;
 import hr.fer.zemris.zavrsni.rts.world.renderers.WorldRenderer;
 
@@ -49,7 +48,6 @@ public class GameScreen extends AbstractGameScreen {
 
     private OrthographicCamera camera;
 
-    private DragBoxRenderer dragBoxRenderer = new DragBoxRenderer();
     private HealthBarRenderer healthBarRenderer;
 
     private Stage stageUI;
@@ -70,7 +68,7 @@ public class GameScreen extends AbstractGameScreen {
         camera.update();
 
         SpriteBatch batch = new SpriteBatch();
-        controller = new WorldController(level, camera, dragBoxRenderer);
+        controller = new WorldController(level, camera);
         renderer = new WorldRenderer(controller, tiledMap, batch);
 
         healthBarRenderer = new HealthBarRenderer(controller.getGameState());
@@ -162,8 +160,7 @@ public class GameScreen extends AbstractGameScreen {
         btnBuildGenerator.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.setControllerState(
-                        new BuildingControllerState(TurretBuilding::new, camera, controller.getGameState()));
+                controller.setControllerState(new BuildingControllerState(TurretBuilding::new, controller));
             }
         });
 
@@ -193,7 +190,6 @@ public class GameScreen extends AbstractGameScreen {
         renderer.setView(camera);
         renderer.render();
 
-        dragBoxRenderer.render();
         healthBarRenderer.render(camera);
 
         renderFPSCounter();
@@ -227,7 +223,7 @@ public class GameScreen extends AbstractGameScreen {
         camera.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
         camera.update();
 
-        dragBoxRenderer.resize(width, height);
+        controller.getControllerState().resize(width, height);
         healthBarRenderer.resize(width, height);
         stageUI.getViewport().update(width, height, true);
     }

@@ -3,21 +3,16 @@ package hr.fer.zemris.zavrsni.rts.world.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.world.controllers.state.DefaultControllerState;
-import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 public class InputController extends InputAdapter {
 
-    private DragBoxRenderer dragBoxRenderer;
     private OrthographicCamera camera;
     private WorldController controller;
 
-    public InputController(DragBoxRenderer dragBoxRenderer, OrthographicCamera camera, WorldController controller) {
-        this.dragBoxRenderer = dragBoxRenderer;
+    public InputController(OrthographicCamera camera, WorldController controller) {
         this.camera = camera;
         this.controller = controller;
     }
@@ -73,8 +68,12 @@ public class InputController extends InputAdapter {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            dragBoxRenderer.handleTouchDrag(screenX, screenY);
+        if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+            controller.getControllerState().mouseLeftDragged(screenX, screenY);
+        }
+
+        if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
+            controller.getControllerState().mouseRightDragged(screenX, screenY);
         }
 
         if (Gdx.input.isButtonPressed(Buttons.MIDDLE)) {
@@ -90,9 +89,12 @@ public class InputController extends InputAdapter {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (button == Input.Buttons.LEFT) {
-            dragBoxRenderer.handleTouchUp();
-            handleUnitSelection();
+        if (button == Buttons.LEFT) {
+            controller.getControllerState().mouseLeftClickReleased(screenX, screenY);
+        }
+
+        if (button == Buttons.RIGHT) {
+            controller.getControllerState().mouseRightClickReleased(screenX, screenY);
         }
 
         if (button == Buttons.MIDDLE) {
@@ -102,26 +104,14 @@ public class InputController extends InputAdapter {
         return false;
     }
 
-    private void handleUnitSelection() {
-        Vector3 selectionStart = camera.unproject(new Vector3(dragBoxRenderer.getX(), dragBoxRenderer.getY(), 0));
-        Vector3 selectionEnd = camera.unproject(new Vector3(
-                dragBoxRenderer.getX() + dragBoxRenderer.getWidth(),
-                dragBoxRenderer.getY() + dragBoxRenderer.getHeight(),
-                0));
-
-        controller.selectUnitsInArea(selectionStart, selectionEnd);
-    }
-
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Buttons.RIGHT) {
-            Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
-            controller.sendSelectedUnitsTo(position);
+            controller.getControllerState().mouseRightClicked(screenX, screenY);
         }
 
         if (button == Buttons.LEFT) {
-            controller.deselectUnits();
-            controller.getControllerState().mouseClicked(screenX, screenY);
+            controller.getControllerState().mouseLeftClicked(screenX, screenY);
         }
 
         return false;
@@ -130,15 +120,6 @@ public class InputController extends InputAdapter {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         controller.getControllerState().mouseMoved(screenX, screenY);
-        return false;
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        if (keycode == Keys.C) {
-            controller.setControllerState(new DefaultControllerState());
-        }
-
         return false;
     }
 }

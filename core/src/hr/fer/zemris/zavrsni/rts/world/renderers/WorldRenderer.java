@@ -27,10 +27,8 @@ public class WorldRenderer extends OrthogonalTiledMapRenderer {
         super.render();
 
         spriteBatch.begin();
-
-        controller.getGameState().getLevel().render(spriteBatch);
         controller.getControllerState().render(spriteBatch);
-
+        controller.getGameState().getLevel().render(spriteBatch);
         spriteBatch.end();
 
         shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());

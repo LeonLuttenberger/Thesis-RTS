@@ -19,7 +19,6 @@ import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.world.controllers.state.DefaultControllerState;
 import hr.fer.zemris.zavrsni.rts.world.controllers.state.IControllerState;
-import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,18 +32,21 @@ public class WorldController implements Disposable, IUpdateable {
     private final GameState gameState;
     private final InputController inputController;
 
+    private final OrthographicCamera camera;
+
     private boolean isPaused = false;
     private boolean wasPausedLastUpdate = false;
 
+    private IControllerState controllerState;
     private BaseBuilding baseBuilding;
 
-    private IControllerState controllerState = new DefaultControllerState();
-
-    public WorldController(ILevel level, OrthographicCamera camera, DragBoxRenderer dragBoxRenderer) {
+    public WorldController(ILevel level, OrthographicCamera camera) {
         this.gameState = new GameState();
         this.gameState.setLevel(level);
 
-        this.inputController = new InputController(dragBoxRenderer, camera, this);
+        this.camera = camera;
+        this.inputController = new InputController(camera, this);
+        this.controllerState = new DefaultControllerState(this);
 
         baseBuilding = level.getBuildings().stream()
                 .filter(b -> b instanceof BaseBuilding)
@@ -62,6 +64,10 @@ public class WorldController implements Disposable, IUpdateable {
 
     public void setControllerState(IControllerState controllerState) {
         this.controllerState = Objects.requireNonNull(controllerState);
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
     }
 
     public void pause() {
@@ -129,7 +135,7 @@ public class WorldController implements Disposable, IUpdateable {
     private void removeDestroyedBuildings() {
         ILevel level = gameState.getLevel();
         removeFromLevelIf(level.getBuildings(), IDamageable::isDestroyed,
-                level::removeBuilding, null);
+                level::removeBuilding, b -> b.onDestroyed(gameState));
     }
 
     private void removeUsedUpProjectile() {
