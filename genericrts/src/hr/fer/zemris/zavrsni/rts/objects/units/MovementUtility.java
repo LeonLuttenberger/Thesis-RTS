@@ -3,9 +3,14 @@ package hr.fer.zemris.zavrsni.rts.objects.units;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.PlayerBuilding;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import static hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject.distanceBetween;
 
@@ -108,6 +113,37 @@ public final class MovementUtility {
         adjacentTiles.add(new MapTile(x, y - 1));
 
         return adjacentTiles;
+    }
+
+    private static Optional<IDamageable<?>> closestTargetInRange(AbstractGameObject object,
+                                                                Iterator<IDamageable<?>> targets, float range) {
+
+        float minDistance = Float.POSITIVE_INFINITY;
+        IDamageable<?> closest = null;
+
+        while (targets.hasNext()) {
+            IDamageable<?> next = targets.next();
+
+            float distance = AbstractGameObject.distanceBetween(object, next.getObject());
+            if (distance < range && distance < minDistance) {
+                minDistance = distance;
+                closest = next;
+            }
+        }
+
+        return Optional.ofNullable(closest);
+    }
+
+    public static Optional<IDamageable<?>> closestPlayerTargetInRange(AbstractGameObject object, ILevel level,
+                                                                      float range) {
+
+        Stream<IDamageable<?>> damageables = Stream.concat(
+                level.getPlayerUnits().stream(),
+                level.getBuildings().stream().filter(b -> b instanceof PlayerBuilding)
+        ).filter(d -> d instanceof IDamageable<?>)
+         .map(d -> (IDamageable<?>) d);
+
+        return closestTargetInRange(object, damageables.iterator(), range);
     }
 
     public static <T extends Unit> T closestUnitInRange(AbstractGameObject object, List<T> unitsToCheck, float range) {
