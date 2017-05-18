@@ -5,7 +5,7 @@ import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 
-import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.ALIGNMENT_WEIGHT;
@@ -18,7 +18,7 @@ public class Squad implements IUpdateable {
     private final Consumer<Unit> functionApplyCohesion = this::applyCohesion;
     private final Consumer<Unit> functionApplyAlignment = this::applyAlignment;
 
-    private final List<Unit> squadMembers;
+    private final Set<Unit> squadMembers;
     private final ILevel level;
 
     private float destinationX;
@@ -26,7 +26,7 @@ public class Squad implements IUpdateable {
 
     private Unit squadLeader;
 
-    public Squad(List<Unit> squadMembers, ILevel level) {
+    public Squad(Set<Unit> squadMembers, ILevel level) {
         this.squadMembers = squadMembers;
         this.level = level;
     }

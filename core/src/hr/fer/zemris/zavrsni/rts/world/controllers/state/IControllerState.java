@@ -18,6 +18,8 @@ public interface IControllerState {
 
     void mouseRightClickReleased(int screenX, int screenY);
 
+    void keyDown(int keycode);
+
     void render(SpriteBatch batch);
 
     void resize(int width, int height);

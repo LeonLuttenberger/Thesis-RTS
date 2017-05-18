@@ -150,7 +150,7 @@ public final class MovementUtility {
         return closestUnitInRange(object.getCenterX(), object.getCenterY(), unitsToCheck, range);
     }
 
-    public static <T extends Unit> T closestUnitInRange(float x, float y, List<T> units, float range) {
+    public static <T extends Unit> T closestUnitInRange(float x, float y, Iterable<T> units, float range) {
         T closestUnit = null;
         float minDistance = Float.POSITIVE_INFINITY;
 

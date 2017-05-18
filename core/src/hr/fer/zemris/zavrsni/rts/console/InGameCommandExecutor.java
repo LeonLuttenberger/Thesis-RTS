@@ -1,7 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.console;
 
 import com.strongjoshua.console.LogLevel;
-import hr.fer.zemris.zavrsni.rts.common.GameState;
+import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
@@ -11,9 +11,9 @@ import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 
 public class InGameCommandExecutor extends MyRTSCommandExecutor {
 
-    private final GameState gameState;
+    private final IGameState gameState;
 
-    public InGameCommandExecutor(GameState gameState) {
+    public InGameCommandExecutor(IGameState gameState) {
         this.gameState = gameState;
     }
 

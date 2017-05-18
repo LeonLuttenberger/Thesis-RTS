@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import hr.fer.zemris.zavrsni.rts.common.GameState;
+import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
@@ -29,7 +30,7 @@ import java.util.function.Predicate;
 
 public class WorldController implements Disposable, IUpdateable {
 
-    private final GameState gameState;
+    private final IGameState gameState;
     private final InputController inputController;
 
     private final OrthographicCamera camera;
@@ -54,7 +55,7 @@ public class WorldController implements Disposable, IUpdateable {
                 .findFirst().orElseThrow(() -> new RuntimeException("Level does not contain a base."));
     }
 
-    public GameState getGameState() {
+    public IGameState getGameState() {
         return gameState;
     }
 
@@ -112,7 +113,7 @@ public class WorldController implements Disposable, IUpdateable {
         removeUnnecessarySquads();
         removeCollectedResources();
         removeDestroyedBuildings();
-        removeUsedUpProjectile();
+        removeUsedUpProjectiles();
     }
 
     private void removeDeadUnits() {
@@ -138,7 +139,7 @@ public class WorldController implements Disposable, IUpdateable {
                 level::removeBuilding, b -> b.onDestroyed(gameState));
     }
 
-    private void removeUsedUpProjectile() {
+    private void removeUsedUpProjectiles() {
         ILevel level = gameState.getLevel();
         removeFromLevelIf(level.getProjectiles(), Projectile::isUsedUp, level::removeProjectile, null);
     }

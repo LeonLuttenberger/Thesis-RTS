@@ -1,8 +1,11 @@
 package hr.fer.zemris.zavrsni.rts.world.controllers.state;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
@@ -47,6 +50,19 @@ public class DefaultControllerState extends ControllerStateAdapter {
     @Override
     public void mouseLeftDragged(int screenX, int screenY) {
         dragBoxRenderer.handleTouchDrag(screenX, screenY);
+    }
+
+    @Override
+    public void keyDown(int keycode) {
+        if (keycode >= Keys.NUM_0 && keycode <= Keys.NUM_9) {
+            IGameState gameState = controller.getGameState();
+
+            if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
+                gameState.saveCurrentSelection(Keys.toString(keycode));
+            } else {
+                gameState.selectSavedSelection(Keys.toString(keycode));
+            }
+        }
     }
 
     @Override

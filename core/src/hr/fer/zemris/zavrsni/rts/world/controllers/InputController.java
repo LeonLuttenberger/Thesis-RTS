@@ -122,4 +122,10 @@ public class InputController extends InputAdapter {
         controller.getControllerState().mouseMoved(screenX, screenY);
         return false;
     }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        controller.getControllerState().keyDown(keycode);
+        return false;
+    }
 }

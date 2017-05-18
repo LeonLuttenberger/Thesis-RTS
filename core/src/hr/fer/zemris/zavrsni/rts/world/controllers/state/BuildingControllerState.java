@@ -3,7 +3,7 @@ package hr.fer.zemris.zavrsni.rts.world.controllers.state;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import hr.fer.zemris.zavrsni.rts.common.GameState;
+import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
@@ -40,7 +40,7 @@ public class BuildingControllerState extends ControllerStateAdapter {
 
     @Override
     public void mouseLeftClicked(int screenX, int screenY) {
-        GameState gameState = controller.getGameState();
+        IGameState gameState = controller.getGameState();
 
         Cost cost = BuildingCosts.getCostFor(template.getClass());
         if (!cost.isSatisfied(gameState)) return;

@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.common;
 
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class GameState implements IGameState {
@@ -17,7 +19,9 @@ public class GameState implements IGameState {
     private Map<String, Integer> resources = new HashMap<>();
 
     private final List<Squad> squads = new ArrayList<>();
+
     private final Map<Unit, Squad> unitSquadMap = new HashMap<>();
+    private final Map<String, Set<Unit>> savedSelections = new HashMap<>();
 
     public GameState() {
         reset();
@@ -27,6 +31,8 @@ public class GameState implements IGameState {
     public void reset() {
         resources.put(GameResources.KEY_MINERALS, 0);
         squads.clear();
+        unitSquadMap.clear();
+        savedSelections.clear();
 
         if (level != null) {
             level.reset();
@@ -45,9 +51,9 @@ public class GameState implements IGameState {
 
     @Override
     public Squad createSquadFromSelected() {
-        List<Unit> units = level.getPlayerUnits().stream()
+        Set<Unit> units = level.getPlayerUnits().stream()
                 .filter(PlayerUnit::isSelected)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
         if (units.isEmpty()) return null;
 
@@ -72,6 +78,44 @@ public class GameState implements IGameState {
     @Override
     public List<Squad> getSquads() {
         return squads;
+    }
+
+    @Override
+    public Set<String> savedSelectionKeys() {
+        return null;
+    }
+
+    @Override
+    public void saveCurrentSelection(String key) {
+        Set<Unit> units = level.getPlayerUnits().stream()
+                .filter(PlayerUnit::isSelected)
+                .collect(Collectors.toSet());
+
+        savedSelections.put(key, units);
+    }
+
+    private void clearSelection() {
+        for (PlayerUnit unit : level.getPlayerUnits()) {
+            unit.setSelected(false);
+        }
+    }
+
+    @Override
+    public void selectSavedSelection(String key) {
+        clearSelection();
+
+        Set<Unit> units = savedSelections.get(key);
+        if (units == null) return;
+
+        units.removeIf(IDamageable::isDestroyed);
+        if (units.isEmpty()) {
+            savedSelections.remove(key);
+            return;
+        }
+
+        for (PlayerUnit unit : level.getPlayerUnits()) {
+            unit.setSelected(units.contains(unit));
+        }
     }
 
     @Override

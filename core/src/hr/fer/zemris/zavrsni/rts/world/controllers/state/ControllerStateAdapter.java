@@ -26,6 +26,9 @@ public abstract class ControllerStateAdapter implements IControllerState {
     public void mouseRightClickReleased(int screenX, int screenY) {}
 
     @Override
+    public void keyDown(int keycode) {}
+
+    @Override
     public void render(SpriteBatch batch) {}
 
     @Override
