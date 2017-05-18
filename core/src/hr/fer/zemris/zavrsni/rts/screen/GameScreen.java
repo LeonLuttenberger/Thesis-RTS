@@ -35,6 +35,7 @@ import hr.fer.zemris.zavrsni.rts.objects.buildings.TurretBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
+import hr.fer.zemris.zavrsni.rts.world.controllers.state.BuildingControllerState;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 import hr.fer.zemris.zavrsni.rts.world.renderers.HealthBarRenderer;
 import hr.fer.zemris.zavrsni.rts.world.renderers.WorldRenderer;
@@ -161,7 +162,8 @@ public class GameScreen extends AbstractGameScreen {
         btnBuildGenerator.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.suggestBuilding(TurretBuilding::new, TurretBuilding.class);
+                controller.setControllerState(
+                        new BuildingControllerState(TurretBuilding::new, camera, controller.getGameState()));
             }
         });
 

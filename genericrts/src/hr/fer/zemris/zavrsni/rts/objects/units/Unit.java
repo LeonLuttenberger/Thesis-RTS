@@ -1,6 +1,5 @@
 package hr.fer.zemris.zavrsni.rts.objects.units;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -64,8 +63,6 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
 
     @Override
     public void render(SpriteBatch batch) {
-        stateTime += Gdx.graphics.getDeltaTime();
-
         TextureRegion frame;
         if (!isMoving()) {
             frame = animation.getKeyFrame(0);
@@ -86,6 +83,7 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
 
     @Override
     public void update(float deltaTime) {
+        stateTime += deltaTime;
         velocity.set(newVelocity);
 
         timeSinceLastAttack += deltaTime;

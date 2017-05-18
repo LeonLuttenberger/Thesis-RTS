@@ -1,18 +1,19 @@
 package hr.fer.zemris.zavrsni.rts.world.renderers;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import hr.fer.zemris.zavrsni.rts.common.GameState;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts;
+import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
 
 public class WorldRenderer extends OrthogonalTiledMapRenderer {
 
     private WorldController controller;
     private SpriteBatch spriteBatch;
+
+    private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public WorldRenderer(WorldController controller, TiledMap tiledMap, SpriteBatch spriteBatch) {
         super(tiledMap, spriteBatch);
@@ -28,27 +29,22 @@ public class WorldRenderer extends OrthogonalTiledMapRenderer {
         spriteBatch.begin();
 
         controller.getGameState().getLevel().render(spriteBatch);
-
-        if (controller.getGhostBuilding() != null) {
-            Color oldColor = spriteBatch.getColor();
-
-            if (isCostSatisfied()) {
-                spriteBatch.setColor(1, 1, 1, 0.5f);
-            } else {
-                spriteBatch.setColor(1, 0, 0, 0.5f);
-            }
-
-            controller.getGhostBuilding().render(spriteBatch);
-            spriteBatch.setColor(oldColor);
-        }
+        controller.getControllerState().render(spriteBatch);
 
         spriteBatch.end();
-    }
 
-    private boolean isCostSatisfied() {
-        GameState gameState = controller.getGameState();
-        Building ghostBuilding = controller.getGhostBuilding();
+        shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
+        shapeRenderer.begin(ShapeType.Line);
 
-        return BuildingCosts.getCostFor(ghostBuilding.getClass()).isSatisfied(gameState);
+        for (PlayerUnit playerUnit : controller.getGameState().getLevel().getPlayerUnits()) {
+            if (playerUnit.isSelected()) {
+                shapeRenderer.ellipse(
+                        playerUnit.getCenterX() - playerUnit.dimension.x / 2,
+                        playerUnit.getCenterY() - playerUnit.dimension.y / 2,
+                        playerUnit.dimension.x, playerUnit.dimension.y);
+            }
+        }
+
+        shapeRenderer.end();
     }
 }

@@ -1,6 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.objects.units;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
@@ -15,6 +16,11 @@ public abstract class PlayerUnit extends Unit {
     public PlayerUnit(Animation<TextureRegion> animation, ILevel level, float width, float height,
                       float defaultSpeed, int maxHealth, float attackRange, int attackPower, float attackCooldown) {
         super(animation, level, width, height, defaultSpeed, maxHealth, attackRange, attackPower, attackCooldown);
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
     }
 
     @Override

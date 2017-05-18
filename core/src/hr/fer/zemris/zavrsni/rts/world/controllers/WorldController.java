@@ -11,18 +11,19 @@ import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts.Cost;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.world.controllers.state.DefaultControllerState;
+import hr.fer.zemris.zavrsni.rts.world.controllers.state.IControllerState;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -37,8 +38,7 @@ public class WorldController implements Disposable, IUpdateable {
 
     private BaseBuilding baseBuilding;
 
-    private Function<ILevel, Building> buildingSupplier;
-    Building ghostBuilding;
+    private IControllerState controllerState = new DefaultControllerState();
 
     public WorldController(ILevel level, OrthographicCamera camera, DragBoxRenderer dragBoxRenderer) {
         this.gameState = new GameState();
@@ -54,6 +54,14 @@ public class WorldController implements Disposable, IUpdateable {
 
     public GameState getGameState() {
         return gameState;
+    }
+
+    public IControllerState getControllerState() {
+        return controllerState;
+    }
+
+    public void setControllerState(IControllerState controllerState) {
+        this.controllerState = Objects.requireNonNull(controllerState);
     }
 
     public void pause() {
@@ -164,6 +172,12 @@ public class WorldController implements Disposable, IUpdateable {
         }
     }
 
+    public void deselectUnits() {
+        for (PlayerUnit playerUnit : gameState.getLevel().getPlayerUnits()) {
+            playerUnit.setSelected(false);
+        }
+    }
+
     public void sendSelectedUnitsTo(Vector3 destination) {
         Squad squad = gameState.createSquadFromSelected();
 
@@ -178,38 +192,6 @@ public class WorldController implements Disposable, IUpdateable {
 
     public void buildUnit(Function<ILevel, IBuildableUnit> function) {
         baseBuilding.buildUnit(function);
-    }
-
-    public void suggestBuilding(Function<ILevel, Building> supplier, Class<? extends Building> buildingType) {
-        Cost cost = BuildingCosts.getCostFor(buildingType);
-        if (cost.isSatisfied(gameState)) {
-            buildingSupplier = supplier;
-            ghostBuilding = supplier.apply(gameState.getLevel());
-        }
-    }
-
-    void clearBuildingSuggestion() {
-        buildingSupplier = null;
-        ghostBuilding = null;
-    }
-
-    void buildBuilding() {
-        if (buildingSupplier != null) {
-            Cost cost = BuildingCosts.getCostFor(ghostBuilding.getClass());
-            if (!cost.isSatisfied(gameState)) return;
-
-            Building building = buildingSupplier.apply(gameState.getLevel());
-            building.position.set(ghostBuilding.position);
-
-            boolean isAdded = gameState.getLevel().addBuilding(building);
-            if (isAdded) {
-                cost.apply(gameState);
-            }
-        }
-    }
-
-    public Building getGhostBuilding() {
-        return ghostBuilding;
     }
 
     @Override
