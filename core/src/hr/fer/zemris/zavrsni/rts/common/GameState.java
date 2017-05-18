@@ -17,6 +17,7 @@ public class GameState implements IGameState {
     private Map<String, Integer> resources = new HashMap<>();
 
     private final List<Squad> squads = new ArrayList<>();
+    private final Map<Unit, Squad> unitSquadMap = new HashMap<>();
 
     public GameState() {
         reset();
@@ -50,8 +51,20 @@ public class GameState implements IGameState {
 
         if (units.isEmpty()) return null;
 
+        for (Unit unit : units) {
+            Squad previousSquad = unitSquadMap.get(unit);
+
+            if (previousSquad != null) {
+                previousSquad.removeUnit(unit);
+            }
+        }
+
         Squad newSquad = new Squad(units, level);
         squads.add(newSquad);
+
+        for (Unit unit : units) {
+            unitSquadMap.put(unit, newSquad);
+        }
 
         return newSquad;
     }

@@ -21,6 +21,9 @@ public class Squad implements IUpdateable {
     private final List<Unit> squadMembers;
     private final ILevel level;
 
+    private float destinationX;
+    private float destinationY;
+
     private Unit squadLeader;
 
     public Squad(List<Unit> squadMembers, ILevel level) {
@@ -31,9 +34,10 @@ public class Squad implements IUpdateable {
     @Override
     public void update(float deltaTime) {
         squadMembers.removeIf(IDamageable::isDestroyed);
-        if (squadLeader.isDestroyed()) {
+        if (squadLeader == null || squadLeader.isDestroyed()) {
             if (squadMembers.isEmpty()) return;
-            squadLeader.transferPathfindingTo(squadMembers.get(0));
+
+            sendToLocation(destinationX, destinationY);
         }
 
         squadLeader.updateSearchAgent();
@@ -104,11 +108,26 @@ public class Squad implements IUpdateable {
         );
     }
 
+    public void addUnit(Unit unit) {
+        squadMembers.add(unit);
+    }
+
+    public void removeUnit(Unit unit) {
+        squadMembers.remove(unit);
+
+        if (squadLeader == unit) {
+            squadLeader = null;
+        }
+    }
+
     public void sendToLocation(float x, float y) {
         stopSearch();
 
         squadLeader = closestUnitInRange(x, y, squadMembers, Float.POSITIVE_INFINITY);
         squadLeader.sendToDestination(x, y);
+
+        destinationX = x;
+        destinationY = y;
     }
 
     public boolean isSearchStopped() {

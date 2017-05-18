@@ -193,15 +193,6 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
         waypointTile = searchAgent.getAction(getCurrentMapTile());
     }
 
-    public void transferPathfindingTo(Unit other) {
-        other.goalPosition.set(this.goalPosition);
-        other.currentGoal.set(this.currentGoal);
-        other.goalTile = this.goalTile;
-
-        other.searchAgent = this.searchAgent;
-        other.waypointTile = this.waypointTile;
-    }
-
     public boolean isSearchStopped() {
         return goalTile == null;
     }
