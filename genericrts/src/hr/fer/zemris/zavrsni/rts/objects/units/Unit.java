@@ -12,6 +12,8 @@ import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.pathfinding.imp.SearchAgentProvider;
 
+import java.util.Collections;
+
 public abstract class Unit extends AbstractMovableObject implements IDamageTrackable<Unit> {
 
     private static final float TOLERANCE = 4;
@@ -201,6 +203,14 @@ public abstract class Unit extends AbstractMovableObject implements IDamageTrack
         searchAgent.stopSearch();
         goalTile = null;
         velocity.setLength(0);
+    }
+
+    public Iterable<MapTile> getStatesQueue() {
+        if (searchAgent == null) {
+            return Collections.emptyList();
+        }
+
+        return searchAgent.getStatesQueue();
     }
 
     public Vector2 getCurrentGoal() {

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.assets.AssetHealthBar;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
@@ -26,13 +27,11 @@ public class HealthBarRenderer {
     private final AssetHealthBar healthBarAssets;
     private final SpriteBatch batch;
 
-    private boolean isEnabledForPlayerUnits = true;
-    private boolean isEnabledForHostileUnits = true;
-    private boolean isEnabledForBuildings = true;
-    private boolean isEnabledForResources = false;
+    private final IGameSettings gameSettings;
 
-    public HealthBarRenderer(IGameState gameState) {
+    public HealthBarRenderer(IGameState gameState, IGameSettings gameSettings) {
         this.gameState = gameState;
+        this.gameSettings = gameSettings;
         this.healthBarAssets = Assets.getInstance().getHealthBar();
 
         this.batch = new SpriteBatch();
@@ -42,46 +41,30 @@ public class HealthBarRenderer {
         );
     }
 
-    public void setEnabledForPlayerUnits(boolean enabledForPlayerUnits) {
-        isEnabledForPlayerUnits = enabledForPlayerUnits;
-    }
-
-    public void setEnabledForHostileUnits(boolean enabledForHostileUnits) {
-        isEnabledForHostileUnits = enabledForHostileUnits;
-    }
-
-    public void setEnabledForBuildings(boolean enabledForBuildings) {
-        isEnabledForBuildings = enabledForBuildings;
-    }
-
-    public void setEnabledForResources(boolean enabledForResources) {
-        isEnabledForResources = enabledForResources;
-    }
-
     public void render(OrthographicCamera camera) {
         ILevel level = gameState.getLevel();
 
         batch.begin();
 
-        if (isEnabledForPlayerUnits) {
+        if (gameSettings.showPlayerUnitHealthBars()) {
             for (PlayerUnit playerUnit : level.getPlayerUnits()) {
                 drawHealthBar(camera, playerUnit);
             }
         }
 
-        if (isEnabledForHostileUnits) {
+        if (gameSettings.showHostileUnitHealthBars()) {
             for (HostileUnit hostileUnit : level.getHostileUnits()) {
                 drawHealthBar(camera, hostileUnit);
             }
         }
 
-        if (isEnabledForBuildings) {
+        if (gameSettings.showBuildingHealthBars()) {
             for (Building building : level.getBuildings()) {
                 drawHealthBar(camera, building);
             }
         }
 
-        if (isEnabledForResources) {
+        if (gameSettings.showResourceHealthBars()) {
             for (Resource resource : level.getResources()) {
                 drawHealthBar(camera, resource);
             }

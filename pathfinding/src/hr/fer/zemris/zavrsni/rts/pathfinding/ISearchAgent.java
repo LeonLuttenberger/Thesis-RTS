@@ -11,4 +11,6 @@ public interface ISearchAgent<T> {
     boolean isGoalState(T state);
 
     T getGoalState();
+
+    Iterable<T> getStatesQueue();
 }

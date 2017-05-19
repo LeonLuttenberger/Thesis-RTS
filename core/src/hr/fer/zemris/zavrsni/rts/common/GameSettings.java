@@ -6,12 +6,16 @@ import com.badlogic.gdx.Preferences;
 public class GameSettings implements IGameSettings {
 
     private static final String KEY_FPS_COUNTER = "showFPSCounter";
+    private static final String KEY_PATHFINDING_ROUTES = "showPathfindingRoutes";
+
     private static final String KEY_PLAYER_HEALTH_BAR = "showPlayerUnitHealthBar";
     private static final String KEY_HOSTILE_HEALTH_BAR = "showHostileUnitHealthBar";
     private static final String KEY_RESOURCE_HEALTH_BAR = "showResourceHealthBar";
     private static final String KEY_BUILDING_HEALTH_BAR = "showBuildingHealthBar";
 
     private boolean showFPSCounter = false;
+    private boolean showPathfindingRoutes = false;
+
     private boolean showPlayerUnitHealthBars = true;
     private boolean showHostileUnitHealthBars = true;
     private boolean showResourceHealthBars = false;
@@ -26,6 +30,7 @@ public class GameSettings implements IGameSettings {
     @Override
     public void load() {
         showFPSCounter = preferences.getBoolean(KEY_FPS_COUNTER, false);
+        showPathfindingRoutes = preferences.getBoolean(KEY_PATHFINDING_ROUTES, false);
         showPlayerUnitHealthBars = preferences.getBoolean(KEY_PLAYER_HEALTH_BAR, true);
         showHostileUnitHealthBars = preferences.getBoolean(KEY_HOSTILE_HEALTH_BAR, true);
         showResourceHealthBars = preferences.getBoolean(KEY_RESOURCE_HEALTH_BAR, false);
@@ -35,6 +40,7 @@ public class GameSettings implements IGameSettings {
     @Override
     public void save() {
         preferences.putBoolean(KEY_FPS_COUNTER, showFPSCounter);
+        preferences.putBoolean(KEY_PATHFINDING_ROUTES, showPathfindingRoutes);
         preferences.putBoolean(KEY_PLAYER_HEALTH_BAR, showPlayerUnitHealthBars);
         preferences.putBoolean(KEY_HOSTILE_HEALTH_BAR, showHostileUnitHealthBars);
         preferences.putBoolean(KEY_RESOURCE_HEALTH_BAR, showResourceHealthBars);
@@ -91,5 +97,15 @@ public class GameSettings implements IGameSettings {
     @Override
     public void setShowBuildingHealthBars(boolean showBuildingHealthBars) {
         this.showBuildingHealthBars = showBuildingHealthBars;
+    }
+
+    @Override
+    public boolean showPathFindingRoutes() {
+        return showPathfindingRoutes;
+    }
+
+    @Override
+    public void setShowPathFindingRoutes(boolean showPathFindingRoutes) {
+        this.showPathfindingRoutes = showPathFindingRoutes;
     }
 }

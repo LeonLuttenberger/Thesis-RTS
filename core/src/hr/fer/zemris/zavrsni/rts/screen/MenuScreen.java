@@ -42,6 +42,7 @@ public class MenuScreen extends AbstractGameScreen {
     private Button btnSaveSettings;
     private Button btnCancelSettings;
     private CheckBox checkFPS;
+    private CheckBox checkPathfindingRoutes;
     private CheckBox checkPlayerHealthBars;
     private CheckBox checkHostileHealthBars;
     private CheckBox checkResourceHealthBars;
@@ -155,6 +156,11 @@ public class MenuScreen extends AbstractGameScreen {
         table.add(checkFPS);
         table.row();
 
+        checkPathfindingRoutes = new CheckBox("", uiSkin);
+        table.add(new Label("Pathfinding routes", uiSkin));
+        table.add(checkPathfindingRoutes);
+        table.row();
+
         checkPlayerHealthBars = new CheckBox("", uiSkin);
         table.add(new Label("Player unit health bars", uiSkin));
         table.add(checkPlayerHealthBars);
@@ -205,6 +211,7 @@ public class MenuScreen extends AbstractGameScreen {
     private void loadSettings() {
         gameSettings.load();
         checkFPS.setChecked(gameSettings.showFPSCounter());
+        checkPathfindingRoutes.setChecked(gameSettings.showPathFindingRoutes());
         checkPlayerHealthBars.setChecked(gameSettings.showPlayerUnitHealthBars());
         checkHostileHealthBars.setChecked(gameSettings.showHostileUnitHealthBars());
         checkResourceHealthBars.setChecked(gameSettings.showResourceHealthBars());
@@ -213,6 +220,7 @@ public class MenuScreen extends AbstractGameScreen {
 
     private void saveSettings() {
         gameSettings.setShowFPSCounter(checkFPS.isChecked());
+        gameSettings.setShowPathFindingRoutes(checkPathfindingRoutes.isChecked());
         gameSettings.setShowPlayerUnitHealthBars(checkPlayerHealthBars.isChecked());
         gameSettings.setShowHostileUnitHealthBars(checkHostileHealthBars.isChecked());
         gameSettings.setShowResourceHealthBars(checkResourceHealthBars.isChecked());

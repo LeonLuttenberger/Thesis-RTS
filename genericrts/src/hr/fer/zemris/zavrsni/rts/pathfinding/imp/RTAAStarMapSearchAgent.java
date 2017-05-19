@@ -15,6 +15,7 @@ import hr.fer.zemris.zavrsni.rts.pathfinding.imp.heuristic.ArealDistanceHeuristi
 import hr.fer.zemris.zavrsni.rts.pathfinding.imp.problem.MoveToAdjacentTileProblem;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.RTAAStarProblem;
 
+import java.util.Collections;
 import java.util.Map.Entry;
 
 public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
@@ -145,5 +146,14 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
     @Override
     public MapTile getGoalState() {
         return goalPosition;
+    }
+
+    @Override
+    public Iterable<MapTile> getStatesQueue() {
+        if (searchResult == null) {
+            return Collections.emptyList();
+        }
+
+        return searchResult.getStatesQueue().stream().map(SearchNode::getState)::iterator;
     }
 }

@@ -69,9 +69,9 @@ public class GameScreen extends AbstractGameScreen {
 
         SpriteBatch batch = new SpriteBatch();
         controller = new WorldController(level, camera);
-        renderer = new WorldRenderer(controller, tiledMap, batch);
+        renderer = new WorldRenderer(controller, tiledMap, batch, gameSettings);
 
-        healthBarRenderer = new HealthBarRenderer(controller.getGameState());
+        healthBarRenderer = new HealthBarRenderer(controller.getGameState(), gameSettings);
     }
 
     private void rebuildStage() {
@@ -231,11 +231,6 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void show() {
         controller.resume();
-
-        healthBarRenderer.setEnabledForPlayerUnits(gameSettings.showPlayerUnitHealthBars());
-        healthBarRenderer.setEnabledForHostileUnits(gameSettings.showHostileUnitHealthBars());
-        healthBarRenderer.setEnabledForBuildings(gameSettings.showBuildingHealthBars());
-        healthBarRenderer.setEnabledForResources(gameSettings.showResourceHealthBars());
 
         stageUI = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         InputMultiplexer inputMultiplexer = new InputMultiplexer(stageUI, controller.getInputProcessor());

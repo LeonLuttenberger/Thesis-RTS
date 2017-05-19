@@ -19,4 +19,7 @@ public interface IGameSettings {
 
     boolean showBuildingHealthBars();
     void setShowBuildingHealthBars(boolean showBuildingHealthBars);
+
+    boolean showPathFindingRoutes();
+    void setShowPathFindingRoutes(boolean showPathFindingRoutes);
 }
