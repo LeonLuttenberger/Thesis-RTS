@@ -71,7 +71,7 @@ Npr.\ igra može kao vrstu jedinice imati konjanika koja ima prednost brzog kret
 \par Bitno je naglasiti da dosad navedeni elementi nisu direktno ovisni jedni o drugima.
 Mapa može biti definirana izvan same igre u nekom vanjskom uređivaču mapa, dok jedinice, resursi i zgrade ne moraju ništa konkretno znati jedni o drugima.
 Jedinice će samo znati da se kreću po terenu čiji koji ima neke definirane karakteristike, te će samo znati da napada protivničke zgrade i jedinice. 
-Zgrade i resursi mogu biti definirani samo kao objekti na mapi, gdje će bilo kakva daljna funkcionalnost ovisiti o konkretnoj igri.
+Zgrade i resursi mogu biti definirani samo kao objekti na mapi, gdje će bilo kakva daljnja funkcionalnost ovisiti o konkretnoj igri.
 % TODO dodaj referencu na poglavlje o implementacij
 
 \section{Strategija}
@@ -87,7 +87,7 @@ Makro upravljanje predstavlja odluke na višoj razini apstrakcije poput odluka k
 Mikro upravljanje svodi se na upravljanje pojedinim jedinicama.
 Dobro taktičko pozicioniranje jedinica i fokus na najjače protivničke jedinice u dosegu često mogu definirati ishod igre.\cite{article:HybridPathdinding}
 
-\par Kao posljedica svega navedenog, evidentno je da je strategija centralnih apekt igara u RTS žanru. 
+\par Kao posljedica svega navedenog, evidentno je da je strategija centralnih aspekt igara u RTS žanru. 
 
 \par Također, bitno je naglasiti da će određene strategije funkcionirati samo protiv pojedinih protivnika i da određene situacije mogu zahtijevati promjenu strategije. 
 Primjerice, igrač se može odlučiti za strategiju ranog napada (engl. \textit{rush strategy}), odnosno odmah se fokusirati na izgradnju velikog broja osnovnih borbenih jedinica koje će što ranije moguće poslati u napad na protivnika.
@@ -106,9 +106,9 @@ Iz perspektive mikro upravljanja, umjetna inteligencija mora imati sustav po koj
 
 \section{Pretraživanje prostora stanja}
 \par Pretraživanje prostore stanja može riješiti mnogo analitičkih problema, uključujući pronalazak najkraćeg puta. 
-Ako korisnik odabere jedinicu koja se nalazi na početnoj pozicij i zada joj odredište, jedinica će pretragom prostornog stanja pronaći slijed akcija koji definira optimalni put.
+Ako korisnik odabere jedinicu koja se nalazi na početnoj poziciji i zada joj odredište, jedinica će pretragom prostornog stanja pronaći slijed akcija koji definira optimalni put.
 
-\par Problem pretrage \(S\) možemo formulirati sa petorkom
+\par Problem pretrage \(S\) možemo formulirati s petorkom
 \[(S, S_0, akcije(s), prijelaz(s, a), cilj(s), cijena(s, a))\]
 u kojoj su:
 \begin{itemize}
@@ -120,37 +120,49 @@ u kojoj su:
     \item \(cijena(s, a)\) cijena akcije \(a\) kada smo u stanju \(s\). 
 \end{itemize}
 
+\subsection{Neusmjerena pretraga}
+
 \begin{figure}[h] 
 	\centering
 	\includegraphics[width=0.3\linewidth]{images/basicGrid.pdf}
 	\caption{}
 	\label{fig:basicGrid}
-\end{figure}  
+\end{figure} 
 
 Na slici~\ref{fig:basicGrid} prikazan je rezultat pretrage najkraćeg puta na 5x5 ploči na kojoj su mogući i dijagonalni prijelazi.
 Ispunjeni krug predstavlja početnu poziciju, prazan kvadrat predstavlja cilj te ispunjeni kvadrati predstavljaju prepreke.
-Ako definirano da se pločica u donjem lijevog predstavlja sa koordinatama \((0, 0)\), tada standardna formulacija problema glasi:
+Ako definirano da se pločica u donjem lijevog predstavlja s koordinatama \((0, 0)\), tada standardna formulacija problema glasi:
 \begin{itemize}
     \item \(S\): sve pozicije od \((0, 0)\) i \((4, 4)\).
     \item \(S_0\): stanje \((0, 0)\).
     \item \(akcije(s)\): predstavlja prijelaze s kojima se može doći do susjednih polja od \(s\) koji nisu prepreke. 
     Moguće vrijednosti su: \textit{gore}, \textit{dolje}, \textit{lijevo}, \textit{desno}, \textit{gore-lijevo}, \textit{dolje-lijevo}, \textit{gore-desno} i \textit{dolje-desno}. 
     Npr.\ za početno stanje \(S_0\) funkcija će vrati slijed: \textit{gore}, \textit{desno} i \textit{gore-desno}. 
-    \item \(prijelaz(s, a)\): funkcija vraća novu poziciju na polju kada se akcija \(a\) izvrši iz stanja \(s\). Npr. \(prijelaz((0, 1), gore)\) će vratit stanje \((1, 1)\).
+    \item \(prijelaz(s, a)\): funkcija vraća novu poziciju na polju kada se akcija \(a\) izvrši iz stanja \(s\). Npr. \(prijelaz((0, 1), gore)\) će vratiti stanje \((1, 1)\).
     \item \(cilj(s)\): funkcija je zadovoljena samo za \((4, 1)\).
     \item \(cijena(s, a)\): prijelazi na strogo susjedna polja imaju cijenu \(1\), dok dijagonalni prijelazi imaju trošak \(\sqrt{2}\).
 \end{itemize}
 
 \par S obzirom na činjenicu da cijene prijelaza nisu uvijek iste, potrebno je odabrati algoritam pretrage koji uzima u obzir cijenu puta.
-Najosnovnij takav algoritam pretrage je pretraživanje s jednoliko cijenom (engl. \textit{uniform-cost search}). 
-Algoritam koristi prioritetni red u kojeg stavlja čvorove s njihovom ukupnom udaljenosti od početnog stanja \(g(n)\), što osigurava da će svako stanje biti posjećeno sa najkraćim mogućim putem.
+Najosnovniji takav algoritam pretrage je \textbf{pretraživanje s jednolikom cijenom} (engl. \textit{uniform-cost search}). 
+Algoritam koristi prioritetni red u kojeg stavlja čvorove s njihovom ukupnom udaljenosti od početnog stanja \(g(n)\), što osigurava da će svako stanje biti posjećeno s najkraćim mogućim putem.
 
 \par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati posjetiti veliki broj stanja jer on u obzir uzima samo cijenu puta do nekog čvora, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
 Zbog ovog svojstva pretraživanje s jednolikom cijenom čini jedno od neusmjerenih algoritama pretrage.
 
-\par Usmjereni algoritmi pretraživanja su algoritmi koji koriste heurističku informaciju kako bi se pretraživanje brže usmjerilo prema cilju. 
-Heuristika se u tom kontekstu definira kao procijena udaljenosti do cilja. 
-Npr. u situacijama kada je stanje definirano sa pozicijom, poput u primjeru na slici \ref{fig:basicGrid}, heuristička funkcija \(h(n)\) može biti zračna udaljenost pozicije od cilja.
+\subsection{Usmjerena pretraga}
+
+\par Usmjereni algoritmi pretraživanja su algoritmi koji koriste heurističku informaciju kako bi se pretraživanje brže usmjerilo prema cilju.
+Općeniti oblik takvog algoritma je se stanja ubacuju u prioritetni red kao u pretraživanju s jednolikom cijenom, no umjesto da se koristi cijena puta \(g(n)\) koristi se \textbf{evaluacijska funkcija} \(f(n)\).
+
+\par Odabir evaluacijske funkcije \(f\) definira strategiju pretrage. 
+Funkcija \(f\) tipično ima kao komponentu \textbf{heurističku funkciju} \(h\), koja se definira kao procjena minimalnog troška puta od trenutnog čvora do cilja\cite{book:AIModernApproach}. Svojstva heuristike bit će dalje opisana u potpoglavlju~\ref{ssec:heuristics}, no za sada je bitno imati na umu da vrijednost funkcije \(h\) u ciljnom stanju mora biti \(0\).
+
+\par Primjer takvog pretraživanje je pohlepno pretraživanje. 
+Ono odabire onaj čvor koji se čini najbliži cilju, ne uzimajući u obzir trošak puta.
+Evaluacijske funkcija \(f(n)\) se definira kao \(f(n) = h(n)\).
+
+\subsection{Heuristika}\label{ssec:heuristics}
 
 \section{Prilagodba na promjene}
 
