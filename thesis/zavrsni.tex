@@ -45,16 +45,12 @@ U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vr
 
 %TODO napisi o cemu ce sve bit poglavlje
 
-\section{Opis RTS žanra}
-
-%TODO napisi nesto
-
-\subsection{Elementi RTS žanra}
+\section{Elementi RTS žanra}
 
 \par Tipična RTS igra sastoji se od mnogih različitih elemenata.
 Prije svega, svaka igra se odvija na mapi ograničene veličine koja je određena s raznim tipovima terena, poput trave, vode, planina, pustinje, itd. 
 Tip terena može odrediti koje se jedinice mogu kretati po njemu.
-Primjerice, pravila igre mogu biti takva da se običan vojnik ne može kretati po vodi, dok neki drugi tip jedinice poput broda može. 
+Primjerice, pravila igre mogu biti takva da se običan vojnik ne može kretati po vodi, dok neki drugi tip jedinice poput broda može.
 Kao posljedica toga, teren igra veliku ulogu jer može zahtijevati korištenje posebnih strategija.
 
 \par Još jedna bitan element RTS igara je skupljanje resursa.
@@ -71,7 +67,13 @@ Svaka igra ima skup različitih jedinica koje igrač može odabrati i izgraditi 
 Svaka vrsta jedinice može imati svoje prednosti i mane.
 Npr.\ igra može kao vrstu jedinice imati konjanika koja ima prednost brzog kretanja po mapi, no ima manu da je izrazito ranjiv na kopljanike.
 
-\subsection{Strategija}
+\par Bitno je naglasiti da dosad navedeni elementi nisu direktno ovisni jedni o drugima.
+Mapa može biti definirana izvan same igre u nekom vanjskom uređivaču mapa, dok jedinice, resursi i zgrade ne moraju ništa konkretno znati jedni o drugima.
+Jedinice će samo znati da se kreću po terenu čiji koji ima neke definirane karakteristike, te će samo znati da napada protivničke zgrade i jedinice. 
+Zgrade i resursi mogu biti definirani samo kao objekti na mapi, gdje će bilo kakva daljna funkcionalnost ovisiti o konkretnoj igri.
+% TODO dodaj referencu na poglavlje o implementacij
+
+\section{Strategija}
 
 \par Glavni cilj u igrama u RTS žanru analogan je igrama poput šaha, odnosno cilj je pametnom uporabom vlastite vojske poraziti vojsku od suparnika. 
 Za razliku od šaha, u računalnim strateškim igrama igrač započne igru \textit{praznih ruku}, odnosno igru može započeti sa samo jednim radnikom čiji je posao skupiti prve resurse s kojima će izgraditi prve jedinice te nove radnike i zgrade.
@@ -90,9 +92,57 @@ Dobro taktičko pozicioniranje jedinica i fokus na najjače protivničke jedinic
 Primjerice, igrač se može odlučiti za strategiju ranog napada (engl. \textit{rush strategy}), odnosno odmah se fokusirati na izgradnju velikog broja osnovnih borbenih jedinica koje će što ranije moguće poslati u napad na protivnika.
 Kao kontrast tome, protivnik se može fokusirati na razvoj tehnologije što će ga ostaviti ranjivim na početku igre, ali će mu u kasnijim fazama igre omogućiti da gradi jedinice koje su jače od protivničkih.
 
+\section{Izazov za umjetnu inteligenciju}
+
+\par RTS igre predstavljaju razne izazove za razvoj umjetne inteligencije. 
+Iz perspektive mikro upravljanja, umjetna inteligencija mora imati sustav po kojem će određivati najkraći put do odredišta, te kako se treba ponašati u slučaju da na putu naiđe na nešto ne planirano, poput protivničkih jedinica ili promjena na terenu.
+
+%TODO
+
 \section{Primjeri popularnih RTS igara}
 
 \chapter{Kretanje jedinica}\label{ch:pathfinding}
+
+\section{Pretraživanje prostora stanja}
+\par Pretraživanje prostore stanja može riješiti mnogo analitičkih problema, uključujući pronalazak najkraćeg puta. 
+Ako korisnik odabere jedinicu koja se nalazi na početnoj pozicij i zada joj odredište, jedinica će pretragom prostornog stanja pronaći slijed akcija koji definira optimalni put.
+
+\par Problem pretrage \(S\) možemo formulirati sa petorkom
+\[(S, S_0, akcije(s), prijelaz(s, a), cilj(s), cijena(s, a))\]
+u kojoj su:
+\begin{itemize}
+    \item \(S\) skup stanja.
+    \item \(S_0\) početno stanje.
+    \item \(akcije(s)\) skup mogućih akcija za stanje \(s\).
+    \item \(prijelaz(s, a)\) stanje koje nastane kada se izvede akcija \(a\) u stanju \(s\).
+    \item \(cilj(s)\) ispituje jeli stanje \(s\) ciljno stanje.
+    \item \(cijena(s, a)\) cijena akcije \(a\) kada smo u stanju \(s\). 
+\end{itemize}
+
+Na slici~\ref{fig:basicGrid} prikazan je rezultat pretrage najkraćeg puta na 5x5 ploči na kojoj su mogući samo prijelazi na susjedna polja.
+Ispunjeni krug predstavlja početnu poziciju, prazan kvadrat predstavlja cilj te ispunjeni kvadrati predstavljaju prepreke.
+Ako definirano da se pločica u donjem lijevog predstavlja sa koordinatama \((0, 0)\), tada standardna formulacija problema glasi:
+\begin{itemize}
+    \item \(S\): sve pozicije od \((0, 0)\) i \((4, 4)\).
+    \item \(S_0\): stanje \((0, 1)\).
+    \item \(akcije(s)\): predstavlja prijelaze s kojima se može doći do susjednih polja od \(s\) koji nisu prepreke. 
+    Moguće vrijednosti su: \textit{gore}, \textit{dolje}, \textit{lijevo}, \textit{desno}. 
+    Npr.\ za početno stanje \(S_0\) funkcija će vrati slijed: \textit{gore}, \textit{lijevo}. 
+    \item \(prijelaz(s, a)\): funkcija vraća novu poziciju na polju kada se akcija \(a\) izvrši iz stanja \(s\). Npr. \(prijelaz((0, 1), gore)\) će vratit stanje \((1, 1)\).
+    \item \(cilj(s)\): funkcija je zadovoljena samo za \((3, 0)\).
+    \item \(cijena(s, a)\): pošto su mogući samo prijelazi na susjednja polja, ova funkcija će uvijek vratit istu vrijednost.
+\end{itemize}
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[width=0.3\linewidth]{images/basicGrid.pdf}
+	\caption{}
+	\label{fig:basicGrid}
+\end{figure}  
+
+\section{Prilagodba na promjene}
+
+\section{Grupiranje jedinica}
 
 \chapter{Implementacija jezgrenih funkcionalnosti}\label{ch:implementation}
 
