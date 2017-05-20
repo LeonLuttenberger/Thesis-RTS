@@ -1,6 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.pathfinding.problem;
 
-public class RTAAStarProblem<T, S extends ISearchProblem<T>> extends CachingProblem<T, LimitedExpansionProblem<T, S>> {
+public class RTAAStarProblem<T, S extends IModifierCachingProblem<T>> extends HeuristicCachingProblem<T, LimitedExpansionProblem<T, S>> {
 
     private T newStartState = null;
 

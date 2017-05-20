@@ -3,13 +3,13 @@ package hr.fer.zemris.zavrsni.rts.pathfinding.imp.problem;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.LevelUtils;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
-import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.IModifierCachingProblem;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MoveToAdjacentTileProblem implements ISearchProblem<MapTile> {
+public class MoveToAdjacentTileProblem implements IModifierCachingProblem<MapTile> {
 
     private final MoveToTileProblem moveToTileProblem;
     private final ILevel level;
@@ -66,6 +66,7 @@ public class MoveToAdjacentTileProblem implements ISearchProblem<MapTile> {
         return moveToTileProblem.getSuccessors(state);
     }
 
+    @Override
     public float getCachedModifier(MapTile position) {
         return moveToTileProblem.getCachedModifier(position);
     }

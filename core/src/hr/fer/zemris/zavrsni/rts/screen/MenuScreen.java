@@ -25,8 +25,6 @@ import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 
 public class MenuScreen extends AbstractGameScreen {
 
-    private static final String TAG = MenuScreen.class.getName();
-
     private Stage stage;
     private Skin mainMenuSkin;
     private Skin uiSkin;

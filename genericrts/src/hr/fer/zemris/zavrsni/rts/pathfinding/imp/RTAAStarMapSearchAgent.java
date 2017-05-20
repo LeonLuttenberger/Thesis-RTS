@@ -13,6 +13,8 @@ import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.IHeuristic;
 import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.WeightedHeuristic;
 import hr.fer.zemris.zavrsni.rts.pathfinding.imp.heuristic.ArealDistanceHeuristic;
 import hr.fer.zemris.zavrsni.rts.pathfinding.imp.problem.MoveToAdjacentTileProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.imp.problem.MoveToTileProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.IModifierCachingProblem;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.RTAAStarProblem;
 
 import java.util.Collections;
@@ -33,7 +35,7 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
     private MapTile currentPosition;
     private MapTile goalPosition;
     private SearchNode<MapTile> currentState;
-    private RTAAStarProblem<MapTile, MoveToAdjacentTileProblem> searchProblem;
+    private RTAAStarProblem<MapTile, IModifierCachingProblem<MapTile>> searchProblem;
     private SearchResult<MapTile> searchResult;
     private int movesMade;
 
@@ -48,9 +50,16 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
         this.currentPosition = startState;
         this.goalPosition = goalState;
 
+        IModifierCachingProblem<MapTile> problem;
+        if (level.getTileModifier(goalState.x, goalState.y) > 0) {
+            problem = new MoveToTileProblem(startState, goalState, level);
+        } else {
+            problem = new MoveToAdjacentTileProblem(startState, goalState, level);
+        }
+
         searchResult = null;
         searchProblem = new RTAAStarProblem<>(
-                new MoveToAdjacentTileProblem(startState, goalState, level),
+                problem,
                 MAX_STATES_TO_EXPAND
         );
 

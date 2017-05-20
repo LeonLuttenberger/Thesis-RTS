@@ -1,6 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.pathfinding.heuristic;
 
-import hr.fer.zemris.zavrsni.rts.pathfinding.problem.CachingProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.HeuristicCachingProblem;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem;
 
 import java.util.OptionalDouble;
@@ -15,8 +15,8 @@ public class CachingProblemHeuristic<T> implements IHeuristic<T> {
 
     @Override
     public double calculateHeuristic(T state, ISearchProblem<T> problem) {
-        if (problem instanceof CachingProblem) {
-            CachingProblem<T, ISearchProblem<T>> cachingProblem = (CachingProblem<T, ISearchProblem<T>>) problem;
+        if (problem instanceof HeuristicCachingProblem) {
+            HeuristicCachingProblem<T, ISearchProblem<T>> cachingProblem = (HeuristicCachingProblem<T, ISearchProblem<T>>) problem;
 
             OptionalDouble heuristicValue = cachingProblem.getCachedHeuristic(state);
             if (heuristicValue.isPresent()) {

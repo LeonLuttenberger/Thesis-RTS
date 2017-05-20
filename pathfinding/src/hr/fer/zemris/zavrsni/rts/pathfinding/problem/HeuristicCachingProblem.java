@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.OptionalDouble;
 
-public class CachingProblem<T, S extends ISearchProblem<T>> implements ISearchProblem<T> {
+public class HeuristicCachingProblem<T, S extends ISearchProblem<T>> implements ISearchProblem<T> {
 
     private final S problem;
     private final Map<T, Double> heuristicCache = new HashMap<>();
 
-    public CachingProblem(S problem) {
+    public HeuristicCachingProblem(S problem) {
         this.problem = problem;
     }
 

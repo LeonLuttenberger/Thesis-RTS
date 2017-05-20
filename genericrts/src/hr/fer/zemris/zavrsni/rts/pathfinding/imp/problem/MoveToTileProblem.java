@@ -2,7 +2,7 @@ package hr.fer.zemris.zavrsni.rts.pathfinding.imp.problem;
 
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
-import hr.fer.zemris.zavrsni.rts.pathfinding.problem.ISearchProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.problem.IModifierCachingProblem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import static hr.fer.zemris.zavrsni.rts.common.LevelUtils.canMoveWest;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-public class MoveToTileProblem implements ISearchProblem<MapTile> {
+public class MoveToTileProblem implements IModifierCachingProblem<MapTile> {
 
     private MapTile startPosition;
     private final MapTile endPosition;
@@ -111,6 +111,7 @@ public class MoveToTileProblem implements ISearchProblem<MapTile> {
         return sqrt(pow(pos2.x - pos1.x, 2) + pow(pos2.y - pos1.y, 2));
     }
 
+    @Override
     public float getCachedModifier(MapTile position) {
         return modifierCache.get(position);
     }
