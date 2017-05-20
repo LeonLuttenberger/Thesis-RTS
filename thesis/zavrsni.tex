@@ -1,6 +1,7 @@
 \documentclass[times, utf8, zavrsni, numeric]{fer}
 \usepackage{booktabs}
 \usepackage{url}
+\usepackage{listing}
 \usepackage[hidelinks]{hyperref}
 
 \begin{document}
@@ -119,26 +120,37 @@ u kojoj su:
     \item \(cijena(s, a)\) cijena akcije \(a\) kada smo u stanju \(s\). 
 \end{itemize}
 
-Na slici~\ref{fig:basicGrid} prikazan je rezultat pretrage najkraćeg puta na 5x5 ploči na kojoj su mogući samo prijelazi na susjedna polja.
-Ispunjeni krug predstavlja početnu poziciju, prazan kvadrat predstavlja cilj te ispunjeni kvadrati predstavljaju prepreke.
-Ako definirano da se pločica u donjem lijevog predstavlja sa koordinatama \((0, 0)\), tada standardna formulacija problema glasi:
-\begin{itemize}
-    \item \(S\): sve pozicije od \((0, 0)\) i \((4, 4)\).
-    \item \(S_0\): stanje \((0, 1)\).
-    \item \(akcije(s)\): predstavlja prijelaze s kojima se može doći do susjednih polja od \(s\) koji nisu prepreke. 
-    Moguće vrijednosti su: \textit{gore}, \textit{dolje}, \textit{lijevo}, \textit{desno}. 
-    Npr.\ za početno stanje \(S_0\) funkcija će vrati slijed: \textit{gore}, \textit{lijevo}. 
-    \item \(prijelaz(s, a)\): funkcija vraća novu poziciju na polju kada se akcija \(a\) izvrši iz stanja \(s\). Npr. \(prijelaz((0, 1), gore)\) će vratit stanje \((1, 1)\).
-    \item \(cilj(s)\): funkcija je zadovoljena samo za \((3, 0)\).
-    \item \(cijena(s, a)\): pošto su mogući samo prijelazi na susjednja polja, ova funkcija će uvijek vratit istu vrijednost.
-\end{itemize}
-
 \begin{figure}[h] 
 	\centering
 	\includegraphics[width=0.3\linewidth]{images/basicGrid.pdf}
 	\caption{}
 	\label{fig:basicGrid}
 \end{figure}  
+
+Na slici~\ref{fig:basicGrid} prikazan je rezultat pretrage najkraćeg puta na 5x5 ploči na kojoj su mogući i dijagonalni prijelazi.
+Ispunjeni krug predstavlja početnu poziciju, prazan kvadrat predstavlja cilj te ispunjeni kvadrati predstavljaju prepreke.
+Ako definirano da se pločica u donjem lijevog predstavlja sa koordinatama \((0, 0)\), tada standardna formulacija problema glasi:
+\begin{itemize}
+    \item \(S\): sve pozicije od \((0, 0)\) i \((4, 4)\).
+    \item \(S_0\): stanje \((0, 0)\).
+    \item \(akcije(s)\): predstavlja prijelaze s kojima se može doći do susjednih polja od \(s\) koji nisu prepreke. 
+    Moguće vrijednosti su: \textit{gore}, \textit{dolje}, \textit{lijevo}, \textit{desno}, \textit{gore-lijevo}, \textit{dolje-lijevo}, \textit{gore-desno} i \textit{dolje-desno}. 
+    Npr.\ za početno stanje \(S_0\) funkcija će vrati slijed: \textit{gore}, \textit{desno} i \textit{gore-desno}. 
+    \item \(prijelaz(s, a)\): funkcija vraća novu poziciju na polju kada se akcija \(a\) izvrši iz stanja \(s\). Npr. \(prijelaz((0, 1), gore)\) će vratit stanje \((1, 1)\).
+    \item \(cilj(s)\): funkcija je zadovoljena samo za \((4, 1)\).
+    \item \(cijena(s, a)\): prijelazi na strogo susjedna polja imaju cijenu \(1\), dok dijagonalni prijelazi imaju trošak \(\sqrt{2}\).
+\end{itemize}
+
+\par S obzirom na činjenicu da cijene prijelaza nisu uvijek iste, potrebno je odabrati algoritam pretrage koji uzima u obzir cijenu puta.
+Najosnovnij takav algoritam pretrage je pretraživanje s jednoliko cijenom (engl. \textit{uniform-cost search}). 
+Algoritam koristi prioritetni red u kojeg stavlja čvorove s njihovom ukupnom udaljenosti od početnog stanja \(g(n)\), što osigurava da će svako stanje biti posjećeno sa najkraćim mogućim putem.
+
+\par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati posjetiti veliki broj stanja jer on u obzir uzima samo cijenu puta do nekog čvora, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
+Zbog ovog svojstva pretraživanje s jednolikom cijenom čini jedno od neusmjerenih algoritama pretrage.
+
+\par Usmjereni algoritmi pretraživanja su algoritmi koji koriste heurističku informaciju kako bi se pretraživanje brže usmjerilo prema cilju. 
+Heuristika se u tom kontekstu definira kao procijena udaljenosti do cilja. 
+Npr. u situacijama kada je stanje definirano sa pozicijom, poput u primjeru na slici \ref{fig:basicGrid}, heuristička funkcija \(h(n)\) može biti zračna udaljenost pozicije od cilja.
 
 \section{Prilagodba na promjene}
 
