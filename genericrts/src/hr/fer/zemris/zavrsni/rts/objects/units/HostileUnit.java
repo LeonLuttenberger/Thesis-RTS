@@ -3,6 +3,7 @@ package hr.fer.zemris.zavrsni.rts.objects.units;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
@@ -12,7 +13,6 @@ import java.util.Optional;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.applyEnemySeparation;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.applyFriendlySeparation;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestPlayerTargetInRange;
-import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUnitInRange;
 
 public abstract class HostileUnit extends Unit {
 
@@ -28,9 +28,11 @@ public abstract class HostileUnit extends Unit {
     @Override
     public void update(float deltaTime) {
         if (isSearchStopped()) {
-            PlayerUnit nearestThreat = closestUnitInRange(this, level.getPlayerUnits(), enemyDetectionRange);
+            Optional<IDamageable<?>> nearestThreatOpt = closestPlayerTargetInRange(this, level, enemyDetectionRange);
 
-            if (nearestThreat != null) {
+            if (nearestThreatOpt.isPresent()) {
+                AbstractGameObject nearestThreat = nearestThreatOpt.get().getObject();
+
                 float dx = nearestThreat.getCenterX() - getCenterX();
                 float dy = nearestThreat.getCenterY() - getCenterY();
 

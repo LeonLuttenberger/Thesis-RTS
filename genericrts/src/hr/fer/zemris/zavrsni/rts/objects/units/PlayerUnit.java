@@ -4,10 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 
-import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUnitInRange;
+import java.util.Optional;
+
+import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestHostileTargetInRange;
 
 public abstract class PlayerUnit extends Unit {
 
@@ -32,16 +35,17 @@ public abstract class PlayerUnit extends Unit {
 
         if (!readyForAttack()) return;
 
-        HostileUnit nearestEnemy = closestUnitInRange(this, level.getHostileUnits(), attackRange);
-        if (nearestEnemy != null) {
+        Optional<IDamageable<?>> nearestEnemyOpt = closestHostileTargetInRange(this, level, attackRange);
+        if (nearestEnemyOpt.isPresent()) {
+            IDamageable<?> target = nearestEnemyOpt.get();
             resetAttackCooldown();
 
             if (this instanceof IRangedAttacker) {
-                Projectile projectile = ((IRangedAttacker<?>) this).rangedAttack(nearestEnemy);
+                Projectile projectile = ((IRangedAttacker<?>) this).rangedAttack(target);
                 level.addProjectile(projectile);
 
             } else {
-                nearestEnemy.removeHitPoints(attackPower);
+                target.removeHitPoints(attackPower);
             }
         }
     }

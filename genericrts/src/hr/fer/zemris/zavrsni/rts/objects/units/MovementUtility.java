@@ -4,6 +4,7 @@ import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.HostileBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.PlayerBuilding;
 
 import java.util.ArrayList;
@@ -142,6 +143,18 @@ public final class MovementUtility {
                 level.getBuildings().stream().filter(b -> b instanceof PlayerBuilding)
         ).filter(d -> d instanceof IDamageable<?>)
          .map(d -> (IDamageable<?>) d);
+
+        return closestTargetInRange(object, damageables.iterator(), range);
+    }
+
+    public static Optional<IDamageable<?>> closestHostileTargetInRange(AbstractGameObject object, ILevel level,
+                                                                      float range) {
+
+        Stream<IDamageable<?>> damageables = Stream.concat(
+                level.getHostileUnits().stream(),
+                level.getBuildings().stream().filter(b -> b instanceof HostileBuilding)
+        ).filter(d -> d instanceof IDamageable<?>)
+                .map(d -> (IDamageable<?>) d);
 
         return closestTargetInRange(object, damageables.iterator(), range);
     }
