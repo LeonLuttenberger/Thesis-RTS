@@ -146,6 +146,8 @@ Ako definirano da se pločica u donjem lijevog predstavlja s koordinatama \((0, 
 \par S obzirom na činjenicu da cijene prijelaza nisu uvijek iste, potrebno je odabrati algoritam pretrage koji uzima u obzir cijenu puta.
 Najosnovniji takav algoritam pretrage je \textbf{pretraživanje s jednolikom cijenom} (engl. \textit{uniform-cost search}). 
 Algoritam koristi prioritetni red u kojeg stavlja čvorove s njihovom ukupnom udaljenosti od početnog stanja \(g(n)\), što osigurava da će svako stanje biti posjećeno s najkraćim mogućim putem.
+Zbog navedenog svojstva, vidi se da je algoritam \textbf{optimalan}, odnosno uvijek će pronaći optimalni put do odredišta ako ono postoji.
+%TODO dodati pseudokod
 
 \par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati posjetiti veliki broj stanja jer on u obzir uzima samo cijenu puta do nekog čvora, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
 Zbog ovog svojstva pretraživanje s jednolikom cijenom čini jedno od neusmjerenih algoritama pretrage.
@@ -153,16 +155,27 @@ Zbog ovog svojstva pretraživanje s jednolikom cijenom čini jedno od neusmjeren
 \subsection{Usmjerena pretraga}
 
 \par Usmjereni algoritmi pretraživanja su algoritmi koji koriste heurističku informaciju kako bi se pretraživanje brže usmjerilo prema cilju.
-Općeniti oblik takvog algoritma je se stanja ubacuju u prioritetni red kao u pretraživanju s jednolikom cijenom, no umjesto da se koristi cijena puta \(g(n)\) koristi se \textbf{evaluacijska funkcija} \(f(n)\).
+U općenitom obliku ovakvog algoritma stanja se ubacuju u prioritetni red kao u pretraživanju s jednolikom cijenom, no umjesto da se koristi cijena puta \(g(n)\) koristi se \textbf{evaluacijska funkcija} \(f(n)\).
 
 \par Odabir evaluacijske funkcije \(f\) definira strategiju pretrage. 
-Funkcija \(f\) tipično ima kao komponentu \textbf{heurističku funkciju} \(h\), koja se definira kao procjena minimalnog troška puta od trenutnog čvora do cilja\cite{book:AIModernApproach}. Svojstva heuristike bit će dalje opisana u potpoglavlju~\ref{ssec:heuristics}, no za sada je bitno imati na umu da vrijednost funkcije \(h\) u ciljnom stanju mora biti \(0\).
+Funkcija \(f\) tipično ima kao komponentu \textbf{heurističku funkciju} \(h\), koja se definira kao procjena minimalnog troška puta od trenutnog čvora do cilja\cite{book:AIModernApproach}.
 
 \par Primjer takvog pretraživanje je pohlepno pretraživanje. 
 Ono odabire onaj čvor koji se čini najbliži cilju, ne uzimajući u obzir trošak puta.
-Evaluacijske funkcija \(f(n)\) se definira kao \(f(n) = h(n)\).
+Evaluacijska funkcija \(f(n)\) se definira kao \(f(n) = h(n)\).
+% TODO dodati primjer
 
-\subsection{Heuristika}\label{ssec:heuristics}
+\par Poboljšanje tog algoritma je ujedno i najpoznatija implementacija usmjerene pretrage: \textbf{algoritam A*}. 
+U njemu se čvorovi evaluiraju tako da se zbroji trošak puta \(g(n)\) i heuristika \(h(n)\): 
+\[f(n) = g(n) + h(n).\]
+Prema tome, vrijednost \(f(n)\) predstavlja procjenu troška puta koji prolazi kroz čvor \(n\).
+Ovaj algoritam je identičan pretraživanju s jednolikom cijenom, osim što se u prioritetni red za čvorove ubacuje vrijednost \(g(n) + h(n)\) umjesto \(g(n)\).
+
+\subsubsection{Uvjeti za optimalnost algoritma A*}
+Kako bi algoritam A* bio optimalan, heuristika mora zadovoljiti sljedeća dva svojstva: \textbf{optimističnost} i \textbf{konzistentnost}.
+
+\par Heuristika je optimistična ako nikad ne predvidi udaljenost do cilja koja je veća od stvarne. 
+Kao posljedica činjenice da je \(g(n)\) cijena puta do čvora \(n\), \(f(n)\) nikad neće imati vrijednost veću od cijene stvarnog puta do cilja kroz čvor \(n\).
 
 \section{Prilagodba na promjene}
 
