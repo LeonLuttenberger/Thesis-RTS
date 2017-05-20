@@ -70,10 +70,10 @@ public abstract class Projectile extends AbstractMovableObject {
     }
 
     public boolean isUsedUp() {
-        if (getCenterX() < 0) return true;
-        if (getCenterX() > level.getTileWidth() * level.getWidth()) return true;
-        if (getCenterY() < 0) return true;
-        if (getCenterY() > level.getTileHeight() * level.getHeight()) return true;
+        if (getCenterX() < -level.getTileWidth()) return true;
+        if (getCenterX() > (level.getTileWidth() + 1) * level.getWidth()) return true;
+        if (getCenterY() < -level.getTileHeight()) return true;
+        if (getCenterY() > (level.getTileHeight() +1) * level.getHeight()) return true;
 
         return isUsedUp;
     }
