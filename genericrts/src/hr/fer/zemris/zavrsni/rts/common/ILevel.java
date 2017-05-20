@@ -60,6 +60,8 @@ public interface ILevel {
 
     void reset();
 
+    boolean canPlaceObject(AbstractGameObject object);
+
     default MapTile getTileForPosition(float x, float y) {
         return new MapTile(
                 (int) (x / getTileWidth()),

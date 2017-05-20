@@ -13,6 +13,7 @@ final class AssetNames {
 
     static final String MANUFACTORY = "manufactory";
     static final String GENERATOR = "generator";
+    static final String ALIEN_BASE = "alien_base";
 
     static final String BOULDER = "boulder";
 

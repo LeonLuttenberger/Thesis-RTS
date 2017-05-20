@@ -14,7 +14,9 @@ import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class AbstractTiledLevel implements ILevel {
 
@@ -104,12 +106,20 @@ public abstract class AbstractTiledLevel implements ILevel {
 
     @Override
     public boolean addPlayerUnit(PlayerUnit unit) {
-        return playerUnits.add(unit);
+        if (canPlaceObject(unit)) {
+            return playerUnits.add(unit);
+        }
+
+        return false;
     }
 
     @Override
     public boolean addHostileUnit(HostileUnit unit) {
-        return hostileUnits.add(unit);
+        if (canPlaceObject(unit)) {
+            return hostileUnits.add(unit);
+        }
+
+        return false;
     }
 
     @Override
@@ -141,26 +151,9 @@ public abstract class AbstractTiledLevel implements ILevel {
         }
     }
 
-    private boolean isPlacementValid(AbstractGameObject object) {
-        int xTileStart = (int) (object.position.x / tileWidth);
-        int yTileStart = (int) (object.position.y / tileHeight);
-        int xTileEnd = (int) ((object.position.x + object.dimension.x - 1) / tileWidth);
-        int yTileEnd = (int) ((object.position.y + object.dimension.y - 1) / tileHeight);
-
-        for (int i = xTileStart; i <= xTileEnd; i++) {
-            for (int j = yTileStart; j <= yTileEnd; j++) {
-                if (getTileModifier(i, j) == 0) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     @Override
     public boolean addBuilding(Building building) {
-        if (isPlacementValid(building)) {
+        if (canPlaceObject(building)) {
             buildings.add(building);
             setAdditionalTileModifier(building, 0, true);
             return true;
@@ -182,7 +175,7 @@ public abstract class AbstractTiledLevel implements ILevel {
 
     @Override
     public boolean addResource(Resource resource) {
-        if (isPlacementValid(resource)) {
+        if (canPlaceObject(resource)) {
             resources.add(resource);
             setAdditionalTileModifier(resource, resource.getTerrainModifier(), true);
             return true;
@@ -266,6 +259,49 @@ public abstract class AbstractTiledLevel implements ILevel {
     @Override
     public int getTileHeight() {
         return tileHeight;
+    }
+
+
+    private boolean isTerrainValidFor(AbstractGameObject object) {
+        int xTileStart = (int) (object.position.x / tileWidth);
+        int yTileStart = (int) (object.position.y / tileHeight);
+        int xTileEnd = (int) ((object.position.x + object.dimension.x - 1) / tileWidth);
+        int yTileEnd = (int) ((object.position.y + object.dimension.y - 1) / tileHeight);
+
+        for (int i = xTileStart; i <= xTileEnd; i++) {
+            for (int j = yTileStart; j <= yTileEnd; j++) {
+                if (getTileModifier(i, j) == 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isUnitInWay(AbstractGameObject object) {
+        Iterator<Unit> it = Stream.concat(playerUnits.stream(), hostileUnits.stream()).iterator();
+
+        while (it.hasNext()) {
+            Unit unit = it.next();
+            if (object.containsPoint(unit.getCenterX(), unit.getCenterY())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean canPlaceObject(AbstractGameObject object) {
+        if (object instanceof Unit) {
+           return isTerrainValidFor(object);
+        }
+
+        if (!isTerrainValidFor(object)) return false;
+        if (isUnitInWay(object)) return false;
+
+        return true;
     }
 
     @Override
