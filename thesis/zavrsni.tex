@@ -104,7 +104,7 @@ Iz perspektive mikro upravljanja, umjetna inteligencija mora imati sustav po koj
 
 \chapter{Kretanje jedinica}\label{ch:pathfinding}
 
-\section{Pretraživanje prostora stanja}
+\section{Pretraživanje prostora stanja}\label{sec:stateSearch}
 \par Pretraživanje prostore stanja može riješiti mnogo analitičkih problema, uključujući pronalazak najkraćeg puta. 
 Ako korisnik odabere jedinicu koja se nalazi na početnoj poziciji i zada joj odredište, jedinica će pretragom prostornog stanja pronaći slijed akcija koji definira optimalni put.
 
@@ -140,46 +140,73 @@ Ako definirano da se pločica u donjem lijevog predstavlja s koordinatama \((0, 
     Npr.\ za početno stanje \(S_0\) funkcija će vrati slijed: \textit{gore}, \textit{desno} i \textit{gore-desno}. 
     \item \(prijelaz(s, a)\): funkcija vraća novu poziciju na polju kada se akcija \(a\) izvrši iz stanja \(s\). Npr. \(prijelaz((0, 1), gore)\) će vratiti stanje \((1, 1)\).
     \item \(cilj(s)\): funkcija je zadovoljena samo za \((4, 1)\).
-    \item \(cijena(s, a)\): prijelazi na strogo susjedna polja imaju cijenu \(1\), dok dijagonalni prijelazi imaju trošak \(\sqrt{2}\).
+    \item \(cijena(s, a)\): cijene prijelaza su euklidove udaljenosti, odnosno prijelazi na strogo susjedna polja imaju cijenu \(1\), dok dijagonalni prijelazi imaju trošak \(\sqrt{2}\).
 \end{itemize}
 
 \par S obzirom na činjenicu da cijene prijelaza nisu uvijek iste, potrebno je odabrati algoritam pretrage koji uzima u obzir cijenu puta.
 Najosnovniji takav algoritam pretrage je \textbf{pretraživanje s jednolikom cijenom} (engl. \textit{uniform-cost search}). 
-Algoritam koristi prioritetni red u kojeg stavlja čvorove s njihovom ukupnom udaljenosti od početnog stanja \(g(n)\), što osigurava da će svako stanje biti posjećeno s najkraćim mogućim putem.
+Algoritam koristi prioritetni red u kojeg stavlja čvorove s njihovom ukupnom udaljenosti od početnog stanja \(g(s)\), što osigurava da će svako stanje biti posjećeno s najkraćim mogućim putem.
 Zbog navedenog svojstva, vidi se da je algoritam \textbf{optimalan}, odnosno uvijek će pronaći optimalni put do odredišta ako ono postoji.
 %TODO dodati pseudokod
 
-\par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati posjetiti veliki broj stanja jer on u obzir uzima samo cijenu puta do nekog čvora, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
+\par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati posjetiti veliki broj stanja jer se u obzir uzima samo cijena puta, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
 Zbog ovog svojstva pretraživanje s jednolikom cijenom čini jedno od neusmjerenih algoritama pretrage.
 
 \subsection{Usmjerena pretraga}
 
 \par Usmjereni algoritmi pretraživanja su algoritmi koji koriste heurističku informaciju kako bi se pretraživanje brže usmjerilo prema cilju.
-U općenitom obliku ovakvog algoritma stanja se ubacuju u prioritetni red kao u pretraživanju s jednolikom cijenom, no umjesto da se koristi cijena puta \(g(n)\) koristi se \textbf{evaluacijska funkcija} \(f(n)\).
+U općenitom obliku ovakvog algoritma stanja se ubacuju u prioritetni red kao u pretraživanju s jednolikom cijenom, no umjesto da se koristi cijena puta \(g(s)\) koristi se \textbf{evaluacijska funkcija} \(f(s)\).
 
 \par Odabir evaluacijske funkcije \(f\) definira strategiju pretrage. 
 Funkcija \(f\) tipično ima kao komponentu \textbf{heurističku funkciju} \(h\), koja se definira kao procjena minimalnog troška puta od trenutnog čvora do cilja\cite{book:AIModernApproach}.
 
 \par Primjer takvog pretraživanje je pohlepno pretraživanje. 
 Ono odabire onaj čvor koji se čini najbliži cilju, ne uzimajući u obzir trošak puta.
-Evaluacijska funkcija \(f(n)\) se definira kao \(f(n) = h(n)\).
+Evaluacijska funkcija \(f(s)\) se definira kao \(f(s) = h(s)\).
 % TODO dodati primjer
 
 \par Poboljšanje tog algoritma je ujedno i najpoznatija implementacija usmjerene pretrage: \textbf{algoritam A*}. 
-U njemu se čvorovi evaluiraju tako da se zbroji trošak puta \(g(n)\) i heuristika \(h(n)\): 
-\[f(n) = g(n) + h(n).\]
-Prema tome, vrijednost \(f(n)\) predstavlja procjenu troška puta koji prolazi kroz čvor \(n\).
-Ovaj algoritam je identičan pretraživanju s jednolikom cijenom, osim što se u prioritetni red za čvorove ubacuje vrijednost \(g(n) + h(n)\) umjesto \(g(n)\).
+U njemu se čvorovi evaluiraju tako da se zbroji trošak puta \(g(s)\) i heuristika \(h(s)\): 
+\[f(s) = g(s) + h(s).\]
+Prema tome, vrijednost \(f(s)\) predstavlja procjenu troška puta koji prolazi kroz stanje \(s\).
+Ovaj algoritam je identičan pretraživanju s jednolikom cijenom, osim što se u prioritetni red za čvorove ubacuje vrijednost \(g(s) + h(s)\) umjesto \(g(s)\).
 
 \subsubsection{Uvjeti za optimalnost algoritma A*}
 Kako bi algoritam A* bio optimalan, heuristika mora zadovoljiti sljedeća dva svojstva: \textbf{optimističnost} i \textbf{konzistentnost}.
 
 \par Heuristika je optimistična ako nikad ne predvidi udaljenost do cilja koja je veća od stvarne. 
-Kao posljedica činjenice da je \(g(n)\) cijena puta do čvora \(n\), \(f(n)\) nikad neće imati vrijednost veću od cijene stvarnog puta do cilja kroz čvor \(n\).
+Kao posljedica činjenice da je \(g(s)\) cijena puta do stanja \(s\), \(f(s)\) nikad neće imati vrijednost veću od cijene stvarnog puta do cilja kroz čvor \(s\).
+Matematički formulirano, ako je \(h^*(s)\) cijena stvarnog puta od čvora \(s\) do cilja, tada vrijedi:
+\[\forall s \in S, h(s) \leq h^*(s).\]
+Također, vrijednost heuristike u ciljnom čvoru mora biti 0: \(h(s_{cilj}) = 0\).
 
-\section{Prilagodba na promjene}
+\par Heuristika je konzistentna ako je procjena udaljenosti do cilja manja ili jednaka zbroju udaljenosti do cilja od susjednog stanja i cijeni puta između navedena dva stanja.
+Odnosno, ako je \(s\) trenutno stanje, \(s'\) susjedno stanje i \(a\) akcija koja vodi iz \(s\) u \(s'\), tada vrijedi:
+\[h(s) \leq c(s, a) + h(s').\]
 
-\section{Grupiranje jedinica}
+\par Konzistentna heuristika je ujedno i optimistična, iako suprotno ne vrijedi. 
+Samim time, konzistentnost je stroži uvijet od optimističnosti. 
+U algoritmu A* konzistentnost heuristike osigurava da će se čvor proširiti kada je najkraći put do njega pronađen, poput pretraživanja s jednolikom cijenom.
+
+% TODO dodaj koji primjer
+
+\section{Prilagodba na promjene}\label{sec:adaptation}
+
+\par Likovi u računalnim igrama se moraju kretati glatko bez nepotrebnih stajanja, što znači da moraju pretraživati u realnom vremenu. 
+A* sam po sebi nije prikladan za taj posao, jer broj stanja koji se moraju pretražit raste ovisno o ukupnom broju stanja. 
+Također, A* nezna prepoznati promjene u prostoru stanja, poput promjena na mapi. Kada bi se prilikom dolaska u svako novo stanje algoritam A* ponovo izvrtio, u najboljem slučaju jedinice bi u svakom novom stanju zastale dok se prostor pretraži te im kretanje ne bi više bilo glatko. 
+U najgorem slučaju, čitava igre bi bila sklona čestim zaustavljanjima (engl. \textit{lag spike}).
+
+\par Najjednostavnija modifikacija koja se može napraviti nad algoritmom A* kako bi bio iskoristiv u realnom vremenu je ograničenje pretrage na manji lokalni prostor kojeg agent može dostignuti u određenom broju poteza. 
+Konkretno, postavi se ograničenje na broj stanja koji se mogu pretražiti i ogreničenje na broj poteza koje agent može napraviti.
+%TODO negdje objasni šta je agent 
+Kada se pretraga izvrši, agent će krenuti prema stanju koje je trenutno sljedeće u prioritetnom redu sve dok ga ne dosegne ili dok ne napravi maksimalni broj dozvoljenih poteza.
+Taj će se postupak ponavljati sve dok agent ne dođe do ciljnog položaja.
+Dodatno, može se definirati uvijet da ako se promjeni stanje koje se trenutno nalazi u trajektorij (npr. ako se direktno na putu jedinici u RTS igri izgradi zgrada), pretraga se ponovi sa novim podatcima o okolini.
+
+\par 
+
+\section{Grupiranje jedinica}\label{sec:grouping}
 
 \chapter{Implementacija jezgrenih funkcionalnosti}\label{ch:implementation}
 
