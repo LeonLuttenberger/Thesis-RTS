@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.pathfinding.imp.heuristic;
+package hr.fer.zemris.zavrsni.rts.pathfinding.impl.heuristic;
 
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.IHeuristic;

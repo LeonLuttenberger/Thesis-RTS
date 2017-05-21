@@ -1,7 +1,6 @@
-package hr.fer.zemris.zavrsni.rts.pathfinding.imp;
+package hr.fer.zemris.zavrsni.rts.pathfinding.impl;
 
-import com.badlogic.gdx.Gdx;
-import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.common.ITiledMap;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.pathfinding.SearchNode;
@@ -10,27 +9,28 @@ import hr.fer.zemris.zavrsni.rts.pathfinding.algorithms.AStarSearch;
 import hr.fer.zemris.zavrsni.rts.pathfinding.algorithms.ISearchAlgorithm;
 import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.CachingProblemHeuristic;
 import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.IHeuristic;
-import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.WeightedHeuristic;
-import hr.fer.zemris.zavrsni.rts.pathfinding.imp.heuristic.ArealDistanceHeuristic;
-import hr.fer.zemris.zavrsni.rts.pathfinding.imp.problem.MoveToAdjacentTileProblem;
-import hr.fer.zemris.zavrsni.rts.pathfinding.imp.problem.MoveToTileProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.heuristic.ArealDistanceHeuristic;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem.MoveToAdjacentTileProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem.MoveToTileProblem;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.IModifierCachingProblem;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.RTAAStarProblem;
+import hr.fer.zemris.zavrsni.rts.util.TriFunction;
 
 import java.util.Collections;
 import java.util.Map.Entry;
 
 public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
 
-    private static final String TAG = RTAAStarMapSearchAgent.class.getName();
-
-    private static final IHeuristic<MapTile> HEURISTIC = new CachingProblemHeuristic<>(new WeightedHeuristic<>(
-            new ArealDistanceHeuristic(), 1.5
-    ));
+    private static final IHeuristic<MapTile> DEFAULT_HEURISTIC = new ArealDistanceHeuristic();
+    private static final TriFunction<MapTile, MapTile, ITiledMap, IModifierCachingProblem<MapTile>> DEFAULT_PROBLEM = MoveToTileProblem::new;
     private static final ISearchAlgorithm<MapTile> A_STAR_SEARCH = new AStarSearch<>();
 
-    private static final int MAX_STATES_TO_EXPAND = 200;
-    private static final int MAX_MOVES = 20;
+    private final ITiledMap level;
+    private final IHeuristic<MapTile> heuristic;
+    private final int maxStatesToExpand;
+    private final int maxMoves;
+
+    private TriFunction<MapTile, MapTile, ITiledMap, IModifierCachingProblem<MapTile>> problemFunction = DEFAULT_PROBLEM;
 
     private MapTile currentPosition;
     private MapTile goalPosition;
@@ -39,10 +39,16 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
     private SearchResult<MapTile> searchResult;
     private int movesMade;
 
-    private final ILevel level;
-
-    public RTAAStarMapSearchAgent(ILevel level) {
+    public RTAAStarMapSearchAgent(ITiledMap level, int maxStatesToExpand, int maxMoves, IHeuristic<MapTile> heuristic) {
         this.level = level;
+        this.maxStatesToExpand = maxStatesToExpand;
+        this.maxMoves = maxMoves;
+
+        this.heuristic = new CachingProblemHeuristic<>(heuristic);
+    }
+
+    public RTAAStarMapSearchAgent(ITiledMap level, int maxStatesToExpand, int maxMoves) {
+        this(level, maxStatesToExpand, maxMoves, DEFAULT_HEURISTIC);
     }
 
     @Override
@@ -50,20 +56,16 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
         this.currentPosition = startState;
         this.goalPosition = goalState;
 
-        IModifierCachingProblem<MapTile> problem;
-        if (level.getTileModifier(goalState.x, goalState.y) > 0) {
-            problem = new MoveToTileProblem(startState, goalState, level);
-        } else {
-            problem = new MoveToAdjacentTileProblem(startState, goalState, level);
+        IModifierCachingProblem<MapTile> problem = problemFunction.apply(startState, goalState, level);
+        if (level.getTileModifier(goalState.x, goalState.y) <= 0) {
+            problem = new MoveToAdjacentTileProblem(level, problem);
         }
 
         searchResult = null;
         searchProblem = new RTAAStarProblem<>(
                 problem,
-                MAX_STATES_TO_EXPAND
+                maxStatesToExpand
         );
-
-        Gdx.app.log(TAG, "Set goal to: " + goalState);
     }
 
     @Override
@@ -84,17 +86,15 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
         }
 
         // check if the search has to be re-done
-        if (searchResult == null || searchResult.getStatesQueue().isEmpty() || movesMade >= MAX_MOVES) {
+        if (searchResult == null || searchResult.getStatesQueue().isEmpty() || movesMade >= maxMoves) {
             resetSearch();
 
             if (searchResult == null) {
-                Gdx.app.log(TAG, "Could not find path to destination.");
                 stopSearch();
                 return null;
             }
 
             currentState = searchResult.getFrontierQueue().peek();
-            Gdx.app.log(TAG, "Moving towards " + currentState.getState());
         }
 
         // check for changes
@@ -106,6 +106,10 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
         }
 
         return searchResult.getStatesQueue().peek().getState();
+    }
+
+    public void setProblemFunction(TriFunction<MapTile, MapTile, ITiledMap, IModifierCachingProblem<MapTile>> problemFunction) {
+        this.problemFunction = problemFunction;
     }
 
     private void checkForChanges() {
@@ -126,19 +130,17 @@ public class RTAAStarMapSearchAgent implements ISearchAgent<MapTile> {
         if (searchResult != null) {
             double currentStateCost = currentState.getCost();
             double currentStateHeuristic = currentState.getHeuristic();
+            double f = currentStateCost + currentStateHeuristic;
 
             for (Entry<MapTile, Double> entry : searchResult.getClosedSet().entrySet()) {
-                double f = currentStateCost + currentStateHeuristic;
                 double correctedHeuristic = f - entry.getValue();
                 searchProblem.cacheHeuristic(entry.getKey(), correctedHeuristic);
             }
         }
 
         searchProblem.setStartState(currentPosition);
-        searchResult = A_STAR_SEARCH.search(searchProblem, HEURISTIC);
+        searchResult = A_STAR_SEARCH.search(searchProblem, heuristic);
         movesMade = 0;
-
-        Gdx.app.log(TAG, "Path found after " + searchResult.getClosedSet().size() + " expanded states.");
     }
 
     @Override

@@ -10,7 +10,7 @@ import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
-import hr.fer.zemris.zavrsni.rts.pathfinding.imp.SearchAgentProvider;
+import hr.fer.zemris.zavrsni.rts.pathfinding.impl.SearchAgentProvider;
 
 import java.util.Collections;
 

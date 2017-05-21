@@ -1,6 +1,6 @@
-package hr.fer.zemris.zavrsni.rts.pathfinding.imp.problem;
+package hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem;
 
-import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.common.ITiledMap;
 import hr.fer.zemris.zavrsni.rts.common.LevelUtils;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.IModifierCachingProblem;
@@ -11,14 +11,16 @@ import java.util.Set;
 
 public class MoveToAdjacentTileProblem implements IModifierCachingProblem<MapTile> {
 
-    private final MoveToTileProblem moveToTileProblem;
-    private final ILevel level;
+    private final IModifierCachingProblem<MapTile> problem;
+    private final ITiledMap level;
 
     private final Set<MapTile> adjacentTiles = new HashSet<>(4);
 
-    public MoveToAdjacentTileProblem(MapTile startPosition, MapTile endPosition, ILevel level) {
+    public MoveToAdjacentTileProblem(ITiledMap level, IModifierCachingProblem<MapTile> problem) {
         this.level = level;
-        moveToTileProblem = new MoveToTileProblem(startPosition, endPosition, level);
+        this.problem = problem;
+
+        MapTile endPosition = problem.getGoalState();
 
         if (LevelUtils.canMoveNorth(level, endPosition)) {
             adjacentTiles.add(new MapTile(endPosition.x, endPosition.y + 1));
@@ -36,16 +38,16 @@ public class MoveToAdjacentTileProblem implements IModifierCachingProblem<MapTil
 
     @Override
     public MapTile getStartState() {
-        return moveToTileProblem.getStartState();
+        return problem.getStartState();
     }
 
     @Override
     public void setStartState(MapTile startState) {
-        moveToTileProblem.setStartState(startState);
+        problem.setStartState(startState);
 
         if (!adjacentTiles.contains(startState)) return;
 
-        MapTile goalTile = moveToTileProblem.getGoalState();
+        MapTile goalTile = problem.getGoalState();
         if (level.getTileModifier(goalTile.x, goalTile.y) > 0) {
             adjacentTiles.clear();
         }
@@ -53,21 +55,21 @@ public class MoveToAdjacentTileProblem implements IModifierCachingProblem<MapTil
 
     @Override
     public MapTile getGoalState() {
-        return moveToTileProblem.getGoalState();
+        return problem.getGoalState();
     }
 
     @Override
     public boolean isGoalState(MapTile state) {
-        return moveToTileProblem.isGoalState(state) || adjacentTiles.contains(state);
+        return problem.isGoalState(state) || adjacentTiles.contains(state);
     }
 
     @Override
     public List<Successor<MapTile>> getSuccessors(MapTile state) {
-        return moveToTileProblem.getSuccessors(state);
+        return problem.getSuccessors(state);
     }
 
     @Override
     public float getCachedModifier(MapTile position) {
-        return moveToTileProblem.getCachedModifier(position);
+        return problem.getCachedModifier(position);
     }
 }

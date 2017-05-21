@@ -1,6 +1,6 @@
-package hr.fer.zemris.zavrsni.rts.pathfinding.imp.problem;
+package hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem;
 
-import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.common.ITiledMap;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.IModifierCachingProblem;
 
@@ -21,11 +21,11 @@ public class MoveToTileProblem implements IModifierCachingProblem<MapTile> {
 
     private MapTile startPosition;
     private final MapTile endPosition;
-    private final ILevel level;
+    private final ITiledMap level;
 
     private final Map<MapTile, Float> modifierCache = new HashMap<>();
 
-    public MoveToTileProblem(MapTile startPosition, MapTile endPosition, ILevel level) {
+    public MoveToTileProblem(MapTile startPosition, MapTile endPosition, ITiledMap level) {
         this.startPosition = Objects.requireNonNull(startPosition, "Start position cannot be null.");
         this.endPosition = Objects.requireNonNull(endPosition, "End position cannot be null.");
         this.level = Objects.requireNonNull(level, "Level cannot be null.");

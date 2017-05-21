@@ -10,7 +10,7 @@ import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 
 import java.util.List;
 
-public interface ILevel {
+public interface ILevel extends ITiledMap {
 
     void render(SpriteBatch batch);
 
@@ -46,13 +46,7 @@ public interface ILevel {
 
     float getTerrainModifier(float x, float y);
 
-    float getTileModifier(int x, int y);
-
     AbstractGameObject getObjectOnTile(int x, int y);
-
-    int getWidth();
-
-    int getHeight();
 
     int getTileWidth();
 
