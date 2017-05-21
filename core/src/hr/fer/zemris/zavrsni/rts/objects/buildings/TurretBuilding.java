@@ -18,7 +18,7 @@ public class TurretBuilding extends PlayerBuilding implements IRangedAttacker<Tu
     private static final int MAX_HIT_POINTS = 100;
 
     private static final float ATTACK_COOLDOWN = 2;
-    private static final int ATTACK_POWER = 50;
+    private static final int ATTACK_POWER = 20;
     private static final float ATTACK_RANGE = 300f;
 
     private float timeSinceLastAttack = 0;

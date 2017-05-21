@@ -8,8 +8,9 @@ import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Bullet;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
 
-public class AlienSoldierUnit extends HostileUnit implements IRangedAttacker<AlienSoldierUnit> {
+public class AlienSoldierUnit extends HostileUnit implements IRangedAttacker<AlienSoldierUnit>, IBuildableUnit {
 
     private static final float ENEMY_DETECTION_RANGE = 150f;
 
@@ -18,8 +19,9 @@ public class AlienSoldierUnit extends HostileUnit implements IRangedAttacker<Ali
     private static final float DEFAULT_SPEED = 110;
     private static final int MAX_HEALTH = 200;
     private static final int ATTACK_RANGE = 120;
-    private static final int ATTACK_POWER = 10;
+    private static final int ATTACK_POWER = 5;
     private static final float ATTACK_COOLDOWN = 0.6f;
+    private static final int TRAINING_COST = 2000;
 
     public AlienSoldierUnit(ILevel level) {
         super(Assets.getInstance().getUnits().bugAnimation, level, UNIT_WIDTH, UNIT_HEIGHT,
@@ -34,5 +36,10 @@ public class AlienSoldierUnit extends HostileUnit implements IRangedAttacker<Ali
     @Override
     public Projectile rangedAttack(IDamageable<? extends AbstractGameObject> target) {
         return new Bullet(level, this, target, ATTACK_POWER);
+    }
+
+    @Override
+    public int getTrainingCost() {
+        return TRAINING_COST;
     }
 }

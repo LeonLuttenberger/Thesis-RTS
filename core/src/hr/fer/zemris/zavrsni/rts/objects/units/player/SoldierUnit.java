@@ -19,7 +19,7 @@ public class SoldierUnit extends PlayerUnit implements IBuildableUnit, IRangedAt
     private static final int ATTACK_RANGE = 150;
     private static final int ATTACK_POWER = 20;
     private static final float ATTACK_COOLDOWN = 1;
-    private static final int TRAINING_COST = 1000;
+    private static final int TRAINING_COST = 4000;
 
     public SoldierUnit(ILevel level) {
         super(Assets.getInstance().getUnits().soldierAnimation, level, UNIT_WIDTH, UNIT_HEIGHT,

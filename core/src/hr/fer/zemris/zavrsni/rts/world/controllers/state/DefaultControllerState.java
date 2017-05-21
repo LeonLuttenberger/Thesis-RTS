@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
+import hr.fer.zemris.zavrsni.rts.world.ControllerStateAdapter;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 public class DefaultControllerState extends ControllerStateAdapter {

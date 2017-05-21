@@ -16,7 +16,7 @@ public class WorkerUnit extends PlayerUnit implements IBuildableUnit {
     private static final float ATTACK_RANGE = 30;
     private static final int ATTACK_POWER = 1;
     private static final float ATTACK_COOLDOWN = 1;
-    private static final int TRAINING_COST = 1500;
+    private static final int TRAINING_COST = 6000;
 
     private Resource targetResource;
 

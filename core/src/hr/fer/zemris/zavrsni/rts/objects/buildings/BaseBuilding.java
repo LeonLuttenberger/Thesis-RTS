@@ -16,7 +16,7 @@ public class BaseBuilding extends PlayerBuilding {
     private static final int HEIGHT = 224;
     private static final int MAX_HIT_POINTS = 1000;
 
-    private static final int TRAINING_INCREMENT = 1;
+    private static final int TRAINING_INCREMENT = 5;
     private Queue<TrainingJob> trainingJobs = new ArrayDeque<>();
 
     public BaseBuilding(ILevel level) {
