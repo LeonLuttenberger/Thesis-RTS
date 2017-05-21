@@ -9,18 +9,18 @@ import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BuildingCosts.Cost;
-import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
+import hr.fer.zemris.zavrsni.rts.world.controllers.RTSWorldController;
 
 import java.util.function.Function;
 
 public class BuildingControllerState extends ControllerStateAdapter {
 
     private final Function<ILevel, Building> buildingConstructor;
-    private final WorldController controller;
+    private final RTSWorldController controller;
 
     private Building template;
 
-    public BuildingControllerState(Function<ILevel, Building> buildingConstructor, WorldController controller) {
+    public BuildingControllerState(Function<ILevel, Building> buildingConstructor, RTSWorldController controller) {
         this.buildingConstructor = buildingConstructor;
         this.controller = controller;
 
@@ -56,7 +56,7 @@ public class BuildingControllerState extends ControllerStateAdapter {
 
     @Override
     public void mouseRightClicked(int screenX, int screenY) {
-        controller.setControllerState(new DefaultControllerState(controller));
+        controller.setControllerState(new DefaultControllerState(controller.getCamera(), controller.getGameState()));
     }
 
     @Override

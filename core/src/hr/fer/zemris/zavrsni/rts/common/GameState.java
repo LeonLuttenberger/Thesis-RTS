@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,14 +18,17 @@ public class GameState implements IGameState {
     private ILevel level;
 
     private Map<String, Integer> resources = new HashMap<>();
+    {
+        resources.put(GameResources.KEY_MINERALS, 0);
+    }
 
     private final List<Squad> squads = new ArrayList<>();
 
     private final Map<Unit, Squad> unitSquadMap = new HashMap<>();
     private final Map<String, Set<Unit>> savedSelections = new HashMap<>();
 
-    public GameState() {
-        reset();
+    public GameState(ILevel level) {
+        this.level = Objects.requireNonNull(level);
     }
 
     @Override
@@ -34,9 +38,7 @@ public class GameState implements IGameState {
         unitSquadMap.clear();
         savedSelections.clear();
 
-        if (level != null) {
-            level.reset();
-        }
+        level.reset();
     }
 
     @Override
@@ -46,7 +48,7 @@ public class GameState implements IGameState {
 
     @Override
     public void setLevel(ILevel level) {
-        this.level = level;
+        this.level = Objects.requireNonNull(level);
     }
 
     @Override

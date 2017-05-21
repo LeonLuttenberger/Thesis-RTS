@@ -28,13 +28,14 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.Constants;
 import hr.fer.zemris.zavrsni.rts.common.GameResources;
+import hr.fer.zemris.zavrsni.rts.common.GameState;
 import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.Level;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.TurretBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
-import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
+import hr.fer.zemris.zavrsni.rts.world.controllers.RTSWorldController;
 import hr.fer.zemris.zavrsni.rts.world.controllers.state.BuildingControllerState;
 import hr.fer.zemris.zavrsni.rts.world.renderers.HealthBarRenderer;
 import hr.fer.zemris.zavrsni.rts.world.renderers.WorldRenderer;
@@ -43,7 +44,7 @@ public class GameScreen extends AbstractGameScreen {
 
     private static float RESOURCE_BAR_HEIGHT = 20;
 
-    private WorldController controller;
+    private RTSWorldController controller;
     private WorldRenderer renderer;
 
     private OrthographicCamera camera;
@@ -68,7 +69,7 @@ public class GameScreen extends AbstractGameScreen {
         camera.update();
 
         SpriteBatch batch = new SpriteBatch();
-        controller = new WorldController(level, camera);
+        controller = new RTSWorldController(new GameState(level), camera);
         renderer = new WorldRenderer(controller, tiledMap, batch, gameSettings);
 
         healthBarRenderer = new HealthBarRenderer(controller.getGameState(), gameSettings);
@@ -259,7 +260,7 @@ public class GameScreen extends AbstractGameScreen {
         stageUI.dispose();
     }
 
-    public WorldController getController() {
+    public RTSWorldController getController() {
         return controller;
     }
 }

@@ -12,17 +12,17 @@ import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
-import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
+import hr.fer.zemris.zavrsni.rts.world.controllers.RTSWorldController;
 
 public class WorldRenderer extends OrthogonalTiledMapRenderer {
 
-    private final WorldController controller;
+    private final RTSWorldController controller;
     private final SpriteBatch spriteBatch;
     private final IGameSettings gameSettings;
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    public WorldRenderer(WorldController controller, TiledMap tiledMap, SpriteBatch spriteBatch,
+    public WorldRenderer(RTSWorldController controller, TiledMap tiledMap, SpriteBatch spriteBatch,
                          IGameSettings gameSettings) {
         super(tiledMap, spriteBatch);
 

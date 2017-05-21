@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.world.controllers.state;
+package hr.fer.zemris.zavrsni.rts.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

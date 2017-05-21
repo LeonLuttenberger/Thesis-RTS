@@ -10,9 +10,9 @@ import com.badlogic.gdx.math.Vector3;
 public class InputController extends InputAdapter {
 
     private OrthographicCamera camera;
-    private WorldController controller;
+    private RTSWorldController controller;
 
-    public InputController(OrthographicCamera camera, WorldController controller) {
+    public InputController(OrthographicCamera camera, RTSWorldController controller) {
         this.camera = camera;
         this.controller = controller;
     }

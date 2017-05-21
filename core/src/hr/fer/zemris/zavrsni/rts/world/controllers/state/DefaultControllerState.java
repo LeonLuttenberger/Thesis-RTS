@@ -4,29 +4,40 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
-import hr.fer.zemris.zavrsni.rts.world.controllers.WorldController;
+import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
 public class DefaultControllerState extends ControllerStateAdapter {
 
-    private final WorldController controller;
+    private final OrthographicCamera camera;
+    private final IGameState gameState;
     private final DragBoxRenderer dragBoxRenderer = new DragBoxRenderer();
 
-    public DefaultControllerState(WorldController controller) {
-        this.controller = controller;
+    public DefaultControllerState(OrthographicCamera camera, IGameState gameState) {
+        this.camera = camera;
+        this.gameState = gameState;
     }
 
     @Override
     public void mouseLeftClicked(int screenX, int screenY) {
-        controller.deselectUnits();
+        // deselect units
+        for (PlayerUnit playerUnit : gameState.getLevel().getPlayerUnits()) {
+            playerUnit.setSelected(false);
+        }
     }
 
     @Override
     public void mouseRightClicked(int screenX, int screenY) {
-        Vector3 position = controller.getCamera().unproject(new Vector3(screenX, screenY, 0));
-        controller.sendSelectedUnitsTo(position);
+        Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
+
+        Squad squad = gameState.createSquadFromSelected();
+        if (squad != null) {
+            squad.sendToLocation(position.x, position.y);
+        }
     }
 
     @Override
@@ -36,15 +47,26 @@ public class DefaultControllerState extends ControllerStateAdapter {
     }
 
     private void handleUnitSelection() {
-        OrthographicCamera camera = controller.getCamera();
-
-        Vector3 selectionStart = camera.unproject(new Vector3(dragBoxRenderer.getX(), dragBoxRenderer.getY(), 0));
-        Vector3 selectionEnd = camera.unproject(new Vector3(
+        Vector3 areaStart = camera.unproject(new Vector3(dragBoxRenderer.getX(), dragBoxRenderer.getY(), 0));
+        Vector3 areaEnd = camera.unproject(new Vector3(
                 dragBoxRenderer.getX() + dragBoxRenderer.getWidth(),
                 dragBoxRenderer.getY() + dragBoxRenderer.getHeight(),
                 0));
 
-        controller.selectUnitsInArea(selectionStart, selectionEnd);
+        Rectangle selectionArea = new Rectangle(
+                Math.min(areaStart.x, areaEnd.x),
+                Math.min(areaStart.y, areaEnd.y),
+                Math.abs(areaEnd.x - areaStart.x),
+                Math.abs(areaEnd.y - areaStart.y)
+        );
+
+        for (PlayerUnit unit : gameState.getLevel().getPlayerUnits()) {
+            if (selectionArea.contains(unit.getCenterX(), unit.getCenterY())) {
+                unit.setSelected(true);
+            } else {
+                unit.setSelected(false);
+            }
+        }
     }
 
     @Override
@@ -55,8 +77,6 @@ public class DefaultControllerState extends ControllerStateAdapter {
     @Override
     public void keyDown(int keycode) {
         if (keycode >= Keys.NUM_0 && keycode <= Keys.NUM_9) {
-            IGameState gameState = controller.getGameState();
-
             if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
                 gameState.saveCurrentSelection(Keys.toString(keycode));
             } else {

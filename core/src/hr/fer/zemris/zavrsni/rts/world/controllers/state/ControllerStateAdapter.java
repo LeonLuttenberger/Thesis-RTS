@@ -1,6 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.world.controllers.state;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import hr.fer.zemris.zavrsni.rts.world.IControllerState;
 
 public abstract class ControllerStateAdapter implements IControllerState {
 
