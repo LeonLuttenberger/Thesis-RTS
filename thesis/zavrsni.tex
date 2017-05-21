@@ -185,7 +185,7 @@ Odnosno, ako je \(s\) trenutno stanje, \(s'\) susjedno stanje i \(a\) akcija koj
 \[h(s) \leq c(s, a) + h(s').\]
 
 \par Konzistentna heuristika je ujedno i optimistična, iako suprotno ne vrijedi. 
-Samim time, konzistentnost je stroži uvijet od optimističnosti. 
+Samim time, konzistentnost je stroži uvjet od optimističnosti. 
 U algoritmu A* konzistentnost heuristike osigurava da će se čvor proširiti kada je najkraći put do njega pronađen, poput pretraživanja s jednolikom cijenom.
 
 % TODO dodaj koji primjer
@@ -193,18 +193,30 @@ U algoritmu A* konzistentnost heuristike osigurava da će se čvor proširiti ka
 \section{Prilagodba na promjene}\label{sec:adaptation}
 
 \par Likovi u računalnim igrama se moraju kretati glatko bez nepotrebnih stajanja, što znači da moraju pretraživati u realnom vremenu. 
-A* sam po sebi nije prikladan za taj posao, jer broj stanja koji se moraju pretražit raste ovisno o ukupnom broju stanja. 
-Također, A* nezna prepoznati promjene u prostoru stanja, poput promjena na mapi. Kada bi se prilikom dolaska u svako novo stanje algoritam A* ponovo izvrtio, u najboljem slučaju jedinice bi u svakom novom stanju zastale dok se prostor pretraži te im kretanje ne bi više bilo glatko. 
+A* sam po sebi nije prikladan za taj posao, jer broj stanja koji se moraju pretražiti raste ovisno o ukupnom broju stanja. 
+Također, A* ne zna prepoznati promjene u prostoru stanja, poput promjena na mapi. Kada bi se prilikom dolaska u svako novo stanje algoritam A* ponovo izvrtio, u najboljem slučaju jedinice bi u svakom novom stanju zastale dok se prostor pretraži te im kretanje ne bi više bilo glatko. 
 U najgorem slučaju, čitava igre bi bila sklona čestim zaustavljanjima (engl. \textit{lag spike}).
 
 \par Najjednostavnija modifikacija koja se može napraviti nad algoritmom A* kako bi bio iskoristiv u realnom vremenu je ograničenje pretrage na manji lokalni prostor kojeg agent može dostignuti u određenom broju poteza. 
-Konkretno, postavi se ograničenje na broj stanja koji se mogu pretražiti i ogreničenje na broj poteza koje agent može napraviti.
-%TODO negdje objasni šta je agent 
-Kada se pretraga izvrši, agent će krenuti prema stanju koje je trenutno sljedeće u prioritetnom redu sve dok ga ne dosegne ili dok ne napravi maksimalni broj dozvoljenih poteza.
+Konkretno, postavi se ograničenje na broj stanja koji se mogu pretražiti i ograničenje na broj poteza koje agent može napraviti.
+%TODO negdje objasni što je agent 
+Kada se pretraga iz trenutne pozicije izvrši, agent će krenuti prema stanju koje je trenutno sljedeće u prioritetnom redu sve dok ga ne dosegne ili dok ne napravi maksimalni broj dozvoljenih poteza.
 Taj će se postupak ponavljati sve dok agent ne dođe do ciljnog položaja.
-Dodatno, može se definirati uvijet da ako se promjeni stanje koje se trenutno nalazi u trajektorij (npr. ako se direktno na putu jedinici u RTS igri izgradi zgrada), pretraga se ponovi sa novim podatcima o okolini.
+Dodatno, može se definirati uvjet da ako se promjeni stanje koje se trenutno nalazi u trajektoriji (npr.\ ako se direktno na putu jedinici u RTS igri izgradi zgrada), pretraga se ponovi s novim podatcima o okolini.
 
-\par 
+\par Zahvaljujući navedenim modifikacijama, algoritam A* se može koristit u stvarnom vremenu. 
+Broj posjećenih stanja biti će neovisan broju mogućih stanja što garantira mali prostor stanja, no rezultirati će dužim putevima agenta do cilja.
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[width=0.45\linewidth]{images/repeatedAStarCycle.pdf}
+	\caption{Pojava ciklusa kod ponovljene pretrage}
+	\label{fig:pathfindingCycle}
+\end{figure} 
+
+\par S obzirom na činjenicu da svaka pretraga kreće ispočetka, moguća je pojava ciklusa. Na slici \ref{fig:pathfindingCycle} prikazan je rezultat pretrage gdje je broj stanja koja se mogu pretražiti ograničen na 2. 
+Ispunjeni krug predstavlja početni položaj u pretrazi, kvadrat ciljni položaj, dok zasivljeno polje predstavlja pregledano stanje. 
+U gornjem lijevom kutu zapisan je trošak puta za čvor \(g(n)\), u gornjem desnom kutu vrijedost heuristike \(h(n)\) te u donjem lijevom kutu vrijednost \(f(n) = g(n) + h(n)\).
 
 \section{Grupiranje jedinica}\label{sec:grouping}
 
