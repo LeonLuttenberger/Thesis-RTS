@@ -237,8 +237,14 @@ Jedan od algoritama koji nudi takvu mogućnost je adaptivni A* u stvarnom vremen
 \[\forall s \in S, h(s_{start}) \leq g(s) + h(s).\]
 Drugim riječima, put od početne pozicije do cilja kroz stanje \(s\) nikad neće biti veće od stvarne udaljenosti od početnog stanja do cilja.
 
-\par Ako je stanje \(\overline{s}\) prvo stanje u prioritetnom redu kada je lokalna pretraga završila, uvrštavanjem uvjeta konzistentnosti u gore navedenu formulu izvađa se sljedeća formula:
-\[\forall s \in S, f(\overline{s}) \leq g(s) + h(s).\]
+\par Ako je stanje \(\overline{s}\) prvo stanje u prioritetnom redu kada je lokalna pretraga završila, uvrštavanjem uvjeta konzistentnosti u gore navedenu formulu dobiva se sljedeći izračun:
+\[\forall s \in S, f(\overline{s}) \leq g(s) + h(s)\]
+\[\forall s \in S, h(s) \geq f(\overline{s}) - g(s).\]
+
+\par Kao posljedicu toga, za svako posjećeno stanje u pretrazi moguće je napraviti korekciju:
+\[h(s) = f(\overline{s}) - g(s).\]
+
+% TODO dodati pseudokod
 
 \section{Grupiranje jedinica}\label{sec:grouping}
 
