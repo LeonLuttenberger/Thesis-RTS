@@ -140,7 +140,7 @@ Ako definirano da se pločica u donjem lijevog predstavlja s koordinatama \((0, 
     Npr.\ za početno stanje \(S_0\) funkcija će vrati slijed: \textit{gore}, \textit{desno} i \textit{gore-desno}. 
     \item \(prijelaz(s, a)\): funkcija vraća novu poziciju na polju kada se akcija \(a\) izvrši iz stanja \(s\). Npr. \(prijelaz((0, 1), gore)\) će vratiti stanje \((1, 1)\).
     \item \(cilj(s)\): funkcija je zadovoljena samo za \((4, 1)\).
-    \item \(cijena(s, a)\): cijene prijelaza su euklidove udaljenosti, odnosno prijelazi na strogo susjedna polja imaju cijenu \(1\), dok dijagonalni prijelazi imaju trošak \(\sqrt{2}\).
+    \item \(cijena(s, a)\): cijene prijelaza su Euklidove udaljenosti, odnosno prijelazi na strogo susjedna polja imaju cijenu \(1\), dok dijagonalni prijelazi imaju trošak \(\sqrt{2}\).
 \end{itemize}
 
 \par S obzirom na činjenicu da cijene prijelaza nisu uvijek iste, potrebno je odabrati algoritam pretrage koji uzima u obzir cijenu puta.
@@ -188,6 +188,8 @@ Odnosno, ako je \(s\) trenutno stanje, \(s'\) susjedno stanje i \(a\) akcija koj
 Samim time, konzistentnost je stroži uvjet od optimističnosti. 
 U algoritmu A* konzistentnost heuristike osigurava da će se čvor proširiti kada je najkraći put do njega pronađen, poput pretraživanja s jednolikom cijenom.
 
+% TODO napiši nešto to obaviještenosti heuristike
+
 % TODO dodaj koji primjer
 
 \section{Prilagodba na promjene}\label{sec:adaptation}
@@ -197,6 +199,8 @@ A* sam po sebi nije prikladan za taj posao, jer broj stanja koji se moraju pretr
 Također, A* ne zna prepoznati promjene u prostoru stanja, poput promjena na mapi. Kada bi se prilikom dolaska u svako novo stanje algoritam A* ponovo izvrtio, u najboljem slučaju jedinice bi u svakom novom stanju zastale dok se prostor pretraži te im kretanje ne bi više bilo glatko. 
 U najgorem slučaju, čitava igre bi bila sklona čestim zaustavljanjima (engl. \textit{lag spike}).
 
+\subsection{Ponovljeni A*}
+
 \par Najjednostavnija modifikacija koja se može napraviti nad algoritmom A* kako bi bio iskoristiv u realnom vremenu je ograničenje pretrage na manji lokalni prostor kojeg agent može dostignuti u određenom broju poteza. 
 Konkretno, postavi se ograničenje na broj stanja koji se mogu pretražiti i ograničenje na broj poteza koje agent može napraviti.
 %TODO negdje objasni što je agent 
@@ -204,19 +208,37 @@ Kada se pretraga iz trenutne pozicije izvrši, agent će krenuti prema stanju ko
 Taj će se postupak ponavljati sve dok agent ne dođe do ciljnog položaja.
 Dodatno, može se definirati uvjet da ako se promjeni stanje koje se trenutno nalazi u trajektoriji (npr.\ ako se direktno na putu jedinici u RTS igri izgradi zgrada), pretraga se ponovi s novim podatcima o okolini.
 
-\par Zahvaljujući navedenim modifikacijama, algoritam A* se može koristit u stvarnom vremenu. 
-Broj posjećenih stanja biti će neovisan broju mogućih stanja što garantira mali prostor stanja, no rezultirati će dužim putevima agenta do cilja.
+\par Zahvaljujući navedenim modifikacijama, algoritam A* se može koristiti u stvarnom vremenu. 
+Broj posjećenih stanja bit će neovisan broju mogućih stanja što garantira mali prostor stanja, no rezultirat će dužim putevima agenta do cilja.
 
-\begin{figure}[h] 
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.45\linewidth]{images/repeatedAStarCycle.pdf}
 	\caption{Pojava ciklusa kod ponovljene pretrage}
 	\label{fig:pathfindingCycle}
 \end{figure} 
 
-\par S obzirom na činjenicu da svaka pretraga kreće ispočetka, moguća je pojava ciklusa. Na slici \ref{fig:pathfindingCycle} prikazan je rezultat pretrage gdje je broj stanja koja se mogu pretražiti ograničen na 2. 
+\par S obzirom na činjenicu da svaka pretraga kreće ispočetka, moguća je pojava ciklusa. 
+
+\par Na slici~\ref{fig:pathfindingCycle} prikazan je rezultat pretrage koja je rezultirala ciklusom. 
+Radi jednostavnosti, u ovom problemu dopušteni su samo pomaci na izravno susjedna polja.
+Broj stanja koja se mogu pretražiti ograničen na 2, te je agent zatim otišao prema idućem čvoru u prioritetom redu. 
 Ispunjeni krug predstavlja početni položaj u pretrazi, kvadrat ciljni položaj, dok zasivljeno polje predstavlja pregledano stanje. 
-U gornjem lijevom kutu zapisan je trošak puta za čvor \(g(n)\), u gornjem desnom kutu vrijedost heuristike \(h(n)\) te u donjem lijevom kutu vrijednost \(f(n) = g(n) + h(n)\).
+U gornjem lijevom kutu zapisan je trošak puta za čvor \(g(n)\), u gornjem desnom kutu vrijednost heuristike \(h(n)\) te u donjem lijevom kutu vrijednost \(f(n) = g(n) + h(n)\).
+U slučaju kada se u prioritetni red doda čvor s vrijednosti koja već postoji, prvi u redu je onaj koji je zadnji dodan.
+
+\subsection{Adaptivni A* u stvarnom vremenu}
+\par Kako bi se riješio problem pojave ciklusa, potrebno je sačuvati informacije iz prijašnjih pretraga.
+Jedan od algoritama koji nudi takvu mogućnost je adaptivni A* u stvarnom vremenu (engl. \textit{Real-Time Adaptive A*}, u nastavu RTAA*).
+
+\par Neka je potrebno izvesti više A* pretraga s konzistentnom heuristikom i istim ciljnim stanjem no s različitim početnim stanjima. Adaptivni algoritam A* će nakon svake pretrage podesiti heurističke vrijednosti posjećenih stanja kako bi buduće pretrage bile obavještenije\cite{article:RTAAStar}.
+
+\par Neka je \(s_{start}\) početno stanje u pretrazi i \(s\) stanje u lokalnom prostoru stanja. Ako je heuristika \(h\) konzistentna vrijedi relacija:
+\[\forall s \in S, h(s_{start}) \leq g(s) + h(s).\]
+Drugim riječima, put od početne pozicije do cilja kroz stanje \(s\) nikad neće biti veće od stvarne udaljenosti od početnog stanja do cilja.
+
+\par Ako je stanje \(\overline{s}\) prvo stanje u prioritetnom redu kada je lokalna pretraga završila, uvrštavanjem uvjeta konzistentnosti u gore navedenu formulu izvađa se sljedeća formula:
+\[\forall s \in S, f(\overline{s}) \leq g(s) + h(s).\]
 
 \section{Grupiranje jedinica}\label{sec:grouping}
 
