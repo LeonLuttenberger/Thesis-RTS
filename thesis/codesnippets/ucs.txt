@@ -1,0 +1,20 @@
+funkcija ucs(problem)
+    pocetni_čvor = Čvor(problem.početno_stanje, g=0)
+    prioritetni_red = prioritetni red sortiran po g
+    posjećena_stanja = prazan skup
+
+    dok prioritetni_red nije prazan
+        čvor = prioritetni_red.izvuci()
+        ako problem.je_cilj(cvor)
+            vrati čvor
+
+        posjećena_stanja.dodaj(čvor)
+
+        za_svaku akciju u problem.akcije(čvor.stanje)
+            novi_čvor = problem.prijelaz(čvor.stanje, akcija)
+            
+            ako novi_čvor.stanje nije posjećen ni u prioritetnom_redu
+                prioritetni_red.dodaj(novi_čvor)
+            
+            inače ako prioritetni_red sadrži novi_čvor.stanje sa višom cijenom puta g
+                zamjeni taj čvor sa novi_čvor

@@ -1,8 +1,60 @@
 \documentclass[times, utf8, zavrsni, numeric]{fer}
 \usepackage{booktabs}
 \usepackage{url}
-\usepackage{listing}
+\usepackage[final]{pdfpages}
+\usepackage{amsmath}
+\usepackage{blindtext}
+\usepackage{enumitem}
+\usepackage{listings}
 \usepackage[hidelinks]{hyperref}
+
+\renewcommand{\lstlistingname}{Programski isječak}% Listing -> Algoritam
+\renewcommand{\lstlistlistingname}{Popis programskih isječaka}% List of Listings -> Popis algoritama 
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{keyword}{rgb}{0,0,0}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\bfseries\color{keyword},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=4,
+	inputencoding=utf8,
+	morekeywords={vrati, ako, inače, za\_svaku, prekini\_petlju} 
+}	
+
+\lstset{style=mystyle,texcl=true}
+% set font translations
+%\lstset{inputencoding=utf8}
+\lstset{extendedchars=true}
+\lstset{
+	literate=%
+	{ć}{{\'c}}1
+	{č}{{\v{c}}}1
+	{đ}{{\dj{}}}1
+	{š}{{\v{s}}}1
+	{ž}{{\v{z}}}1
+	{Ć}{{\'C}}1
+	{Č}{{\v{C}}}1
+	{Đ}{{\DJ{}}}1
+	{Š}{{\v{S}}}1
+	{Ž}{{\v{Z}}}1
+}
 
 \begin{document}
 
@@ -147,7 +199,14 @@ Ako definirano da se pločica u donjem lijevog predstavlja s koordinatama \((0, 
 Najosnovniji takav algoritam pretrage je \textbf{pretraživanje s jednolikom cijenom} (engl. \textit{uniform-cost search}). 
 Algoritam koristi prioritetni red u kojeg stavlja čvorove s njihovom ukupnom udaljenosti od početnog stanja \(g(s)\), što osigurava da će svako stanje biti posjećeno s najkraćim mogućim putem.
 Zbog navedenog svojstva, vidi se da je algoritam \textbf{optimalan}, odnosno uvijek će pronaći optimalni put do odredišta ako ono postoji.
+
+\par U isječku~\ref{fig:codeUCS} napisan je pseudokod za funkciju koja obavlja pretraživanje s jednolikom cijenom.
 %TODO dodati pseudokod
+
+\begin{minipage}{\textwidth}
+	\lstinputlisting[caption = {Pseudokod za pretraživanje s jednolikom cijenom},
+    label={fig:codeUCS}]{codesnippets/ucs.txt}
+\end{minipage}
 
 \par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati posjetiti veliki broj stanja jer se u obzir uzima samo cijena puta, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
 Zbog ovog svojstva pretraživanje s jednolikom cijenom čini jedno od neusmjerenih algoritama pretrage.
@@ -163,7 +222,6 @@ Funkcija \(f\) tipično ima kao komponentu \textbf{heurističku funkciju} \(h\),
 \par Primjer takvog pretraživanje je pohlepno pretraživanje. 
 Ono odabire onaj čvor koji se čini najbliži cilju, ne uzimajući u obzir trošak puta.
 Evaluacijska funkcija \(f(s)\) se definira kao \(f(s) = h(s)\).
-% TODO dodati primjer
 
 \par Poboljšanje tog algoritma je ujedno i najpoznatija implementacija usmjerene pretrage: \textbf{algoritam A*}. 
 U njemu se čvorovi evaluiraju tako da se zbroji trošak puta \(g(s)\) i heuristika \(h(s)\): 
@@ -180,15 +238,21 @@ Matematički formulirano, ako je \(h^*(s)\) cijena stvarnog puta od čvora \(s\)
 \[\forall s \in S, h(s) \leq h^*(s).\]
 Također, vrijednost heuristike u ciljnom čvoru mora biti 0: \(h(s_{cilj}) = 0\).
 
-\par Heuristika je konzistentna ako je procjena udaljenosti do cilja manja ili jednaka zbroju udaljenosti do cilja od susjednog stanja i cijeni puta između navedena dva stanja.
+\par Heuristika je konzistentna ako procjena udaljenosti do cilja nikad nije veća  od zbroja heurističke vrijednosti od susjednog stanja i cijeni puta između navedena dva stanja.
 Odnosno, ako je \(s\) trenutno stanje, \(s'\) susjedno stanje i \(a\) akcija koja vodi iz \(s\) u \(s'\), tada vrijedi:
 \[h(s) \leq c(s, a) + h(s').\]
+Ovo svojstvo je temeljeno na principu nejednakosti trokuta, odnosno činjenici da zbroj duljina dviju stranica trokuta ne može biti manja od duljine treće stranice.
+
+% Možda dodati sliku
 
 \par Konzistentna heuristika je ujedno i optimistična, iako suprotno ne vrijedi. 
 Samim time, konzistentnost je stroži uvjet od optimističnosti. 
 U algoritmu A* konzistentnost heuristike osigurava da će se čvor proširiti kada je najkraći put do njega pronađen, poput pretraživanja s jednolikom cijenom.
 
-% TODO napiši nešto to obaviještenosti heuristike
+\par Još jedno bitno svojstvo heuristike je \textbf{obavještenost}. 
+Jedan primjer heuristike koja zadovolja uvijet optimističnosti i konzistentnosti je funkcija koja za svako stanje vraća 0: \(\forall S \in S, h(s) = 0\). 
+Algoritam A* s ovakvom heuristikom degenerira pretraživanje s jednolikom cijenom, odnosno za svako stanje se gleda samo njegova cijena \(g\). 
+Heuristika je bolja ako daje više informacija, odnosno ako funkcija \(h\) vraća veću vrijednost.
 
 % TODO dodaj koji primjer
 
