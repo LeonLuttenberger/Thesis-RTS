@@ -1,7 +1,6 @@
 package hr.fer.zemris.zavrsni.rts;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
@@ -15,8 +14,9 @@ import hr.fer.zemris.zavrsni.rts.console.InGameCommandExecutor;
 import hr.fer.zemris.zavrsni.rts.console.MyRTSCommandExecutor;
 import hr.fer.zemris.zavrsni.rts.screen.GameScreen;
 import hr.fer.zemris.zavrsni.rts.screen.MenuScreen;
+import hr.fer.zemris.zavrsni.rts.screen.ScreenManagedGame;
 
-public class MyRTS extends Game {
+public class MyRTS extends ScreenManagedGame {
 
 	private Console cheatConsole;
 	private GameSettings settings;
@@ -35,7 +35,9 @@ public class MyRTS extends Game {
 		settings = new GameSettings(Constants.SETTINGS);
 		settings.load();
 
-		setScreen(new MenuScreen(this, settings));
+		MenuScreen screen = new MenuScreen(this, settings);
+		setScreen(screen);
+		getScreenManager().pushScreen(screen);
 	}
 
 	@Override

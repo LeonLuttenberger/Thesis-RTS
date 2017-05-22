@@ -1,6 +1,5 @@
 package hr.fer.zemris.zavrsni.rts.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
@@ -58,7 +57,7 @@ public class GameScreen extends AbstractGameScreen {
     private Label labelMinerals;
     private Window interactionMenu;
 
-    public GameScreen(Game game, IGameSettings gameSettings) {
+    public GameScreen(ScreenManagedGame game, IGameSettings gameSettings) {
         super(game, gameSettings);
 
         TiledMap tiledMap = new TmxMapLoader().load(Constants.TILED_MAP_TMX);
@@ -201,6 +200,8 @@ public class GameScreen extends AbstractGameScreen {
     }
 
     private void renderFPSCounter() {
+        if (labelFPS == null) return;
+        
         int fps = Gdx.graphics.getFramesPerSecond();
 
         if (fps >= 59) {
@@ -241,7 +242,7 @@ public class GameScreen extends AbstractGameScreen {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Keys.ESCAPE) {
-                    game.setScreen(new MenuScreen(game, gameSettings));
+                    game.getScreenManager().pushScreen(new PauseScreen(game, gameSettings));
                 }
                 if (keycode == Keys.H) {
                     interactionMenu.setVisible(!interactionMenu.isVisible());

@@ -18,7 +18,7 @@ import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.Constants;
 import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 
-public class MenuScreen extends AbstractGameScreen {
+public class PauseScreen extends AbstractGameScreen {
 
     private Stage stage;
     private Skin mainMenuSkin;
@@ -26,11 +26,11 @@ public class MenuScreen extends AbstractGameScreen {
 
     // menu
     private Image imgBackground;
-    private Button btnNewGame;
+    private Button btnContinue;
     private Button btnSettings;
-    private Button btnQuitGame;
+    private Button btnMainMenu;
 
-    public MenuScreen(ScreenManagedGame game, IGameSettings gameSettings) {
+    public PauseScreen(ScreenManagedGame game, IGameSettings gameSettings) {
         super(game, gameSettings);
     }
 
@@ -78,12 +78,12 @@ public class MenuScreen extends AbstractGameScreen {
     private Table buildMenuNavigation() {
         Table table = new Table();
 
-        btnNewGame = new TextButton("New Game", uiSkin);
-        table.add(btnNewGame);
-        btnNewGame.addListener(new ChangeListener() {
+        btnContinue = new TextButton("Continue", uiSkin);
+        table.add(btnContinue);
+        btnContinue.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.getScreenManager().pushScreen(new GameScreen(game, gameSettings));
+                game.getScreenManager().popScreen();
             }
         });
         table.row();
@@ -98,12 +98,12 @@ public class MenuScreen extends AbstractGameScreen {
         });
         table.row();
 
-        btnQuitGame = new TextButton("Quit Game", uiSkin);
-        table.add(btnQuitGame);
-        btnQuitGame.addListener(new ChangeListener() {
+        btnMainMenu = new TextButton("Quit to main menu", uiSkin);
+        table.add(btnMainMenu);
+        btnMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
+                game.getScreenManager().popScreen(2);
             }
         });
 
