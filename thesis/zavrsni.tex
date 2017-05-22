@@ -309,8 +309,21 @@ Drugim riječima, put od početne pozicije do cilja kroz stanje \(s\) nikad neć
 \[h(s) = f(\overline{s}) - g(s).\]
 
 % TODO dodati pseudokod
+% TODO dodati primjer
 
 \section{Grupiranje jedinica}\label{sec:grouping}
+Algoritam A* i njegove varijacije su sposobne pronaći putanju do cilja ali ne uzimaju u obzir taktičko pozicioniranje jedinica. 
+Primjerice, ako igrač u RTS igri odjednom odabere više od jedne jedinice i zada im odredište, očekivano ponašanje je da će se jedinice zajedno kretati kao skupina. 
+Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj udaljenosti od mete na kojoj i dalje mogu pucati, kao što se može vidjeti na slici \ref{fig:boids}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{images/boids.png}
+	\caption{Pozicioniranje jedinica na maksimalnoj udaljenosti od mete}
+	\label{fig:boids}
+\end{figure}
+
+
 
 \chapter{Implementacija jezgrenih funkcionalnosti}\label{ch:implementation}
 
