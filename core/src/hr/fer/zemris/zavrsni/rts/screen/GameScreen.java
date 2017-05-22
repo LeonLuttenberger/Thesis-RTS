@@ -201,7 +201,7 @@ public class GameScreen extends AbstractGameScreen {
 
     private void renderFPSCounter() {
         if (labelFPS == null) return;
-        
+
         int fps = Gdx.graphics.getFramesPerSecond();
 
         if (fps >= 59) {

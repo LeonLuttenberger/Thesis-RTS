@@ -1,5 +1,0 @@
-{
-  com.badlogic.gdx.scenes.scene2d.ui.Image: {
-      background: { drawable: background }
-  }
-}

@@ -2,7 +2,6 @@ package hr.fer.zemris.zavrsni.rts.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -19,13 +18,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
-import hr.fer.zemris.zavrsni.rts.common.Constants;
 import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 
 public class OptionsScreen extends AbstractGameScreen {
 
     private Stage stage;
-    private Skin mainMenuSkin;
     private Skin uiSkin;
 
     private Image imgBackground;
@@ -55,7 +52,7 @@ public class OptionsScreen extends AbstractGameScreen {
     private Table buildBackgroundLayer() {
         Table table = new Table();
 
-        imgBackground = new Image(mainMenuSkin, "background");
+        imgBackground = new Image(Assets.getInstance().getAssetsUI().backgroundImage);
         imgBackground.setScaling(Scaling.fill);
         imgBackground.setSize(stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight());
         table.add(imgBackground);
@@ -64,10 +61,6 @@ public class OptionsScreen extends AbstractGameScreen {
     }
 
     private void rebuildStage() {
-        mainMenuSkin = new Skin(
-                Gdx.files.internal(Constants.SKIN_UI),
-                new TextureAtlas(Constants.TEXTURE_ATLAS_UI)
-        );
         uiSkin = Assets.getInstance().getUiSkin();
 
         // build all layers
