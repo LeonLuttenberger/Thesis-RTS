@@ -8,8 +8,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.strongjoshua.console.Console;
 import com.strongjoshua.console.GUIConsole;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
-import hr.fer.zemris.zavrsni.rts.common.Constants;
-import hr.fer.zemris.zavrsni.rts.common.GameSettings;
 import hr.fer.zemris.zavrsni.rts.console.InGameCommandExecutor;
 import hr.fer.zemris.zavrsni.rts.console.MyRTSCommandExecutor;
 import hr.fer.zemris.zavrsni.rts.screen.GameScreen;
@@ -19,10 +17,11 @@ import hr.fer.zemris.zavrsni.rts.screen.ScreenManagedGame;
 public class MyRTS extends ScreenManagedGame {
 
 	private Console cheatConsole;
-	private GameSettings settings;
 
 	@Override
 	public void create () {
+		super.create();
+		
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
 		Assets.getInstance().init(new AssetManager());
@@ -31,9 +30,6 @@ public class MyRTS extends ScreenManagedGame {
 		cheatConsole.setSizePercent(100, 33);
 		cheatConsole.setPositionPercent(0, 67);
 		cheatConsole.setDisplayKeyID(Keys.GRAVE);
-
-		settings = new GameSettings(Constants.SETTINGS);
-		settings.load();
 
 		MenuScreen screen = new MenuScreen(this, settings);
 		setScreen(screen);

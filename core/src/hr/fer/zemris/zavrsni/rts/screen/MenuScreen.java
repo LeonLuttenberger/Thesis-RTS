@@ -76,7 +76,7 @@ public class MenuScreen extends AbstractGameScreen {
         btnNewGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.getScreenManager().pushScreen(new GameScreen(game, gameSettings));
+                game.getScreenManager().pushGameScreen();
             }
         });
         table.row();
@@ -104,7 +104,7 @@ public class MenuScreen extends AbstractGameScreen {
     }
 
     private void onOpenSettings() {
-        game.getScreenManager().pushScreen(new OptionsScreen(game, gameSettings));
+        game.getScreenManager().pushOptionsScreen();
     }
 
     @Override

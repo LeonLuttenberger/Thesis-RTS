@@ -242,7 +242,7 @@ public class GameScreen extends AbstractGameScreen {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Keys.ESCAPE) {
-                    game.getScreenManager().pushScreen(new PauseScreen(game, gameSettings));
+                    game.getScreenManager().pushPauseScreen();
                 }
                 if (keycode == Keys.H) {
                     interactionMenu.setVisible(!interactionMenu.isVisible());
