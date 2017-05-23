@@ -124,9 +124,13 @@ public final class MovementUtility {
 
         while (targets.hasNext()) {
             IDamageable<?> next = targets.next();
+            AbstractGameObject nextObject = next.getObject();
 
-            float distance = AbstractGameObject.distanceBetween(object, next.getObject());
-            if (distance < range && distance < minDistance) {
+            float rangeIncrease = Math.min(object.dimension.x, object.dimension.y)
+                    + Math.min(nextObject.dimension.x, nextObject.dimension.y);
+
+            float distance = AbstractGameObject.distanceBetween(object, nextObject);
+            if (distance < range + rangeIncrease && distance < minDistance + rangeIncrease) {
                 minDistance = distance;
                 closest = next;
             }
@@ -154,7 +158,7 @@ public final class MovementUtility {
                 level.getHostileUnits().stream(),
                 level.getBuildings().stream().filter(b -> b instanceof HostileBuilding)
         ).filter(d -> d instanceof IDamageable<?>)
-                .map(d -> (IDamageable<?>) d);
+         .map(d -> (IDamageable<?>) d);
 
         return closestTargetInRange(object, damageables.iterator(), range);
     }

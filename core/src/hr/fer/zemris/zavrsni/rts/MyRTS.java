@@ -33,7 +33,7 @@ public class MyRTS extends ScreenManagedGame {
 
 		MenuScreen screen = new MenuScreen(this, settings);
 		setScreen(screen);
-		getScreenManager().pushScreen(screen);
+		getScreenManager().pushMenuScreen();
 	}
 
 	@Override

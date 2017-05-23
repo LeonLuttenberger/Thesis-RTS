@@ -5,6 +5,8 @@ import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 
+import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -27,8 +29,8 @@ public class Squad implements IUpdateable {
     private Unit squadLeader;
 
     public Squad(Set<Unit> squadMembers, ILevel level) {
-        this.squadMembers = squadMembers;
-        this.level = level;
+        this.squadMembers = Objects.requireNonNull(squadMembers);
+        this.level = Objects.requireNonNull(level);
     }
 
     @Override
@@ -106,6 +108,10 @@ public class Squad implements IUpdateable {
                 (squadGoal.x - unit.getCenterX()) * GOAL_WEIGHT,
                 (squadGoal.y - unit.getCenterY()) * GOAL_WEIGHT
         );
+    }
+
+    public Set<Unit> getSquadMembers() {
+        return Collections.unmodifiableSet(squadMembers);
     }
 
     public void addUnit(Unit unit) {

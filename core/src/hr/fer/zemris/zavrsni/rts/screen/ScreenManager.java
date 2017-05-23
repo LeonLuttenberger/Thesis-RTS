@@ -44,11 +44,7 @@ public class ScreenManager implements Disposable {
     }
 
     public void pushGameScreen() {
-        if (gameScreen == null) {
-            gameScreen = new GameScreen(game, gameSettings);
-        }
-
-        pushScreen(gameScreen);
+        pushScreen(new GameScreen(game, gameSettings));
     }
 
     public void pushPauseScreen() {

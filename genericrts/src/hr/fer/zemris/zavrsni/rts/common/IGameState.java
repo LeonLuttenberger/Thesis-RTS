@@ -21,6 +21,8 @@ public interface IGameState {
 
     List<Squad> getSquads();
 
+    void addSquad(Squad squad);
+
     void removeSquad(Squad squad);
 
     void reset();

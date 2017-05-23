@@ -66,6 +66,10 @@ public abstract class AbstractTiledLevel implements ILevel {
         tileHeight = tiledMap.getProperties().get(PROP_KEY_TILE_HEIGHT, Integer.class);
 
         additionalTileModifiers = new float[width][height];
+        initTileModifier();
+    }
+
+    private void initTileModifier() {
         for (float[] rowTileModifiers : additionalTileModifiers) {
             Arrays.fill(rowTileModifiers, 1);
         }
@@ -310,5 +314,7 @@ public abstract class AbstractTiledLevel implements ILevel {
         hostileUnits.clear();
         buildings.clear();
         resources.clear();
+
+        initTileModifier();
     }
 }

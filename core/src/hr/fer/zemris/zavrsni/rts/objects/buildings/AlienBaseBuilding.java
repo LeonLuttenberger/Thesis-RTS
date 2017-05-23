@@ -16,7 +16,7 @@ public class AlienBaseBuilding extends HostileBuilding {
 
     private static final int TRAINING_INCREMENT = 1;
     private static final int MOB_CAP_RANGE = 200;
-    private static final int MOB_CAP = 3;
+    private static final int MOB_CAP = 5;
 
     private int currentWork;
     private IBuildableUnit currentUnit = new AlienSoldierUnit(level);

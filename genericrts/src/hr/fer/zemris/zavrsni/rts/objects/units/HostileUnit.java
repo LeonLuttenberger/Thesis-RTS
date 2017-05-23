@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.applyEnemySeparation;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.applyFriendlySeparation;
+import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.applyTerrainSeparation;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestPlayerTargetInRange;
 
 public abstract class HostileUnit extends Unit {
@@ -48,6 +49,7 @@ public abstract class HostileUnit extends Unit {
             }
         }
 
+        applyTerrainSeparation(this, level);
         applyEnemySeparation(this, level.getPlayerUnits());
         applyFriendlySeparation(this, level.getHostileUnits());
 
@@ -68,5 +70,10 @@ public abstract class HostileUnit extends Unit {
                 nearestEnemy.removeHitPoints(attackPower);
             }
         }
+    }
+
+    @Override
+    public float getAttackRange() {
+        return super.getAttackRange();
     }
 }

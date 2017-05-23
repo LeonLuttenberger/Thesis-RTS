@@ -68,12 +68,8 @@ public class GameState implements IGameState {
         }
 
         Squad newSquad = new Squad(units, level);
-        squads.add(newSquad);
 
-        for (Unit unit : units) {
-            unitSquadMap.put(unit, newSquad);
-        }
-
+        addSquad(newSquad);
         return newSquad;
     }
 
@@ -117,6 +113,15 @@ public class GameState implements IGameState {
 
         for (PlayerUnit unit : level.getPlayerUnits()) {
             unit.setSelected(units.contains(unit));
+        }
+    }
+
+    @Override
+    public void addSquad(Squad squad) {
+        squads.add(squad);
+
+        for (Unit unit : squad.getSquadMembers()) {
+            unitSquadMap.put(unit, squad);
         }
     }
 

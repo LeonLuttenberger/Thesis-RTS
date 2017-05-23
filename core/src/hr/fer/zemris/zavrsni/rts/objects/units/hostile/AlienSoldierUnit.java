@@ -21,7 +21,7 @@ public class AlienSoldierUnit extends HostileUnit implements IRangedAttacker<Ali
     private static final int ATTACK_RANGE = 120;
     private static final int ATTACK_POWER = 5;
     private static final float ATTACK_COOLDOWN = 0.6f;
-    private static final int TRAINING_COST = 2000;
+    private static final int TRAINING_COST = 1000;
 
     public AlienSoldierUnit(ILevel level) {
         super(Assets.getInstance().getUnits().bugAnimation, level, UNIT_WIDTH, UNIT_HEIGHT,
