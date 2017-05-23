@@ -326,28 +326,55 @@ Drugim riječima, put od početne pozicije do cilja kroz stanje \(s\) nikad neć
 
 \par Algoritam A* i njegove varijacije su sposobne pronaći putanju do cilja ali ne uzimaju u obzir taktičko pozicioniranje jedinica. 
 Primjerice, ako igrač u RTS igri odjednom odabere više od jedne jedinice i zada im odredište, očekivano ponašanje je da će se jedinice zajedno kretati kao skupina. 
-Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj udaljenosti od mete na kojoj i dalje mogu pucati, kao što se može vidjeti na slici~\ref{fig:boids}.
+Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj udaljenosti od mete na kojoj i dalje mogu pucati, kao što se može vidjeti na slici~\ref{fig:enemySeparation}.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.5\linewidth]{images/boids.png}
+	\includegraphics[width=0.5\linewidth]{images/enemySeparation.png}
 	\caption{Pozicioniranje jedinica na maksimalnoj udaljenosti od mete}
-	\label{fig:boids}
+	\label{fig:enemySeparation}
 \end{figure}
 
-\subsection{Algoritam Boids}
+% TODO this isn't finished
+
+\subsection{Algoritam \textit{Boids}}
 
 \par Kada se jedinice grupiraju, njihovo kretanje prema cilju mora biti zajedničko.
 Kada bi prilikom zadavanja cilja grupi jedinica za svaku jedinicu pokrenuli algoritam A*, oni bi se kretali neovisni jedni o drugima. 
 Zbog njihovih različitih pozicija, njihove putanje bi također mogle biti drastično različite. 
 Također, ako se jedinice kreću po istim putanjama one će se često sudarati međusobno. 
-Ovakav rezultat nije prihvaljiv s obzirom na očekivanje da će grupa jedinica biti jača i efikasnija od same jednice.
+Ovakav rezultat nije prihvaljiv s obzirom na očekivanje da će grupa jedinica biti jača i efikasnija od jedne same jednice.
 
 \par Inspiracija za implementaciju grupiranja jedinica dolazi iz prirode. 
 Kretanje jata ptica ili plove riba je sinkronizirano i fluidno iako se sastoji od kretanja mnogih individualnih životinja, gdje se ponašanje svake od njih temelji samo na njenoj lokalnoj percepciji svijeta.
-Algoritam koji primjenjuje osnovno ideje ponašanja jata ptica i primjenjuje ih na ostale probleme zove se Boids, što dolazi iz engl. \textit{bird-like objects}, odnosno \textit{bird-oids}.
+Algoritam koji primjenjuje osnovno ideje ponašanja jata ptica i primjenjuje ih na ostale probleme zove se \textit{Boids}, što dolazi iz engl. \textit{bird-like objects}, odnosno \textit{birdoids}\cite{article:FlocksHerdsSchools}.
 
+\par Najosnovnija inačica algoritma \textit{Boids} sastoji se od tri pravila:
+\begin{itemize}
+	\item \textbf{odvojenost}: usmjeravanje jedinica kako bi se izbjegli sudari sa suborcima.
+	\item \textbf{poravnatost}: usmjeravanje jedinica prema prosječnom smjeru kretanja grupe.
+	\item \textbf{kohezija}: usmjeravanje jedinica prema centru mase grupe. 	 
+\end{itemize}
+Dodatna pravila se mogu dodati, poput zajedničkog kretanja prema trenutnom cilju, izbjegavanja sudara sa zgradama, izbjegavanje protivničkih jedinica, itd.
 
+\par Algoritam \textit{Boids} ima razne ostale primjene, poput stabilizacije bespilotnih letjelica, izrade animacija i optimizacijskih problema poput roja čestica (engl. \textit{Particle swarm optimization}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\linewidth]{images/boids.pdf}
+	\caption{Tri osnovna pravila za algoritam \textit{Boids}}
+	\label{fig:boids}
+\end{figure}
+
+\par Na slici~\ref{fig:boids} vizualizirana su navedena pravila odvojenosti, poravnatosti i kohezije. 
+Sivi trokut predstavlja jedinicu nad kojom se navedene operacije trenutno obavljaju, dok iscrtani krug oko njega predstavlja radius u kojem promatra ostale jedinice. 
+Na crtežu za odvojenost na trenutni trokut djeluju dva trokuta iznad njega, što mu mjenja smjer prema smjeru označenim sa strelicom. 
+U crtežu za poravnatost vektor smjera usmjeruje se prema smjeru prema kojem ostale jedinice putuju. 
+U zadnjem crtežu vidi se primjer kohezije, odnosno smjer trenutnog trokut se zakreće prema prosječnoj poziciji ostalih trokuta u radiusu.
+
+\subsection{Hibridna navigacija}
+
+\par Uz pomoć algoritma A* i algoritma \textit{Boids} postignuta je mogućnost kretanja skupine jedinica zajedno po mapi. 
 
 \chapter{Implementacija jezgrenih funkcionalnosti}\label{ch:implementation}
 
