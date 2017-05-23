@@ -357,7 +357,7 @@ Algoritam koji primjenjuje osnovno ideje ponašanja jata ptica i primjenjuje ih 
 \end{itemize}
 Dodatna pravila se mogu dodati, poput zajedničkog kretanja prema trenutnom cilju, izbjegavanja sudara sa zgradama, izbjegavanje protivničkih jedinica, itd.
 
-\par Algoritam \textit{Boids} ima razne ostale primjene, poput stabilizacije bespilotnih letjelica, izrade animacija i optimizacijskih problema poput roja čestica (engl. \textit{Particle swarm optimization}).
+\par Algoritam \textit{Boids} ima razne ostale primjene, poput stabilizacije bespilotnih letjelica, izrade animacija te primjene u optimizacijskim problemima poput roja čestica (engl. \textit{Particle swarm optimization}).
 
 \begin{figure}[h]
 	\centering
@@ -374,7 +374,24 @@ U zadnjem crtežu vidi se primjer kohezije, odnosno smjer trenutnog trokut se za
 
 \subsection{Hibridna navigacija}
 
-\par Uz pomoć algoritma A* i algoritma \textit{Boids} postignuta je mogućnost kretanja skupine jedinica zajedno po mapi. 
+\par Uz pomoć algoritma A* i algoritma \textit{Boids} postignuta je mogućnost kretanja skupine jedinica zajedno po mapi.
+Sljedeća ideja je proširiti algoritam \textit{Boids} kako bi mogao riješavati problem taktičkog pozirioniranja jedinica u borbi.
+Metoda navigacije u kojoj se jedinice kreću po mapi prema algoritmu A* dok nisu u blizini protivničkih jedinica i zgrada, a inače prevladava algoritam \textit{Boids}, naziva se hibridna navigacija (engl. \textit{hybrid pathfinding})\cite{article:HybridPathdinding}.
+
+\par Algoritam \textit{Boids} biti će modificiran tako da nastoji držati jedinice na maksimalnoj udaljenosti od neprijateljskih jedinica i zgrada na kojoj i dalje mogu pucati.
+To se postiže tako da se u pravila za algoritam \textit{Boids} doda uvijet kada se protivnička meta pojavi unutar radijusa napada jedinice, njen vektor smjera se mjenja u smjeru suprotnom od protivničke pozicije.
+Ako je riječ o jedinici s ograničenim ili nepostojećim borbenim sposobnostima poput radnika, njen cilj je držati se na udaljenosti većoj od protivničkog radijusa za napad.
+Ovo se pravila može proširiti i da vrijedi u slučaju da je borbena jedinica odlučno nadjačana, npr. ako jedna slaba jedinica naiđe na suparničku skupinu jačih jedinica.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/boidsEnemySeparation.pdf}
+	\caption{Odvajanje od protivničkih zgrada}
+	\label{fig:boidsEnemySeparation}
+\end{figure}
+
+\par Na slici~\ref{fig:boidsEnemySeparation} prikazan je primjer u kojem su jedinice kojima upravlja bot\footnote{računalni program koji obavlja automatizirane poslove, poput upravljanja neprijateljskih jedinica protiv igrača} napale zgradu od ljudskog igrača.
+Iscrtkanom kružnicom označena je maksimalna udaljenost s koje protivničke jedinice mogu pucati po igračevoj zgradi, te je vidljivo kako se protivničke jedinice drže te udaljenosti.
 
 \chapter{Implementacija jezgrenih funkcionalnosti}\label{ch:implementation}
 
