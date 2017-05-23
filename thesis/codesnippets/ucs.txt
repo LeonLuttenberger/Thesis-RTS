@@ -5,10 +5,10 @@ funkcija ucs(problem)
 
     dok prioritetni_red nije prazan
         čvor = prioritetni_red.izvuci()
-        ako problem.je_cilj(cvor)
-            vrati čvor
+        ako problem.je_cilj(čvor.stanje)
+            vrati Riješenje(čvor)
 
-        posjećena_stanja.dodaj(čvor)
+        posjećena_stanja.dodaj(čvor.stanje)
 
         za_svaku akciju u problem.akcije(čvor.stanje)
             novi_čvor = problem.prijelaz(čvor.stanje, akcija)
@@ -18,3 +18,5 @@ funkcija ucs(problem)
             
             inače ako prioritetni_red sadrži novi_čvor.stanje sa višom cijenom puta g
                 zamjeni taj čvor sa novi_čvor
+
+    vrati informaciju da  put nije pronađen

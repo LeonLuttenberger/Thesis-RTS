@@ -160,14 +160,14 @@ Iz perspektive mikro upravljanja, umjetna inteligencija mora imati sustav po koj
 \par Pretraživanje prostore stanja može riješiti mnogo analitičkih problema, uključujući pronalazak najkraćeg puta. 
 Ako korisnik odabere jedinicu koja se nalazi na početnoj poziciji i zada joj odredište, jedinica će pretragom prostornog stanja pronaći slijed akcija koji definira optimalni put.
 
-\par Problem pretrage \(S\) možemo formulirati s petorkom
+\par Problem pretrage \(S\) možemo formulirati s šestorkom
 \[(S, S_0, akcije(s), prijelaz(s, a), cilj(s), cijena(s, a))\]
 u kojoj su:
 \begin{itemize}
     \item \(S\) skup stanja.
     \item \(S_0\) početno stanje.
-    \item \(akcije(s)\) skup mogućih akcija za stanje \(s\).
-    \item \(prijelaz(s, a)\) stanje koje nastane kada se izvede akcija \(a\) u stanju \(s\).
+    \item \(akcije(s)\) skup mogućih akcija u stanje \(s\).
+    \item \(prijelaz(s, a)\) stanje dobiveno kada se izvede akcija \(a\) u stanju \(s\).
     \item \(cilj(s)\) ispituje jeli stanje \(s\) ciljno stanje.
     \item \(cijena(s, a)\) cijena akcije \(a\) kada smo u stanju \(s\). 
 \end{itemize}
@@ -195,18 +195,27 @@ Ako definirano da se pločica u donjem lijevog predstavlja s koordinatama \((0, 
     \item \(cijena(s, a)\): cijene prijelaza su Euklidove udaljenosti, odnosno prijelazi na strogo susjedna polja imaju cijenu \(1\), dok dijagonalni prijelazi imaju trošak \(\sqrt{2}\).
 \end{itemize}
 
-\par S obzirom na činjenicu da cijene prijelaza nisu uvijek iste, potrebno je odabrati algoritam pretrage koji uzima u obzir cijenu puta.
-Najosnovniji takav algoritam pretrage je \textbf{pretraživanje s jednolikom cijenom} (engl. \textit{uniform-cost search}). 
-Algoritam koristi prioritetni red u kojeg stavlja čvorove s njihovom ukupnom udaljenosti od početnog stanja \(g(s)\), što osigurava da će svako stanje biti posjećeno s najkraćim mogućim putem.
-Zbog navedenog svojstva, vidi se da je algoritam \textbf{optimalan}, odnosno uvijek će pronaći optimalni put do odredišta ako ono postoji.
+\par S obzirom na činjenicu da cijene prijelaza nisu uvijek iste, najbolje je odabrati algoritam pretrage koji uzima u obzir cijenu puta.
+Najosnovniji takav algoritam pretrage je \textbf{pretraživanje s jednolikom cijenom} (engl. \textit{uniform-cost search}).
 
-\par U isječku~\ref{fig:codeUCS} napisan je pseudokod za funkciju koja obavlja pretraživanje s jednolikom cijenom.
-%TODO dodati pseudokod
+\par U isječku~\ref{fig:codeUCS} prikazan je pseudokod za algoritam pretraživanja s jednolikom cijenom. 
+Algoritam inicijalizira početni čvor, prioritetni red sortiran po cijeni puta \(g(s)\) i skup posjećenih stanja. 
+Prioritetni red je struktura u koju ubacujemo elemente koji se mogu sortirati po zadanom kriteriju i uvijek izvlačimo najveći ili (u ovom slučaju) najmanji element.
+Algoritam zatim uvijek uzima čvor s najmanjom vrijednosti i provjerava ako je stanje u tom čvoru ciljno stanje.
+Ako je uvijet ispunjem, algoritam vraća to rješenje.
+U protivnom, čvor se dodaje u skup posjećenih stanja i dalje se proširuje, odnosno njegovi susjedi se dodaju u prioritetni red.
+Bitno je naglasiti zadnji korak u proširanju stanja, odnosno provjeri jeli čvor s istim stanjem već ubačen u prioritetni red ali s većim troškom.
+U tom slučaju, potrebno je zamijeniti čvor u prioritetnom redu s novim čvorom.
+Ovime osiguravamo da u trenutku kada se čvor izvuće iz prioritetnog reda, najkraći put do njegovog stanja je pronađen.
 
 \begin{minipage}{\textwidth}
 	\lstinputlisting[caption = {Pseudokod za pretraživanje s jednolikom cijenom},
     label={fig:codeUCS}]{codesnippets/ucs.txt}
 \end{minipage}
+
+\par Zbog navedenog svojstva, algoritam pretraživanja s jednolikom cijenom je \textbf{optimalan}, odnosno uvijek će pronaći optimalni put do odredišta ako ono postoji.
+
+% TODO dodaj primjer
 
 \par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati posjetiti veliki broj stanja jer se u obzir uzima samo cijena puta, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
 Zbog ovog svojstva pretraživanje s jednolikom cijenom čini jedno od neusmjerenih algoritama pretrage.
@@ -228,6 +237,8 @@ U njemu se čvorovi evaluiraju tako da se zbroji trošak puta \(g(s)\) i heurist
 \[f(s) = g(s) + h(s).\]
 Prema tome, vrijednost \(f(s)\) predstavlja procjenu troška puta koji prolazi kroz stanje \(s\).
 Ovaj algoritam je identičan pretraživanju s jednolikom cijenom, osim što se u prioritetni red za čvorove ubacuje vrijednost \(g(s) + h(s)\) umjesto \(g(s)\).
+
+% TODO dodaj primjer
 
 \subsubsection{Uvjeti za optimalnost algoritma A*}
 Kako bi algoritam A* bio optimalan, heuristika mora zadovoljiti sljedeća dva svojstva: \textbf{optimističnost} i \textbf{konzistentnost}.
@@ -312,9 +323,10 @@ Drugim riječima, put od početne pozicije do cilja kroz stanje \(s\) nikad neć
 % TODO dodati primjer
 
 \section{Grupiranje jedinica}\label{sec:grouping}
-Algoritam A* i njegove varijacije su sposobne pronaći putanju do cilja ali ne uzimaju u obzir taktičko pozicioniranje jedinica. 
+
+\par Algoritam A* i njegove varijacije su sposobne pronaći putanju do cilja ali ne uzimaju u obzir taktičko pozicioniranje jedinica. 
 Primjerice, ako igrač u RTS igri odjednom odabere više od jedne jedinice i zada im odredište, očekivano ponašanje je da će se jedinice zajedno kretati kao skupina. 
-Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj udaljenosti od mete na kojoj i dalje mogu pucati, kao što se može vidjeti na slici \ref{fig:boids}.
+Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj udaljenosti od mete na kojoj i dalje mogu pucati, kao što se može vidjeti na slici~\ref{fig:boids}.
 
 \begin{figure}[h]
 	\centering
@@ -322,6 +334,18 @@ Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj 
 	\caption{Pozicioniranje jedinica na maksimalnoj udaljenosti od mete}
 	\label{fig:boids}
 \end{figure}
+
+\subsection{Algoritam Boids}
+
+\par Kada se jedinice grupiraju, njihovo kretanje prema cilju mora biti zajedničko.
+Kada bi prilikom zadavanja cilja grupi jedinica za svaku jedinicu pokrenuli algoritam A*, oni bi se kretali neovisni jedni o drugima. 
+Zbog njihovih različitih pozicija, njihove putanje bi također mogle biti drastično različite. 
+Također, ako se jedinice kreću po istim putanjama one će se često sudarati međusobno. 
+Ovakav rezultat nije prihvaljiv s obzirom na očekivanje da će grupa jedinica biti jača i efikasnija od same jednice.
+
+\par Inspiracija za implementaciju grupiranja jedinica dolazi iz prirode. 
+Kretanje jata ptica ili plove riba je sinkronizirano i fluidno iako se sastoji od kretanja mnogih individualnih životinja, gdje se ponašanje svake od njih temelji samo na njenoj lokalnoj percepciji svijeta.
+Algoritam koji primjenjuje osnovno ideje ponašanja jata ptica i primjenjuje ih na ostale probleme zove se Boids, što dolazi iz engl. \textit{bird-like objects}, odnosno \textit{bird-oids}.
 
 
 
