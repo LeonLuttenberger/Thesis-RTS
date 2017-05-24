@@ -148,9 +148,32 @@ Kao kontrast tome, protivnik se može fokusirati na razvoj tehnologije što će 
 \section{Izazov za umjetnu inteligenciju}
 
 \par RTS igre predstavljaju razne izazove za razvoj umjetne inteligencije. 
-Iz perspektive mikro upravljanja, umjetna inteligencija mora imati sustav po kojem će određivati najkraći put do odredišta, te kako se treba ponašati u slučaju da na putu naiđe na nešto ne planirano, poput protivničkih jedinica ili promjena na terenu.
+Iz perspektive mikro upravljanja, umjetna inteligencija mora imati sustav po kojem će određivati najkraći put do odredišta, te kako se treba ponašati u slučaju da na putu naiđe na nešto ne planirano, poput protivničkih jedinica ili promjena na terenu. 
+S druge strane, makroupravljanje je mnogo složenij izazov za umjetnu inteligenciju jer se sustav mora odrediti dugotrajne ciljeve, npr.\ hoće li se fokusirati na jaku vojsku, tehnološki ili ekonomski razvoj, itd.
 
-%TODO
+\par Navigacija jedinica je u RTS igrama često najintenzivniji posao za računalni procesor.
+Veliki broj jedinica stvara potrebu za velikim brojem pretraga, pogotovo ako se svaka kreće u svom smjeru, te svaka od njih mora pratiti potencijalne promjene na terenu i promjeniti ponašanje u skladu s istima.
+Tehnike poput skupljanja jedinica u grupe kako bi se zajedno kretali prema cilju mogu smanjiti taj trošak, jer će se sve pretrage i provjere izvršavati nad tom grupom jedinica\cite{book:AIGameProgrammingWisdom}.
+
+\par Jedinice se također moraju znati ponašati u borbi na što pametniji način. Primjerice, strijelac bi se trebao držati na udaljenosti od mete jer je tamo najopasnij.
+U trenutku kada se nađe u borbi prsa u prsa, njegova najbolja strategija je povući se na udaljenost iz koje može pucati.
+Međutim, osposobiti i igračeve jedinice da se ponašaju na navedeni način  je dvosjekli mač.
+S jedne strane, jedinice će biti sposobnije i igrač neće morati konstantno mikroupravljati njima.
+Međutim, navedenu prednost će neki igrači smatrati manom.
+Ako su strijelci dovoljno pametni da se znaju držati na udaljenosti iz koje mogu pucati i povlače se kada dođu u opasnost, to eliminira potrenu za nekim strategijama s kojima su dugogodišnji igrači strategija dobro upoznati.
+Primjer takve strategije je napraviti formaciju strijalaca tako da budu u jednoj linij, te između njih i neprijatelja postaviti mačevalce koji će spriječavati protivnike da se približe.
+
+% Možda ubaci sliku
+
+\par Umjetna inteligencija koja će upravljali strategijom na višoj razini slična je ulozi generala u vojsci. 
+Ona dobiva percepcije o trenutnom stanju na terenu od njenih jedinica.
+Na temelju tih percepcija računalo može bitno promjeniti trenutnu strategiju. Primjerice, ako je računalo negdje otkrilo izvore resursa, ono može napraviti odluku da radnike pošalje u tom smjeru kako bi skupili što više toga.
+Nadalje, ako se taj resurs može koristiti za razvoj tehnologije, u trenutku kada ga se skupi dovoljno računalo može promjeniti dugotrajni cilj u igri na tehnološki razvoj.
+
+\par Dugotrajni ciljevi mogu ovisiti i o tome s kojom se frakcijom igra. 
+Npr.\ jedna frakcija će preferirati izgradnju što veće vojske dok će druga raditi sve što može kako bi razvila stabilnu ekonomiju.
+Navedene karakteristike mogu pojedinim frakcijama dati različite osobnosti.
+Kada se to iskombinira sa specifičnim tipovima jedinica za pojedine frakcije, postigne se velika razlika između svih računalnih protivnika na razini njihove umjetne inteligencije.
 
 \section{Primjeri popularnih RTS igara}
 
@@ -160,7 +183,7 @@ Iz perspektive mikro upravljanja, umjetna inteligencija mora imati sustav po koj
 \par Pretraživanje prostore stanja može riješiti mnogo analitičkih problema, uključujući pronalazak najkraćeg puta. 
 Ako korisnik odabere jedinicu koja se nalazi na početnoj poziciji i zada joj odredište, jedinica će pretragom prostornog stanja pronaći slijed akcija koji definira optimalni put.
 
-\par Problem pretrage \(S\) možemo formulirati s šestorkom
+\par Problem pretrage \(S\) možemo formulirati sa šestorkom
 \[(S, S_0, akcije(s), prijelaz(s, a), cilj(s), cijena(s, a))\]
 u kojoj su:
 \begin{itemize}
@@ -260,8 +283,8 @@ Ovo svojstvo je temeljeno na principu nejednakosti trokuta, odnosno činjenici d
 Samim time, konzistentnost je stroži uvjet od optimističnosti. 
 U algoritmu A* konzistentnost heuristike osigurava da će se čvor proširiti kada je najkraći put do njega pronađen, poput pretraživanja s jednolikom cijenom.
 
-\par Još jedno bitno svojstvo heuristike je \textbf{obavještenost}. 
-Jedan primjer heuristike koja zadovolja uvijet optimističnosti i konzistentnosti je funkcija koja za svako stanje vraća 0: \(\forall S \in S, h(s) = 0\). 
+\par Još jedno bitno svojstvo heuristike je \textbf{obaviještenost}. 
+Jedan primjer heuristike koja zadovoljava uvjet optimističnosti i konzistentnosti je funkcija koja za svako stanje vraća 0: \(\forall S \in S, h(s) = 0\). 
 Algoritam A* s ovakvom heuristikom degenerira pretraživanje s jednolikom cijenom, odnosno za svako stanje se gleda samo njegova cijena \(g\). 
 Heuristika je bolja ako daje više informacija, odnosno ako funkcija \(h\) vraća veću vrijednost.
 
@@ -343,7 +366,7 @@ Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj 
 Kada bi prilikom zadavanja cilja grupi jedinica za svaku jedinicu pokrenuli algoritam A*, oni bi se kretali neovisni jedni o drugima. 
 Zbog njihovih različitih pozicija, njihove putanje bi također mogle biti drastično različite. 
 Također, ako se jedinice kreću po istim putanjama one će se često sudarati međusobno. 
-Ovakav rezultat nije prihvaljiv s obzirom na očekivanje da će grupa jedinica biti jača i efikasnija od jedne same jednice.
+Ovakav rezultat nije prihvatljiv s obzirom na očekivanje da će grupa jedinica biti jača i efikasnija od jedne same jedinice.
 
 \par Inspiracija za implementaciju grupiranja jedinica dolazi iz prirode. 
 Kretanje jata ptica ili plove riba je sinkronizirano i fluidno iako se sastoji od kretanja mnogih individualnih životinja, gdje se ponašanje svake od njih temelji samo na njenoj lokalnoj percepciji svijeta.
@@ -368,18 +391,18 @@ Dodatna pravila se mogu dodati, poput zajedničkog kretanja prema trenutnom cilj
 
 \par Na slici~\ref{fig:boids} vizualizirana su navedena pravila odvojenosti, poravnatosti i kohezije. 
 Sivi trokut predstavlja jedinicu nad kojom se navedene operacije trenutno obavljaju, dok iscrtani krug oko njega predstavlja radius u kojem promatra ostale jedinice. 
-Na crtežu za odvojenost na trenutni trokut djeluju dva trokuta iznad njega, što mu mjenja smjer prema smjeru označenim sa strelicom. 
+Na crtežu za odvojenost na trenutni trokut djeluju dva trokuta iznad njega, što mu mijenja smjer prema smjeru označenim sa strelicom. 
 U crtežu za poravnatost vektor smjera usmjeruje se prema smjeru prema kojem ostale jedinice putuju. 
 U zadnjem crtežu vidi se primjer kohezije, odnosno smjer trenutnog trokut se zakreće prema prosječnoj poziciji ostalih trokuta u radiusu.
 
 \subsection{Hibridna navigacija}
 
 \par Uz pomoć algoritma A* i algoritma \textit{Boids} postignuta je mogućnost kretanja skupine jedinica zajedno po mapi.
-Sljedeća ideja je proširiti algoritam \textit{Boids} kako bi mogao riješavati problem taktičkog pozirioniranja jedinica u borbi.
+Sljedeća ideja je proširiti algoritam \textit{Boids} kako bi mogao rješavati problem taktičkog pozicioniranja jedinica u borbi.
 Metoda navigacije u kojoj se jedinice kreću po mapi prema algoritmu A* dok nisu u blizini protivničkih jedinica i zgrada, a inače prevladava algoritam \textit{Boids}, naziva se hibridna navigacija (engl. \textit{hybrid pathfinding})\cite{article:HybridPathdinding}.
 
-\par Algoritam \textit{Boids} biti će modificiran tako da nastoji držati jedinice na maksimalnoj udaljenosti od neprijateljskih jedinica i zgrada na kojoj i dalje mogu pucati.
-To se postiže tako da se u pravila za algoritam \textit{Boids} doda uvijet kada se protivnička meta pojavi unutar radijusa napada jedinice, njen vektor smjera se mjenja u smjeru suprotnom od protivničke pozicije.
+\par Algoritam \textit{Boids} bit će modificiran tako da nastoji držati jedinice na maksimalnoj udaljenosti od neprijateljskih jedinica i zgrada na kojoj i dalje mogu pucati.
+To se postiže tako da se u pravila za algoritam \textit{Boids} doda uvjet kada se protivnička meta pojavi unutar radijusa napada jedinice, njen vektor smjera se mijenja u smjeru suprotnom od protivničke pozicije.
 Ako je riječ o jedinici s ograničenim ili nepostojećim borbenim sposobnostima poput radnika, njen cilj je držati se na udaljenosti većoj od protivničkog radijusa za napad.
 Ovo se pravila može proširiti i da vrijedi u slučaju da je borbena jedinica odlučno nadjačana, npr. ako jedna slaba jedinica naiđe na suparničku skupinu jačih jedinica.
 
