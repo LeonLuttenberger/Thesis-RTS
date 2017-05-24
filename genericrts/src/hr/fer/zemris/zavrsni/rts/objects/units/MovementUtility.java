@@ -4,6 +4,8 @@ import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.HostileBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.PlayerBuilding;
 
@@ -20,7 +22,7 @@ public final class MovementUtility {
     static final float COHESION_WEIGHT = 0.5f;
     static final float ALIGNMENT_WEIGHT = 10;
     static final float GOAL_WEIGHT = 0.5f;
-    static final float SQUAD_SEPARATION_WEIGHT = 1.5f;
+    static final float SQUAD_SEPARATION_WEIGHT = 3;
     static final float ENEMY_SEPARATION_WEIGHT = 20;
     static final float TERRAIN_SEPARATION_WEIGHT = 5;
 
@@ -66,6 +68,36 @@ public final class MovementUtility {
             if (distance < detectionLimit) {
                 dx -= enemy.getCenterX() - unit.getCenterX();
                 dy -= enemy.getCenterY() - unit.getCenterY();
+            }
+        }
+
+        unit.adjustDirection(
+                dx * ENEMY_SEPARATION_WEIGHT,
+                dy * ENEMY_SEPARATION_WEIGHT
+        );
+    }
+
+    public static void applyPlayerBuildingSeparation(Unit unit, ILevel level) {
+        float dx = 0, dy = 0;
+
+        for (Building building : level.getBuildings()) {
+            if (!(building instanceof PlayerBuilding)) continue;
+
+            float detectionLimit;
+            if (!unit.isSupport()) {
+                detectionLimit = unit.getAttackRange();
+            } else {
+                if (building instanceof IRangedAttacker) {
+                    detectionLimit = ((IRangedAttacker) building).getAttackRange() + SUPPORT_ENEMY_RANGE_INCREASE;
+                } else {
+                    continue;
+                }
+            }
+
+            float distance = distanceBetween(unit, building);
+            if (distance < detectionLimit) {
+                dx -= building.getCenterX() - unit.getCenterX();
+                dy -= building.getCenterY() - unit.getCenterY();
             }
         }
 

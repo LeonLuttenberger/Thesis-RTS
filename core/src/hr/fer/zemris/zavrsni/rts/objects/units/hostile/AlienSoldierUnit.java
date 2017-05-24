@@ -39,6 +39,11 @@ public class AlienSoldierUnit extends HostileUnit implements IRangedAttacker<Ali
     }
 
     @Override
+    public float getAttackRange() {
+        return attackRange;
+    }
+
+    @Override
     public int getTrainingCost() {
         return TRAINING_COST;
     }

@@ -48,6 +48,11 @@ public class TurretBuilding extends PlayerBuilding implements IRangedAttacker<Tu
         return new Bullet(level, this, target, ATTACK_POWER);
     }
 
+    @Override
+    public float getAttackRange() {
+        return ATTACK_RANGE;
+    }
+
     private boolean readyForAttack() {
         return timeSinceLastAttack > ATTACK_COOLDOWN;
     }

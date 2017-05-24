@@ -6,6 +6,8 @@ public interface IRangedAttacker<T extends AbstractGameObject> {
 
     Projectile rangedAttack(IDamageable<? extends AbstractGameObject> target);
 
+    float getAttackRange();
+
     default T getAttacker() {
         if (this instanceof AbstractGameObject) {
             return (T) this;
