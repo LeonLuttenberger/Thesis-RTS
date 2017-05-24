@@ -149,32 +149,35 @@ Kao kontrast tome, protivnik se može fokusirati na razvoj tehnologije što će 
 
 \par RTS igre predstavljaju razne izazove za razvoj umjetne inteligencije. 
 Iz perspektive mikro upravljanja, umjetna inteligencija mora imati sustav po kojem će određivati najkraći put do odredišta, te kako se treba ponašati u slučaju da na putu naiđe na nešto ne planirano, poput protivničkih jedinica ili promjena na terenu. 
-S druge strane, makroupravljanje je mnogo složenij izazov za umjetnu inteligenciju jer se sustav mora odrediti dugotrajne ciljeve, npr.\ hoće li se fokusirati na jaku vojsku, tehnološki ili ekonomski razvoj, itd.
+S druge strane, makroupravljanje je mnogo složeniji izazov za umjetnu inteligenciju jer se sustav mora odrediti dugotrajne ciljeve, npr.\ hoće li se fokusirati na jaku vojsku, tehnološki ili ekonomski razvoj, itd.
 
 \par Navigacija jedinica je u RTS igrama često najintenzivniji posao za računalni procesor.
-Veliki broj jedinica stvara potrebu za velikim brojem pretraga, pogotovo ako se svaka kreće u svom smjeru, te svaka od njih mora pratiti potencijalne promjene na terenu i promjeniti ponašanje u skladu s istima.
+Veliki broj jedinica stvara potrebu za velikim brojem pretraga, pogotovo ako se svaka kreće u svom smjeru, te svaka od njih mora pratiti potencijalne promjene na terenu i promijeniti ponašanje u skladu s istima.
 Tehnike poput skupljanja jedinica u grupe kako bi se zajedno kretali prema cilju mogu smanjiti taj trošak, jer će se sve pretrage i provjere izvršavati nad tom grupom jedinica\cite{book:AIGameProgrammingWisdom}.
 
-\par Jedinice se također moraju znati ponašati u borbi na što pametniji način. Primjerice, strijelac bi se trebao držati na udaljenosti od mete jer je tamo najopasnij.
+\par Jedinice se također moraju znati ponašati u borbi na što pametniji način. Primjerice, strijelac bi se trebao držati na udaljenosti od mete jer je tamo najopasniji.
 U trenutku kada se nađe u borbi prsa u prsa, njegova najbolja strategija je povući se na udaljenost iz koje može pucati.
 Međutim, osposobiti i igračeve jedinice da se ponašaju na navedeni način  je dvosjekli mač.
-S jedne strane, jedinice će biti sposobnije i igrač neće morati konstantno mikroupravljati njima.
+S jedne strane, jedinice će biti sposobnije i igrač neće morati konstantno mikro-upravljati njima.
 Međutim, navedenu prednost će neki igrači smatrati manom.
-Ako su strijelci dovoljno pametni da se znaju držati na udaljenosti iz koje mogu pucati i povlače se kada dođu u opasnost, to eliminira potrenu za nekim strategijama s kojima su dugogodišnji igrači strategija dobro upoznati.
-Primjer takve strategije je napraviti formaciju strijalaca tako da budu u jednoj linij, te između njih i neprijatelja postaviti mačevalce koji će spriječavati protivnike da se približe.
+Ako su strijelci dovoljno pametni da se znaju držati na udaljenosti iz koje mogu pucati i povlače se kada dođu u opasnost, to eliminira potrebu za nekim strategijama s kojima su dugogodišnji igrači strategija dobro upoznati.
+Primjer takve strategije je napraviti formaciju strijelaca tako da budu u jednoj liniji, te između njih i neprijatelja postaviti mačevalce koji će sprječavati protivnike da se približe.
 
 % Možda ubaci sliku
 
 \par Umjetna inteligencija koja će upravljali strategijom na višoj razini slična je ulozi generala u vojsci. 
 Ona dobiva percepcije o trenutnom stanju na terenu od njenih jedinica.
-Na temelju tih percepcija računalo može bitno promjeniti trenutnu strategiju. Primjerice, ako je računalo negdje otkrilo izvore resursa, ono može napraviti odluku da radnike pošalje u tom smjeru kako bi skupili što više toga.
-Nadalje, ako se taj resurs može koristiti za razvoj tehnologije, u trenutku kada ga se skupi dovoljno računalo može promjeniti dugotrajni cilj u igri na tehnološki razvoj.
+Na temelju tih percepcija računalo može bitno promijeniti trenutnu strategiju. Primjerice, ako je računalo negdje otkrilo izvore resursa, ono može napraviti odluku da radnike pošalje u tom smjeru kako bi skupili što više toga.
+Nadalje, ako se taj resurs može koristiti za razvoj tehnologije, u trenutku kada ga se skupi dovoljno računalo može promijeniti dugotrajni cilj u igri na tehnološki razvoj.
 
 \par Dugotrajni ciljevi mogu ovisiti i o tome s kojom se frakcijom igra. 
 Npr.\ jedna frakcija će preferirati izgradnju što veće vojske dok će druga raditi sve što može kako bi razvila stabilnu ekonomiju.
 Navedene karakteristike mogu pojedinim frakcijama dati različite osobnosti.
 Kada se to iskombinira sa specifičnim tipovima jedinica za pojedine frakcije, postigne se velika razlika između svih računalnih protivnika na razini njihove umjetne inteligencije.
 
+\par Još jedan izazov za makro-strategiju je izgradnja građevina.
+One se moraju postaviti u relativnoj blizini kako bi se lakše mogle štititi.
+Zgrade koje obrađuju resurse bi trebale biti u blizini resursa koji se obrađuje, defenzivne zgrade trebaju biti na mjestima gdje će pružati maksimalnu zaštitu, poput u prolazima iz kojih se neprijatelji najčešće približavaju.
 \section{Primjeri popularnih RTS igara}
 
 \chapter{Kretanje jedinica}\label{ch:pathfinding}
