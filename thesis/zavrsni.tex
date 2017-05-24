@@ -35,7 +35,7 @@
 	showtabs=false,                  
 	tabsize=4,
 	inputencoding=utf8,
-	morekeywords={vrati, ako, inače, za\_svaku, prekini\_petlju} 
+	morekeywords={vrati, ako, inače, za\_svaku, za\_svaki, prekini\_petlju, dok, funkcija} 
 }	
 
 \lstset{style=mystyle,texcl=true}
@@ -178,7 +178,16 @@ Kada se to iskombinira sa specifičnim tipovima jedinica za pojedine frakcije, p
 \par Još jedan izazov za makro-strategiju je izgradnja građevina.
 One se moraju postaviti u relativnoj blizini kako bi se lakše mogle štititi.
 Zgrade koje obrađuju resurse bi trebale biti u blizini resursa koji se obrađuje, defenzivne zgrade trebaju biti na mjestima gdje će pružati maksimalnu zaštitu, poput u prolazima iz kojih se neprijatelji najčešće približavaju.
+
 \section{Primjeri popularnih RTS igara}
+
+\subsubsection{Starcraft}
+
+\subsubsection{Warcraft}
+
+\subsubsection{Age of Empires}
+
+\subsubsection{Command \& Conquer}
 
 \chapter{Kretanje jedinica}\label{ch:pathfinding}
 
@@ -345,7 +354,22 @@ Drugim riječima, put od početne pozicije do cilja kroz stanje \(s\) nikad neć
 \par Kao posljedicu toga, za svako posjećeno stanje u pretrazi moguće je napraviti korekciju:
 \[h(s) = f(\overline{s}) - g(s).\]
 
-% TODO dodati pseudokod
+\begin{minipage}{\textwidth}
+	\lstinputlisting[caption = {Pseudokod za algoritam RTAA*\cite{article:RTAAStar}},
+    label={fig:codeRTAAStar}]{codesnippets/rtaastar.txt}
+\end{minipage}
+
+U programskom isječku~\ref{fig:codeRTAAStar} prikazan je pseudokod za algoritam RTAA*. 
+Algoritam na početku obavi pretragu A* sa maksimalnim brojem stanja za posjetiti, te kao rezultat dobije stanje koje je bilo iduće i prioritetnom redu i skup posjećenih stanja.
+Stanje koje je iduće bilo u prioritetnom redu postane trenutni cilj u kretanju agenta.
+Ako pretraga A* nije vratila nikakvo rješenje znači da put do odredišta ne postoji, odnosno funckija u tom slučaju vraća neuspijeh.
+U suprotnom slučaju, prvo se napravi prilagodba heuristike za sva stanja u skupu posjećenih stanja.
+Nakon toga, agent se počne kretati po mapi sve dok ne dostigne cilj ili ne obavi maksimalni broj pokreta.
+U svakom novom stanju, agent provjerava sva stanja koja mu se nalaze na putanji do cilja.
+Ako zabilježi bilogdje na putu, znači da mu trenutna putanja potencijalno više nije valjana. 
+U tom slučaju, petlja započinje ponovo sa izvođenjem pretrage A*.
+Navedena petlja se ponavlja sve dok agent ne dostigne cilj ili ne shvati da put do istoga ne postoji.
+
 % TODO dodati primjer
 
 \section{Grupiranje jedinica}\label{sec:grouping}

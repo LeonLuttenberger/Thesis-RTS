@@ -1,0 +1,24 @@
+funkcija rtaastar(s_cilj, h, max_posjećena_stanja, max_pokreta)
+    dok s_trenutni nije s_cilj
+        trenutni_cilj, posjećena_stanja = astar(s_cilj, h, max_posjećena_stanja)
+        
+        ako trenutni_cilj = NEUSPIJEH
+            vrati NEUSPIJEH
+
+        za_svaki s u posjećena_stanja
+            h(s) = g(trenutni_cilj) + h(trenutni_cilj) - g(s)
+
+        broj_pokreta = 0
+        dok s_trenutni nije trenutni_cilj i broj_pokreta < max_pokreta
+            a = sljedeća akcija za putanju od s_trenutni do trenutni_cilj
+            s_trenutni = prijelaz(s_trenutni, a)
+            broj_pokreta = broj_pokreta + 1
+
+            za_svaki s na putu do trenutni_cilj
+                ako je u stanju s opažena promjena
+                    zabilježi promjenu
+
+            ako je zabilježena promjena
+                prekini_petlju
+
+    vrati USPIJEH
