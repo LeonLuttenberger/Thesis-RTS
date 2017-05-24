@@ -9,8 +9,8 @@ import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
-import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.objects.units.squad.ISquad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public abstract class AbstractRTSWorldController implements IUpdateable, Disposa
 
         ILevel level = gameState.getLevel();
 
-        for (Squad squad : gameState.getSquads()) {
+        for (ISquad squad : gameState.getSquads()) {
             squad.update(deltaTime);
         }
 
@@ -84,7 +84,7 @@ public abstract class AbstractRTSWorldController implements IUpdateable, Disposa
     }
 
     private void removeUnnecessarySquads() {
-        removeFromLevelIf(gameState.getSquads(), Squad::isSearchStopped,
+        removeFromLevelIf(gameState.getSquads(), ISquad::isSearchStopped,
                 gameState::removeSquad, null);
     }
 

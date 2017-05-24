@@ -7,8 +7,8 @@ import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
-import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.objects.units.squad.Squad;
 import hr.fer.zemris.zavrsni.rts.world.AbstractRTSWorldController;
 import hr.fer.zemris.zavrsni.rts.world.controllers.state.DefaultControllerState;
 

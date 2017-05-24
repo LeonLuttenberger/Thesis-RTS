@@ -2,8 +2,9 @@ package hr.fer.zemris.zavrsni.rts.common;
 
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
-import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.objects.units.squad.ISquad;
+import hr.fer.zemris.zavrsni.rts.objects.units.squad.Squads;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,9 +23,9 @@ public class GameState implements IGameState {
         resources.put(GameResources.KEY_MINERALS, 0);
     }
 
-    private final List<Squad> squads = new ArrayList<>();
+    private final List<ISquad> squads = new ArrayList<>();
 
-    private final Map<Unit, Squad> unitSquadMap = new HashMap<>();
+    private final Map<Unit, ISquad> unitSquadMap = new HashMap<>();
     private final Map<String, Set<Unit>> savedSelections = new HashMap<>();
 
     public GameState(ILevel level) {
@@ -52,7 +53,7 @@ public class GameState implements IGameState {
     }
 
     @Override
-    public Squad createSquadFromSelected() {
+    public ISquad createSquadFromSelected() {
         Set<Unit> units = level.getPlayerUnits().stream()
                 .filter(PlayerUnit::isSelected)
                 .collect(Collectors.toSet());
@@ -60,21 +61,21 @@ public class GameState implements IGameState {
         if (units.isEmpty()) return null;
 
         for (Unit unit : units) {
-            Squad previousSquad = unitSquadMap.get(unit);
+            ISquad previousSquad = unitSquadMap.get(unit);
 
             if (previousSquad != null) {
                 previousSquad.removeUnit(unit);
             }
         }
 
-        Squad newSquad = new Squad(units, level);
+        ISquad newSquad = Squads.from(units, level);
 
         addSquad(newSquad);
         return newSquad;
     }
 
     @Override
-    public List<Squad> getSquads() {
+    public List<ISquad> getSquads() {
         return squads;
     }
 
@@ -117,7 +118,7 @@ public class GameState implements IGameState {
     }
 
     @Override
-    public void addSquad(Squad squad) {
+    public void addSquad(ISquad squad) {
         squads.add(squad);
 
         for (Unit unit : squad.getSquadMembers()) {
@@ -126,7 +127,7 @@ public class GameState implements IGameState {
     }
 
     @Override
-    public void removeSquad(Squad squad) {
+    public void removeSquad(ISquad squad) {
         squads.remove(squad);
     }
 

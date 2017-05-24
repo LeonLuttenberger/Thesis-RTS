@@ -19,12 +19,12 @@ import static hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject.distanceBetwe
 
 public final class MovementUtility {
 
-    static final float COHESION_WEIGHT = 0.5f;
-    static final float ALIGNMENT_WEIGHT = 10;
-    static final float GOAL_WEIGHT = 0.5f;
-    static final float SQUAD_SEPARATION_WEIGHT = 3;
-    static final float ENEMY_SEPARATION_WEIGHT = 20;
-    static final float TERRAIN_SEPARATION_WEIGHT = 5;
+    public static final float COHESION_WEIGHT = 0.5f;
+    public static final float ALIGNMENT_WEIGHT = 10;
+    public static final float GOAL_WEIGHT = 0.5f;
+    public static final float SQUAD_SEPARATION_WEIGHT = 3;
+    public static final float ENEMY_SEPARATION_WEIGHT = 20;
+    public static final float TERRAIN_SEPARATION_WEIGHT = 5;
 
     static final float SQUADMATE_DETECTION_LIMIT_INCREASE = 2;
     static final float SUPPORT_ENEMY_RANGE_INCREASE = 10;

@@ -1,6 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.common;
 
-import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
+import hr.fer.zemris.zavrsni.rts.objects.units.squad.ISquad;
 
 import java.util.List;
 import java.util.Set;
@@ -11,7 +11,7 @@ public interface IGameState {
 
     void setLevel(ILevel level);
 
-    Squad createSquadFromSelected();
+    ISquad createSquadFromSelected();
 
     Set<String> savedSelectionKeys();
 
@@ -19,11 +19,11 @@ public interface IGameState {
 
     void selectSavedSelection(String key);
 
-    List<Squad> getSquads();
+    List<ISquad> getSquads();
 
-    void addSquad(Squad squad);
+    void addSquad(ISquad squad);
 
-    void removeSquad(Squad squad);
+    void removeSquad(ISquad squad);
 
     void reset();
 

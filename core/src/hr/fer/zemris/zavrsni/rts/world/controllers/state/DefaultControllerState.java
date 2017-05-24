@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
-import hr.fer.zemris.zavrsni.rts.objects.units.Squad;
+import hr.fer.zemris.zavrsni.rts.objects.units.squad.ISquad;
 import hr.fer.zemris.zavrsni.rts.world.ControllerStateAdapter;
 import hr.fer.zemris.zavrsni.rts.world.renderers.DragBoxRenderer;
 
@@ -35,7 +35,7 @@ public class DefaultControllerState extends ControllerStateAdapter {
     public void mouseRightClicked(int screenX, int screenY) {
         Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));
 
-        Squad squad = gameState.createSquadFromSelected();
+        ISquad squad = gameState.createSquadFromSelected();
         if (squad != null) {
             squad.sendToLocation(position.x, position.y);
         }

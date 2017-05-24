@@ -1,9 +1,10 @@
-package hr.fer.zemris.zavrsni.rts.objects.units;
+package hr.fer.zemris.zavrsni.rts.objects.units.squad;
 
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
-import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
+import hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility;
+import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -15,7 +16,7 @@ import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.COHESION_W
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.GOAL_WEIGHT;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUnitInRange;
 
-public class Squad implements IUpdateable {
+public class Squad implements ISquad {
 
     private final Consumer<Unit> functionApplyCohesion = this::applyCohesion;
     private final Consumer<Unit> functionApplyAlignment = this::applyAlignment;
@@ -110,14 +111,17 @@ public class Squad implements IUpdateable {
         );
     }
 
+    @Override
     public Set<Unit> getSquadMembers() {
         return Collections.unmodifiableSet(squadMembers);
     }
 
+    @Override
     public void addUnit(Unit unit) {
         squadMembers.add(unit);
     }
 
+    @Override
     public void removeUnit(Unit unit) {
         squadMembers.remove(unit);
 
@@ -126,6 +130,7 @@ public class Squad implements IUpdateable {
         }
     }
 
+    @Override
     public void sendToLocation(float x, float y) {
         stopSearch();
 
@@ -136,10 +141,12 @@ public class Squad implements IUpdateable {
         destinationY = y;
     }
 
+    @Override
     public boolean isSearchStopped() {
         return squadMembers.isEmpty() || squadLeader.isSearchStopped();
     }
 
+    @Override
     public void stopSearch() {
         if (squadLeader != null) {
             squadLeader.stopSearch();
