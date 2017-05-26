@@ -139,8 +139,8 @@ public class GameScreen extends AbstractGameScreen {
         float screenHeight = stageUI.getHeight();
 
         window.setBounds(
-                screenWidth / 8, 0,
-                6 * screenWidth / 8, screenHeight / 6
+                screenWidth / 12, 0,
+                10 * screenWidth / 12, screenHeight / 6
         );
 
         IGameState gameState = controller.getGameState();
