@@ -7,14 +7,14 @@ import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
-import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
+import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.SearchAgentProvider;
 
 import java.util.Collections;
 
-public abstract class Unit extends AbstractMovableObject implements IDamageTrackable<Unit> {
+public abstract class Unit extends AbstractGameObject implements IDamageTrackable<Unit> {
 
     private static final float TOLERANCE = 4;
 

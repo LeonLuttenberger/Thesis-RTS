@@ -2,16 +2,28 @@ package hr.fer.zemris.zavrsni.rts.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 
-public abstract class AbstractGameObject {
+public abstract class AbstractGameObject implements IUpdateable {
 
     public final Vector2 position = new Vector2();
     public final Vector2 origin = new Vector2();
     public final Vector2 dimension = new Vector2(1, 1);
     public final Vector2 scale = new Vector2(1, 1);
+    public final Vector2 velocity = new Vector2();
     protected float rotation = 0f;
 
     public abstract void render(SpriteBatch batch);
+
+    @Override
+    public void update(float deltaTime) {
+        position.x += velocity.x * deltaTime;
+        position.y += velocity.y * deltaTime;
+    }
+
+    public boolean isMoving() {
+        return velocity.len() > 0;
+    }
 
     public final float getCenterX() {
         return position.x + dimension.x / 2;

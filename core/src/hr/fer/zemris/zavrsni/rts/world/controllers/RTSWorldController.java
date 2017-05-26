@@ -4,9 +4,12 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.common.costs.Cost;
+import hr.fer.zemris.zavrsni.rts.common.costs.UnitCosts;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 import hr.fer.zemris.zavrsni.rts.objects.units.squad.Squad;
 import hr.fer.zemris.zavrsni.rts.world.AbstractRTSWorldController;
@@ -99,6 +102,15 @@ public class RTSWorldController extends AbstractRTSWorldController {
     }
 
     public void buildUnit(Function<ILevel, IBuildableUnit> function) {
-        baseBuilding.buildUnit(function);
+        IBuildableUnit unit = function.apply(gameState.getLevel());
+        if (unit instanceof PlayerUnit) {
+            PlayerUnit playerUnit = (PlayerUnit) unit;
+            Cost unitCost = UnitCosts.getCostFor(playerUnit.getClass());
+
+            if (unitCost.isSatisfied(gameState)) {
+                baseBuilding.buildUnit(function);
+                unitCost.apply(gameState);
+            }
+        }
     }
 }

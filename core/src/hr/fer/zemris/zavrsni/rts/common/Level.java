@@ -5,7 +5,7 @@ import hr.fer.zemris.zavrsni.rts.objects.buildings.AlienBaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
-import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +62,10 @@ public class Level extends AbstractTiledLevel {
     }
 
     private void spawnDefaultUnits(Building building) {
-        SoldierUnit soldier = new SoldierUnit(this);
-        soldier.position.set(building.position.x - tileWidth, building.position.y);
+        WorkerUnit worker = new WorkerUnit(this);
+        worker.position.set(building.position.x - tileWidth, building.position.y);
 
-        addPlayerUnit(soldier);
+        addPlayerUnit(worker);
     }
 
     private void initEnemyBases() {

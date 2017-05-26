@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
@@ -29,11 +28,15 @@ import hr.fer.zemris.zavrsni.rts.common.Constants;
 import hr.fer.zemris.zavrsni.rts.common.GameResources;
 import hr.fer.zemris.zavrsni.rts.common.GameState;
 import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
+import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.Level;
+import hr.fer.zemris.zavrsni.rts.common.costs.BuildingCosts;
+import hr.fer.zemris.zavrsni.rts.common.costs.UnitCosts;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.TurretBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
+import hr.fer.zemris.zavrsni.rts.screen.components.BuildButton;
 import hr.fer.zemris.zavrsni.rts.world.controllers.RTSWorldController;
 import hr.fer.zemris.zavrsni.rts.world.controllers.state.BuildingControllerState;
 import hr.fer.zemris.zavrsni.rts.world.renderers.HealthBarRenderer;
@@ -136,11 +139,12 @@ public class GameScreen extends AbstractGameScreen {
         float screenHeight = stageUI.getHeight();
 
         window.setBounds(
-                screenWidth / 6, 0,
-                2 * screenWidth / 3, screenHeight / 6
+                screenWidth / 8, 0,
+                6 * screenWidth / 8, screenHeight / 6
         );
 
-        Button btnBuildSoldier = new TextButton("Soldier", uiSkin);
+        IGameState gameState = controller.getGameState();
+        Button btnBuildSoldier = new BuildButton(uiSkin, "Soldier", UnitCosts.getCostFor(SoldierUnit.class), gameState);
         btnBuildSoldier.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -148,7 +152,7 @@ public class GameScreen extends AbstractGameScreen {
             }
         });
 
-        Button btnWorker = new TextButton("Worker", uiSkin);
+        Button btnWorker = new BuildButton(uiSkin, "Worker", UnitCosts.getCostFor(WorkerUnit.class), gameState);
         btnWorker.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -156,8 +160,8 @@ public class GameScreen extends AbstractGameScreen {
             }
         });
 
-        Button btnBuildGenerator = new TextButton("Turret", uiSkin);
-        btnBuildGenerator.addListener(new ChangeListener() {
+        Button btnBuildTurret = new BuildButton(uiSkin, "Turret", BuildingCosts.getCostFor(TurretBuilding.class), gameState);
+        btnBuildTurret.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setControllerState(new BuildingControllerState(TurretBuilding::new, controller));
@@ -166,7 +170,7 @@ public class GameScreen extends AbstractGameScreen {
 
         window.add(btnBuildSoldier);
         window.add(btnWorker);
-        window.add(btnBuildGenerator);
+        window.add(btnBuildTurret);
 
         return window;
     }

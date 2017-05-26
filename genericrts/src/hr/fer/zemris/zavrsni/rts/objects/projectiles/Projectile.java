@@ -4,12 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
-import hr.fer.zemris.zavrsni.rts.objects.AbstractMovableObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 
-public abstract class Projectile extends AbstractMovableObject {
+public abstract class Projectile extends AbstractGameObject {
 
     private static final float HIT_RADIUS = 15f;
 
