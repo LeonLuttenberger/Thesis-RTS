@@ -1,21 +1,21 @@
 package hr.fer.zemris.zavrsni.rts.objects.projectiles;
 
-import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 
-public class Bullet extends Projectile {
+public abstract class AbstractBullet extends Projectile {
 
     private static final int WIDTH = 5;
     private static final int HEIGHT = 5;
-    private static final float MAX_SPEED = 200f;
+    private static final float MAX_SPEED = 500f;
 
-    public Bullet(ILevel level, IRangedAttacker<? extends AbstractGameObject> source,
+    public AbstractBullet(TextureRegion region, ILevel level, IRangedAttacker<? extends AbstractGameObject> source,
                   IDamageable<? extends AbstractGameObject> target, int attackPower) {
 
-        super(Assets.getInstance().getOthers().bullet, level, source, target, attackPower);
+        super(region, level, source, target, attackPower);
 
         dimension.set(WIDTH, HEIGHT);
     }

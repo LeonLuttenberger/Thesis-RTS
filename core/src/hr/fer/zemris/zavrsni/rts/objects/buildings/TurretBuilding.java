@@ -5,7 +5,7 @@ import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
-import hr.fer.zemris.zavrsni.rts.objects.projectiles.Bullet;
+import hr.fer.zemris.zavrsni.rts.objects.projectiles.PlayerBullet;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 
@@ -45,7 +45,7 @@ public class TurretBuilding extends PlayerBuilding implements IRangedAttacker<Tu
 
     @Override
     public Projectile rangedAttack(IDamageable<? extends AbstractGameObject> target) {
-        return new Bullet(level, this, target, ATTACK_POWER);
+        return new PlayerBullet(level, this, target, ATTACK_POWER);
     }
 
     @Override

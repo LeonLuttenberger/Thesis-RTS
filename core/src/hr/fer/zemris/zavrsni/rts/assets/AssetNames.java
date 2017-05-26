@@ -18,6 +18,7 @@ final class AssetNames {
     static final String BOULDER = "boulder";
 
     static final String BULLET = "bullet";
+    static final String ALIEN_BULLET = "alien_bullet";
 
     static final String ICON_MINERALS = "icon_minerals";
 
