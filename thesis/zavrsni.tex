@@ -79,7 +79,9 @@
 
 \chapter{Pregled vrsti računalnih igara}\label{ch:games}
 
-\section{RPG}
+% TODO Objasni što je bot
+
+\section{Žanr RPG}
 
 \par Kada su osobna računala postala šire dostupna, računalne igre su počele iskorištavati kompleksniji sustav kontrola koje su omogućili miš i tipkovnica u odnosno na dosadašnje igraće palice (engl. \textit{joystick}).
 Žanr igara poznat pod nazivom RPG\footnote{Igre igranja uloga (engl.\textit{Role playing games})} je nastao u to vrijeme.
@@ -89,7 +91,7 @@ Mana kod takvih igara je što su bile dizajnirane da kratko traju kako bi igrač
 \par U RPG igrama igrač tipično kontrolira jednog lika koji krene s ničime, obavlja razne poslove za novce, trenira svoje sposobnosti i s vremenom postaje sve moćniji. 
 Neovisno o detaljima specifične igre, ideja svih igara u ovom žanru je omogućiti igraču da se poistovjeti s glavnim likom i unese u svijet u kojem se glavni lik nalazi.
 
-\par Likovi u ovakvih igrama se tipično dijele u obične neprijatelje, ''\textit{šefove}'' i pasivne \textit{NPC}\footnote{Ne-igraći likovi (engl.\textit{Non-playable characters})} jedinice\cite{book:AIGameProgrammingWisdom}.
+\par Likovi u ovakvih igrama se tipično dijele u obične neprijatelje, ''\textit{šefove}'' i pasivne \textit{NPC}\footnote{Ne-igraći likovi (engl.\textit{Non-playable characters})} jedinice.
 Obični neprijatelji su najčešći tip likova.
 Njihove svrha je kako bi se borili protiv igrača, te ih tipično ima u beskonačnoj količini kako bi igrač uvijek imao nešto za raditi u svijetu.
 ''\textit{Šefovi}'' obično predstavljaju vođe protivničkih skupina, i kompleksniji su i teži protivnici koji se pojavljuju na kraju svakog levela ili sekcije nakon što igrač porazi mnogo slabijih protivnika.
@@ -100,6 +102,28 @@ Zamišljeni su kako bi iznenadili igrača sa svojom moći i razbili monotonost i
 Kao posljedica toga i čistog dosega ovakvih igara, one znaju imati vrlo visoke standarde za umjetnu inteligenciju.
 Primjerice, ako igrač posjeti neko selo ili grad u svijetu igre, ono mora biti ispunjeno s ljudima koji imaju svoje živote, pozadinu i posao.
 Dodatna doza uvjerljivosti se postigne ako \textit{NPC}-evi u tom gradu svaki dan ujutro odu na posao, na kraju radnog dana otputuju doma i po noći spavaju.
+Navedena funkcionalnost lako je izvediva uporabom nedeterminističkih konačnih automata\cite{book:AIGameProgrammingWisdom}.
+
+\section{Žanr pucačina}
+
+\par Postoje dvije glavne vrste pucačina: pucačine iz prvog lica, poznate kao FPS\footnote{engl. \textit{First person shooter}}, i pucačine iz trećeg lica, poznate kao TPS\footnote{engl. \textit{Third person shooter}}.
+U pucačinama iz prvog lica igrač svijet promatra iz perspektive lika kojeg kontrolira, odnosno kamera se nalazi tamo gdje su njegove oči.
+Suprotno tome, u pucačinama iz trećeg lika kamera se nalazi iza glavnog lika što omogućava igraču da može vidjeti model svog lika.
+Bez obzira na igračevu perspektivu u ovakvim igrama, njihova premisa je vrlo jasna.
+Igrač kontrolira lika koji u rukama drži nekakvo vatreno oružje te se mora boriti protiv neprijatelja.
+
+\par Igre u ovom žanru su igrale ključnu ulogu u podizanju standarda za grafičke i mrežne performanse u računalnim igrama.
+Također, kako bi bitke u igri bile što zahtjevnije, bitnu ulogu igra i razvoj botova, odnosno autonomnih agenta koji znaju pronaći svoj put na mapi, tražiti neprijatelje, skupljati oružja i boriti se.
+Umjetna inteligencija iza navedenih botova je obično modelirana zasebno, kako sama igra nebi direktno ovisila o specifičnoj implementacij.
+To svojstvo omogućava proširivost samo igre, odnosno omogućava programerima da napišu svoje implementacije te ih testiraju u samoj igri.
+
+\par Zahvaljujući navedenom svojstvu, neke igre u ovom žanru se često koriste u istraživanjima umjetne inteligencije.
+Uvjeti u takvim igrama mogu biti puno bliži uvjetima u stvarnom svijetu nego čisti laboratorijskih uvjeta, što omogućava efektivno testiranje novih i bržih algoritama.
+
+\section{Platformeri}
+
+\par Platformeri su jedan od starijih žanrova računalnih igara.
+One su tipično prikazane u 2D svijetu, u kojima igrač započne igru na dnu ekrana i cilj je pomoću skokova na platforme popesti se na vrh.
 
 \chapter{RTS igre}\label{ch:rtsGames}
 RTS žanr računalnih igara temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. 
@@ -302,8 +326,11 @@ Ono odabire onaj čvor koji se čini najbliži cilju, ne uzimajući u obzir tro�
 Evaluacijska funkcija \(f(s)\) se definira kao \(f(s) = h(s)\).
 
 \par Poboljšanje tog algoritma je ujedno i najpoznatija implementacija usmjerene pretrage: \textbf{algoritam A*}. 
-U njemu se čvorovi evaluiraju tako da se zbroji trošak puta \(g(s)\) i heuristika \(h(s)\): 
-\[f(s) = g(s) + h(s).\]
+U njemu se čvorovi evaluiraju tako da se zbroji trošak puta \(g(s)\) i heuristika \(h(s)\):
+\begin{equation}
+f(s) = g(s) + h(s).
+\end{equation} 
+
 Prema tome, vrijednost \(f(s)\) predstavlja procjenu troška puta koji prolazi kroz stanje \(s\).
 Ovaj algoritam je identičan pretraživanju s jednolikom cijenom, osim što se u prioritetni red za čvorove ubacuje vrijednost \(g(s) + h(s)\) umjesto \(g(s)\).
 
@@ -315,12 +342,16 @@ Kako bi algoritam A* bio optimalan, heuristika mora zadovoljiti sljedeća dva sv
 \par Heuristika je optimistična ako nikad ne predvidi udaljenost do cilja koja je veća od stvarne. 
 Kao posljedica činjenice da je \(g(s)\) cijena puta do stanja \(s\), \(f(s)\) nikad neće imati vrijednost veću od cijene stvarnog puta do cilja kroz čvor \(s\).
 Matematički formulirano, ako je \(h^*(s)\) cijena stvarnog puta od čvora \(s\) do cilja, tada vrijedi:
-\[\forall s \in S, h(s) \leq h^*(s).\]
+\begin{equation}
+\forall s \in S, h(s) \leq h^*(s).
+\end{equation} 
 Također, vrijednost heuristike u ciljnom čvoru mora biti 0: \(h(s_{cilj}) = 0\).
 
 \par Heuristika je konzistentna ako procjena udaljenosti do cilja nikad nije veća  od zbroja heurističke vrijednosti od susjednog stanja i cijeni puta između navedena dva stanja.
 Odnosno, ako je \(s\) trenutno stanje, \(s'\) susjedno stanje i \(a\) akcija koja vodi iz \(s\) u \(s'\), tada vrijedi:
-\[h(s) \leq c(s, a) + h(s').\]
+\begin{equation}
+h(s) \leq c(s, a) + h(s').
+\end{equation} 
 Ovo svojstvo je temeljeno na principu nejednakosti trokuta, odnosno činjenici da zbroj duljina dviju stranica trokuta ne može biti manja od duljine treće stranice.
 
 % Možda dodati sliku
@@ -378,15 +409,23 @@ Jedan od algoritama koji nudi takvu mogućnost je adaptivni A* u stvarnom vremen
 \par Neka je potrebno izvesti više A* pretraga s konzistentnom heuristikom i istim ciljnim stanjem no s različitim početnim stanjima. Adaptivni algoritam A* će nakon svake pretrage podesiti heurističke vrijednosti posjećenih stanja kako bi buduće pretrage bile obavještenije\cite{article:RTAAStar}.
 
 \par Neka je \(s_{start}\) početno stanje u pretrazi i \(s\) stanje u lokalnom prostoru stanja. Ako je heuristika \(h\) konzistentna vrijedi relacija:
-\[\forall s \in S, h(s_{start}) \leq g(s) + h(s).\]
+\begin{equation}
+\forall s \in S, h(s_{start}) \leq g(s) + h(s).
+\end{equation}
 Drugim riječima, put od početne pozicije do cilja kroz stanje \(s\) nikad neće biti veće od stvarne udaljenosti od početnog stanja do cilja.
 
 \par Ako je stanje \(\overline{s}\) prvo stanje u prioritetnom redu kada je lokalna pretraga završila, uvrštavanjem uvjeta konzistentnosti u gore navedenu formulu dobiva se sljedeći izračun:
-\[\forall s \in S, f(\overline{s}) \leq g(s) + h(s)\]
-\[\forall s \in S, h(s) \geq f(\overline{s}) - g(s).\]
+\begin{equation}
+\begin{aligned}
+& \forall s \in S, f(\overline{s}) \leq g(s) + h(s)\\
+& \forall s \in S, h(s) \geq f(\overline{s}) - g(s).
+\end{aligned}
+\end{equation}
 
 \par Kao posljedicu toga, za svako posjećeno stanje u pretrazi moguće je napraviti korekciju:
-\[h(s) = f(\overline{s}) - g(s).\]
+\begin{equation}
+h(s) = f(\overline{s}) - g(s).
+\end{equation}
 
 \begin{minipage}{\textwidth}
 	\lstinputlisting[caption = {Pseudokod za algoritam RTAA*\cite{article:RTAAStar}},
