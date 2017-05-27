@@ -8,9 +8,15 @@ import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 
-public abstract class Building extends AbstractGameObject implements IUpdateable, IDamageTrackable<Building> {
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 
-    private final TextureRegion region;
+public abstract class Building extends AbstractGameObject implements IUpdateable, IDamageTrackable<Building>, Serializable {
+
+    private static final long serialVersionUID = 8978189014327074517L;
+
+    private transient TextureRegion region;
     protected final ILevel level;
 
     protected final int maxHitPoints;
@@ -18,14 +24,16 @@ public abstract class Building extends AbstractGameObject implements IUpdateable
 
     private float timeSinceDamageLastTaken;
 
-    public Building(TextureRegion region, ILevel level, float width, float height, int maxHitPoints) {
-        this.region = region;
+    public Building(ILevel level, float width, float height, int maxHitPoints) {
+        this.region = loadTexture();
         this.level = level;
         this.dimension.set(width, height);
 
         this.maxHitPoints = maxHitPoints;
         this.currentHitPoints = maxHitPoints;
     }
+
+    public abstract TextureRegion loadTexture();
 
     @Override
     public void render(SpriteBatch batch) {
@@ -68,5 +76,11 @@ public abstract class Building extends AbstractGameObject implements IUpdateable
 
     @Override
     public void onDestroyed(IGameState gameState) {
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+
+        this.region = loadTexture();
     }
 }

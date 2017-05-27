@@ -8,9 +8,10 @@ import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface ILevel extends ITiledMap {
+public interface ILevel extends ITiledMap, Serializable {
 
     void render(SpriteBatch batch);
 

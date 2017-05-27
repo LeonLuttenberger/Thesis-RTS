@@ -12,13 +12,17 @@ import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.pathfinding.impl.SearchAgentProvider;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Collections;
 
 public abstract class Unit extends AbstractGameObject implements IDamageTrackable<Unit> {
 
+    private static final long serialVersionUID = 9093619222088384779L;
+
     private static final float TOLERANCE = 4;
 
-    private final Animation<TextureRegion> animation;
+    private transient Animation<TextureRegion> animation;
     protected final ILevel level;
 
     protected final float defaultSpeed;
@@ -34,16 +38,16 @@ public abstract class Unit extends AbstractGameObject implements IDamageTrackabl
     private boolean flipX;
     private float stateTime;
 
-    private ISearchAgent<MapTile> searchAgent;
+    private transient ISearchAgent<MapTile> searchAgent;
     private final Vector2 goalPosition = new Vector2();
     private final Vector2 currentGoal = new Vector2();
     protected final Vector2 newVelocity = new Vector2();
     private MapTile goalTile;
     private MapTile waypointTile;
 
-    public Unit(Animation<TextureRegion> animation, ILevel level, float width, float height,
+    public Unit(ILevel level, float width, float height,
                 float defaultSpeed, int maxHealth, float attackRange, int attackPower, float attackCooldown) {
-        this.animation = animation;
+        this.animation = loadAnimation();
         this.level = level;
         this.searchAgent = SearchAgentProvider.getSearchAgent(level);
 
@@ -58,6 +62,8 @@ public abstract class Unit extends AbstractGameObject implements IDamageTrackabl
 
         this.health = maxHealth;
     }
+
+    public abstract Animation<TextureRegion> loadAnimation();
 
     public float getAttackRange() {
         return attackRange;
@@ -213,13 +219,17 @@ public abstract class Unit extends AbstractGameObject implements IDamageTrackabl
         return searchAgent.getStatesQueue();
     }
 
+    public Vector2 getGoalPosition() {
+        return goalPosition;
+    }
+
     public Vector2 getCurrentGoal() {
         return currentGoal;
     }
 
     public abstract boolean isSupport();
 
-    public boolean readyForAttack() {
+    protected boolean readyForAttack() {
         return timeSinceLastAttack > attackCooldown;
     }
 
@@ -255,5 +265,12 @@ public abstract class Unit extends AbstractGameObject implements IDamageTrackabl
 
     @Override
     public void onDestroyed(IGameState gameState) {
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+
+        searchAgent = SearchAgentProvider.getSearchAgent(level);
+        this.animation = loadAnimation();
     }
 }

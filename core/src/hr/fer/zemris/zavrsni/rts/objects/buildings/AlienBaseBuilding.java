@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.objects.buildings;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
@@ -10,10 +11,12 @@ import hr.fer.zemris.zavrsni.rts.objects.units.hostile.AlienSoldierUnit;
 
 public class AlienBaseBuilding extends HostileBuilding {
 
+    private static final long serialVersionUID = -2856998936677127338L;
+
     private static final int WIDTH = 96;
     private static final int HEIGHT = 64;
-    private static final int MAX_HIT_POINTS = 300;
 
+    private static final int MAX_HIT_POINTS = 300;
     private static final int TRAINING_INCREMENT = 1;
     private static final int MOB_CAP_RANGE = 200;
     private static final int MOB_CAP = 5;
@@ -22,7 +25,12 @@ public class AlienBaseBuilding extends HostileBuilding {
     private IBuildableUnit currentUnit = new AlienSoldierUnit(level);
 
     public AlienBaseBuilding(ILevel level) {
-        super(Assets.getInstance().getBuildings().alienBase, level, WIDTH, HEIGHT, MAX_HIT_POINTS);
+        super(level, WIDTH, HEIGHT, MAX_HIT_POINTS);
+    }
+
+    @Override
+    public TextureRegion loadTexture() {
+        return Assets.getInstance().getBuildings().alienBase;
     }
 
     @Override

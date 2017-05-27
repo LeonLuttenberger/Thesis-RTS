@@ -14,11 +14,13 @@ import java.util.stream.Collectors;
 
 public class CompositeSquad implements ISquad {
 
-    private final List<Squad> squadList;
+    private static final long serialVersionUID = -4387868961396099764L;
+
+    private final List<ISquad> squadList;
     private final ILevel level;
     private final float joinDistance;
 
-    public CompositeSquad(List<Squad> squadList, ILevel level, float joinDistance) {
+    public CompositeSquad(List<ISquad> squadList, ILevel level, float joinDistance) {
         this.squadList = Objects.requireNonNull(squadList);
         this.level = level;
         this.joinDistance = joinDistance;
@@ -26,20 +28,20 @@ public class CompositeSquad implements ISquad {
 
     @Override
     public void update(float deltaTime) {
-        Squad[] squadsToJoin = null;
+        ISquad[] squadsToJoin = null;
 
-        for (Squad squad : squadList) {
+        for (ISquad squad : squadList) {
             Vector2 avg1 = getAverageSquadPosition(squad);
             if (avg1 == null) continue;
 
-            for (Squad other : squadList) {
+            for (ISquad other : squadList) {
                 if (squad == other) continue;
 
                 Vector2 avg2 = getAverageSquadPosition(other);
                 if (avg2 == null) continue;
 
                 if (avg1.sub(avg2).len() < joinDistance) {
-                    squadsToJoin = new Squad[] {squad, other};
+                    squadsToJoin = new ISquad[] {squad, other};
                     squadsToJoin[0] = squad;
                     squadsToJoin[1] = other;
                     break;
@@ -56,7 +58,7 @@ public class CompositeSquad implements ISquad {
             squadsToJoin[1].stopSearch();
         }
 
-        for (Squad squad : squadList) {
+        for (ISquad squad : squadList) {
             squad.update(deltaTime);
         }
         squadList.removeIf(squad -> squad.getSquadMembers().isEmpty());
@@ -71,7 +73,7 @@ public class CompositeSquad implements ISquad {
     public void addUnit(Unit unit) {
         boolean isAdded = false;
 
-        for (Squad squad: squadList) {
+        for (ISquad squad: squadList) {
             Vector2 avgPosition = getAverageSquadPosition(squad);
             if (avgPosition == null) continue;
 
@@ -87,7 +89,7 @@ public class CompositeSquad implements ISquad {
         }
     }
 
-    private Vector2 getAverageSquadPosition(Squad squad) {
+    private Vector2 getAverageSquadPosition(ISquad squad) {
         OptionalDouble avgX = squad.getSquadMembers().stream()
                 .mapToDouble(Unit::getCenterX)
                 .average();
@@ -104,21 +106,21 @@ public class CompositeSquad implements ISquad {
 
     @Override
     public void removeUnit(Unit unit) {
-        for (Squad squad : squadList) {
+        for (ISquad squad : squadList) {
             squad.removeUnit(unit);
         }
     }
 
     @Override
     public void sendToLocation(float x, float y) {
-        for (Squad squad : squadList) {
+        for (ISquad squad : squadList) {
             squad.sendToLocation(x, y);
         }
     }
 
     @Override
     public boolean isSearchStopped() {
-        for (Squad squad : squadList) {
+        for (ISquad squad : squadList) {
             if (!squad.isSearchStopped()) return false;
         }
 
@@ -127,7 +129,7 @@ public class CompositeSquad implements ISquad {
 
     @Override
     public void stopSearch() {
-        for (Squad squad : squadList) {
+        for (ISquad squad : squadList) {
             squad.stopSearch();
         }
     }

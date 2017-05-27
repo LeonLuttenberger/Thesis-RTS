@@ -11,8 +11,9 @@ import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 public abstract class Projectile extends AbstractGameObject {
 
     private static final float HIT_RADIUS = 15f;
+    private static final long serialVersionUID = 8260098682213212021L;
 
-    private final TextureRegion region;
+    private transient final TextureRegion region;
     protected final ILevel level;
     protected final IRangedAttacker<? extends AbstractGameObject> source;
     protected final IDamageable<? extends AbstractGameObject> target;
@@ -26,7 +27,8 @@ public abstract class Projectile extends AbstractGameObject {
 
     private boolean isUsedUp;
 
-    public Projectile(TextureRegion region, ILevel level, IRangedAttacker<? extends AbstractGameObject> source,
+    public Projectile(TextureRegion region, ILevel level,
+                      IRangedAttacker<? extends AbstractGameObject> source,
                       IDamageable<? extends AbstractGameObject> target, int attackPower) {
 
         this.region = region;

@@ -6,10 +6,11 @@ import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.ALIGNMENT_WEIGHT;
 import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.COHESION_WEIGHT;
@@ -18,8 +19,7 @@ import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUni
 
 public class Squad implements ISquad {
 
-    private final Consumer<Unit> functionApplyCohesion = this::applyCohesion;
-    private final Consumer<Unit> functionApplyAlignment = this::applyAlignment;
+    private static final long serialVersionUID = -6849173030081042073L;
 
     private final Set<Unit> squadMembers;
     private final ILevel level;
@@ -56,8 +56,8 @@ public class Squad implements ISquad {
                 if (squadMember == squadLeader) continue;
                 applyGoal(squadMember, squadLeader.getCurrentGoal());
             }
-            squadMembers.forEach(functionApplyCohesion);
-            squadMembers.forEach(functionApplyAlignment);
+            squadMembers.forEach(this::applyCohesion);
+            squadMembers.forEach(this::applyAlignment);
         }
         for (Unit squadMember : squadMembers) {
             MovementUtility.applyTerrainSeparation(squadMember, level);
@@ -155,5 +155,11 @@ public class Squad implements ISquad {
         for (Unit unit : squadMembers) {
             unit.velocity.setLength(0);
         }
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+
+        sendToLocation(destinationX, destinationY);
     }
 }

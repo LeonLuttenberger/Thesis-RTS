@@ -4,7 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 
-public abstract class AbstractGameObject implements IUpdateable {
+import java.io.Serializable;
+
+public abstract class AbstractGameObject implements IUpdateable, Serializable {
+
+    private static final long serialVersionUID = -7537980549024973964L;
 
     public final Vector2 position = new Vector2();
     public final Vector2 origin = new Vector2();

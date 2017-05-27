@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -24,12 +22,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
+import hr.fer.zemris.zavrsni.rts.common.AbstractTiledLevel;
 import hr.fer.zemris.zavrsni.rts.common.Constants;
 import hr.fer.zemris.zavrsni.rts.common.GameResources;
 import hr.fer.zemris.zavrsni.rts.common.GameState;
 import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
-import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.Level;
 import hr.fer.zemris.zavrsni.rts.common.costs.BuildingCosts;
 import hr.fer.zemris.zavrsni.rts.common.costs.UnitCosts;
@@ -61,18 +59,21 @@ public class GameScreen extends AbstractGameScreen {
     private Window interactionMenu;
 
     public GameScreen(ScreenManagedGame game, IGameSettings gameSettings) {
+        this(game, gameSettings, new GameState(new Level(Constants.TILED_MAP_TMX)));
+    }
+
+    public GameScreen(ScreenManagedGame game, IGameSettings gameSettings, IGameState gameState) {
         super(game, gameSettings);
 
-        TiledMap tiledMap = new TmxMapLoader().load(Constants.TILED_MAP_TMX);
-        ILevel level = new Level(tiledMap);
+        AbstractTiledLevel level = (AbstractTiledLevel) gameState.getLevel();
 
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.translate(level.getWidth() * level.getTileWidth() / 2, level.getHeight() * level.getTileHeight() / 2);
         camera.update();
 
         SpriteBatch batch = new SpriteBatch();
-        controller = new RTSWorldController(new GameState(level), camera);
-        renderer = new WorldRenderer(controller, tiledMap, batch, gameSettings);
+        controller = new RTSWorldController(gameState, camera);
+        renderer = new WorldRenderer(controller, level.getTiledMap(), batch, gameSettings);
 
         healthBarRenderer = new HealthBarRenderer(controller.getGameState(), gameSettings);
     }
@@ -140,7 +141,7 @@ public class GameScreen extends AbstractGameScreen {
 
         window.setBounds(
                 screenWidth / 12, 0,
-                10 * screenWidth / 12, screenHeight / 6
+                10 * screenWidth / 12, screenHeight / 8
         );
 
         IGameState gameState = controller.getGameState();

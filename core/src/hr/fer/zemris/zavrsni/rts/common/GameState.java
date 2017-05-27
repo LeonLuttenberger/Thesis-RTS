@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 public class GameState implements IGameState {
 
+    private static final long serialVersionUID = -669126901460757395L;
+
     private ILevel level;
 
     private Map<String, Integer> resources = new HashMap<>();

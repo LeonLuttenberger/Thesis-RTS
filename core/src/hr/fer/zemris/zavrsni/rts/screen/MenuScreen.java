@@ -1,6 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,6 +16,12 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
+import hr.fer.zemris.zavrsni.rts.common.IGameState;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class MenuScreen extends AbstractGameScreen {
 
@@ -24,6 +31,7 @@ public class MenuScreen extends AbstractGameScreen {
     // menu
     private Image imgBackground;
     private Button btnNewGame;
+    private Button btnLoadGame;
     private Button btnSettings;
     private Button btnQuitGame;
 
@@ -77,6 +85,25 @@ public class MenuScreen extends AbstractGameScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.getScreenManager().pushGameScreen();
+            }
+        });
+        table.row();
+
+        btnLoadGame = new TextButton("Load Game", uiSkin);
+        table.add(btnLoadGame);
+        btnLoadGame.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                FileHandle file = Gdx.files.local("saves/save1.save");
+                try (ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file.file())))) {
+
+                    IGameState gameState = (IGameState) ois.readObject();
+
+                    game.screenManager.pushGameScreen(gameState);
+
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         });
         table.row();

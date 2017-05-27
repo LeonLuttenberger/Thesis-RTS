@@ -3,6 +3,7 @@ package hr.fer.zemris.zavrsni.rts.common;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
@@ -11,6 +12,8 @@ import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,6 +23,8 @@ import java.util.stream.Stream;
 
 public abstract class AbstractTiledLevel implements ILevel {
 
+    private static final long serialVersionUID = 4501866854251924006L;
+
     private static final String TERRAIN_LAYER = "Terrain Layer";
 
     private static final String PROP_KEY_WIDTH = "width";
@@ -28,7 +33,8 @@ public abstract class AbstractTiledLevel implements ILevel {
     private static final String PROP_KEY_TILE_WIDTH = "tilewidth";
     private static final String PROP_KEY_TILE_HEIGHT = "tileheight";
 
-    protected final TiledMap tiledMap;
+    private final String mapFileName;
+    protected transient TiledMap tiledMap;
 
     private final List<PlayerUnit> playerUnits = new ArrayList<>();
     private final List<HostileUnit> hostileUnits = new ArrayList<>();
@@ -45,8 +51,9 @@ public abstract class AbstractTiledLevel implements ILevel {
     protected final int tileWidth;
     protected final int tileHeight;
 
-    public AbstractTiledLevel(TiledMap tiledMap) {
-        this.tiledMap = tiledMap;
+    public AbstractTiledLevel(String mapFileName) {
+        this.tiledMap = new TmxMapLoader().load(mapFileName);
+        this.mapFileName = mapFileName;
 
         width = tiledMap.getProperties().get(PROP_KEY_WIDTH, Integer.class);
         height = tiledMap.getProperties().get(PROP_KEY_HEIGHT, Integer.class);
@@ -73,6 +80,10 @@ public abstract class AbstractTiledLevel implements ILevel {
         for (float[] rowTileModifiers : additionalTileModifiers) {
             Arrays.fill(rowTileModifiers, 1);
         }
+    }
+
+    public TiledMap getTiledMap() {
+        return tiledMap;
     }
 
     @Override
@@ -316,5 +327,11 @@ public abstract class AbstractTiledLevel implements ILevel {
         resources.clear();
 
         initTileModifier();
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+
+        this.tiledMap = new TmxMapLoader().load(mapFileName);
     }
 }

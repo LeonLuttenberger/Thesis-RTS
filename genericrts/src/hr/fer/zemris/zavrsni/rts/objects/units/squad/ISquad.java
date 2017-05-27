@@ -3,9 +3,10 @@ package hr.fer.zemris.zavrsni.rts.objects.units.squad;
 import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public interface ISquad extends IUpdateable {
+public interface ISquad extends IUpdateable, Serializable {
 
     Set<Unit> getSquadMembers();
 

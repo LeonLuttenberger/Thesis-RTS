@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,6 +19,13 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
+import hr.fer.zemris.zavrsni.rts.common.IGameState;
+
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.Optional;
 
 public class PauseScreen extends AbstractGameScreen {
 
@@ -27,6 +35,7 @@ public class PauseScreen extends AbstractGameScreen {
     // menu
     private Image imgBackground;
     private Button btnContinue;
+    private Button btnSave;
     private Button btnSettings;
     private Button btnMainMenu;
 
@@ -80,6 +89,28 @@ public class PauseScreen extends AbstractGameScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.getScreenManager().popScreen();
+            }
+        });
+        table.row();
+
+        btnSave = new TextButton("Save game", uiSkin);
+        table.add(btnSave);
+        btnSave.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                FileHandle file = Gdx.files.local("saves/save1.save");
+                try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file.file())))) {
+
+                    Optional<GameScreen> gameScreenOpt = game.getScreenManager().getGameScreen();
+                    if (gameScreenOpt.isPresent()) {
+                        GameScreen gameScreen = gameScreenOpt.get();
+                        IGameState gameState = gameScreen.getController().getGameState();
+                        oos.writeObject(gameState);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         table.row();

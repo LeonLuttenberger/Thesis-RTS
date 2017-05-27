@@ -1,5 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.objects.units.player;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
@@ -8,6 +10,8 @@ import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 
 public class WorkerUnit extends PlayerUnit implements IBuildableUnit {
+
+    private static final long serialVersionUID = -7973754481190223624L;
 
     private static final int UNIT_WIDTH = 16;
     private static final int UNIT_HEIGHT = 32;
@@ -21,8 +25,12 @@ public class WorkerUnit extends PlayerUnit implements IBuildableUnit {
     private Resource targetResource;
 
     public WorkerUnit(ILevel level) {
-        super(Assets.getInstance().getUnits().workerAnimation, level, UNIT_WIDTH, UNIT_HEIGHT,
-                DEFAULT_SPEED, MAX_HEALTH, ATTACK_RANGE, ATTACK_POWER, ATTACK_COOLDOWN);
+        super(level, UNIT_WIDTH, UNIT_HEIGHT, DEFAULT_SPEED, MAX_HEALTH, ATTACK_RANGE, ATTACK_POWER, ATTACK_COOLDOWN);
+    }
+
+    @Override
+    public Animation<TextureRegion> loadAnimation() {
+        return Assets.getInstance().getUnits().workerAnimation;
     }
 
     @Override

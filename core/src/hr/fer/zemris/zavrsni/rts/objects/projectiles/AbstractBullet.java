@@ -8,12 +8,15 @@ import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 
 public abstract class AbstractBullet extends Projectile {
 
+    private static final long serialVersionUID = 7793220823049865454L;
+
     private static final int WIDTH = 5;
     private static final int HEIGHT = 5;
     private static final float MAX_SPEED = 8000f;
 
-    public AbstractBullet(TextureRegion region, ILevel level, IRangedAttacker<? extends AbstractGameObject> source,
-                  IDamageable<? extends AbstractGameObject> target, int attackPower) {
+    public AbstractBullet(TextureRegion region, ILevel level,
+                          IRangedAttacker<? extends AbstractGameObject> source,
+                          IDamageable<? extends AbstractGameObject> target, int attackPower) {
 
         super(region, level, source, target, attackPower);
 

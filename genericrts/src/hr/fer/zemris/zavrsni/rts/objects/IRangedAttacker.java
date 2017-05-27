@@ -2,7 +2,9 @@ package hr.fer.zemris.zavrsni.rts.objects;
 
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 
-public interface IRangedAttacker<T extends AbstractGameObject> {
+import java.io.Serializable;
+
+public interface IRangedAttacker<T extends AbstractGameObject> extends Serializable {
 
     Projectile rangedAttack(IDamageable<? extends AbstractGameObject> target);
 

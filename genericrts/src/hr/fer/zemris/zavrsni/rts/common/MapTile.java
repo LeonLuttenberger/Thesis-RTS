@@ -1,6 +1,10 @@
 package hr.fer.zemris.zavrsni.rts.common;
 
-public class MapTile {
+import java.io.Serializable;
+
+public class MapTile implements Serializable {
+
+    private static final long serialVersionUID = -2285809706571421189L;
 
     public final int x;
     public final int y;

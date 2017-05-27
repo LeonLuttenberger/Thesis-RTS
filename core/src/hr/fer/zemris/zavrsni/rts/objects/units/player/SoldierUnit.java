@@ -1,5 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.objects.units.player;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
@@ -12,6 +14,8 @@ import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 
 public class SoldierUnit extends PlayerUnit implements IBuildableUnit, IRangedAttacker<SoldierUnit> {
 
+    private static final long serialVersionUID = -4096073723947855323L;
+
     private static final int UNIT_WIDTH = 32;
     private static final int UNIT_HEIGHT = 32;
     private static final float DEFAULT_SPEED = 100;
@@ -22,8 +26,13 @@ public class SoldierUnit extends PlayerUnit implements IBuildableUnit, IRangedAt
     private static final int TRAINING_COST = 4000;
 
     public SoldierUnit(ILevel level) {
-        super(Assets.getInstance().getUnits().soldierAnimation, level, UNIT_WIDTH, UNIT_HEIGHT,
+        super(level, UNIT_WIDTH, UNIT_HEIGHT,
                 DEFAULT_SPEED, MAX_HEALTH, ATTACK_RANGE, ATTACK_POWER, ATTACK_COOLDOWN);
+    }
+
+    @Override
+    public Animation<TextureRegion> loadAnimation() {
+        return Assets.getInstance().getUnits().soldierAnimation;
     }
 
     @Override

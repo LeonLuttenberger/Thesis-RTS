@@ -8,6 +8,8 @@ import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 
 public class PlayerBullet extends AbstractBullet {
 
+    private static final long serialVersionUID = -3512121614325593610L;
+
     public PlayerBullet(ILevel level, IRangedAttacker<? extends AbstractGameObject> source,
                         IDamageable<? extends AbstractGameObject> target, int attackPower) {
 

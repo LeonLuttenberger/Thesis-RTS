@@ -2,7 +2,9 @@ package hr.fer.zemris.zavrsni.rts.objects;
 
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 
-public interface IDamageable<T extends AbstractGameObject> {
+import java.io.Serializable;
+
+public interface IDamageable<T extends AbstractGameObject> extends Serializable {
 
     int getMaxHitPoints();
 

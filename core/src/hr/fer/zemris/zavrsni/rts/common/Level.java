@@ -1,6 +1,5 @@
 package hr.fer.zemris.zavrsni.rts.common;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.AlienBaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
@@ -12,12 +11,14 @@ import java.util.List;
 
 public class Level extends AbstractTiledLevel {
 
+    private static final long serialVersionUID = 439596673197990142L;
+
     private static final String PROP_KEY_BASE = "player_base";
     private static final String PROP_KEY_ENEMY_BASE = "enemy_bases";
     private static final String PROP_KEY_ROCKS = "rocks";
 
-    public Level(TiledMap tiledMap) {
-        super(tiledMap);
+    public Level(String mapFileName) {
+        super(mapFileName);
 
         initDefaultMap();
     }

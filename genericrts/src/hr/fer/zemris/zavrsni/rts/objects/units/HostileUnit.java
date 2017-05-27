@@ -1,7 +1,5 @@
 package hr.fer.zemris.zavrsni.rts.objects.units;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
@@ -18,12 +16,14 @@ import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestPla
 
 public abstract class HostileUnit extends Unit {
 
+    private static final long serialVersionUID = 7702814648111303327L;
+
     protected final float enemyDetectionRange;
 
-    public HostileUnit(Animation<TextureRegion> animation, ILevel level, float width, float height, float defaultSpeed,
+    public HostileUnit(ILevel level, float width, float height, float defaultSpeed,
             int maxHealth, float attackRange, int attackPower, float attackCooldown, float enemyDetectionRange) {
 
-        super(animation, level, width, height, defaultSpeed, maxHealth, attackRange, attackPower, attackCooldown);
+        super(level, width, height, defaultSpeed, maxHealth, attackRange, attackPower, attackCooldown);
         this.enemyDetectionRange = enemyDetectionRange;
     }
 

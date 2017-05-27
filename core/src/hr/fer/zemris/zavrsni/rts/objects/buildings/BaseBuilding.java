@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.objects.buildings;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.MapTile;
@@ -12,15 +13,22 @@ import java.util.function.Function;
 
 public class BaseBuilding extends PlayerBuilding {
 
+    private static final long serialVersionUID = 4726698633216314701L;
+
     private static final int WIDTH = 224;
     private static final int HEIGHT = 224;
-    private static final int MAX_HIT_POINTS = 1000;
 
+    private static final int MAX_HIT_POINTS = 1000;
     private static final int TRAINING_INCREMENT = 5;
     private Queue<TrainingJob> trainingJobs = new ArrayDeque<>();
 
     public BaseBuilding(ILevel level) {
-        super(Assets.getInstance().getBuildings().manufactory, level, WIDTH, HEIGHT, MAX_HIT_POINTS);
+        super(level, WIDTH, HEIGHT, MAX_HIT_POINTS);
+    }
+
+    @Override
+    public TextureRegion loadTexture() {
+        return Assets.getInstance().getBuildings().manufactory;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.objects.buildings;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
@@ -13,10 +14,12 @@ import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestUni
 
 public class TurretBuilding extends PlayerBuilding implements IRangedAttacker<TurretBuilding> {
 
+    private static final long serialVersionUID = -2386897334967522971L;
+
     private static final int WIDTH = 80;
     private static final int HEIGHT = 128;
-    private static final int MAX_HIT_POINTS = 1000;
 
+    private static final int MAX_HIT_POINTS = 1000;
     private static final float ATTACK_COOLDOWN = 2;
     private static final int ATTACK_POWER = 20;
     private static final float ATTACK_RANGE = 300f;
@@ -24,7 +27,12 @@ public class TurretBuilding extends PlayerBuilding implements IRangedAttacker<Tu
     private float timeSinceLastAttack = 0;
 
     public TurretBuilding(ILevel level) {
-        super(Assets.getInstance().getBuildings().generator, level, WIDTH, HEIGHT, MAX_HIT_POINTS);
+        super(level, WIDTH, HEIGHT, MAX_HIT_POINTS);
+    }
+
+    @Override
+    public TextureRegion loadTexture() {
+        return Assets.getInstance().getBuildings().generator;
     }
 
     @Override

@@ -1,8 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.objects.units;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
@@ -14,11 +12,13 @@ import static hr.fer.zemris.zavrsni.rts.objects.units.MovementUtility.closestHos
 
 public abstract class PlayerUnit extends Unit {
 
+    private static final long serialVersionUID = 3711619366946194141L;
+
     private boolean isSelected = false;
 
-    public PlayerUnit(Animation<TextureRegion> animation, ILevel level, float width, float height,
+    public PlayerUnit(ILevel level, float width, float height,
                       float defaultSpeed, int maxHealth, float attackRange, int attackPower, float attackCooldown) {
-        super(animation, level, width, height, defaultSpeed, maxHealth, attackRange, attackPower, attackCooldown);
+        super(level, width, height, defaultSpeed, maxHealth, attackRange, attackPower, attackCooldown);
     }
 
     @Override
@@ -28,7 +28,6 @@ public abstract class PlayerUnit extends Unit {
 
     @Override
     public void update(float deltaTime) {
-//        MovementUtility.applyEnemySeparation(this, level.getHostileUnits());
         MovementUtility.applyFriendlySeparation(this, level.getPlayerUnits());
 
         super.update(deltaTime);
