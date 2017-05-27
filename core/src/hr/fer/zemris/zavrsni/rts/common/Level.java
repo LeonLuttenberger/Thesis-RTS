@@ -1,21 +1,23 @@
 package hr.fer.zemris.zavrsni.rts.common;
 
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.AlienBaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Level extends AbstractTiledLevel {
 
     private static final long serialVersionUID = 439596673197990142L;
 
-    private static final String PROP_KEY_BASE = "player_base";
-    private static final String PROP_KEY_ENEMY_BASE = "enemy_bases";
-    private static final String PROP_KEY_ROCKS = "rocks";
+    private static final String OBJECT_LAYER = "Object Layer";
+    private static final String RESOURCE_TILE_SET = "Objects";
+    private static final String TYPE_ID = "id";
 
     public Level(String mapFileName) {
         super(mapFileName);
@@ -23,43 +25,45 @@ public class Level extends AbstractTiledLevel {
         initDefaultMap();
     }
 
-    private List<MapTile> parseLocationProperty(String key) {
-        List<MapTile> tiles = new ArrayList<>();
-        String locations = tiledMap.getProperties().get(key, String.class);
-
-        for (String xyPair : locations.split(";")) {
-            String[] xyPairArray = xyPair.split(",");
-
-            int tileX = Integer.parseInt(xyPairArray[0]);
-            int tileY = height - Integer.parseInt(xyPairArray[1]);
-
-            tiles.add(new MapTile(tileX, tileY));
-        }
-
-        return tiles;
-    }
-
     private void initDefaultMap() {
-        initPlayerBase();
-        initEnemyBases();
-        spawnRocks();
+        MapLayer layer = tiledMap.getLayers().get(OBJECT_LAYER);
+
+        TiledMapTileSet objectTileSet = tiledMap.getTileSets().getTileSet(RESOURCE_TILE_SET);
+
+        for (MapObject mapObject : layer.getObjects()) {
+            int gid = mapObject.getProperties().get("gid", Integer.class);
+
+            TiledMapTile tile = objectTileSet.getTile(gid);
+            String typeID = tile.getProperties().get(TYPE_ID, String.class);
+
+            process(mapObject, typeID);
+        }
     }
 
-    private void initPlayerBase() {
-        List<MapTile> mapTiles = parseLocationProperty(PROP_KEY_BASE);
-        if (mapTiles.size() != 1) {
-            throw new IllegalArgumentException("Map requires exactly one player base.");
+    private void process(MapObject mapObject, String typeID) {
+        float positionX = mapObject.getProperties().get("x", Float.class);
+        float positionY = mapObject.getProperties().get("y", Float.class);
+
+        switch (typeID) {
+            case "boulder":
+                Resource rock = new ResourceBoulder(this);
+                rock.position.set(positionX, positionY);
+                addResource(rock);
+                break;
+
+            case "player_base":
+                Building playerBase = new BaseBuilding(this);
+                playerBase.position.set(positionX, positionY);
+                spawnDefaultUnits(playerBase);
+                addBuilding(playerBase);
+                break;
+
+            case "enemy_base":
+                Building alienBase = new AlienBaseBuilding(this);
+                alienBase.position.set(positionX, positionY);
+                addBuilding(alienBase);
+                break;
         }
-
-        MapTile tile = mapTiles.get(0);
-        Building base = new BaseBuilding(this);
-        base.position.x = tile.x * tileWidth;
-        base.position.y = tile.y * tileHeight;
-
-        base.addHitPoints(base.getMaxHitPoints());
-        addBuilding(base);
-
-        spawnDefaultUnits(base);
     }
 
     private void spawnDefaultUnits(Building building) {
@@ -67,29 +71,6 @@ public class Level extends AbstractTiledLevel {
         worker.position.set(building.position.x - tileWidth, building.position.y);
 
         addPlayerUnit(worker);
-    }
-
-    private void initEnemyBases() {
-        for (MapTile tile : parseLocationProperty(PROP_KEY_ENEMY_BASE)) {
-            AlienBaseBuilding base = new AlienBaseBuilding(this);
-
-            base.position.x = tile.x * tileWidth;
-            base.position.y = tile.y * tileHeight;
-
-            base.addHitPoints(base.getMaxHitPoints());
-            addBuilding(base);
-        }
-    }
-
-    private void spawnRocks() {
-        for (MapTile mapTile : parseLocationProperty(PROP_KEY_ROCKS)) {
-            ResourceBoulder rock = new ResourceBoulder(this);
-
-            rock.position.x = mapTile.x * tileWidth;
-            rock.position.y = mapTile.y * tileHeight;
-
-            addResource(rock);
-        }
     }
 
     @Override

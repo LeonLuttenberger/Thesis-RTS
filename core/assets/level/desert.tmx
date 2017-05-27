@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" nextobjectid="6">
- <properties>
-  <property name="enemy_bases" value="9,33"/>
-  <property name="player_base" value="25,12"/>
-  <property name="rocks" value="29,15;30,16;32,18;35,16;33,19"/>
- </properties>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" nextobjectid="52">
  <tileset firstgid="1" name="Desert" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="48" columns="8">
   <image source="tmw_desert_spacing.png" width="265" height="199"/>
   <terraintypes>
@@ -254,10 +249,51 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="49" name="Objects" tilewidth="224" tileheight="224" tilecount="3" columns="0">
+  <tile id="1">
+   <properties>
+    <property name="id" value="enemy_base"/>
+   </properties>
+   <image width="96" height="64" source="alien_base.png"/>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="id" value="boulder"/>
+   </properties>
+   <image width="32" height="32" source="boulder.png"/>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="id" value="player_base"/>
+   </properties>
+   <image width="224" height="224" source="manufactory.png"/>
+  </tile>
+ </tileset>
  <layer name="Terrain Layer" width="40" height="40">
   <data encoding="base64" compression="zlib">
    eJzNmOtOAjEQhasi4h013iBZV4yIt8D7P53dpJOcDNPptt1BfnwRCO0ez1w6pXHONYZcea49U+Pn5DL2nHgumb6XPdCGvhH74F/n2SS8fvA8Ak//pOnZM/PMg2fcp5WwpiTGlC+TzHWvnoXnLXhW6lNKc2mdoT7LOFG+0P8vxUXKM9S3y9qkeHMmweuL8Jr7t96RPt4fsE+g10PEV/KC1wHWx8Zt94dYn0jpS+UJ9nCtX0r1oe2t6esb41iMUAdpwJh1ny1hn6XyjBL/qI64vlEkTh9s/VLZO1ffRlmbe8ZwnX2w7n+zSn6Dvp/E9+aF+hY7otTfL2PeB4p/Se5Z5mfr5PNyaJ019dMa+kZ8hjh/h/d9Z4g2/D004Aieg+dm63RNUr89M+Ac9s+dK3k/vx2QewN9HOmsxflHm/9PQR/lNerjuS7FO6VP0oXzz1TZ5yb4eFfhn6adI80XdIavXXzGRvj9PBesL+6/Nl+MnTxXpua5XEr859pwbuMcV+rj9zaEz8FUOxj3UWRtn/2twLinnou/L9BnOTWq5WOTueeB2z4/Ss9f6Q6DeaXlSxfnlaAZ+19Kn3aniYF5pemLnfE5+kogfamcj2Gtr7bWNH2p+0mM3BzVvqvpK6XW85R/NJ+W0seXGn1DUvvbmIW+P00wq9o=
   </data>
  </layer>
- <objectgroup name="Object Layer 1"/>
+ <objectgroup name="Object Layer">
+    <object id="14" gid="52" x="800" y="384" width="224" height="224"/>
+    <object id="31" gid="51" x="992" y="544" width="32" height="32"/>
+    <object id="32" gid="51" x="1056" y="608" width="32" height="32"/>
+    <object id="33" gid="51" x="992" y="672" width="32" height="32"/>
+    <object id="34" gid="51" x="1184" y="512" width="32" height="32"/>
+    <object id="35" gid="51" x="1120" y="448" width="32" height="32"/>
+    <object id="36" gid="51" x="256" y="160" width="32" height="32"/>
+    <object id="37" gid="51" x="320" y="256" width="32" height="32"/>
+    <object id="38" gid="51" x="160" y="160" width="32" height="32"/>
+    <object id="39" gid="51" x="288" y="640" width="32" height="32"/>
+    <object id="40" gid="51" x="1152" y="640" width="32" height="32"/>
+    <object id="41" gid="51" x="1056" y="992" width="32" height="32"/>
+    <object id="42" gid="51" x="1152" y="928" width="32" height="32"/>
+    <object id="43" gid="51" x="576" y="1120" width="32" height="32"/>
+    <object id="44" gid="51" x="32" y="992" width="32" height="32"/>
+    <object id="45" gid="51" x="32" y="832" width="32" height="32"/>
+    <object id="46" gid="51" x="1184" y="544" width="32" height="32"/>
+    <object id="47" gid="50" x="192" y="1088" width="96" height="64"/>
+    <object id="48" gid="50" x="160" y="864" width="96" height="64"/>
+    <object id="50" gid="50" x="384" y="1184" width="96" height="64"/>
+ </objectgroup>
 </map>
