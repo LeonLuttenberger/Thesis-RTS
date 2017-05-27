@@ -523,12 +523,8 @@ Iscrtkanom kružnicom označena je maksimalna udaljenost s koje protivničke jed
 \chapter{Implementacija jezgrenih funkcionalnosti}\label{ch:implementation}
 
 \par Programska implementacija napisana je u programskom jeziku Java, uz uporabu besplatne biblioteke otvorenog koda \textit{LibGDX}.
-Biblioteka \textit{LibGDX} omogućava izradu mobilnih i \textit{desktop} igara koristeći istu bazu programskog koda.
-
-\par Za izradu i uređivanje mape korišten je besplatni uređivač mapa \textit{Tiled}.
-Program nudi grafičko sučelje u kojem korisnik definira izgled terena i može pridjeliti dodatne podatke za lokacije, tipove terene ili mapu općenito.
-Također nudi opciju izvoza izrađene mape u format \textit{TMX}\footnote{engl. \textit{Tiled map XML}}.
-Uvoz i prikaz mapa u navedenom formatu je podržan unutar biblioteke \textit{LibGDX}.
+Biblioteka \textit{LibGDX} omogućava izradu mobilnih i \textit{desktop} igara koristeći istu bazu programskog koda. 
+Za izradu i uređivanje mape korišten je besplatni uređivač mapa \textit{Tiled}.
 
 \par Programska implementacija izdvojena je u tri glavna modula:
 \begin{itemize}
@@ -555,17 +551,45 @@ Također je prisutno sučelje \textit{ISquad} koji predstavlja grupu jedinica i 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\linewidth]{images/uml_objects.png}
+	\includegraphics[width=0.8\linewidth]{images/umlObjects.png}
 	\caption{Hijerarhija objekata u igri}
-	\label{fig:uml_objects}
+	\label{fig:umlObjects}
 \end{figure}
 
-\par Na slici~\ref{fig:uml_objects} vidljiva je opisana hijerarhija objakta.
+\par Na slici~\ref{fig:umlObjects} vidljiva je opisana hijerarhija objekta.
 Također su vidljivi tipovi \textit{PlayerUnit} i \textit{HostileUnit}, odnosno jedinice koje su na strani igrača i računala respektivno.
 Isto to vrijedi i za tipove \textit{PlayerBuilding} i \textit{HostileBuilding}.
 Dodatno, prikazan je tip \textit{Squad} koji implementira sučelje \textit{ISquad}.
 
 \subsection{Uređivanje mape}
+
+\par Alat za uređivanje mapa \textit{Tiled} nudi grafičko sučelje u kojem korisnik definira izgled terena i može pridijeliti dodatne podatke za lokacije, tipove terene ili mapu općenito.
+Također nudi opciju izvoza izrađene mape u format \textit{TMX}\footnote{engl. \textit{Tiled map XML}}.
+Uvoz i prikaz mapa u navedenom formatu je podržan unutar biblioteke \textit{LibGDX}.
+
+\par Budući da je uređivanje mape implementirano uporabom alata \textit{Tiled} i formata \textit{TMX}, ovaj aspekt igre je većinom također neovisan o konkretnoj implementaciji.
+Mapa se sama po sebi prikazuje kao niz pločica s teksturama na 2D plohi.
+Taj dio dizajna mape može biti dijeljen između mnoštva igara iz različitih žanrova osim RTS-a.
+
+\par Međutim, za bilo kakvu interakciju s mapom, potrebne su dodatne informacije.
+Konkretno za RTS, kako bi jedinice pronašle najkraći put po mapi, igra mora pristupiti informaciji o tome gdje jedinica smije ili ne smije proći, na kojim mjestima se jedinica može kretati brže ili sporije, itd.
+Primjerice, jedinica će se brže kretati po cesti nego po pijesku.
+Jednostavni pristup za rješavanje tog problema je za svaku vrstu podloge na  terenu definirati modifikator brzine kretanja od 0 do 1.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\linewidth]{images/tileModifiers.png}
+	\caption{Prikaz modifikatora kretanja na mapi}
+	\label{fig:tileModifiers}
+\end{figure}
+
+\par Na slici~\ref{fig:tileModifiers} prikazan je primjer gdje svaka pločica na mapi ima definiran modifikator brzine kretanja ovisno o svojem materijalu.
+Žućkasta dio terena predstavlja pjesak, dok siva kamena tekstura predstavlja cestu.
+Kao što se vidi, na cesti je modifikator kretanja \(1.0\) dok je na samom pjesku brzina kretanja dvostruko manje, odnosno \(0.0\).
+Također, u gornjem lijevog kutu prikazani su grmovi kroz koje se jedinica može još sporije kretati, uz modifikator \(0.2\).
+
+\par Konačno, zadnji skup podataka koji mora biti zapisan u opisu mape su položaji konkretnih resursa, zgrada i jedinica.
+% TODO nastaviti o ovome, napisati kako je to ovisno o konkretnoj igri i opisati kako je rijeseno u ovoj igri
 
 \subsection{Kretanje jedinica}
 
