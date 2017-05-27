@@ -10,7 +10,7 @@ public abstract class AbstractBullet extends Projectile {
 
     private static final int WIDTH = 5;
     private static final int HEIGHT = 5;
-    private static final float MAX_SPEED = 500f;
+    private static final float MAX_SPEED = 8000f;
 
     public AbstractBullet(TextureRegion region, ILevel level, IRangedAttacker<? extends AbstractGameObject> source,
                   IDamageable<? extends AbstractGameObject> target, int attackPower) {
