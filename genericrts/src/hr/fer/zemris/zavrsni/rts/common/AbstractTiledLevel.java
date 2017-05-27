@@ -29,7 +29,7 @@ public abstract class AbstractTiledLevel implements ILevel {
 
     private static final String PROP_KEY_WIDTH = "width";
     private static final String PROP_KEY_HEIGHT = "height";
-    private static final String PROP_KEY_MOFIDIER = "modifier";
+    private static final String PROP_KEY_MODIFIER = "modifier";
     private static final String PROP_KEY_TILE_WIDTH = "tilewidth";
     private static final String PROP_KEY_TILE_HEIGHT = "tileheight";
 
@@ -65,7 +65,7 @@ public abstract class AbstractTiledLevel implements ILevel {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                defaultTileModifiers[i][j] = mapLayer.getCell(i, j).getTile().getProperties().get(PROP_KEY_MOFIDIER, Float.class);
+                defaultTileModifiers[i][j] = mapLayer.getCell(i, j).getTile().getProperties().get(PROP_KEY_MODIFIER, Float.class);
             }
         }
 

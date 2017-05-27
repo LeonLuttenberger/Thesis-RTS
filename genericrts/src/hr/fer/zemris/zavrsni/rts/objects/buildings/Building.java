@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
-import hr.fer.zemris.zavrsni.rts.common.IUpdateable;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 
@@ -12,7 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-public abstract class Building extends AbstractGameObject implements IUpdateable, IDamageTrackable<Building>, Serializable {
+public abstract class Building extends AbstractGameObject implements IDamageTrackable<Building>, Serializable {
 
     private static final long serialVersionUID = 8978189014327074517L;
 
