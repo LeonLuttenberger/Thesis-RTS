@@ -1,5 +1,8 @@
 package hr.fer.zemris.zavrsni.rts.common;
 
+import hr.fer.zemris.zavrsni.rts.common.map.ITiledMap;
+import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
+
 public final class LevelUtils {
 
     private LevelUtils() {}

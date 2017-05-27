@@ -1,7 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem;
 
-import hr.fer.zemris.zavrsni.rts.common.ITiledMap;
-import hr.fer.zemris.zavrsni.rts.common.MapTile;
+import hr.fer.zemris.zavrsni.rts.common.map.ITiledMap;
+import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.IModifierCachingProblem;
 
 import java.util.ArrayList;

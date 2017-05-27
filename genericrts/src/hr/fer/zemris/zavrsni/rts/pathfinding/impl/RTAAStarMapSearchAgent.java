@@ -1,7 +1,7 @@
 package hr.fer.zemris.zavrsni.rts.pathfinding.impl;
 
-import hr.fer.zemris.zavrsni.rts.common.ITiledMap;
-import hr.fer.zemris.zavrsni.rts.common.MapTile;
+import hr.fer.zemris.zavrsni.rts.common.map.ITiledMap;
+import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.pathfinding.SearchNode;
 import hr.fer.zemris.zavrsni.rts.pathfinding.SearchResult;

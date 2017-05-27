@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.common;
+package hr.fer.zemris.zavrsni.rts.common.map;
 
 import java.io.Serializable;
 

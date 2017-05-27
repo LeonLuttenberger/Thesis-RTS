@@ -4,6 +4,8 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
+import hr.fer.zemris.zavrsni.rts.common.map.AbstractTiledLevel;
+import hr.fer.zemris.zavrsni.rts.common.map.TiledMapUtils;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.AlienBaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
@@ -17,7 +19,7 @@ public class Level extends AbstractTiledLevel {
 
     private static final String OBJECT_LAYER = "Object Layer";
     private static final String RESOURCE_TILE_SET = "Objects";
-    private static final String TYPE_ID = "id";
+    private static final String TYPE_ID = "type_id";
 
     public Level(String mapFileName) {
         super(mapFileName);
@@ -27,13 +29,10 @@ public class Level extends AbstractTiledLevel {
 
     private void initDefaultMap() {
         MapLayer layer = tiledMap.getLayers().get(OBJECT_LAYER);
-
         TiledMapTileSet objectTileSet = tiledMap.getTileSets().getTileSet(RESOURCE_TILE_SET);
 
         for (MapObject mapObject : layer.getObjects()) {
-            int gid = mapObject.getProperties().get("gid", Integer.class);
-
-            TiledMapTile tile = objectTileSet.getTile(gid);
+            TiledMapTile tile = TiledMapUtils.getTileForObject(mapObject, objectTileSet);
             String typeID = tile.getProperties().get(TYPE_ID, String.class);
 
             process(mapObject, typeID);
