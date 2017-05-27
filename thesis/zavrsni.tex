@@ -123,12 +123,16 @@ Uvjeti u takvim igrama mogu biti puno bliži uvjetima u stvarnom svijetu nego č
 \section{Platformeri}
 
 \par Platformeri su jedan od starijih žanrova računalnih igara.
-One su tipično prikazane u 2D svijetu, u kojima igrač započne igru na dnu ekrana i cilj je pomoću skokova na platforme popesti se na vrh.
+One su tipično prikazane u 2D svijetu, u kojima igrač započne igru na dnu ekrana i cilj je pomoću pravovremenih skokova po platformama popesti se na vrh.
+Na putu do cilja, igrač će susresti protivničke jedinice koje je cilj izbjeći.
+
+\par Zbog ograničenosti računala u doba kada je ovaj žanr nastao, protivničke jedinice su strogo skriptirane, npr.\ beskonačno se kreću lijevo-desno po svojoj platformi.
+Kao posljedica toga, igranje ovakvih igra se pretežno svodi na predviđanje idućih događaja u igri.
 
 \chapter{RTS igre}\label{ch:rtsGames}
-RTS žanr računalnih igara temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. 
-Za razliku od ranije navedenih strategija na potez (engl. Turn-based strategy) gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. 
-U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu\cite{url:WhatDoesRTSMean}.
+\par RTS žanr računalnih igara temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. 
+Za razliku od strategija na potez (engl. Turn-based strategy) gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. 
+U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu.
 
 %TODO napisi o cemu ce sve bit poglavlje
 
@@ -154,11 +158,13 @@ Svaka igra ima skup različitih jedinica koje igrač može odabrati i izgraditi 
 Svaka vrsta jedinice može imati svoje prednosti i mane.
 Npr.\ igra može kao vrstu jedinice imati konjanika koja ima prednost brzog kretanja po mapi, no ima manu da je izrazito ranjiv na kopljanike.
 
-\par Bitno je naglasiti da dosad navedeni elementi nisu direktno ovisni jedni o drugima.
+\par Jedna od posebnosti žanra RTS je činjenica da svi dosad navedeni elementi nisu direktno ovisni jedni o drugima.
 Mapa može biti definirana izvan same igre u nekom vanjskom uređivaču mapa, dok jedinice, resursi i zgrade ne moraju ništa konkretno znati jedni o drugima.
 Jedinice će samo znati da se kreću po terenu čiji koji ima neke definirane karakteristike, te će samo znati da napada protivničke zgrade i jedinice. 
 Zgrade i resursi mogu biti definirani samo kao objekti na mapi, gdje će bilo kakva daljnja funkcionalnost ovisiti o konkretnoj igri.
-% TODO dodaj referencu na poglavlje o implementacij
+
+\par Takva struktura može omogućiti da se određene komponente iz igre višestruko iskorištavaju te da se nove funkcionalnosti mogu lakše dodavati u igru.
+Primjer ovakve strukture implementiran je u okviru ovoga rada, te su detalji više obrađeni u poglavlju~\ref{ch:implementation}.
 
 \section{Strategija}
 
@@ -243,8 +249,6 @@ Igrač započinje igru s nekoliko seljaka s kojima mora skupljati resurse kako b
 \par Tijekom razvoja igri u ovom serijalu, veliki naglasak je bio na razvoju umjetne inteligencije.
 Cilj razvojnog tima bio je napradiviti umjetnu inteligenciju koja koristi taktike i strategije za pobjediti, umjesto da dobiva dodatne resurse i jače jedinice kako bi imala bolju šansu za pobjediti igrača, kao što igre često rade.
 Dodatna sposobnost umjetne inteligencije je što se prilagođava taktikama igrača, odnosno pamti koje je igre pobjedila ili izgubila te s vremenom postaje sve bolji.
-
-\subsubsection{Command \& Conquer}
 
 \chapter{Kretanje jedinica}\label{ch:pathfinding}
 
@@ -517,6 +521,61 @@ Ovo se pravila može proširiti i da vrijedi u slučaju da je borbena jedinica o
 Iscrtkanom kružnicom označena je maksimalna udaljenost s koje protivničke jedinice mogu pucati po igračevoj zgradi, te je vidljivo kako se protivničke jedinice drže te udaljenosti.
 
 \chapter{Implementacija jezgrenih funkcionalnosti}\label{ch:implementation}
+
+\par Programska implementacija napisana je u programskom jeziku Java, uz uporabu besplatne biblioteke otvorenog koda \textit{LibGDX}.
+Biblioteka \textit{LibGDX} omogućava izradu mobilnih i \textit{desktop} igara koristeći istu bazu programskog koda.
+
+\par Za izradu i uređivanje mape korišten je besplatni uređivač mapa \textit{Tiled}.
+Program nudi grafičko sučelje u kojem korisnik definira izgled terena i može pridjeliti dodatne podatke za lokacije, tipove terene ili mapu općenito.
+Također nudi opciju izvoza izrađene mape u format \textit{TMX}\footnote{engl. \textit{Tiled map XML}}.
+Uvoz i prikaz mapa u navedenom formatu je podržan unutar biblioteke \textit{LibGDX}.
+
+\par Programska implementacija izdvojena je u tri glavna modula:
+\begin{itemize}
+	\item \textit{pathfinding}: sadrži generalizirane strukture podataka i algoritme pretrage.
+	\item \textit{genericRTS}: sadrži generične funkcionalnosti RTS igre, poput jedinica, zgrada i podsustava za kretanje jedinica.
+	\item \textit{core}: sadrži konkretan prototip RTS igre napisane koristeći prijašnja dva modula.
+\end{itemize}
+
+\section{Izdvajanje jezgrenih funkcionalnosti}
+
+\subsection{Objekti u igri}
+
+\par U paketu \textit{hr.fer.zemris.zavrsni.rts.objects} iz modula \textit{genericRTS} nalazi se apstraktni razred \textit{AbstractGameObject} koji predstavlja sve objekte u igri.
+U njemu se nalaze informacije o poziciji objekta, njegovoj veličini, vektoru kretanja, itd.
+
+\par Iz njega se izvode 4 podrazreda bitna za generičnu funkcionalnost RTS igre:
+\begin{itemize}
+	\item \textit{Building}: modelira zgradu koje se nalaze na mapi.
+	\item \textit{Resource}: modelira izvor resursa na mapi.
+	\item \textit{Projectile}: modelira projektil, poput metka, koji leti po mapi i vrši štetu nad metom koju pogodi.
+	\item \textit{Unit}: modelira jedinicu, te pozivu logiku za samostalno kretanje jedinica. 
+\end{itemize}
+Također je prisutno sučelje \textit{ISquad} koji predstavlja grupu jedinica i njegove implementacije su zadužene za zajedničko kretanje jedinca.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/uml_objects.png}
+	\caption{Hijerarhija objekata u igri}
+	\label{fig:uml_objects}
+\end{figure}
+
+\par Na slici~\ref{fig:uml_objects} vidljiva je opisana hijerarhija objakta.
+Također su vidljivi tipovi \textit{PlayerUnit} i \textit{HostileUnit}, odnosno jedinice koje su na strani igrača i računala respektivno.
+Isto to vrijedi i za tipove \textit{PlayerBuilding} i \textit{HostileBuilding}.
+Dodatno, prikazan je tip \textit{Squad} koji implementira sučelje \textit{ISquad}.
+
+\subsection{Uređivanje mape}
+
+\subsection{Kretanje jedinica}
+
+\par U modulu \textit{pathfinding} nalaze se strukture podataka za izvršenje pretrage prostora stanja.
+Primjerice, sučelje \textit{ISearchProblem} definira problem pretrage, odnosno početno stanje, provjeru krajnjeg stana i izračun idućih stanja i akcija. 
+Također su definirana sučelja \textit{IHeuristic} koji definira funkciju heuristike i \text{ISearchAlgorithm} koji definira algoritam pretrage nad problemom s definiranom heuristikom.
+
+\section{Konkretna implementacija}
+
+\section{Dodavanje novih funkcionalnosti}
 
 \chapter{Zaključak}\label{ch:conclusion}
 Zaključak.
