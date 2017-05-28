@@ -29,6 +29,8 @@ import java.util.Optional;
 
 public class PauseScreen extends AbstractGameScreen {
 
+    private static final int BUTTON_WIDTH = 250;
+
     private Stage stage;
     private Skin uiSkin;
 
@@ -84,7 +86,7 @@ public class PauseScreen extends AbstractGameScreen {
         Table table = new Table();
 
         btnContinue = new TextButton("Continue", uiSkin);
-        table.add(btnContinue);
+        table.add(btnContinue).width(BUTTON_WIDTH);
         btnContinue.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -94,7 +96,7 @@ public class PauseScreen extends AbstractGameScreen {
         table.row();
 
         btnSave = new TextButton("Save game", uiSkin);
-        table.add(btnSave);
+        table.add(btnSave).width(BUTTON_WIDTH);
         btnSave.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -116,7 +118,7 @@ public class PauseScreen extends AbstractGameScreen {
         table.row();
 
         btnSettings = new TextButton("Settings", uiSkin);
-        table.add(btnSettings);
+        table.add(btnSettings).width(BUTTON_WIDTH);
         btnSettings.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -125,8 +127,8 @@ public class PauseScreen extends AbstractGameScreen {
         });
         table.row();
 
-        btnMainMenu = new TextButton("Quit to main menu", uiSkin);
-        table.add(btnMainMenu);
+        btnMainMenu = new TextButton("Quit to menu", uiSkin);
+        table.add(btnMainMenu).width(BUTTON_WIDTH);
         btnMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

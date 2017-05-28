@@ -25,6 +25,8 @@ import java.io.ObjectInputStream;
 
 public class MenuScreen extends AbstractGameScreen {
 
+    private static final int BUTTON_WIDTH = 250;
+
     private Stage stage;
     private Skin uiSkin;
 
@@ -80,7 +82,7 @@ public class MenuScreen extends AbstractGameScreen {
         Table table = new Table();
 
         btnNewGame = new TextButton("New Game", uiSkin);
-        table.add(btnNewGame);
+        table.add(btnNewGame).width(BUTTON_WIDTH);
         btnNewGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -90,7 +92,7 @@ public class MenuScreen extends AbstractGameScreen {
         table.row();
 
         btnLoadGame = new TextButton("Load Game", uiSkin);
-        table.add(btnLoadGame);
+        table.add(btnLoadGame).width(BUTTON_WIDTH);
         btnLoadGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -109,7 +111,7 @@ public class MenuScreen extends AbstractGameScreen {
         table.row();
 
         btnSettings = new TextButton("Settings", uiSkin);
-        table.add(btnSettings);
+        table.add(btnSettings).width(BUTTON_WIDTH);
         btnSettings.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -119,7 +121,7 @@ public class MenuScreen extends AbstractGameScreen {
         table.row();
 
         btnQuitGame = new TextButton("Quit Game", uiSkin);
-        table.add(btnQuitGame);
+        table.add(btnQuitGame).width(BUTTON_WIDTH);
         btnQuitGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
