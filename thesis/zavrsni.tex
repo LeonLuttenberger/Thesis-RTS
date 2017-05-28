@@ -373,8 +373,11 @@ Heuristika je bolja ako daje više informacija, odnosno ako funkcija \(h\) vrać
 
 \section{Prilagodba na promjene}\label{sec:adaptation}
 
-\par Likovi u računalnim igrama se moraju kretati glatko bez nepotrebnih stajanja, što znači da moraju pretraživati u realnom vremenu. 
-A* sam po sebi nije prikladan za taj posao, jer broj stanja koji se moraju pretražiti raste ovisno o ukupnom broju stanja. 
+\par Likovi u računalnim igrama se moraju kretati glatko bez nepotrebnih stajanja, što znači da moraju pretraživati u realnom vremenu.
+Nakon što se pretraga izvršti, agent\footnote{objekt koji je izvršio pretragu} se mora fizički pomaknuti prema cilju.
+U međuvremenu se na mapi mogu dogoditi razne promjene na koje se agent mora znati prilagoditi.
+
+\par A* sam po sebi nije prikladan za taj posao, jer broj stanja koji se moraju pretražiti raste ovisno o ukupnom broju stanja. 
 Također, A* ne zna prepoznati promjene u prostoru stanja, poput promjena na mapi. Kada bi se prilikom dolaska u svako novo stanje algoritam A* ponovo izvrtio, u najboljem slučaju jedinice bi u svakom novom stanju zastale dok se prostor pretraži te im kretanje ne bi više bilo glatko. 
 U najgorem slučaju, čitava igre bi bila sklona čestim zaustavljanjima (engl. \textit{lag spike}).
 
@@ -447,7 +450,22 @@ Ako zabilježi bilogdje na putu, znači da mu trenutna putanja potencijalno viš
 U tom slučaju, petlja započinje ponovo s izvođenjem pretrage A*.
 Navedena petlja se ponavlja sve dok agent ne dostigne cilj ili ne shvati da put do istoga ne postoji.
 
-% TODO dodati primjer
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/rtaastar.pdf}
+	\caption{Primjer pretrage RTAA*\cite{article:RTAAStar}}
+	\label{fig:rtaastar}
+\end{figure}
+
+\par Na slici~\ref{fig:rtaastar} prikazan je primjer pretrage RTAA*.
+Maksimalni broj pretraženih stanja u ovoj pretrazi nije ograničen, kao ni maksimalni broj poteza koje agent može napravit.
+Kao i s primjerom na slici \ref{fig:pathfindingCycle}, u gornjem lijevog kutu prikazan je trošak \(g(s)\), u gornjem desnom \(h(s)\), u donjem lijevom \(f(s)\) te siva polja označavaju pretražena stanja.
+Heuristička funkcija je definirana kao zbroj horizontalne i vertikalne udaljenosti do cilja, što je poznatije pod nazivom ''Manhattan heuristika''.
+
+Nakon prve pretrage, agent se pomaknuo do pozicije \((1, 2)\) kada se na  terenu uočena iznenadna promjena: na poziciju \((2, 2)\) dodana je prepreka.
+Pošto se ta pozicija nalazi na putu do cilja, potrebno je ponoviti pretragu.
+Prva pretraga ažururala je vrijednosti heuristika \(h(n)\) za sva pretražena stanja, što se vidi u donjem lijevom kutu ćelija.
+U drugoj pretrazi, te se vrijednosti gledaju kao heurističke vrijednosti za njihova stanja, što sprijećava pretragu da se usmjeri prema prijašnjoj početnoj pozicij, odnosno \((2, 0)\).
 
 \section{Grupiranje jedinica}\label{sec:grouping}
 
@@ -669,7 +687,7 @@ Ako korisnik označi lokaciju na kojoj se zgrada ne može izgraditi, ili ako za 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\linewidth]{images/building.png}
+	\includegraphics[width=0.9\linewidth]{images/building.png}
 	\caption{Izgradnja novih zgrada u igri}
 	\label{fig:building}
 \end{figure}
