@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.world.renderers;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -21,6 +22,7 @@ public class WorldRenderer extends OrthogonalTiledMapRenderer {
     private final IGameSettings gameSettings;
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private final BitmapFont font = new BitmapFont();
 
     public WorldRenderer(RTSWorldController controller, TiledMap tiledMap, SpriteBatch spriteBatch,
                          IGameSettings gameSettings) {
@@ -38,12 +40,14 @@ public class WorldRenderer extends OrthogonalTiledMapRenderer {
         spriteBatch.begin();
         controller.getControllerState().render(spriteBatch);
         controller.getGameState().getLevel().render(spriteBatch);
+
+//        renderMapModifiers();
         spriteBatch.end();
 
         renderUnitSelection();
 
         if (gameSettings.showPathFindingRoutes()) {
-            renderPathFindingIndicators(spriteBatch);
+            renderPathFindingIndicators();
         }
     }
 
@@ -63,11 +67,11 @@ public class WorldRenderer extends OrthogonalTiledMapRenderer {
         shapeRenderer.end();
     }
 
-    private void renderPathFindingIndicators(SpriteBatch batch) {
+    private void renderPathFindingIndicators() {
         ILevel level = controller.getGameState().getLevel();
 
         Matrix4 oldProjMatrix = shapeRenderer.getProjectionMatrix();
-        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
         shapeRenderer.begin(ShapeType.Line);
 
         for (PlayerUnit unit : level.getPlayerUnits()) {
@@ -92,6 +96,24 @@ public class WorldRenderer extends OrthogonalTiledMapRenderer {
             shapeRenderer.line(previousX, previousY, x, y);
             previousX = x;
             previousY = y;
+        }
+    }
+
+    private void renderMapModifiers() {
+        ILevel level = controller.getGameState().getLevel();
+
+        for (int i = 0, xEnd = level.getWidth(); i < xEnd; i++) {
+            int x = i * level.getTileWidth();
+
+            for (int j = 0, yEnd = level.getHeight(); j < yEnd; j++) {
+                int y = j * level.getTileHeight();
+
+                float tileModifier = level.getTileModifier(i, j);
+                String string = String.format("%.1f", tileModifier);
+
+                float lineHeight = font.getLineHeight();
+                font.draw(spriteBatch, string, x + 5, y + level.getTileHeight() / 2 + lineHeight / 2);
+            }
         }
     }
 }
