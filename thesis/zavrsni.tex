@@ -599,6 +599,41 @@ Također su definirana sučelja \textit{IHeuristic} koji definira funkciju heuri
 
 \section{Konkretna implementacija}
 
+\par Uz opisanu jezgrenu funckionalnost RTS igre, izrađen je prototip jedne konkretne igre koja sadrži opisane osnovne funkcionalnosti.
+U navedenoj igri igrač započne igru sa bazom i jednim robotskim radnikom.
+Baza je okružena sa mineralima koje radnik može skupljati.
+Sa skupljenim mineralima moguće je izgraditi nove radnike, vojnike i defenzivnu građevinu koja će pucati na neprijatelje.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/gameStartScreenshot.png}
+	\caption{Početno stanje u igri}
+	\label{fig:gameStart}
+\end{figure}
+
+\par Na slici~\ref{fig:gameStart} prikazano je početno stanje pri pokretanju nove igre.
+Narančasta zgrada predstavlja igračevu bazu, te se lijevo od nje nalazi robotski radnik.
+Crne stijene desno ispod baze predstavljaju izvore minerala.
+Ikona minerala u gornjem lijevom kutu sa brojkom 0 pored nje predstavlja količinu skupljenih minerala koji dosad nisu potrošeni.
+Na dnu ekrana se također nalazi izbornik iz kojeg igrač bira na što želi trošiti resurse, te je u zagradama napisana cijena prikazanog izbora, te crveni obrub oko tipke označava nemogućnost odabira zbog manjka resursa.
+
+\par Na učitanoj mapi također su prisutne neprijateljske baze.
+One će otprilike svakih 10 sekundi stvoriti neprijateljsku jedinicu.
+Kada jedna neprijateljska baza stvori 3 jedinice, one se grupiraju i krenu u napad prema igračevoj bazi.
+Da bi se stigao pripremiti, igrač se mora čim prije moć obraniti te nakon toga krenuti u napad.
+Cilj u igri je uništiti sve neprijateljske jedinice i baze na mapi, bez da igrač izgubi vlastitu bazu. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/enemyBases.png}
+	\caption{Neprijateljske baze u igri}
+	\label{fig:enemyBases}
+\end{figure}
+
+\par Na slici~\ref{fig:enemyBases} prikazane su neprijateljske baze i dvije skupine od tri jedinica koje kreću u napad na igračevu bazu.
+
+% TODO: prikazati borbu, skupljanje resursa, izgradnju zgrada i meni-eve
+
 \section{Dodavanje novih funkcionalnosti}
 
 \chapter{Zaključak}\label{ch:conclusion}
