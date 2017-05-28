@@ -3,6 +3,7 @@ package hr.fer.zemris.zavrsni.rts.console;
 import com.strongjoshua.console.LogLevel;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.HostileBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.AlienSoldierUnit;
@@ -81,6 +82,15 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
     public void addMinerals(int minerals) {
         gameState.addResource("minerals", minerals);
         console.log("Added " + minerals + " minerals.", LogLevel.SUCCESS);
+    }
+
+    public void destroyEnemies() {
+        gameState.getLevel().getHostileUnits().forEach(h -> h.removeHitPoints(h.getCurrentHitPoints()));
+        gameState.getLevel().getBuildings().stream()
+                .filter(b -> b instanceof HostileBuilding)
+                .forEach(b -> b.removeHitPoints(b.getCurrentHitPoints()));
+
+        console.log("All enemies have been destroyed.");
     }
 
     public void mapSize() {

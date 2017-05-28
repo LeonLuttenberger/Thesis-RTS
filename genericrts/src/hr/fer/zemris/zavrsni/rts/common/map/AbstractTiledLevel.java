@@ -1,5 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.common.map;
 
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -53,7 +54,11 @@ public abstract class AbstractTiledLevel implements ILevel {
     protected final int tileHeight;
 
     public AbstractTiledLevel(String mapFileName) {
-        this.tiledMap = new TmxMapLoader().load(mapFileName);
+        TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
+        params.textureMagFilter = TextureFilter.Nearest;
+        params.textureMinFilter = TextureFilter.Nearest;
+
+        this.tiledMap = new TmxMapLoader().load(mapFileName, params);
         this.mapFileName = mapFileName;
 
         width = tiledMap.getProperties().get(PROP_KEY_WIDTH, Integer.class);

@@ -135,6 +135,8 @@ public class Squad implements ISquad {
         stopSearch();
 
         squadLeader = closestUnitInRange(x, y, squadMembers, Float.POSITIVE_INFINITY);
+        if (squadLeader == null) return;
+
         squadLeader.sendToDestination(x, y);
 
         destinationX = x;

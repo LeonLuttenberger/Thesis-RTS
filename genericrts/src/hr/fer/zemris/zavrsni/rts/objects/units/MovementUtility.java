@@ -22,7 +22,7 @@ public final class MovementUtility {
     public static final float COHESION_WEIGHT = 0.5f;
     public static final float ALIGNMENT_WEIGHT = 10;
     public static final float GOAL_WEIGHT = 0.5f;
-    public static final float SQUAD_SEPARATION_WEIGHT = 3;
+    public static final float SQUAD_SEPARATION_WEIGHT = 5;
     public static final float ENEMY_SEPARATION_WEIGHT = 20;
     public static final float TERRAIN_SEPARATION_WEIGHT = 5;
 

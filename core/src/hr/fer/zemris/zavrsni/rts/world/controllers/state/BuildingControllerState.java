@@ -64,7 +64,10 @@ public class BuildingControllerState extends ControllerStateAdapter {
     public void render(SpriteBatch batch) {
         Color oldColor = batch.getColor();
 
-        if (BuildingCosts.getCostFor(template.getClass()).isSatisfied(controller.getGameState())) {
+        IGameState gameState = controller.getGameState();
+        boolean isCostSatisfied = BuildingCosts.getCostFor(template.getClass()).isSatisfied(gameState);
+
+        if (isCostSatisfied && gameState.getLevel().canPlaceObject(template)) {
             batch.setColor(1, 1, 1, 0.5f);
         } else {
             batch.setColor(1, 0, 0, 0.5f);
