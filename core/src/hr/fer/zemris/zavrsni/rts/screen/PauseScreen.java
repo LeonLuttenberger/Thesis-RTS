@@ -13,7 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
@@ -32,11 +35,14 @@ public class PauseScreen extends AbstractGameScreen {
     private Skin uiSkin;
 
     // menu
+    private Table layerNavigation;
     private Image imgBackground;
     private Button btnContinue;
     private Button btnSave;
     private Button btnSettings;
     private Button btnMainMenu;
+
+    private Window layerSaveGame;
 
     public PauseScreen(ScreenManagedGame game, IGameSettings gameSettings) {
         super(game, gameSettings);
@@ -56,7 +62,11 @@ public class PauseScreen extends AbstractGameScreen {
 
         // build all layers
         Table layerBackground = buildBackgroundLayer();
-        Table layerNavigation = buildMenuNavigation();
+        layerNavigation = buildMenuNavigation();
+
+        layerSaveGame = new Window(LocalizationBundle.getInstance().getKey(BundleKeys.SAVE_GAME), uiSkin);
+        layerSaveGame.getTitleLabel().setAlignment(Align.center);
+        layerSaveGame.setVisible(false);
 
         // assemble stage for menu screen
         stage.clear();
@@ -66,6 +76,7 @@ public class PauseScreen extends AbstractGameScreen {
         stack.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stack.add(layerBackground);
         stack.add(layerNavigation);
+        stack.add(layerSaveGame);
     }
 
     private Table buildBackgroundLayer() {
@@ -99,12 +110,44 @@ public class PauseScreen extends AbstractGameScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Optional<GameScreen> gameScreenOpt = game.getScreenManager().getGameScreen();
-                if (gameScreenOpt.isPresent()) {
-                    GameScreen gameScreen = gameScreenOpt.get();
-                    IGameState gameState = gameScreen.getController().getGameState();
+                if (!gameScreenOpt.isPresent()) return;
 
-                    SaveGameUtils.saveGame("save1", gameState);
-                }
+                GameScreen gameScreen = gameScreenOpt.get();
+                IGameState gameState = gameScreen.getController().getGameState();
+
+                layerSaveGame.clear();
+
+                TextField tfSave = new TextField("", uiSkin);
+                layerSaveGame.add(tfSave).width(BUTTON_WIDTH);
+                layerSaveGame.row();
+
+                Button btnConfirm = new TextButton(bundle.getKey(BundleKeys.SAVE), uiSkin);
+                layerSaveGame.add(btnConfirm).width(BUTTON_WIDTH);
+                btnConfirm.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        if (tfSave.getText().isEmpty()) return;
+
+                        SaveGameUtils.saveGame(tfSave.getText(), gameState);
+                        layerSaveGame.setVisible(false);
+                        layerNavigation.setVisible(true);
+                    }
+                });
+                layerSaveGame.row();
+
+                Button btnBack = new TextButton(bundle.getKey(BundleKeys.CANCEL), uiSkin);
+                layerSaveGame.add(btnBack).width(BUTTON_WIDTH);
+                btnBack.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        layerSaveGame.setVisible(false);
+                        layerNavigation.setVisible(true);
+                    }
+                });
+                layerSaveGame.row();
+
+                layerSaveGame.setVisible(true);
+                layerNavigation.setVisible(false);
             }
         });
         table.row();

@@ -57,7 +57,10 @@ public class MenuScreen extends AbstractGameScreen {
         // build all layers
         Table layerBackground = buildBackgroundLayer();
         layerNavigation = buildMenuNavigation();
+
         layerLoadSave = new Window(LocalizationBundle.getInstance().getKey(BundleKeys.LOAD_GAME), uiSkin);
+        layerLoadSave.getTitleLabel().setAlignment(Align.center);
+        layerLoadSave.setVisible(false);
 
         // assemble stage for menu screen
         stage.clear();
@@ -68,9 +71,6 @@ public class MenuScreen extends AbstractGameScreen {
         stack.add(layerBackground);
         stack.add(layerNavigation);
         stack.add(layerLoadSave);
-
-        layerLoadSave.getTitleLabel().setAlignment(Align.center);
-        layerLoadSave.setVisible(false);
     }
 
     private Table buildBackgroundLayer() {

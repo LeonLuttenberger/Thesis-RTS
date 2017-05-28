@@ -44,7 +44,7 @@ public final class SaveGameUtils {
     }
 
     public static void saveGame(String saveName, IGameState gameState) {
-        FileHandle file = Gdx.files.local(saveName);
+        FileHandle file = Gdx.files.local(SAVE_DIR + saveName + SAVE_EXTENSION);
         try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file.file())))) {
 
             oos.writeObject(gameState);
