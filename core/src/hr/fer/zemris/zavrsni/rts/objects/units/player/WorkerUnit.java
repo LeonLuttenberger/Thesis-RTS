@@ -22,6 +22,8 @@ public class WorkerUnit extends PlayerUnit implements IBuildableUnit {
     private static final float ATTACK_COOLDOWN = 1;
     private static final int TRAINING_COST = 6000;
 
+    private static final float RESOURCE_DETECTION_RANGE = 100;
+
     private Resource targetResource;
 
     public WorkerUnit(ILevel level) {
@@ -56,6 +58,23 @@ public class WorkerUnit extends PlayerUnit implements IBuildableUnit {
 
     private void gatherResource() {
         targetResource.removeHitPoints(1);
+
+        if (targetResource.isDestroyed()) {
+
+            // set new target
+            Resource closestResource = null;
+            float minDistance = Float.POSITIVE_INFINITY;
+
+            for (Resource resource : level.getResources()) {
+                float distance = AbstractGameObject.distanceBetween(this, resource);
+                if (distance < RESOURCE_DETECTION_RANGE && distance < minDistance) {
+                    closestResource = resource;
+                    minDistance = distance;
+                }
+            }
+
+            targetResource = closestResource;
+        }
     }
 
     @Override
