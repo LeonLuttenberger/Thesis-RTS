@@ -1,7 +1,6 @@
 package hr.fer.zemris.zavrsni.rts.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,7 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
@@ -19,11 +20,6 @@ import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.localization.BundleKeys;
 import hr.fer.zemris.zavrsni.rts.localization.LocalizationBundle;
-
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 public class MenuScreen extends AbstractGameScreen {
 
@@ -33,11 +29,14 @@ public class MenuScreen extends AbstractGameScreen {
     private Skin uiSkin;
 
     // menu
+    private Table layerNavigation;
     private Image imgBackground;
     private Button btnNewGame;
     private Button btnLoadGame;
     private Button btnSettings;
     private Button btnQuitGame;
+
+    private Window layerLoadSave;
 
     public MenuScreen(ScreenManagedGame game, IGameSettings gameSettings) {
         super(game, gameSettings);
@@ -57,7 +56,8 @@ public class MenuScreen extends AbstractGameScreen {
 
         // build all layers
         Table layerBackground = buildBackgroundLayer();
-        Table layerNavigation = buildMenuNavigation();
+        layerNavigation = buildMenuNavigation();
+        layerLoadSave = new Window(LocalizationBundle.getInstance().getKey(BundleKeys.LOAD_GAME), uiSkin);
 
         // assemble stage for menu screen
         stage.clear();
@@ -67,6 +67,10 @@ public class MenuScreen extends AbstractGameScreen {
         stack.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stack.add(layerBackground);
         stack.add(layerNavigation);
+        stack.add(layerLoadSave);
+
+        layerLoadSave.getTitleLabel().setAlignment(Align.center);
+        layerLoadSave.setVisible(false);
     }
 
     private Table buildBackgroundLayer() {
@@ -100,16 +104,38 @@ public class MenuScreen extends AbstractGameScreen {
         btnLoadGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                FileHandle file = Gdx.files.local("saves/save1.save");
-                try (ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file.file())))) {
+                layerLoadSave.clear();
 
-                    IGameState gameState = (IGameState) ois.readObject();
+                for (String save : SaveGameUtils.showSaves()) {
+                    final String s = save;
 
-                    game.screenManager.pushGameScreen(gameState);
-
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
+                    Button btnLoadSave = new TextButton(save, uiSkin);
+                    layerLoadSave.add(btnLoadSave).width(BUTTON_WIDTH);
+                    btnLoadSave.addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            IGameState gameState = SaveGameUtils.loadSave(s);
+                            if (gameState != null) {
+                                game.screenManager.pushGameScreen(gameState);
+                            }
+                        }
+                    });
+                    layerLoadSave.row();
                 }
+
+                Button btnBack = new TextButton(bundle.getKey(BundleKeys.CANCEL), uiSkin);
+                layerLoadSave.add(btnBack).width(BUTTON_WIDTH);
+                btnBack.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        layerLoadSave.setVisible(false);
+                        layerNavigation.setVisible(true);
+                    }
+                });
+                layerLoadSave.row();
+
+                layerLoadSave.setVisible(true);
+                layerNavigation.setVisible(false);
             }
         });
         table.row();
