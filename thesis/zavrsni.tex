@@ -599,12 +599,15 @@ Također su definirana sučelja \textit{IHeuristic} koji definira funkciju heuri
 
 \section{Konkretna implementacija}
 
-\par Uz opisanu jezgrenu funckionalnost RTS igre, izrađen je prototip jedne konkretne igre koja sadrži opisane osnovne funkcionalnosti.
-U navedenoj igri igrač započne igru sa bazom i jednim robotskim radnikom.
-Baza je okružena sa mineralima koje radnik može skupljati.
+\par Uz opisanu jezgrenu funkcionalnost RTS igre, izrađen je prototip jedne konkretne igre koja sadrži opisane osnovne funkcionalnosti.
+U navedenoj igri igrač započne igru s bazom i jednim robotskim radnikom.
+Baza je okružena s mineralima koje radnik može skupljati.
 Sa skupljenim mineralima moguće je izgraditi nove radnike, vojnike i defenzivnu građevinu koja će pucati na neprijatelje.
 
-% Nešto o davanju naradbi
+% Nešto o davanju naredbi
+\par Jedinice se u igri odabiru tako da igrač povuće lijevi klik miša, što se vizualizira pravokutnikom koji predstavlja označeno područje, čime se označavaju sve jedinice unutar tog pravokutnika.
+Igrač zatim zadaje naredbe jedinicama koje su trenutno označene tako da klikne na proizvoljnu poziciju na mapi s desnim klikom miša.
+Označene jedinice će se zatim grupirati ako su dovoljno blizu i krenuti zajedno prema cilju.
 
 \begin{figure}[h]
 	\centering
@@ -616,7 +619,7 @@ Sa skupljenim mineralima moguće je izgraditi nove radnike, vojnike i defenzivnu
 \par Na slici~\ref{fig:gameStart} prikazano je početno stanje pri pokretanju nove igre.
 Narančasta zgrada predstavlja igračevu bazu, te se lijevo od nje nalazi robotski radnik.
 Crne stijene desno ispod baze predstavljaju izvore minerala.
-Ikona minerala u gornjem lijevom kutu sa brojkom 0 pored nje predstavlja količinu skupljenih minerala koji dosad nisu potrošeni.
+Ikona minerala u gornjem lijevom kutu s brojkom 0 pored nje predstavlja količinu skupljenih minerala koji dosad nisu potrošeni.
 Na dnu ekrana se također nalazi izbornik iz kojeg igrač bira na što želi trošiti resurse, te je u zagradama napisana cijena prikazanog izbora, te crveni obrub oko tipke označava nemogućnost odabira zbog manjka resursa.
 
 \par Na učitanoj mapi također su prisutne neprijateljske baze.
@@ -636,7 +639,7 @@ Cilj u igri je uništiti sve neprijateljske jedinice i baze na mapi, bez da igra
 
 \par Borba započinje kada se igračeva jedinica nađe u dometu protivničke jedinice, ili suprotno.
 Čim se dvije jedinice s različitih strana nađu u blizi, one počnu pucati jedna na drugu.
-Protivničke jedinice koriste hibribnu navigaciju opisanu u potpoglavlju~\ref{ssec:hybrid}, odnosno nastoje se držati na maksimalnoj udaljenosti od igračevih jedinica na kojoj mogu i dalje pucati, najčešće formirajući polukrug oko navedene mete.
+Protivničke jedinice koriste hibridnu navigaciju opisanu u potpoglavlju~\ref{ssec:hybrid}, odnosno nastoje se držati na maksimalnoj udaljenosti od igračevih jedinica na kojoj mogu i dalje pucati, najčešće formirajući polukrug oko navedene mete.
 
 \begin{figure}[h]
 	\centering
@@ -652,15 +655,26 @@ Iznad svake jedinice i zgrade nalazi se crta koja označava njihovo trenutno ''z
 Puna zelena crta označava da jedinica ili zgrada nije ozlijeđena, dok crvena skoro prazna crta znači da je jedinica pred smrti.
 Također je vidljivo da igračeve jedinice pucaju plave metke, dok protivničke jedinice pucaju crvene.
 
-% TODO: prikazati borbu, skupljanje resursa, izgradnju zgrada i meni-eve
 \par Resursi u igri se skupljaju tako da igrač odabere radnika i naredi mu da se skuplja određeni izvor resursa, odnosno izvor minerala.
-Naredba za skupljanje se zadaje tako da se stijena klikne s desnim klikom miša sa izabranim radnikom.
-Radnik će zatim pronaći put do navedenog resursa i počet ga skupljati kada mu dođe u blizinu.
-Nakon što se resurs skupi, odgovarajuća količina minerala biti će dodana igraču.
-Također, ako u blizini postoje ostali izvori materijala, radnik će ih samoinicijativno krenut skupljati.
-Bez ove mogućnosti, radnici bi zahtijevali previše mikroupravljanja te bi igrač redovito morao skretati pozornost sa bitke samo kako bi zadao jednostavnu naredbu radniku.
+Naredba za skupljanje se zadaje tako da se stijena klikne s desnim klikom miša s izabranim radnikom.
+Radnik će zatim pronaći put do navedenog resursa i početi ga skupljati kada mu dođe u blizinu.
+Nakon što se resurs skupi, odgovarajuća količina minerala bit će dodana igraču.
+Također, ako u blizini postoje ostali izvori materijala, radnik će ih samoinicijativno krenuti skupljati.
+Bez ove mogućnosti, radnici bi zahtijevali previše mikroupravljanja te bi igrač redovito morao skretati pozornost s bitke samo kako bi zadao jednostavnu naredbu radniku.
 
+\par Kada je skupljeno dovoljno minerala za izgraditi zgradu, igrač može klikom na gumb \textit{Turret (100)} izabrati da želi izgraditi navedenu zgradu.
+Time će se pojaviti silueta zgrade koja prati lokaciju koju miš označuje na mapi, kao što je prikazano na slici~\ref{fig:building}.
+Korisnikovim klikom na lokaciju na mapi će zgrada biti izgrađena na tom mjestu, ako je moguće.
+Ako korisnik označi lokaciju na kojoj se zgrada ne može izgraditi, ili ako za izgradnju zgrade nisu dostupni resursi, silueta zgrade će biti crvena.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/building.png}
+	\caption{Izgradnja novih zgrada u igri}
+	\label{fig:building}
+\end{figure}
+
+% meni-evi
 
 \section{Dodavanje novih funkcionalnosti}
 
