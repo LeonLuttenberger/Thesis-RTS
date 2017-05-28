@@ -13,6 +13,8 @@ public class GameSettings implements IGameSettings {
     private static final String KEY_RESOURCE_HEALTH_BAR = "showResourceHealthBar";
     private static final String KEY_BUILDING_HEALTH_BAR = "showBuildingHealthBar";
 
+    private static final String KEY_LOCALE_TAG = "localeTag";
+
     private boolean showFPSCounter = false;
     private boolean showPathfindingRoutes = false;
 
@@ -20,6 +22,8 @@ public class GameSettings implements IGameSettings {
     private boolean showHostileUnitHealthBars = true;
     private boolean showResourceHealthBars = false;
     private boolean showBuildingHealthBars = true;
+
+    private String localeTag = "en_US";
 
     private final Preferences preferences;
 
@@ -35,6 +39,8 @@ public class GameSettings implements IGameSettings {
         showHostileUnitHealthBars = preferences.getBoolean(KEY_HOSTILE_HEALTH_BAR, true);
         showResourceHealthBars = preferences.getBoolean(KEY_RESOURCE_HEALTH_BAR, false);
         showBuildingHealthBars = preferences.getBoolean(KEY_BUILDING_HEALTH_BAR, true);
+
+        localeTag = preferences.getString(KEY_LOCALE_TAG, localeTag);
     }
 
     @Override
@@ -45,6 +51,8 @@ public class GameSettings implements IGameSettings {
         preferences.putBoolean(KEY_HOSTILE_HEALTH_BAR, showHostileUnitHealthBars);
         preferences.putBoolean(KEY_RESOURCE_HEALTH_BAR, showResourceHealthBars);
         preferences.putBoolean(KEY_BUILDING_HEALTH_BAR, showBuildingHealthBars);
+
+        preferences.putString(KEY_LOCALE_TAG, localeTag);
 
         preferences.flush();
     }
@@ -107,5 +115,15 @@ public class GameSettings implements IGameSettings {
     @Override
     public void setShowPathFindingRoutes(boolean showPathFindingRoutes) {
         this.showPathfindingRoutes = showPathFindingRoutes;
+    }
+
+    @Override
+    public String getLocaleTag() {
+        return localeTag;
+    }
+
+    @Override
+    public void setLocaleTag(String localeTag) {
+        this.localeTag = localeTag;
     }
 }

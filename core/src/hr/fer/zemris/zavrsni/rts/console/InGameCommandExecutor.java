@@ -90,7 +90,7 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
                 .filter(b -> b instanceof HostileBuilding)
                 .forEach(b -> b.removeHitPoints(b.getCurrentHitPoints()));
 
-        console.log("All enemies have been destroyed.");
+        console.log("All enemies have been destroyed.", LogLevel.SUCCESS);
     }
 
     public void mapSize() {

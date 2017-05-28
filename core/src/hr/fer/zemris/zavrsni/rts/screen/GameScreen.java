@@ -31,6 +31,8 @@ import hr.fer.zemris.zavrsni.rts.common.Level;
 import hr.fer.zemris.zavrsni.rts.common.costs.BuildingCosts;
 import hr.fer.zemris.zavrsni.rts.common.costs.UnitCosts;
 import hr.fer.zemris.zavrsni.rts.common.map.AbstractTiledLevel;
+import hr.fer.zemris.zavrsni.rts.localization.BundleKeys;
+import hr.fer.zemris.zavrsni.rts.localization.LocalizationBundle;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.TurretBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
@@ -145,7 +147,10 @@ public class GameScreen extends AbstractGameScreen {
         );
 
         IGameState gameState = controller.getGameState();
-        Button btnBuildSoldier = new BuildButton(uiSkin, "Soldier", UnitCosts.getCostFor(SoldierUnit.class), gameState);
+        LocalizationBundle bundle = LocalizationBundle.getInstance();
+
+        Button btnBuildSoldier = new BuildButton(uiSkin, bundle.getKey(BundleKeys.SOLDIER),
+                UnitCosts.getCostFor(SoldierUnit.class), gameState);
         btnBuildSoldier.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -153,7 +158,8 @@ public class GameScreen extends AbstractGameScreen {
             }
         });
 
-        Button btnWorker = new BuildButton(uiSkin, "Worker", UnitCosts.getCostFor(WorkerUnit.class), gameState);
+        Button btnWorker = new BuildButton(uiSkin, bundle.getKey(BundleKeys.WORKER),
+                UnitCosts.getCostFor(WorkerUnit.class), gameState);
         btnWorker.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -161,7 +167,8 @@ public class GameScreen extends AbstractGameScreen {
             }
         });
 
-        Button btnBuildTurret = new BuildButton(uiSkin, "Turret", BuildingCosts.getCostFor(TurretBuilding.class), gameState);
+        Button btnBuildTurret = new BuildButton(uiSkin, bundle.getKey(BundleKeys.TURRET),
+                BuildingCosts.getCostFor(TurretBuilding.class), gameState);
         btnBuildTurret.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

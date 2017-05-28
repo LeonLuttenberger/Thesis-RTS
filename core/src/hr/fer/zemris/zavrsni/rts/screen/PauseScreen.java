@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
+import hr.fer.zemris.zavrsni.rts.localization.BundleKeys;
+import hr.fer.zemris.zavrsni.rts.localization.LocalizationBundle;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -29,7 +31,7 @@ import java.util.Optional;
 
 public class PauseScreen extends AbstractGameScreen {
 
-    private static final int BUTTON_WIDTH = 250;
+    private static final int BUTTON_WIDTH = 280;
 
     private Stage stage;
     private Skin uiSkin;
@@ -84,8 +86,9 @@ public class PauseScreen extends AbstractGameScreen {
 
     private Table buildMenuNavigation() {
         Table table = new Table();
+        LocalizationBundle bundle = LocalizationBundle.getInstance();
 
-        btnContinue = new TextButton("Continue", uiSkin);
+        btnContinue = new TextButton(bundle.getKey(BundleKeys.CONTINUE), uiSkin);
         table.add(btnContinue).width(BUTTON_WIDTH);
         btnContinue.addListener(new ChangeListener() {
             @Override
@@ -95,7 +98,7 @@ public class PauseScreen extends AbstractGameScreen {
         });
         table.row();
 
-        btnSave = new TextButton("Save game", uiSkin);
+        btnSave = new TextButton(bundle.getKey(BundleKeys.SAVE_GAME), uiSkin);
         table.add(btnSave).width(BUTTON_WIDTH);
         btnSave.addListener(new ChangeListener() {
             @Override
@@ -117,7 +120,7 @@ public class PauseScreen extends AbstractGameScreen {
         });
         table.row();
 
-        btnSettings = new TextButton("Settings", uiSkin);
+        btnSettings = new TextButton(bundle.getKey(BundleKeys.SETTINGS), uiSkin);
         table.add(btnSettings).width(BUTTON_WIDTH);
         btnSettings.addListener(new ChangeListener() {
             @Override
@@ -127,7 +130,7 @@ public class PauseScreen extends AbstractGameScreen {
         });
         table.row();
 
-        btnMainMenu = new TextButton("Quit to menu", uiSkin);
+        btnMainMenu = new TextButton(bundle.getKey(BundleKeys.BACK_TO_MENU), uiSkin);
         table.add(btnMainMenu).width(BUTTON_WIDTH);
         btnMainMenu.addListener(new ChangeListener() {
             @Override

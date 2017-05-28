@@ -22,4 +22,7 @@ public interface IGameSettings {
 
     boolean showPathFindingRoutes();
     void setShowPathFindingRoutes(boolean showPathFindingRoutes);
+
+    String getLocaleTag();
+    void setLocaleTag(String localeTag);
 }

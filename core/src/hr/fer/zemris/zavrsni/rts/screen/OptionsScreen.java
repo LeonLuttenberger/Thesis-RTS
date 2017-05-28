@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
+import hr.fer.zemris.zavrsni.rts.localization.BundleKeys;
+import hr.fer.zemris.zavrsni.rts.localization.LocalizationBundle;
 
 public class OptionsScreen extends AbstractGameScreen {
 
@@ -35,6 +38,8 @@ public class OptionsScreen extends AbstractGameScreen {
     private CheckBox checkHostileHealthBars;
     private CheckBox checkResourceHealthBars;
     private CheckBox checkBuildingHealthBars;
+
+    private SelectBox<String> selectLanguages;
 
     public OptionsScreen(ScreenManagedGame game, IGameSettings gameSettings) {
         super(game, gameSettings);
@@ -80,7 +85,7 @@ public class OptionsScreen extends AbstractGameScreen {
     }
 
     private Window buildOptionsWindowLayer() {
-        Window window = new Window("Settings", uiSkin);
+        Window window = new Window(LocalizationBundle.getInstance().getKey(BundleKeys.SETTINGS), uiSkin);
         window.getTitleLabel().setAlignment(Align.center);
 
         window.add(buildOptionWindow()).row();
@@ -94,39 +99,46 @@ public class OptionsScreen extends AbstractGameScreen {
 
     private Table buildOptionWindow() {
         Table table = new Table();
+        LocalizationBundle bundle = LocalizationBundle.getInstance();
 
         table.pad(10, 10, 0, 10);
         table.columnDefaults(0).padRight(10);
         table.columnDefaults(1).padRight(10);
 
         checkFPS = new CheckBox("", uiSkin);
-        table.add(new Label("FPS Counter", uiSkin));
+        table.add(new Label(bundle.getKey(BundleKeys.FPS_COUNTER), uiSkin));
         table.add(checkFPS);
         table.row();
 
         checkPathfindingRoutes = new CheckBox("", uiSkin);
-        table.add(new Label("Pathfinding routes", uiSkin));
+        table.add(new Label(bundle.getKey(BundleKeys.PATHFINDING_ROUTES), uiSkin));
         table.add(checkPathfindingRoutes);
         table.row();
 
         checkPlayerHealthBars = new CheckBox("", uiSkin);
-        table.add(new Label("Player unit health bars", uiSkin));
+        table.add(new Label(bundle.getKey(BundleKeys.PLAYER_HEALTH_BAR), uiSkin));
         table.add(checkPlayerHealthBars);
         table.row();
 
         checkHostileHealthBars = new CheckBox("", uiSkin);
-        table.add(new Label("Hostile unit health bars", uiSkin));
+        table.add(new Label(bundle.getKey(BundleKeys.HOSTILE_HEALTH_BAR), uiSkin));
         table.add(checkHostileHealthBars);
         table.row();
 
         checkResourceHealthBars = new CheckBox("", uiSkin);
-        table.add(new Label("Resource health bars", uiSkin));
+        table.add(new Label(bundle.getKey(BundleKeys.RESOURCE_HEALTH_BAR), uiSkin));
         table.add(checkResourceHealthBars);
         table.row();
 
         checkBuildingHealthBars = new CheckBox("", uiSkin);
-        table.add(new Label("Building health bars", uiSkin));
+        table.add(new Label(bundle.getKey(BundleKeys.BUILDING_HEALTH_BAR), uiSkin));
         table.add(checkBuildingHealthBars);
+        table.row();
+
+        selectLanguages = new SelectBox<>(uiSkin);
+        selectLanguages.setItems("en", "hr");
+        table.add(new Label(bundle.getKey(BundleKeys.LANGUAGE), uiSkin));
+        table.add(selectLanguages);
         table.row();
 
         return table;
@@ -134,8 +146,9 @@ public class OptionsScreen extends AbstractGameScreen {
 
     private Table buildOptWinButtons() {
         Table table = new Table();
+        LocalizationBundle bundle = LocalizationBundle.getInstance();
 
-        btnSaveSettings = new TextButton("Save", uiSkin);
+        btnSaveSettings = new TextButton(bundle.getKey(BundleKeys.SAVE), uiSkin);
         table.add(btnSaveSettings);
         btnSaveSettings.addListener(new ChangeListener() {
             @Override
@@ -144,7 +157,7 @@ public class OptionsScreen extends AbstractGameScreen {
             }
         });
 
-        btnCancelSettings = new TextButton("Cancel", uiSkin);
+        btnCancelSettings = new TextButton(bundle.getKey(BundleKeys.CANCEL), uiSkin);
         table.add(btnCancelSettings);
         btnCancelSettings.addListener(new ChangeListener() {
             @Override
@@ -165,6 +178,7 @@ public class OptionsScreen extends AbstractGameScreen {
         checkHostileHealthBars.setChecked(gameSettings.showHostileUnitHealthBars());
         checkResourceHealthBars.setChecked(gameSettings.showResourceHealthBars());
         checkBuildingHealthBars.setChecked(gameSettings.showBuildingHealthBars());
+        selectLanguages.setSelected(gameSettings.getLocaleTag());
     }
 
     private void saveSettings() {
@@ -174,8 +188,11 @@ public class OptionsScreen extends AbstractGameScreen {
         gameSettings.setShowHostileUnitHealthBars(checkHostileHealthBars.isChecked());
         gameSettings.setShowResourceHealthBars(checkResourceHealthBars.isChecked());
         gameSettings.setShowBuildingHealthBars(checkBuildingHealthBars.isChecked());
+        gameSettings.setLocaleTag(selectLanguages.getSelected());
 
         gameSettings.save();
+
+        LocalizationBundle.getInstance().loadLocale(gameSettings);
     }
 
     private void onSaveClicked() {

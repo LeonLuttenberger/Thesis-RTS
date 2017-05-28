@@ -10,6 +10,7 @@ import com.strongjoshua.console.GUIConsole;
 import hr.fer.zemris.zavrsni.rts.assets.Assets;
 import hr.fer.zemris.zavrsni.rts.console.InGameCommandExecutor;
 import hr.fer.zemris.zavrsni.rts.console.MyRTSCommandExecutor;
+import hr.fer.zemris.zavrsni.rts.localization.LocalizationBundle;
 import hr.fer.zemris.zavrsni.rts.screen.GameScreen;
 import hr.fer.zemris.zavrsni.rts.screen.MenuScreen;
 import hr.fer.zemris.zavrsni.rts.screen.ScreenManagedGame;
@@ -24,7 +25,11 @@ public class MyRTS extends ScreenManagedGame {
 		
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
-		Assets.getInstance().init(new AssetManager());
+		AssetManager assetManager = new AssetManager();
+		Assets.getInstance().init(assetManager);
+
+		LocalizationBundle.getInstance().init(assetManager);
+		LocalizationBundle.getInstance().loadLocale(settings);
 
 		cheatConsole = new GUIConsole();
 		cheatConsole.setSizePercent(100, 33);
@@ -59,6 +64,7 @@ public class MyRTS extends ScreenManagedGame {
 	@Override
 	public void dispose() {
 		Assets.getInstance().dispose();
+		LocalizationBundle.getInstance().dispose();
 		cheatConsole.dispose();
 	}
 
