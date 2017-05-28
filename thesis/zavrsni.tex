@@ -464,7 +464,7 @@ Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj 
 
 % TODO this isn't finished
 
-\subsection{Algoritam \textit{Boids}}
+\subsection{Algoritam \textit{Boids}}\label{ssec:boids}
 
 \par Kada se jedinice grupiraju, njihovo kretanje prema cilju mora biti zajedničko.
 Kada bi prilikom zadavanja cilja grupi jedinica za svaku jedinicu pokrenuli algoritam A*, oni bi se kretali neovisni jedni o drugima. 
@@ -499,7 +499,7 @@ Na crtežu za odvojenost na trenutni trokut djeluju dva trokuta iznad njega, št
 U crtežu za poravnatost vektor smjera usmjeruje se prema smjeru prema kojem ostale jedinice putuju. 
 U zadnjem crtežu vidi se primjer kohezije, odnosno smjer trenutnog trokut se zakreće prema prosječnoj poziciji ostalih trokuta u radiusu.
 
-\subsection{Hibridna navigacija}
+\subsection{Hibridna navigacija}\label{ssec:hybrid}
 
 \par Uz pomoć algoritma A* i algoritma \textit{Boids} postignuta je mogućnost kretanja skupine jedinica zajedno po mapi.
 Sljedeća ideja je proširiti algoritam \textit{Boids} kako bi mogao rješavati problem taktičkog pozicioniranja jedinica u borbi.
@@ -604,9 +604,11 @@ U navedenoj igri igrač započne igru sa bazom i jednim robotskim radnikom.
 Baza je okružena sa mineralima koje radnik može skupljati.
 Sa skupljenim mineralima moguće je izgraditi nove radnike, vojnike i defenzivnu građevinu koja će pucati na neprijatelje.
 
+% Nešto o davanju naradbi
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\linewidth]{images/gameStartScreenshot.png}
+	\includegraphics[width=0.9\linewidth]{images/gameStartScreenshot.png}
 	\caption{Početno stanje u igri}
 	\label{fig:gameStart}
 \end{figure}
@@ -625,14 +627,40 @@ Cilj u igri je uništiti sve neprijateljske jedinice i baze na mapi, bez da igra
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\linewidth]{images/enemyBases.png}
+	\includegraphics[width=0.9\linewidth]{images/enemyBases.png}
 	\caption{Neprijateljske baze u igri}
 	\label{fig:enemyBases}
 \end{figure}
 
 \par Na slici~\ref{fig:enemyBases} prikazane su neprijateljske baze i dvije skupine od tri jedinica koje kreću u napad na igračevu bazu.
 
+\par Borba započinje kada se igračeva jedinica nađe u dometu protivničke jedinice, ili suprotno.
+Čim se dvije jedinice s različitih strana nađu u blizi, one počnu pucati jedna na drugu.
+Protivničke jedinice koriste hibribnu navigaciju opisanu u potpoglavlju~\ref{ssec:hybrid}, odnosno nastoje se držati na maksimalnoj udaljenosti od igračevih jedinica na kojoj mogu i dalje pucati, najčešće formirajući polukrug oko navedene mete.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/battle.png}
+	\caption{Prikaz borbe u igri}
+	\label{fig:battle}
+\end{figure}
+
+\par Na slici~\ref{fig:battle} prikazan je primjer borbe u igri.
+Pet igračevih vojnika bore se protiv dviju protivničkih jedinica te im u bitci pomaže defenzivni toranj koji također puca na protivnike.
+Iz lijevog donjeg kuta se približava idući val neprijateljskih jedinica.
+Iznad svake jedinice i zgrade nalazi se crta koja označava njihovo trenutno ''zdravlje''.
+Puna zelena crta označava da jedinica ili zgrada nije ozlijeđena, dok crvena skoro prazna crta znači da je jedinica pred smrti.
+Također je vidljivo da igračeve jedinice pucaju plave metke, dok protivničke jedinice pucaju crvene.
+
 % TODO: prikazati borbu, skupljanje resursa, izgradnju zgrada i meni-eve
+\par Resursi u igri se skupljaju tako da igrač odabere radnika i naredi mu da se skuplja određeni izvor resursa, odnosno izvor minerala.
+Naredba za skupljanje se zadaje tako da se stijena klikne s desnim klikom miša sa izabranim radnikom.
+Radnik će zatim pronaći put do navedenog resursa i počet ga skupljati kada mu dođe u blizinu.
+Nakon što se resurs skupi, odgovarajuća količina minerala biti će dodana igraču.
+Također, ako u blizini postoje ostali izvori materijala, radnik će ih samoinicijativno krenut skupljati.
+Bez ove mogućnosti, radnici bi zahtijevali previše mikroupravljanja te bi igrač redovito morao skretati pozornost sa bitke samo kako bi zadao jednostavnu naredbu radniku.
+
+
 
 \section{Dodavanje novih funkcionalnosti}
 
