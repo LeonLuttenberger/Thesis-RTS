@@ -17,6 +17,8 @@ public class AssetsUnits {
     public final Animation<TextureRegion> workerAnimation;
     public final Animation<TextureRegion> bugAnimation;
 
+    public final Animation<TextureRegion> stickmanAnimation;
+
     public AssetsUnits(TextureAtlas atlas) {
         Array<AtlasRegion> soldierRunning = atlas.findRegions(SOLDIER);
         soldierAnimation = new Animation<>(1/60f, soldierRunning, PlayMode.LOOP);
@@ -26,5 +28,8 @@ public class AssetsUnits {
 
         Array<AtlasRegion> bugRunning = atlas.findRegions(BUG);
         bugAnimation = new Animation<>(1 / 60f, bugRunning, PlayMode.LOOP);
+
+        Array<AtlasRegion> stickman = atlas.findRegions("stickman");
+        stickmanAnimation = new Animation<>(1 / 60f, stickman, PlayMode.LOOP);
     }
 }

@@ -3,10 +3,14 @@ package hr.fer.zemris.zavrsni.rts.console;
 import com.strongjoshua.console.LogLevel;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.HostileBuilding;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.StickmanSpawner;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
+import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.hostile.AlienSoldierUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.hostile.StickmanUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.SoldierUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 
@@ -77,6 +81,28 @@ public class InGameCommandExecutor extends MyRTSCommandExecutor {
 
         level.addHostileUnit(alienSoldierUnit);
         console.log("Spawned alien bug at " + x + " " + y, LogLevel.SUCCESS);
+    }
+
+    public void spawnStickman(int x, int y) {
+        if (!isPositionValid(x, y)) return;
+
+        ILevel level = gameState.getLevel();
+        HostileUnit unit = new StickmanUnit(level);
+        unit.position.set(x * level.getTileWidth(), y * level.getTileHeight());
+
+        level.addHostileUnit(unit);
+        console.log("Spawned stickman at " + x + " " + y, LogLevel.SUCCESS);
+    }
+
+    public void contructNewAlienBase(int x, int y) {
+        if (!isPositionValid(x, y)) return;
+
+        ILevel level = gameState.getLevel();
+        Building building = new StickmanSpawner(level);
+        building.position.set(x * level.getTileWidth(), y * level.getTileHeight());
+
+        level.addBuilding(building);
+        console.log("Spawned new base at " + x + " " + y, LogLevel.SUCCESS);
     }
 
     public void addMinerals(int minerals) {

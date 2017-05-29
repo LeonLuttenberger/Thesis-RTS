@@ -13,9 +13,13 @@ public class AssetsBuildings {
     public final TextureRegion generator;
     public final TextureRegion alienBase;
 
+    public final TextureRegion stickmanSpawner;
+
     public AssetsBuildings(TextureAtlas atlas) {
         manufactory = atlas.findRegion(MANUFACTORY);
         generator = atlas.findRegion(GENERATOR);
         alienBase = atlas.findRegion(ALIEN_BASE);
+
+        stickmanSpawner = atlas.findRegion("stickman_spawner");
     }
 }
