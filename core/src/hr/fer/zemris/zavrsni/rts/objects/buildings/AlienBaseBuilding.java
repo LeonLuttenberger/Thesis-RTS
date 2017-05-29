@@ -22,7 +22,7 @@ public class AlienBaseBuilding extends HostileBuilding {
     private static final int MOB_CAP = 5;
 
     private int currentWork;
-    private IBuildableUnit currentUnit = new AlienSoldierUnit(level);
+    private IBuildableUnit currentUnit;
 
     public AlienBaseBuilding(ILevel level) {
         super(level, WIDTH, HEIGHT, MAX_HIT_POINTS);
@@ -41,13 +41,21 @@ public class AlienBaseBuilding extends HostileBuilding {
             return;
         }
 
+        if (currentUnit == null) {
+            currentUnit = startBuildingUnit();
+        }
+
         currentWork += TRAINING_INCREMENT;
         if (currentWork >= currentUnit.getTrainingCost()) {
             spawnUnit(currentUnit);
 
             currentWork = 0;
-            currentUnit = new AlienSoldierUnit(level);
+            currentUnit = startBuildingUnit();
         }
+    }
+
+    private IBuildableUnit startBuildingUnit() {
+        return new AlienSoldierUnit(level);
     }
 
     private boolean isCapSatisfied() {
