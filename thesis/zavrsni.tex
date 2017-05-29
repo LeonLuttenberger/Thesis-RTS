@@ -720,7 +720,7 @@ U ovom potpoglavlju biti će prikazano nekoliko primjera kako se mogu jednostavn
 
 \begin{minipage}{\textwidth}
 	\lstinputlisting[caption = {Isječak koda u Javi koji dodaje novu protivničku jedinicu},
-    label={fig:codeStickman}]{codesnippets/stickman.txt}
+    label={fig:codeStickman}]{codesnippets/stickman.java}
 \end{minipage}\
 
 \par U programskom isječku~\ref{fig:codeStickman} prikazan je programski isječak za dodavanje nove jedinice.
@@ -728,17 +728,41 @@ Tekstura kojom će se jedinica prikazivati spremljena već je izrađena i učita
 Tijekom nasljeđivanja razreda \textit{HostileUnit}, potrebno je definirati sve atribute koji mogu biti različiti za svaku jedinicu.
 Ova konkretna jedinica ima natprosječnu brzinu kretanja i brzinu napada, no ima nisko zdravlje i moć napada.
 
-\par Uz pretpostavku da tekstura za ovu jedinicu uspješno napravljena, navedeni isječak koda je dovoljan da ona bude funkcionalna unutar igre, kao što je prikazano na slici~\ref{fig:stickman}.
+\par Implementacija je također implementirala sučelje \textit{IBuildableUnit}, što definira metodu \textit{getTrainingCost}.
+Ovo daje informaciju igri o utrošku rada koji je potreban da se jedinica ovog tipa izgradi.
+Primjer tog rada je kada igrač da naredbu da se izgradi vojnik, igračeva baza će obaviti količinu rada koja je definirana u navedenoj metodi za vojnika.
+
+\par Uz pretpostavku da tekstura za ovu jedinicu uspješno napravljena, navedeni isječak koda je dovoljan da ona bude funkcionalna unutar igre.
+Nažalost, s obzirom na činjenicu da je u prijašnjem isječka dodana samo definicija jednice, ostatak igre ne zna za nju zbog čega se ona ne može prirodno pojaviti u igri.
+
+\par Taj problem će se riješiti dodavanjem novog tipa zgrade.
+Sve što treba napraviti je nasljediti razred \textit{HostileBuilding} i implementirati logiku s kojom će ta zgrada stvarati primjerke jedinica \textit{Stickman}, kao što je prikazano u programskom isječku~\ref{fig:codeStickmanSpawner}.
+ 
+\begin{minipage}{\textwidth}
+	\lstinputlisting[caption = {Isječak koda u Javi koji dodaje novu zgadu},
+    label={fig:codeStickmanSpawner}]{codesnippets/stickmanSpawner.java}
+\end{minipage}
+
+\par U navedenom isječku nadjačana je metoda \textit{update} koja se pozove u svakoj iteracij igrine glavne petlje.
+U svakom pozivu metode \textit{update} obavlja se određeni rad prema stvaranju nove jedinice, koja se zatim dodaje u igru pozivom metode \textit{spawnUnit}.
+
+\par Sada je nova zgrada spremna da bude funkcionalna unutar igre tako što može stvarati primjerke jedinica tipa \textit{Stickman}, što je viljivo na slici~\ref{fig:stickman}.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\linewidth]{images/stickmanUnit.png}
-	\caption{Nova jedinica se bori protiv postojećih}
+	\includegraphics[width=0.7\linewidth]{images/stickman.png}
+	\caption{Implementacija dodatnih funckionalnosti u igri}
 	\label{fig:stickman}
 \end{figure}
 
-\par S obzirom na činjenicu da je jedinica samo dodana u igru, ostatak igre nezna za nju te se ona ne može prirodno pojaviti u igri.
-Na slici~\ref{fig:stickman} nova jedinica je umjetno ubačena u igru pomoću šifri za varanje (engl. \textit{cheat codes}).
+\par Definirani postupak dodavanja osigurava da nove zgrade i jedinice nisu ovisne o konkretnoj implementaciji ijedne RTS igre.
+Bilo koja RTS igra koja koristi opisani podsustav može slobodno koristiti objekte \text{Stickman} i \textit{StickmanSpawner}.
+
+\par Isti taj postupak je analogan i za dodavanje novih izvora resursa.
+Komplikacija sa dodavanjem novih izvora resursa nastaje zato jer moraju definirati koji će resurs dodati igraču kada se unište.
+U ovom podsustavu, resurs prilikom uništenja pošalje igri odgovarajuću količinu resursa i ključ koji ga definira.
+Zahvaljujući tome, bilo koja konkretna implementacija RTS igre koja koristi minerale kao resurs može koristiti bilo koje izvore minerala, dokle god je dogovoreni isti ključ.
+U prikazanoj konkretnoj implementaciji minerali su označeni ključem \textit{minerals}.
 
 \chapter{Zaključak}\label{ch:conclusion}
 Zaključak.

@@ -1,4 +1,4 @@
-public class StickmanUnit extends HostileUnit {
+public class StickmanUnit extends HostileUnit implements IBuildableUnit {
     private static final int UNIT_WIDTH = 32;
     private static final int UNIT_HEIGHT = 32;
     private static final float SPEED = 200;
@@ -23,5 +23,10 @@ public class StickmanUnit extends HostileUnit {
     @Override
     public boolean isSupport() {
         return false;
+    }
+
+    @Override
+    public int getTrainingCost() {
+        return 500;
     }
 }
