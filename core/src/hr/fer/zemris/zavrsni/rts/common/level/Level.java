@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.common;
+package hr.fer.zemris.zavrsni.rts.common.level;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -6,11 +6,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import hr.fer.zemris.zavrsni.rts.common.map.AbstractTiledLevel;
 import hr.fer.zemris.zavrsni.rts.common.map.TiledMapUtils;
-import hr.fer.zemris.zavrsni.rts.objects.buildings.AlienBaseBuilding;
+import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
-import hr.fer.zemris.zavrsni.rts.objects.resources.ResourceBoulder;
+import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
+import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.player.WorkerUnit;
 
 public class Level extends AbstractTiledLevel {
@@ -40,28 +41,30 @@ public class Level extends AbstractTiledLevel {
     }
 
     private void process(MapObject mapObject, String typeID) {
-        float positionX = mapObject.getProperties().get("x", Float.class);
-        float positionY = mapObject.getProperties().get("y", Float.class);
+        AbstractGameObject object = LevelObjectLoader.getObject(this, mapObject, typeID);
+        if (object == null) return;
 
-        switch (typeID) {
-            case "boulder":
-                Resource rock = new ResourceBoulder(this);
-                rock.position.set(positionX, positionY);
-                addResource(rock);
-                break;
+        if (object instanceof Resource) {
+            addResource((Resource) object);
+            return;
+        }
 
-            case "player_base":
-                Building playerBase = new BaseBuilding(this);
-                playerBase.position.set(positionX, positionY);
-                spawnDefaultUnits(playerBase);
-                addBuilding(playerBase);
-                break;
+        if (object instanceof PlayerUnit) {
+            addPlayerUnit((PlayerUnit) object);
+            return;
+        }
 
-            case "enemy_base":
-                Building alienBase = new AlienBaseBuilding(this);
-                alienBase.position.set(positionX, positionY);
-                addBuilding(alienBase);
-                break;
+        if (object instanceof HostileUnit) {
+            addHostileUnit((HostileUnit) object);
+            return;
+        }
+
+        if (object instanceof Building) {
+            addBuilding((Building) object);
+
+            if (object instanceof BaseBuilding) {
+                spawnDefaultUnits((BaseBuilding) object);
+            }
         }
     }
 
