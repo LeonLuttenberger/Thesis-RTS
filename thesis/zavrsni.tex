@@ -330,8 +330,6 @@ Ovime osiguravamo da u trenutku kada se čvor izvuće iz prioritetnog reda, najk
 
 \par Zbog navedenog svojstva, algoritam pretraživanja s jednolikom cijenom je \textbf{optimalan}, odnosno uvijek će pronaći optimalni put do odredišta ako ono postoji.
 
-% TODO dodaj primjer
-
 \par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati posjetiti veliki broj stanja jer se u obzir uzima samo cijena puta, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
 Zbog ovog svojstva pretraživanje s jednolikom cijenom čini jedno od neusmjerenih algoritama pretrage.
 
@@ -356,8 +354,6 @@ f(s) = g(s) + h(s).
 Prema tome, vrijednost \(f(s)\) predstavlja procjenu troška puta koji prolazi kroz stanje \(s\).
 Ovaj algoritam je identičan pretraživanju s jednolikom cijenom, osim što se u prioritetni red za čvorove ubacuje vrijednost \(g(s) + h(s)\) umjesto \(g(s)\).
 
-% TODO dodaj primjer
-
 \subsubsection{Uvjeti za optimalnost algoritma A*}
 Kako bi algoritam A* bio optimalan, heuristika mora zadovoljiti sljedeća dva svojstva: \textbf{optimističnost} i \textbf{konzistentnost}.
 
@@ -374,9 +370,14 @@ Odnosno, ako je \(s\) trenutno stanje, \(s'\) susjedno stanje i \(a\) akcija koj
 \begin{equation}
 h(s) \leq c(s, a) + h(s').
 \end{equation} 
-Ovo svojstvo je temeljeno na principu nejednakosti trokuta, odnosno činjenici da zbroj duljina dviju stranica trokuta ne može biti manja od duljine treće stranice.
+Ovo svojstvo je temeljeno na principu nejednakosti trokuta, odnosno činjenici da zbroj duljina dviju stranica trokuta ne može biti manja od duljine treće stranice, što se može uočiti na slici~\ref{fig:triangleInequality}.
 
-% Možda dodati sliku
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{images/triangleInequality.pdf}
+	\caption{Veza između konzistentnosti heuristike i nejednakosti trokuta}
+	\label{fig:triangleInequality}
+\end{figure} 
 
 \par Konzistentna heuristika je ujedno i optimistična, iako suprotno ne vrijedi. 
 Samim time, konzistentnost je stroži uvjet od optimističnosti. 
@@ -386,8 +387,6 @@ U algoritmu A* konzistentnost heuristike osigurava da će se čvor proširiti ka
 Jedan primjer heuristike koja zadovoljava uvjet optimističnosti i konzistentnosti je funkcija koja za svako stanje vraća 0: \(\forall S \in S, h(s) = 0\). 
 Algoritam A* s ovakvom heuristikom degenerira pretraživanje s jednolikom cijenom, odnosno za svako stanje se gleda samo njegova cijena \(g\). 
 Heuristika je bolja ako daje više informacija, odnosno ako funkcija \(h\) vraća veću vrijednost.
-
-% TODO dodaj koji primjer
 
 \section{Prilagodba na promjene}\label{sec:adaptation}
 
