@@ -130,17 +130,39 @@ Na putu do cilja, igrač će susresti protivničke jedinice koje je cilj izbjeć
 \par Zbog ograničenosti računala u doba kada je ovaj žanr nastao, protivničke jedinice su strogo skriptirane, npr.\ beskonačno se kreću lijevo-desno po svojoj platformi.
 Kao posljedica toga, igranje ovakvih igra se pretežno svodi na predviđanje idućih događaja u igri.
 
-\section{Trkaće igre}
-% Nekoliko rečenica o ovome
-
-
 \section{Sportske igre}
-% Nekoliko rečenica i o ovome
+
+\par Prva računalna igra ikad napravljena je bila \textit{Pong}, odnosno vrlo jednostavna verzija tenisa.
+Igre u ovom žanru duguju svoju popularnost prepoznatljivosti vlastitih pravila i mehanike.
+Odnosno, igra o nogometu imati će ista pravila kao i nogomet u stvarnom svijetu, te se zbog toga ovakve igre ne moraju posebno ''učiti''.
+
+\par U prošlosti, umjetna inteligencija u sportskim igrama bila je skriptirana što je igračima omogućavalo da jednostavno prate uzorke i predviđaju sljedeće poteze, kao i u platformerima.
+Danas igrači ovakvih igara očekuju da se računalni protivnici znaju dobro dovoljno dobro igrati igru da budu izazov i za najiskusnije igrače.
+Naglasak ovdje je na igre u kojima umjetna inteligencija postiže svoj uspijeh pametnim igranjem, umjesto da ''vara'' tako da si povećava šanse za pogodatak.
+
+\par U ovaj žanr spadaju i trkaće igre.
+U trkaćim igrama igrač sudjeluje u nekakvoj vrsti utrke, poput auta, aviona, glisera, svemirskih brodova, itd.
+Spektar realnosti u ovakvim igrama je vrlo širok, odnosno neke igre se strogo drže zakona fizike iz stvarnog svijeta kako bi sama vožnja bila što veći izazov, dok ih ostale slobodno interpretiraju kako bi igraču ponudile jedinstveno iskustvo i ugođaj.
+
+\section{Strategije}
+
+\par Strategije su žanr računalnih igara u kojima igrač ima kontrolu nad svim aspektima borbe i razvoja te mu je tipično cilj minimizirati količinu neprijateljskih jedinica.
+Ključ pobjede je planirati niz akcija s kojima će se nadmudriti protivnike.
+
+\par U većini igara u ovom žanru, igrač ima pogled odozgora na čitav teren i indirektno upravlja svojim jedinicama, odnosno daje im nredbe gdje da se kreću bez da on mora sam kontrolirati kretanje.
+Igrač zato direktno upravlja višim strateškim i taktičkim odlukama, poput ekonomskog i tehnološkog razvoja svoje strane.
+
+\par Igre u ovom žanru mogu se podjeliti u dvije kategorije: strategije u stvarnom vremenu (RTS) i strategije na potez (engl. \textit{Turn-based strategy}).
+U strategijama u stvarnom vremenu igra vrijeme konstantno teče te igrači svi istovremeno kontroliraju svoje strane.
+U strategijama na potez, tijek igre je analogan tijeku igre u klasičnim strategijama poput šaha, odnosno igrači više ne igraju u isto vrijeme.
+Kao posljedica toga, u strategijama na potez nije bitna brzina razmišljanja i reakcije igrača, već je naglasak na dugoročno planiranje i nadmudrivanje protivnika.
+
+\par U nastavku ovog rada detaljnije su opisani aspekti RTS igara.
 
 \chapter{RTS igre}\label{ch:rtsGames}
 
 \par RTS žanr računalnih igara temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. 
-Za razliku od strategija na potez (engl. Turn-based strategy) gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. 
+Za razliku od strategija na potez gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. 
 U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu.
 
 %TODO napisi o cemu ce sve bit poglavlje
@@ -756,7 +778,7 @@ U svakom pozivu metode \textit{update} obavlja se određeni rad prema stvaranju 
 \end{figure}
 
 \par Definirani postupak dodavanja osigurava da nove zgrade i jedinice nisu ovisne o konkretnoj implementaciji ijedne RTS igre.
-Bilo koja RTS igra koja koristi opisani podsustav može slobodno koristiti objekte \text{Stickman} i \textit{StickmanSpawner}.
+Bilo koja RTS igra koja koristi opisani podsustav može slobodno koristiti objekte \textit{Stickman} i \textit{StickmanSpawner}.
 
 \par Isti taj postupak je analogan i za dodavanje novih izvora resursa.
 Komplikacija sa dodavanjem novih izvora resursa nastaje zato jer moraju definirati koji će resurs dodati igraču kada se unište.
