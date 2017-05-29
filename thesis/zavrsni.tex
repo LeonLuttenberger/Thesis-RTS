@@ -80,6 +80,7 @@
 \chapter{Pregled vrsti računalnih igara}\label{ch:games}
 
 % TODO Objasni što je bot
+% Napiši uvod u ovo
 
 \section{Žanr RPG}
 
@@ -129,7 +130,15 @@ Na putu do cilja, igrač će susresti protivničke jedinice koje je cilj izbjeć
 \par Zbog ograničenosti računala u doba kada je ovaj žanr nastao, protivničke jedinice su strogo skriptirane, npr.\ beskonačno se kreću lijevo-desno po svojoj platformi.
 Kao posljedica toga, igranje ovakvih igra se pretežno svodi na predviđanje idućih događaja u igri.
 
+\section{Trkaće igre}
+% Nekoliko rečenica o ovome
+
+
+\section{Sportske igre}
+% Nekoliko rečenica i o ovome
+
 \chapter{RTS igre}\label{ch:rtsGames}
+
 \par RTS žanr računalnih igara temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. 
 Za razliku od strategija na potez (engl. Turn-based strategy) gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. 
 U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu.
@@ -193,7 +202,17 @@ S druge strane, makroupravljanje je mnogo složeniji izazov za umjetnu inteligen
 
 \par Navigacija jedinica je u RTS igrama često najintenzivniji posao za računalni procesor.
 Veliki broj jedinica stvara potrebu za velikim brojem pretraga, pogotovo ako se svaka kreće u svom smjeru, te svaka od njih mora pratiti potencijalne promjene na terenu i promijeniti ponašanje u skladu s istima.
-Tehnike poput skupljanja jedinica u grupe kako bi se zajedno kretali prema cilju mogu smanjiti taj trošak, jer će se sve pretrage i provjere izvršavati nad tom grupom jedinica\cite{book:AIGameProgrammingWisdom}.
+Tehnike poput skupljanja jedinica u grupe kako bi se zajedno kretali prema cilju mogu smanjiti taj trošak, jer će se sve pretrage i provjere izvršavati nad tom grupom jedinica\cite{book:AIGameProgrammingWisdom}. 
+
+\par Na slici~\ref{fig:RTSgrouping} prikazane su tri jedinice kako se zajedno kreću prema bijeloj linij koja označava najkraću putanju.
+Pretraga je obavljena za čitavu grupu odjednom, umjesta za sve jedinice zasebno, što je značajno smanjilo trošak izračuna puta.
+
+\begin{figure}[h] 
+	\centering
+	\includegraphics[width=0.6\linewidth]{images/RTSgrouping.png}
+	\caption{Zajedničko kretanje jedinica}
+	\label{fig:RTSgrouping}
+\end{figure} 
 
 \par Jedinice se također moraju znati ponašati u borbi na što pametniji način. Primjerice, strijelac bi se trebao držati na udaljenosti od mete jer je tamo najopasniji.
 U trenutku kada se nađe u borbi prsa u prsa, njegova najbolja strategija je povući se na udaljenost iz koje može pucati.
@@ -236,9 +255,8 @@ Oni predstavljaju sredinu između prijašne dvije rase, odnosno jedinice su im f
 \par Dokaz uspiješnosti \textit{Starcrafta} je činjenica da se nakon 20 godina i dalje aktivno igra.
 Igra je također imala dovoljno veliki utjecaj da ostvari status profesionalnog sporta u Južnoj Koreji.
 
-\subsubsection{Warcraft}
-
 \subsubsection{Age of Empires}
+
 \par \textit{Age of Empires} serijal RTS igara proizveo je \textit{Ensemble Studios} i izdao \textit{Microsoft Studios}. 
 Istoimena prva igra u serijalu izašla je 1997.\ godine.
 
@@ -385,7 +403,6 @@ U najgorem slučaju, čitava igre bi bila sklona čestim zaustavljanjima (engl. 
 
 \par Najjednostavnija modifikacija koja se može napraviti nad algoritmom A* kako bi bio iskoristiv u realnom vremenu je ograničenje pretrage na manji lokalni prostor kojeg agent može dostignuti u određenom broju poteza. 
 Konkretno, postavi se ograničenje na broj stanja koji se mogu pretražiti i ograničenje na broj poteza koje agent može napraviti.
-%TODO negdje objasni što je agent 
 Kada se pretraga iz trenutne pozicije izvrši, agent će krenuti prema stanju koje je trenutno sljedeće u prioritetnom redu sve dok ga ne dosegne ili dok ne napravi maksimalni broj dozvoljenih poteza.
 Taj će se postupak ponavljati sve dok agent ne dođe do ciljnog položaja.
 Dodatno, može se definirati uvjet da ako se promjeni stanje koje se trenutno nalazi u trajektoriji (npr.\ ako se direktno na putu jedinici u RTS igri izgradi zgrada), pretraga se ponovi s novim podatcima o okolini.
@@ -459,7 +476,7 @@ Navedena petlja se ponavlja sve dok agent ne dostigne cilj ili ne shvati da put 
 
 \par Na slici~\ref{fig:rtaastar} prikazan je primjer pretrage RTAA*.
 Maksimalni broj pretraženih stanja u ovoj pretrazi nije ograničen, kao ni maksimalni broj poteza koje agent može napravit.
-Kao i s primjerom na slici \ref{fig:pathfindingCycle}, u gornjem lijevog kutu prikazan je trošak \(g(s)\), u gornjem desnom \(h(s)\), u donjem lijevom \(f(s)\) te siva polja označavaju pretražena stanja.
+Kao i s primjerom na slici~\ref{fig:pathfindingCycle}, u gornjem lijevog kutu prikazan je trošak \(g(s)\), u gornjem desnom \(h(s)\), u donjem lijevom \(f(s)\) te siva polja označavaju pretražena stanja.
 Heuristička funkcija je definirana kao zbroj horizontalne i vertikalne udaljenosti do cilja, što je poznatije pod nazivom ''Manhattan heuristika''.
 
 Nakon prve pretrage, agent se pomaknuo do pozicije \((1, 2)\) kada se na  terenu uočena iznenadna promjena: na poziciju \((2, 2)\) dodana je prepreka.
@@ -615,6 +632,8 @@ Također, u gornjem lijevog kutu prikazani su grmovi kroz koje se jedinica može
 Primjerice, sučelje \textit{ISearchProblem} definira problem pretrage, odnosno početno stanje, provjeru krajnjeg stana i izračun idućih stanja i akcija. 
 Također su definirana sučelja \textit{IHeuristic} koji definira funkciju heuristike i \text{ISearchAlgorithm} koji definira algoritam pretrage nad problemom s definiranom heuristikom.
 
+% TODO
+
 \section{Konkretna implementacija}
 
 \par Uz opisanu jezgrenu funkcionalnost RTS igre, izrađen je prototip jedne konkretne igre koja sadrži opisane osnovne funkcionalnosti.
@@ -622,7 +641,6 @@ U navedenoj igri igrač započne igru s bazom i jednim robotskim radnikom.
 Baza je okružena s mineralima koje radnik može skupljati.
 Sa skupljenim mineralima moguće je izgraditi nove radnike, vojnike i defenzivnu građevinu koja će pucati na neprijatelje.
 
-% Nešto o davanju naredbi
 \par Jedinice se u igri odabiru tako da igrač povuće lijevi klik miša, što se vizualizira pravokutnikom koji predstavlja označeno područje, čime se označavaju sve jedinice unutar tog pravokutnika.
 Igrač zatim zadaje naredbe jedinicama koje su trenutno označene tako da klikne na proizvoljnu poziciju na mapi s desnim klikom miša.
 Označene jedinice će se zatim grupirati ako su dovoljno blizu i krenuti zajedno prema cilju.
@@ -692,9 +710,36 @@ Ako korisnik označi lokaciju na kojoj se zgrada ne može izgraditi, ili ako za 
 	\label{fig:building}
 \end{figure}
 
-% meni-evi
+\par Prilikom ulaska u igru igrač ima mogućnost pokretanja nove igre, učitavanja već započete igre, ulaska u postavke i izlazka iz igre.
+% Dodaj slike
+% Pokaži postavke
 
 \section{Dodavanje novih funkcionalnosti}
+
+Jedna od ključnih ideja tijekom razvoja jezgrenih funkcionalnosti RTS igre bila je jednostavno proširivost igre.
+U ovom potpoglavlju biti će prikazano nekoliko primjera kako se mogu jednostavno dodati nove zgrade i jedinice u konkretnu igru.
+
+\begin{minipage}{\textwidth}
+	\lstinputlisting[caption = {Isječak koda u Javi koji dodaje novu protivničku jedinicu},
+    label={fig:codeStickman}]{codesnippets/stickman.txt}
+\end{minipage}\
+
+\par U programskom isječku~\ref{fig:codeStickman} prikazan je programski isječak za dodavanje nove jedinice.
+Tekstura kojom će se jedinica prikazivati spremljena već je izrađena i učitana u jedinstvenom objektu \textit{Assets}, kojem se pristupa iz metode \textit{loadAnimation()}.
+Tijekom nasljeđivanja razreda \textit{HostileUnit}, potrebno je definirati sve atribute koji mogu biti različiti za svaku jedinicu.
+Ova konkretna jedinica ima natprosječnu brzinu kretanja i brzinu napada, no ima nisko zdravlje i moć napada.
+
+\par Uz pretpostavku da tekstura za ovu jedinicu uspješno napravljena, navedeni isječak koda je dovoljan da ona bude funkcionalna unutar igre, kao što je prikazano na slici~\ref{fig:stickman}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/stickmanUnit.png}
+	\caption{Nova jedinica se bori protiv postojećih}
+	\label{fig:stickman}
+\end{figure}
+
+\par S obzirom na činjenicu da je jedinica samo dodana u igru, ostatak igre nezna za nju te se ona ne može prirodno pojaviti u igri.
+Na slici~\ref{fig:stickman} nova jedinica je umjetno ubačena u igru pomoću šifri za varanje (engl. \textit{cheat codes}).
 
 \chapter{Zaključak}\label{ch:conclusion}
 Zaključak.
