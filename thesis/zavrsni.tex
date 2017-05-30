@@ -69,9 +69,28 @@
 
 \chapter{Uvod}
 
+\par Računalne igre su jedan od vrlo značajnih pokretača razvoja računala.
+Jednu zanimljivu vrstu igara čine strategije u stvarnom vremenu (engl. \textit{Real-Time Strategy}, RTS).
+
+\par U~\ref{ch:games}.~poglavlju napravljen je pregled različitih vrsta računalnih igara i osnovih podsustava prisutnim u njima.
+
+\par U~\ref{ch:rtsGames}.~poglavlju napravljen je detaljnih opis RTS žanra igara.
+Ovdje su istraženi osnovni podsustavi koji se nalaze u takvim igrama te koji nisu specifični za konkretnu igru već se mogu višestruko iskorištavat.
+
+\par Jedan od podsustava prisutnih u svim RTS igrama je samostalno kretanje jedinica. 
+Teorijska podloga ovog podsustava je detaljnije istražena u~\ref{ch:pathfinding}.~poglavlju.
+U tom su poglavlju prikazani postupci pretraživanja stanja u statičkom okruženju.
+Budući da se RTS igre održavaju u dinamičkom svijetu, te je postupke potrebno prilagoditi kako bi se i oni sami mogli prilagođavati promjenama u stanju igre.
+
+\par Zatim je napravljena programska implementacija osnovnih podsustava koji se mogu dijeliti između različitih RTS igara.
+Također je izrađena konkretna implementacija jednog prototipa RTS igre koji sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina i jedinica, osnovnih protivničkih jedinica te upravljanje vlastitim jedinicama.
+Upravljanje vlastitim jedinicama uključuje grupiranje, zadavanje ciljeva, pucanje i prikupljanje resursa.
+
+\par Programska implementacija osnovnih podsustava i konkretnog protitipa opisana je u~\ref{ch:implementation}.~poglavlju.
+Nadalje, opisan je postupak jednostavnog dodavanja novih funkcionalnost u konkretnu igru koje nisu ovisne o navedenoj igri.
+
 \chapter{Pregled vrsti računalnih igara}\label{ch:games}
 
-% TODO Objasni što je bot
 % Napiši uvod u ovo
 
 \section{Žanr RPG}
