@@ -1,9 +1,10 @@
-package hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem;
+package hr.fer.zemris.zavrsni.rts.pathfinding.tiled.problem;
 
-import hr.fer.zemris.zavrsni.rts.common.LevelUtils;
-import hr.fer.zemris.zavrsni.rts.common.map.ITiledMap;
-import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
+
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.IModifierCachingProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.ITiledMap;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.LevelUtils;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.MapTile;
 
 import java.util.HashSet;
 import java.util.List;

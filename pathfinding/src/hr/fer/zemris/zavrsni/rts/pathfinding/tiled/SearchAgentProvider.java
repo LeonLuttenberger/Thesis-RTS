@@ -1,11 +1,11 @@
-package hr.fer.zemris.zavrsni.rts.pathfinding.impl;
+package hr.fer.zemris.zavrsni.rts.pathfinding.tiled;
 
-import hr.fer.zemris.zavrsni.rts.common.map.ITiledMap;
-import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.IHeuristic;
 import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.WeightedHeuristic;
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.heuristic.ArealDistanceHeuristic;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.heuristic.ArealDistanceHeuristic;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.ITiledMap;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.MapTile;
 
 import java.util.Objects;
 import java.util.function.Function;

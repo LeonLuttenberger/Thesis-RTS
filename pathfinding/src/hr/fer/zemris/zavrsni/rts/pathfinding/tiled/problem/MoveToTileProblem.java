@@ -1,8 +1,8 @@
-package hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem;
+package hr.fer.zemris.zavrsni.rts.pathfinding.tiled.problem;
 
-import hr.fer.zemris.zavrsni.rts.common.map.ITiledMap;
-import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.IModifierCachingProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.ITiledMap;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.MapTile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static hr.fer.zemris.zavrsni.rts.common.LevelUtils.canMoveEast;
-import static hr.fer.zemris.zavrsni.rts.common.LevelUtils.canMoveNorth;
-import static hr.fer.zemris.zavrsni.rts.common.LevelUtils.canMoveSouth;
-import static hr.fer.zemris.zavrsni.rts.common.LevelUtils.canMoveWest;
+import static hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.LevelUtils.canMoveEast;
+import static hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.LevelUtils.canMoveNorth;
+import static hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.LevelUtils.canMoveSouth;
+import static hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.LevelUtils.canMoveWest;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 

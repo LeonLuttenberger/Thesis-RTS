@@ -1,14 +1,14 @@
 package hr.fer.zemris.zavrsni.rts.common;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import hr.fer.zemris.zavrsni.rts.common.map.ITiledMap;
-import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.projectiles.Projectile;
 import hr.fer.zemris.zavrsni.rts.objects.resources.Resource;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.ITiledMap;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.MapTile;
 
 import java.io.Serializable;
 import java.util.List;

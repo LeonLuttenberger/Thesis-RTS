@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.util;
+package hr.fer.zemris.zavrsni.rts.pathfinding.util;
 
 @FunctionalInterface
 public interface TriFunction<T1, T2, T3, R> {

@@ -1,7 +1,5 @@
-package hr.fer.zemris.zavrsni.rts.pathfinding.impl;
+package hr.fer.zemris.zavrsni.rts.pathfinding.tiled;
 
-import hr.fer.zemris.zavrsni.rts.common.map.ITiledMap;
-import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
 import hr.fer.zemris.zavrsni.rts.pathfinding.SearchNode;
 import hr.fer.zemris.zavrsni.rts.pathfinding.SearchResult;
@@ -9,12 +7,14 @@ import hr.fer.zemris.zavrsni.rts.pathfinding.algorithms.AStarSearch;
 import hr.fer.zemris.zavrsni.rts.pathfinding.algorithms.ISearchAlgorithm;
 import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.CachingProblemHeuristic;
 import hr.fer.zemris.zavrsni.rts.pathfinding.heuristic.IHeuristic;
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.heuristic.ArealDistanceHeuristic;
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem.MoveToAdjacentTileProblem;
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.problem.MoveToTileProblem;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.IModifierCachingProblem;
 import hr.fer.zemris.zavrsni.rts.pathfinding.problem.RTAAStarProblem;
-import hr.fer.zemris.zavrsni.rts.util.TriFunction;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.heuristic.ArealDistanceHeuristic;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.ITiledMap;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.MapTile;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.problem.MoveToAdjacentTileProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.problem.MoveToTileProblem;
+import hr.fer.zemris.zavrsni.rts.pathfinding.util.TriFunction;
 
 import java.util.Collections;
 import java.util.Map.Entry;

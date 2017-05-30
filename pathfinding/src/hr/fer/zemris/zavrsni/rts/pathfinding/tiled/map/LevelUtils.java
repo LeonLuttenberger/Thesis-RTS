@@ -1,7 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.common;
-
-import hr.fer.zemris.zavrsni.rts.common.map.ITiledMap;
-import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
+package hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map;
 
 public final class LevelUtils {
 

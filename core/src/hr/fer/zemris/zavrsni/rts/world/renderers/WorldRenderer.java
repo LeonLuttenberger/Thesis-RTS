@@ -9,10 +9,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import hr.fer.zemris.zavrsni.rts.common.IGameSettings;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
-import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.Unit;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.controllers.RTSWorldController;
 
 public class WorldRenderer extends OrthogonalTiledMapRenderer {

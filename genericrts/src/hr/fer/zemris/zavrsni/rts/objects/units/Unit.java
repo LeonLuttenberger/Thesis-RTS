@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
-import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageTrackable;
 import hr.fer.zemris.zavrsni.rts.pathfinding.ISearchAgent;
-import hr.fer.zemris.zavrsni.rts.pathfinding.impl.SearchAgentProvider;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.SearchAgentProvider;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.MapTile;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

@@ -1,13 +1,13 @@
 package hr.fer.zemris.zavrsni.rts.objects.units;
 
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
-import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.AbstractGameObject;
 import hr.fer.zemris.zavrsni.rts.objects.IDamageable;
 import hr.fer.zemris.zavrsni.rts.objects.IRangedAttacker;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.HostileBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.PlayerBuilding;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.MapTile;
 
 import java.util.ArrayList;
 import java.util.Iterator;

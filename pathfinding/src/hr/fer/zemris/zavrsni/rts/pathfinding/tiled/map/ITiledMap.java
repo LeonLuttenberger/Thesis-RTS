@@ -1,4 +1,4 @@
-package hr.fer.zemris.zavrsni.rts.common.map;
+package hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map;
 
 public interface ITiledMap {
 

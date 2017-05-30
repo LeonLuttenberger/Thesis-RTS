@@ -7,8 +7,8 @@ import hr.fer.zemris.zavrsni.rts.common.IGameState;
 import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.costs.BuildingCosts;
 import hr.fer.zemris.zavrsni.rts.common.costs.Cost;
-import hr.fer.zemris.zavrsni.rts.common.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.Building;
+import hr.fer.zemris.zavrsni.rts.pathfinding.tiled.map.MapTile;
 import hr.fer.zemris.zavrsni.rts.world.ControllerStateAdapter;
 import hr.fer.zemris.zavrsni.rts.world.controllers.RTSWorldController;
 
