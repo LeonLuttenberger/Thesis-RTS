@@ -71,44 +71,59 @@
 
 \par Računalne igre su jedan od vrlo značajnih pokretača razvoja računala.
 Jednu zanimljivu vrstu igara čine strategije u stvarnom vremenu (engl. \textit{Real-Time Strategy}, RTS).
+U njima igrač mora poraziti protivnike razmišljanjem i donošenjem prikladnih taktičkih odluka, te je utjecaj vjerojatnosti minimalan.
 
-\par U~\ref{ch:games}.~poglavlju napravljen je pregled različitih vrsta računalnih igara i osnovih podsustava prisutnim u njima.
+\par U~\ref{ch:games}.~poglavlju napravljen je kratak pregled različitih vrsta računalnih igara i osnovnih podsustava prisutnim u njima.
 
 \par U~\ref{ch:rtsGames}.~poglavlju napravljen je detaljnih opis RTS žanra igara.
-Ovdje su istraženi osnovni podsustavi koji se nalaze u takvim igrama te koji nisu specifični za konkretnu igru već se mogu višestruko iskorištavat.
+Ovdje su istraženi osnovni podsustavi koji se nalaze u takvim igrama i nisu specifični za konkretnu igru već se mogu višestruko iskorištavati.
 
 \par Jedan od podsustava prisutnih u svim RTS igrama je samostalno kretanje jedinica. 
 Teorijska podloga ovog podsustava je detaljnije istražena u~\ref{ch:pathfinding}.~poglavlju.
 U tom su poglavlju prikazani postupci pretraživanja stanja u statičkom okruženju.
-Budući da se RTS igre održavaju u dinamičkom svijetu, te je postupke potrebno prilagoditi kako bi se i oni sami mogli prilagođavati promjenama u stanju igre.
+Budući da se RTS igre održavaju u dinamičkom svijetu, te je postupke potrebno prilagoditi kako bi se i oni sami mogli prilagođavati promjenama u svijetu igre.
 
 \par Zatim je napravljena programska implementacija osnovnih podsustava koji se mogu dijeliti između različitih RTS igara.
 Također je izrađena konkretna implementacija jednog prototipa RTS igre koji sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina i jedinica, osnovnih protivničkih jedinica te upravljanje vlastitim jedinicama.
 Upravljanje vlastitim jedinicama uključuje grupiranje, zadavanje ciljeva, pucanje i prikupljanje resursa.
 
-\par Programska implementacija osnovnih podsustava i konkretnog protitipa opisana je u~\ref{ch:implementation}.~poglavlju.
+\par Programska implementacija osnovnih podsustava i konkretnog prototipa opisana je u~\ref{ch:implementation}.~poglavlju.
 Nadalje, opisan je postupak jednostavnog dodavanja novih funkcionalnost u konkretnu igru koje nisu ovisne o navedenoj igri.
 
 \chapter{Pregled vrsti računalnih igara}\label{ch:games}
 
 % Napiši uvod u ovo
+\par Klasifikacija žanrova računalnih igara nije strogo određena.
+Svaka igra može se klasificirati po osobnim kriterijima te može pripadati više od jednom žanru istovremeno.
+U ovom poglavlju napravljen je kratak pregled nekoliko najbitnijih žanrova koji se bitno razlikuju po svom utjecaju i podsustavima.
+
+\section{Platformeri}
+
+\par Platformeri su jedan od starijih žanrova računalnih igara.
+One su tipično prikazane u 2D svijetu, u kojima igrač započne igru na dnu ekrana i cilj je pomoću pravovremenih skokova po platformama popeti se na vrh.
+Na putu do cilja, igrač će susresti protivničke jedinice koje je cilj izbjeći.
+
+\par Zbog ograničenosti računala u doba kada je ovaj žanr nastao, protivničke jedinice su strogo skriptirane, npr.\ beskonačno se kreću lijevo-desno po svojoj platformi.
+Kao posljedica toga, igranje ovakvih igra se pretežno svodi na predviđanje idućih događaja u igri.
 
 \section{Žanr RPG}
 
 \par Kada su osobna računala postala šire dostupna, računalne igre su počele iskorištavati kompleksniji sustav kontrola koje su omogućili miš i tipkovnica u odnosno na dosadašnje igraće palice (engl. \textit{joystick}).
 Žanr igara poznat pod nazivom RPG\footnote{Igre igranja uloga (engl.\textit{Role playing games})} je nastao u to vrijeme.
 Dotadašnje igre su uglavnom bili portovi arkadnih igara, poput \textit{Pacmana} ili \textit{Asteroids}.
-Mana kod takvih igara je što su bile dizajnirane da kratko traju kako bi igrača natjerale da često ubacuje kovanice u automat, zbog čega su se RPS igre isticale sa svojim trajanjem.
+Mana kod takvih igara je što su bile dizajnirane da kratko traju kako bi igrača natjerale da često ubacuje kovanice u igraći automat, zbog čega su se RPS igre isticale sa svojim trajanjem.
 
 \par U RPG igrama igrač tipično kontrolira jednog lika koji krene s ničime, obavlja razne poslove za novce, trenira svoje sposobnosti i s vremenom postaje sve moćniji. 
 Neovisno o detaljima specifične igre, ideja svih igara u ovom žanru je omogućiti igraču da se poistovjeti s glavnim likom i unese u svijet u kojem se glavni lik nalazi.
 
-\par Likovi u ovakvih igrama se tipično dijele u obične neprijatelje, ''\textit{šefove}'' i pasivne \textit{NPC}\footnote{Ne-igraći likovi (engl.\textit{Non-playable characters})} jedinice.
+\par Likovi u ovakvih igrama se tipično dijele u obične neprijatelje, ''\textit{šefove}'' i pasivne \textit{NPC}\footnote{Ne-igraći likovi         
+(engl. \textit{Non-playable characters})} jedinice.
 Obični neprijatelji su najčešći tip likova.
 Njihove svrha je kako bi se borili protiv igrača, te ih tipično ima u beskonačnoj količini kako bi igrač uvijek imao nešto za raditi u svijetu.
-''\textit{Šefovi}'' obično predstavljaju vođe protivničkih skupina, i kompleksniji su i teži protivnici koji se pojavljuju na kraju svakog levela ili sekcije nakon što igrač porazi mnogo slabijih protivnika.
+''\textit{Šefovi}'' tipično predstavljaju vođe protivničkih skupina, i kompleksniji su i teži protivnici koji se pojavljuju na kraju svakog levela ili sekcije nakon što igrač porazi mnogo slabijih protivnika.
 Zamišljeni su kako bi iznenadili igrača sa svojom moći i razbili monotonost igre.
-\textit{NPC} definira svakog igrača koji nije pod kontrolom igrača. Međutim, termin se obično koristi za likove u igri s kojima igrač može imati interakciju osim borbe, poput stanovnika grada ili nasumičnih ljudi koje igrač sretne tijekom igre.
+\textit{NPC} prema strogoj definiciji predstavlja svaku jedinicu koja nije pod kontrolom igrača. 
+Međutim, termin se najčešće koristi za likove u igri s kojima igrač može imati interakciju osim borbe, poput stanovnika grada ili nasumičnih likova koje igrač sretne tijekom igre.
 
 \par Kako bi se svijet u kojem se igra odvija činio što stvarniji, likovi u svijetu se također moraju ponašati što realnije.
 Kao posljedica toga i čistog dosega ovakvih igara, one znaju imati vrlo visoke standarde za umjetnu inteligenciju.
@@ -132,15 +147,6 @@ To svojstvo omogućava proširivost samo igre, odnosno omogućava programerima d
 \par Zahvaljujući navedenom svojstvu, neke igre u ovom žanru se često koriste u istraživanjima umjetne inteligencije.
 Uvjeti u takvim igrama mogu biti puno bliži uvjetima u stvarnom svijetu nego čisti laboratorijskih uvjeta, što omogućava efektivno testiranje novih i bržih algoritama.
 
-\section{Platformeri}
-
-\par Platformeri su jedan od starijih žanrova računalnih igara.
-One su tipično prikazane u 2D svijetu, u kojima igrač započne igru na dnu ekrana i cilj je pomoću pravovremenih skokova po platformama popeti se na vrh.
-Na putu do cilja, igrač će susresti protivničke jedinice koje je cilj izbjeći.
-
-\par Zbog ograničenosti računala u doba kada je ovaj žanr nastao, protivničke jedinice su strogo skriptirane, npr.\ beskonačno se kreću lijevo-desno po svojoj platformi.
-Kao posljedica toga, igranje ovakvih igra se pretežno svodi na predviđanje idućih događaja u igri.
-
 \section{Sportske igre}
 
 \par Prva računalna igra ikad napravljena je bila \textit{Pong}, odnosno vrlo jednostavna verzija tenisa.
@@ -149,9 +155,9 @@ Odnosno, igra o nogometu imat će ista pravila kao i nogomet u stvarnom svijetu,
 
 \par U prošlosti, umjetna inteligencija u sportskim igrama bila je skriptirana što je igračima omogućavalo da jednostavno prate uzorke i predviđaju sljedeće poteze, kao i u platformerima.
 Danas igrači ovakvih igara očekuju da se računalni protivnici znaju dobro dovoljno dobro igrati igru da budu izazov i za najiskusnije igrače.
-Naglasak ovdje je na igre u kojima umjetna inteligencija postiže svoj uspjeh pametnim igranjem, umjesto da ''vara'' tako da si povećava šanse za pogodak.
+Naglasak ovdje je na igre u kojima umjetna inteligencija postiže svoj uspjeh pametnim igranjem, umjesto da ''vara'' tako da si umjetno povećava statistike, poput šansa za pogodak.
 
-\par U ovaj žanr spadaju i trkaće igre.
+\par U ovaj žanr mogu se svrstati i trkaće igre.
 U trkaćim igrama igrač sudjeluje u nekakvoj vrsti utrke, poput auta, aviona, glisera, svemirskih brodova, itd.
 Spektar realnosti u ovakvim igrama je vrlo širok, odnosno neke igre se strogo drže zakona fizike iz stvarnog svijeta kako bi sama vožnja bila što veći izazov, dok ih ostale slobodno interpretiraju kako bi igraču ponudile jedinstveno iskustvo i ugođaj.
 
@@ -172,8 +178,9 @@ Kao posljedica toga, u strategijama na potez nije bitna brzina razmišljanja i r
 
 \chapter{RTS igre}\label{ch:rtsGames}
 
-\par RTS žanr računalnih igara temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. 
-Za razliku od strategija na potez gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju svoje poteze u isto vrijeme znajući da svi protivnici rade isto. 
+\par Računalne igre svrstane pod RTS žanr temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. 
+Za razliku od strategija na potez gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju u isto vrijeme.
+Dodatna napetost nastaje zbog znanja da svi ostali igrači aktivno pokušavaju ostvariti svoje ciljeve i spriječiti sve ostale igrače u rađenju istoga.
 U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu.
 
 %TODO napisi o cemu ce sve bit poglavlje
@@ -184,13 +191,13 @@ U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vr
 Prije svega, svaka igra se odvija na mapi ograničene veličine koja je određena s raznim tipovima terena, poput trave, vode, planina, pustinje, itd. 
 Tip terena može odrediti koje se jedinice mogu kretati po njemu.
 Primjerice, pravila igre mogu biti takva da se običan vojnik ne može kretati po vodi, dok neki drugi tip jedinice poput broda može.
-Kao posljedica toga, teren igra veliku ulogu jer može zahtijevati korištenje posebnih strategija.
+Kao posljedica toga, teren igra veliku ulogu jer igrača pozicija može zahtijevati korištenje posebnih strategija.
 
 \par Još jedna bitan element RTS igara je skupljanje resursa.
 Ovisno o konkretnoj igri, resursi mogu biti drvo, minerali, nafta, zlato, itd. Oni se tipično skupljaju s posebnom vrstom jedinica zvanom radnicima, te se koriste za izgradnju novih jedinica, zgrada, radnika, itd.
 Resursi također igraju veliku ulogu u strategiji same igre.
 Primjerice, ako se igrač nalazi u situaciji gdje ne može dalje napredovati zbog manjka nekog resursa, bit će prisiljen otići u potragu za istim.
-Analogno tome, višak izvora nekog resursa igrača može postaviti u opasnost jer će ostalim sudionicima igre biti prioritet napasti s ciljem da se ukradu resursi.
+Analogno tome, višak izvora nekog resursa igrača može postaviti u opasnost jer će ostalim sudionicima igre biti prioritet napasti s ciljem preuzimanja resursa.
 
 \par Osim resursa i mape, bitan element u svakoj RTS igri je izgradnja zgrada. 
 Konkretne igre obično imaju mnogo različitih zgrada od kojih svaka ima svoj skup funkcionalnosti, poput treniranja novih jedinica, procesiranje resursa, istraživanje novih tehnologija, itd.  
@@ -211,7 +218,7 @@ Primjer ovakve strukture implementiran je u okviru ovoga rada, te su detalji vi�
 \section{Strategija}
 
 \par Glavni cilj u igrama u RTS žanru analogan je igrama poput šaha, odnosno cilj je pametnom uporabom vlastite vojske poraziti vojsku od suparnika. 
-Za razliku od šaha, u računalnim strateškim igrama igrač započne igru \textit{praznih ruku}, odnosno igru može započeti sa samo jednim radnikom čiji je posao skupiti prve resurse s kojima će izgraditi prve jedinice te nove radnike i zgrade.
+Za razliku od šaha, u računalnim strateškim igrama igrač započne igru ''praznih ruku'', odnosno igru može započeti sa samo jednim radnikom čiji je posao skupiti prve resurse s kojima će izgraditi prve jedinice te nove radnike i zgrade.
 
 \par Igrač jedinicama daje naredbe tako da ih odabere (npr.\ pritiskom tipke miša) i zada im odredište gdje se moraju pomaknut ili protivničku jedinicu koju moraju napasti. 
 Igrač također može odabrati zgradu i njoj dati naredbu što da proizvodi, poput novih jedinica ili istraživanja novih tehnologija koje će omogućiti izgradnju novih tipova jedinica i zgrada.
@@ -231,7 +238,7 @@ Kao kontrast tome, protivnik se može fokusirati na razvoj tehnologije što će 
 
 \par RTS igre predstavljaju razne izazove za razvoj umjetne inteligencije. 
 Iz perspektive mikro upravljanja, umjetna inteligencija mora imati sustav po kojem će određivati najkraći put do odredišta, te kako se treba ponašati u slučaju da na putu naiđe na nešto ne planirano, poput protivničkih jedinica ili promjena na terenu. 
-S druge strane, makroupravljanje je mnogo složeniji izazov za umjetnu inteligenciju jer se sustav mora odrediti dugotrajne ciljeve, npr.\ hoće li se fokusirati na jaku vojsku, tehnološki ili ekonomski razvoj, itd.
+S druge strane, makroupravljanje je mnogo složeniji izazov za umjetnu inteligenciju jer sustav mora odrediti dugotrajne ciljeve, npr.\ hoće li se fokusirati na jaku vojsku, tehnološki ili ekonomski razvoj, itd.
 
 \par Navigacija jedinica je u RTS igrama često najintenzivniji posao za računalni procesor.
 Veliki broj jedinica stvara potrebu za velikim brojem pretraga, pogotovo ako se svaka kreće u svom smjeru, te svaka od njih mora pratiti potencijalne promjene na terenu i promijeniti ponašanje u skladu s istima.
@@ -249,7 +256,7 @@ Pretraga je obavljena za čitavu grupu odjednom, umjesto za sve jedinice zasebno
 
 \par Jedinice se također moraju znati ponašati u borbi na što pametniji način. Primjerice, strijelac bi se trebao držati na udaljenosti od mete jer je tamo najopasniji.
 U trenutku kada se nađe u borbi prsa u prsa, njegova najbolja strategija je povući se na udaljenost iz koje može pucati.
-Međutim, osposobiti i igračeve jedinice da se ponašaju na navedeni način  je dvosjekli mač.
+Međutim, osposobiti i igračeve jedinice da se automatski ponašaju na navedeni način  je dvosjekli mač.
 S jedne strane, jedinice će biti sposobnije i igrač neće morati konstantno mikro-upravljati njima.
 Međutim, navedenu prednost će neki igrači smatrati manom.
 Ako su strijelci dovoljno pametni da se znaju držati na udaljenosti iz koje mogu pucati i povlače se kada dođu u opasnost, to eliminira potrebu za nekim strategijama s kojima su dugogodišnji igrači strategija dobro upoznati.
@@ -279,13 +286,13 @@ Smatra se jednom od najbitnijih i najutjecajnijih igara svim vremena te je jedna
 
 \par Radnja je smještena u 25.\ stoljeću i vrti se oko tri frakcije koje se bore za dominaciju u dalekom dijelu Mliječne galaksije. 
 Svaka frakcija ima vlastite prednosti i sposobnosti po kojima se razlikuje od ostalih. 
-Frakcija \textit{Protoss}, koju čini rasa humanoidnih tehnološki naprednih vanzemaljaca i psihičkim moćima, ima pristup jakim jedinicama i naprednim tehnologijama.
+Frakcija \textit{Protoss}, koju čini rasa humanoidnih tehnološki naprednih vanzemaljaca sa psihičkim moćima, ima pristup jakim jedinicama i naprednim tehnologijama.
 Međutim, budući da je razvoj njihovih jedinica skup i dugotrajan proces, igrači su potaknuti da slijede strategiju kvalitete umjesto kvantitete.
-Frakcija \textit{Zerg}, koju čini rasa insektoidnih vanzemaljaca u potrazi za genetskim savršenstvom i opsjednuti s asimilacijom ostalih rasa, posjeduje samo organske jedinice i strukture koje se mogu proizvesti brzo i jeftino.
+Frakcija \textit{Zerg}, koju čini rasa insektoidnih vanzemaljaca u potrazi za genetskim savršenstvom i opsjednuti s asimilacijom ostalih rasa, posjeduje samo slabije organske jedinice i strukture koje se mogu proizvesti brzo i jeftino u velikim količinama.
 Zadnja frakcija su \textit{Terrani}, odnosno ljudi progonjeni sa Zemlje.
 Oni predstavljaju sredinu između prijašnje dvije rase, odnosno jedinice su im fleksibilne i sposobne za mnogo različitih poslova.
 
-\par Dokaz uspiješnosti \textit{Starcrafta} je činjenica da se nakon 20 godina i dalje aktivno igra.
+\par Dokaz uspješnosti \textit{Starcrafta} je činjenica da se nakon 20 godina i dalje aktivno igra.
 Igra je također imala dovoljno veliki utjecaj da ostvari status profesionalnog sporta u Južnoj Koreji.
 
 \subsubsection{Age of Empires}
@@ -299,9 +306,17 @@ Igrač započinje igru s nekoliko seljaka s kojima mora skupljati resurse kako b
 
 \par Tijekom razvoja igri u ovom serijalu, veliki naglasak je bio na razvoju umjetne inteligencije.
 Cilj razvojnog tima bio je napraviti umjetnu inteligenciju koja koristi taktike i strategije za pobijediti, umjesto da dobiva dodatne resurse i jače jedinice kako bi imala bolju šansu za pobijediti igrača, kao što igre često rade.
-Dodatna sposobnost umjetne inteligencije je što se prilagođava taktikama igrača, odnosno pamti koje je igre pobijedila ili izgubila te s vremenom postaje sve bolji.
+Umjetna inteligencija dobiva dodatnu sposobnost iz činjenice da se prilagođava taktikama igrača, odnosno pamti koje je igre pobijedila ili izgubila te s vremenom postaje sve efektivnija.  
 
 \chapter{Kretanje jedinica}\label{ch:pathfinding}
+
+\par U ovom poglavlju istražen je problem kretanja jedinica iz početne pozicije prema odredištu. 
+U potpoglavlju \ref{sec:stateSearch} objašnjene su metode pretrage prostora stanja, odnosno pretrage najkraćeg puta između dvije točke.
+Tamo navedene metode funkcioniraju samo u statičkom okruženju, odnosno ne znaju se prilagođavati na dinamičko okruženje poput svijeta u RTS igri.
+U popoglavlju \ref{sec:adaptation} prikazane su metode kojima se može postići prilagodba algoritma na promjenu.
+
+\par Konačno, u potpoglavlju \ref{sec:grouping} opisan je algoritam \textit{Boids} pomoću kojeg se može ostaviti zajedničko kretanje određene grupe jedinica.
+Ova optimizacija omogućava pojavu većeg broja jedinica u igrinom svijetu, jer se pretrage neće više izvršavati za sve jedinice u pokretu nego za svaku grupu.
 
 \section{Pretraživanje prostora stanja}\label{sec:stateSearch}
 
