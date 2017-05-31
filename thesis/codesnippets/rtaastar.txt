@@ -1,11 +1,11 @@
-funkcija RTAAStar(s_cilj, h, max_posjećena_stanja, max_pokreta)
+funkcija RTAAStar(s_cilj, h, max_proširena_stanja, max_pokreta)
     dok s_trenutni nije s_cilj
-        trenutni_cilj, posjećena_stanja = AStar(s_cilj, h, max_posjećena_stanja)
+        trenutni_cilj, proširena_stanja = AStar(s_cilj, h, max_proširena_stanja)
         
         ako trenutni_cilj = NEUSPIJEH
             vrati NEUSPIJEH
 
-        za_svaki s u posjećena_stanja
+        za_svaki s u proširena_stanja
             h(s) = g(trenutni_cilj) + h(trenutni_cilj) - g(s)
 
         broj_pokreta = 0

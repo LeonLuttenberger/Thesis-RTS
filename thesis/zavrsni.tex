@@ -323,7 +323,7 @@ Ova optimizacija omogućava pojavu većeg broja jedinica u igrinom svijetu, jer 
 \par Pretraživanje prostore stanja može riješiti mnogo analitičkih problema, uključujući pronalazak najkraćeg puta. 
 Ako korisnik odabere jedinicu koja se nalazi na početnoj poziciji i zada joj odredište, jedinica će pretragom prostornog stanja pronaći slijed akcija koji definira optimalni put.
 
-\par Problem pretrage \(S\) možemo formulirati sa šestorkom
+\par Problem pretrage prostora možemo formulirati sa šestorkom
 \[(S, S_0, akcije(s), prijelaz(s, a), cilj(s), cijena(s, a))\]
 u kojoj su:
 \begin{itemize}
@@ -344,17 +344,17 @@ u kojoj su:
 	\label{fig:basicGrid}
 \end{figure} 
 
-Na slici~\ref{fig:basicGrid} prikazan je rezultat pretrage najkraćeg puta na 5x5 ploči na kojoj su mogući i dijagonalni prijelazi.
+Na slici~\ref{fig:basicGrid} prikazan je rezultat pretrage najkraćeg puta na \(5\times5\) ploči na kojoj su mogući i dijagonalni prijelazi.
 Ispunjeni krug predstavlja početnu poziciju, prazan kvadrat predstavlja cilj te ispunjeni kvadrati predstavljaju prepreke.
-Ako definirano da se pločica u donjem lijevog predstavlja s koordinatama \((0, 0)\), tada standardna formulacija problema glasi:
+Ako definirano da se pločica u donjem lijevog predstavlja s koordinatama \((1, 1)\), tada standardna formulacija problema glasi:
 \begin{itemize}
-    \item \(S\): sve pozicije od \((0, 0)\) i \((4, 4)\).
-    \item \(S_0\): stanje \((0, 0)\).
+    \item \(S\): sve pozicije od \((1, 1)\) i \((5, 5)\).
+    \item \(S_0\): stanje \((1, 1)\).
     \item \(akcije(s)\): predstavlja prijelaze s kojima se može doći do susjednih polja od \(s\) koji nisu prepreke. 
     Moguće vrijednosti su: \textit{gore}, \textit{dolje}, \textit{lijevo}, \textit{desno}, \textit{gore-lijevo}, \textit{dolje-lijevo}, \textit{gore-desno} i \textit{dolje-desno}. 
     Npr.\ za početno stanje \(S_0\) funkcija će vrati slijed: \textit{gore}, \textit{desno} i \textit{gore-desno}. 
-    \item \(prijelaz(s, a)\): funkcija vraća novu poziciju na polju kada se akcija \(a\) izvrši iz stanja \(s\). Npr. \(prijelaz((0, 1), gore)\) će vratiti stanje \((1, 1)\).
-    \item \(cilj(s)\): funkcija je zadovoljena samo za \((4, 1)\).
+    \item \(prijelaz(s, a)\): funkcija vraća novu poziciju na polju kada se akcija \(a\) izvrši iz stanja \(s\). Npr. \(prijelaz((1, 2), gore)\) će vratiti stanje \((2, 2)\).
+    \item \(cilj(s)\): funkcija je zadovoljena samo za \((5, 2)\).
     \item \(cijena(s, a)\): cijene prijelaza su Euklidove udaljenosti, odnosno prijelazi na strogo susjedna polja imaju cijenu \(1\), dok dijagonalni prijelazi imaju trošak \(\sqrt{2}\).
 \end{itemize}
 
@@ -379,8 +379,8 @@ Ovime osiguravamo da u trenutku kada se čvor izvuče iz prioritetnog reda, najk
 
 \par Zbog navedenog svojstva, algoritam pretraživanja s jednolikom cijenom je \textbf{optimalan}, odnosno uvijek će pronaći optimalni put do odredišta ako ono postoji.
 
-\par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati posjetiti veliki broj stanja jer se u obzir uzima samo cijena puta, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
-Zbog ovog svojstva pretraživanje s jednolikom cijenom čini jedno od neusmjerenih algoritama pretrage.
+\par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati proširiti veliki broj stanja jer se u obzir uzima samo cijena puta, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
+Pretraživanje s jednolikom cijenom je dakle neusmjereni algoritam pretrage.
 
 \subsection{Usmjerena pretraga}
 
@@ -419,7 +419,8 @@ Odnosno, ako je \(s\) trenutno stanje, \(s'\) susjedno stanje i \(a\) akcija koj
 \begin{equation}
 h(s) \leq c(s, a) + h(s').
 \end{equation} 
-Ovo svojstvo je temeljeno na principu nejednakosti trokuta, odnosno činjenici da zbroj duljina dviju stranica trokuta ne može biti manja od duljine treće stranice, što se može uočiti na slici~\ref{fig:triangleInequality}.
+Ovo svojstvo je temeljeno na principu nejednakosti trokuta, odnosno činjenici da zbroj duljina dviju stranica trokuta ne može biti manja od duljine treće stranice.
+Analogija između to dvoje može se vidjeti na slici~\ref{fig:triangleInequality}.
 
 \begin{figure}[h]
 	\centering
@@ -445,18 +446,21 @@ U međuvremenu se na mapi mogu dogoditi razne promjene na koje se agent mora zna
 
 \par A* sam po sebi nije prikladan za taj posao, jer broj stanja koji se moraju pretražiti raste ovisno o ukupnom broju stanja. 
 Također, A* ne zna prepoznati promjene u prostoru stanja, poput promjena na mapi. Kada bi se prilikom dolaska u svako novo stanje algoritam A* ponovo izvrtio, u najboljem slučaju jedinice bi u svakom novom stanju zastale dok se prostor pretraži te im kretanje ne bi više bilo glatko. 
-U najgorem slučaju, čitava igre bi bila sklona čestim zaustavljanjima (engl. \textit{lag spike}).
+U najgorem slučaju, čitava igra bila bi sklona čestim zaustavljanjima (engl. \textit{lag spike}).
 
 \subsection{Ponovljeni A*}
 
-\par Najjednostavnija modifikacija koja se može napraviti nad algoritmom A* kako bi bio iskoristiv u realnom vremenu je ograničenje pretrage na manji lokalni prostor kojeg agent može dostignuti u određenom broju poteza. 
-Konkretno, postavi se ograničenje na broj stanja koji se mogu pretražiti i ograničenje na broj poteza koje agent može napraviti.
+\par Najjednostavnija modifikacija koja se može napraviti nad algoritmom A* kako bi bio iskoristiv u realnom vremenu je ograničenje pretrage na manji lokalni prostor.
+Sva stanja u tom lokalnom prostoru također moraju biti u blizini agenta, odnosno samo određeni broj poteza udaljena.
+Konkretno, postavi se ograničenje na broj stanja koji se mogu proširiti i ograničenje na broj poteza koje agent može napraviti.
 Kada se pretraga iz trenutne pozicije izvrši, agent će krenuti prema stanju koje je trenutno sljedeće u prioritetnom redu sve dok ga ne dosegne ili dok ne napravi maksimalni broj dozvoljenih poteza.
-Taj će se postupak ponavljati sve dok agent ne dođe do ciljnog položaja.
+Taj će se postupak ponavljati sve dok agent ne dostigne ciljni položaj.
 Dodatno, može se definirati uvjet da ako se promjeni stanje koje se trenutno nalazi u trajektoriji (npr.\ ako se direktno na putu jedinici u RTS igri izgradi zgrada), pretraga se ponovi s novim podatcima o okolini.
 
 \par Zahvaljujući navedenim modifikacijama, algoritam A* se može koristiti u stvarnom vremenu. 
 Broj posjećenih stanja bit će neovisan broju mogućih stanja što garantira mali prostor stanja, no rezultirat će dužim putevima agenta do cilja.
+
+\par S obzirom na činjenicu da svaka pretraga kreće ispočetka, moguća je pojava ciklusa. 
 
 \begin{figure}[h]
 	\centering
@@ -465,11 +469,9 @@ Broj posjećenih stanja bit će neovisan broju mogućih stanja što garantira ma
 	\label{fig:pathfindingCycle}
 \end{figure} 
 
-\par S obzirom na činjenicu da svaka pretraga kreće ispočetka, moguća je pojava ciklusa. 
-
 \par Na slici~\ref{fig:pathfindingCycle} prikazan je rezultat pretrage koja je rezultirala ciklusom. 
 Radi jednostavnosti, u ovom problemu dopušteni su samo pomaci na izravno susjedna polja.
-Broj stanja koja se mogu pretražiti ograničen na 2, te je agent zatim otišao prema idućem čvoru u prioritetom redu. 
+Broj stanja koja se mogu proširiti ograničen na 2, te je agent zatim otišao prema idućem čvoru u prioritetom redu. 
 Ispunjeni krug predstavlja početni položaj u pretrazi, kvadrat ciljni položaj, dok zasivljeno polje predstavlja pregledano stanje. 
 U gornjem lijevom kutu zapisan je trošak puta za čvor \(g(n)\), u gornjem desnom kutu vrijednost heuristike \(h(n)\) te u donjem lijevom kutu vrijednost \(f(n) = g(n) + h(n)\).
 U slučaju kada se u prioritetni red doda čvor s vrijednosti koja već postoji, prvi u redu je onaj koji je zadnji dodan.
@@ -478,7 +480,7 @@ U slučaju kada se u prioritetni red doda čvor s vrijednosti koja već postoji,
 \par Kako bi se riješio problem pojave ciklusa, potrebno je sačuvati informacije iz prijašnjih pretraga.
 Jedan od algoritama koji nudi takvu mogućnost je adaptivni A* u stvarnom vremenu (engl. \textit{Real-Time Adaptive A*}, u nastavu RTAA*).
 
-\par Neka je potrebno izvesti više A* pretraga s konzistentnom heuristikom i istim ciljnim stanjem no s različitim početnim stanjima. Adaptivni algoritam A* će nakon svake pretrage podesiti heurističke vrijednosti posjećenih stanja kako bi buduće pretrage bile obavještenije\cite{article:RTAAStar}.
+\par U praksi, često je potrebno izvesti više A* pretraga s konzistentnom heuristikom i istim ciljnim stanjem no s različitim početnim stanjima. Adaptivni algoritam A* će nakon svake pretrage podesiti heurističke vrijednosti posjećenih stanja kako bi buduće pretrage bile obavještenije\cite{article:RTAAStar}.
 
 \par Neka je \(s_{start}\) početno stanje u pretrazi i \(s\) stanje u lokalnom prostoru stanja. Ako je heuristika \(h\) konzistentna vrijedi relacija:
 \begin{equation}
@@ -505,7 +507,7 @@ h(s) = f(\overline{s}) - g(s).
 \end{minipage}
 
 U programskom isječku~\ref{fig:codeRTAAStar} prikazan je pseudokod za algoritam RTAA*. 
-Algoritam na početku obavi pretragu A* s maksimalnim brojem stanja za posjetiti, te kao rezultat dobije stanje koje je bilo iduće i prioritetnom redu i skup posjećenih stanja.
+Algoritam na početku obavi pretragu A* s maksimalnim brojem stanja za proširenje, te kao rezultat dobije stanje koje je bilo iduće i prioritetnom redu i skup posjećenih stanja.
 Stanje koje je iduće bilo u prioritetnom redu postane trenutni cilj u kretanju agenta.
 Ako pretraga A* nije vratila nikakvo rješenje znači da put do odredišta ne postoji, odnosno funkcija u tom slučaju vraća neuspjeh.
 U suprotnom slučaju, prvo se napravi prilagodba heuristike za sva stanja u skupu posjećenih stanja.
@@ -527,10 +529,10 @@ Maksimalni broj pretraženih stanja u ovoj pretrazi nije ograničen, kao ni maks
 Kao i s primjerom na slici~\ref{fig:pathfindingCycle}, u gornjem lijevog kutu prikazan je trošak \(g(s)\), u gornjem desnom \(h(s)\), u donjem lijevom \(f(s)\) te siva polja označavaju pretražena stanja.
 Heuristička funkcija je definirana kao zbroj horizontalne i vertikalne udaljenosti do cilja, što je poznatije pod nazivom ''Manhattan heuristika''.
 
-Nakon prve pretrage, agent se pomaknuo do pozicije \((1, 2)\) kada se na  terenu uočena iznenadna promjena: na poziciju \((2, 2)\) dodana je prepreka.
+Nakon prve pretrage, agent se pomaknuo do pozicije \((2, 3)\) kada se na  terenu uočena iznenadna promjena: na poziciju \((3, 3)\) dodana je prepreka.
 Pošto se ta pozicija nalazi na putu do cilja, potrebno je ponoviti pretragu.
-Prva pretraga ažurirala je vrijednosti heuristika \(h(n)\) za sva pretražena stanja, što se vidi u donjem lijevom kutu ćelija.
-U drugoj pretrazi, te se vrijednosti gledaju kao heurističke vrijednosti za njihova stanja, što sprječava pretragu da se usmjeri prema prijašnjoj početnoj poziciji, odnosno \((2, 0)\).
+Prva pretraga ažurirala je vrijednosti heuristika \(h(n)\) za sva proširena stanja, što se vidi u donjem lijevom kutu ćelija.
+U drugoj pretrazi, te se vrijednosti gledaju kao heurističke vrijednosti za njihova stanja, što sprječava pretragu da se usmjeri prema prijašnjoj početnoj poziciji, odnosno \((3, 1)\).
 
 \section{Grupiranje jedinica}\label{sec:grouping}
 
@@ -544,8 +546,6 @@ Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj 
 	\caption{Pozicioniranje jedinica na maksimalnoj udaljenosti od mete}
 	\label{fig:enemySeparation}
 \end{figure}
-
-% TODO this isn't finished
 
 \subsection{Algoritam \textit{Boids}}\label{ssec:boids}
 
@@ -611,12 +611,12 @@ Za izradu i uređivanje mape korišten je besplatni uređivač mapa \textit{Tile
 
 \par Programska implementacija izdvojena je u tri glavna modula:
 \begin{itemize}
-	\item \textit{pathfinding}: sadrži generalizirane strukture podataka i algoritme pretrage.
-	\item \textit{genericRTS}: sadrži generične funkcionalnosti RTS igre, poput jedinica, zgrada i podsustava za kretanje jedinica.
+	\item \textit{pathfinding}: sadrži generalizirane strukture podataka i algoritme pretrage, te podsustav za kretanje jedinica.
+	\item \textit{genericRTS}: sadrži generične funkcionalnosti RTS igre, poput jedinica i zgrada.
 	\item \textit{core}: sadrži konkretan prototip RTS igre napisane koristeći prijašnja dva modula.
 \end{itemize}
 
-\section{Izdvajanje jezgrenih funkcionalnosti}
+\section{Izdvajanje jezgrenih funkcionalnosti}\label{sec:core}
 
 \subsection{Objekti u igri}
 
@@ -762,8 +762,8 @@ Ako korisnik označi lokaciju na kojoj se zgrada ne može izgraditi, ili ako za 
 	\label{fig:building}
 \end{figure}
 
-\par Tijekom igre igrač ima mogućnost spremanja stanja trenutne igre.
-Zatim tijekom ulaska u igru ima mogućnost učitavanje iste igre, uz mogućnost započinjanja nove.
+\par Tijekom igre igrač ima mogućnost spremanja stanja trenutne igre na disk.
+Ta ista igre se zatim može učitati i nastaviti bilo kada, obabirom prikladne mogućnosti u početnom ekranu.
 
 \par Na slici~\ref{fig:menus} prikazani su izbornici dostupni u igri.
 Gornja lijeva slika prikazuje je početni izbornik koji nudi opciju pokretanja nove igre, učitavanja stare, ulaska u postavke i izlaska iz igre.
@@ -778,8 +778,8 @@ U njemu su omogućene sljedeće mogućnosti:
 	\item prikaz indikatora \textit{zdravlja} protivničkih jedinica.
 	\item prikaz indikatora \textit{zdravlja} izvora resursa na mapi.
 	\item prikaz indikatora \textit{zdravlja} zgrada.
+	\item odabir jezika za igru. Podržani su engleski i hrvatski.
 \end{itemize}
-
 
 \begin{figure}[h]
 	\centering
@@ -794,7 +794,7 @@ U njemu su omogućene sljedeće mogućnosti:
 U ovom potpoglavlju bit će prikazano nekoliko primjera kako se mogu jednostavno dodati nove zgrade i jedinice u konkretnu igru.
 
 \par Bitno je napomenuti da se za sve dodane objekte u igru moraju definirati teksture s kojima će se objekti prikazivati.
-Novi objekti dodani u ovom poglavlju su osnovn slike izrađene u besplatnom alatu za uređivanje alata \textit{GIMP}.
+Novi objekti dodani u ovom poglavlju su osnovne slike izrađene u besplatnom alatu za uređivanje alata \textit{GIMP}.
 
 \begin{minipage}{\textwidth}
 	\lstinputlisting[caption = {Isječak koda u Javi koji dodaje novu protivničku jedinicu},
