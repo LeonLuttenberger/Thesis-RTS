@@ -683,7 +683,7 @@ Označene jedinice će se zatim grupirati ako su dovoljno blizu i krenuti zajedn
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.9\linewidth]{images/gameStartScreenshot.png}
+	\includegraphics[width=0.9\linewidth]{images/gameStart.png}
 	\caption{Početno stanje u igri}
 	\label{fig:gameStart}
 \end{figure}
@@ -734,7 +734,7 @@ Nakon što se resurs skupi, odgovarajuća količina minerala bit će dodana igra
 Također, ako u blizini postoje ostali izvori materijala, radnik će ih samoinicijativno krenuti skupljati.
 Bez ove mogućnosti, radnici bi zahtijevali previše mikroupravljanja te bi igrač redovito morao skretati pozornost s bitke samo kako bi zadao jednostavnu naredbu radniku.
 
-\par Kada je skupljeno dovoljno minerala za izgraditi zgradu, igrač može klikom na gumb \textit{Turret (100)} izabrati da želi izgraditi navedenu zgradu.
+\par Kada je skupljeno dovoljno minerala za izgraditi zgradu, igrač može klikom na gumb \textit{Toranj (100)} izabrati da želi izgraditi navedenu zgradu.
 Time će se pojaviti silueta zgrade koja prati lokaciju koju miš označuje na mapi, kao što je prikazano na slici~\ref{fig:building}.
 Korisnikovim klikom na lokaciju na mapi će zgrada biti izgrađena na tom mjestu, ako je moguće.
 Ako korisnik označi lokaciju na kojoj se zgrada ne može izgraditi, ili ako za izgradnju zgrade nisu dostupni resursi, silueta zgrade će biti crvena.
@@ -746,14 +746,39 @@ Ako korisnik označi lokaciju na kojoj se zgrada ne može izgraditi, ili ako za 
 	\label{fig:building}
 \end{figure}
 
-\par Prilikom ulaska u igru igrač ima mogućnost pokretanja nove igre, učitavanja već započete igre, ulaska u postavke i izlaska iz igre.
-% Dodaj slike
-% Pokaži postavke
+\par Tijekom igre igrač ima mogućnost spremanja stanja trenutne igre.
+Zatim tijekom ulaska u igru ima mogućnost učitavanje iste igre, uz mogućnost započinjanja nove.
+
+\par Na slici~\ref{fig:menus} prikazani su izbornici dostupni u igri.
+Gornja lijeva slika prikazuje je početni izbornik koji nudi opciju pokretanja nove igre, učitavanja stare, ulaska u postavke i izlaska iz igre.
+U gornjoj desnoj slici prikazan je izbornik koji se pojavi kada igrač pritisne tipku za povratak unutar igre.
+Omogućuje igraču povratak u igru, spremanje igre na disk, ulazak u postavke i povratak na početni izbornik.
+Donja slika prikazuje izbornik s postavkama.
+U njemu su omogućene sljedeće mogućnosti:
+\begin{itemize}
+	\item prikaz brojača slika u sekundi (engl. \textit{Frames per second}, FPS).
+	\item prikaz trenutno planiranih putanja jedinica.
+	\item prikaz indikatora \textit{zdravlja} igračevih jedinica.
+	\item prikaz indikatora \textit{zdravlja} protivničkih jedinica.
+	\item prikaz indikatora \textit{zdravlja} izvora resursa na mapi.
+	\item prikaz indikatora \textit{zdravlja} zgrada.
+\end{itemize}
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\linewidth]{images/menus.png}
+	\caption{Prikaz izbornika u igri}
+	\label{fig:menus}
+\end{figure}
 
 \section{Dodavanje novih funkcionalnosti}
 
-Jedna od ključnih ideja tijekom razvoja jezgrenih funkcionalnosti RTS igre bila je jednostavno proširivost igre.
+\par Jedna od ključnih ideja tijekom razvoja jezgrenih funkcionalnosti RTS igre bila je jednostavno proširivost igre.
 U ovom potpoglavlju bit će prikazano nekoliko primjera kako se mogu jednostavno dodati nove zgrade i jedinice u konkretnu igru.
+
+\par Bitno je napomenuti da se za sve dodane objekte u igru moraju definirati teksture s kojima će se objekti prikazivati.
+Novi objekti dodani u ovom poglavlju su osnovn slike izrađene u besplatnom alatu za uređivanje alata \textit{GIMP}.
 
 \begin{minipage}{\textwidth}
 	\lstinputlisting[caption = {Isječak koda u Javi koji dodaje novu protivničku jedinicu},
