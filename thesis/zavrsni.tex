@@ -69,13 +69,13 @@
 
 \chapter{Uvod}
 
-\par Računalne igre su jedan od vrlo značajnih pokretača razvoja računala.
+\par Računalne igre predstavljaju vrlo značajan pokretač razvoja računala.
 Jednu zanimljivu vrstu igara čine strategije u stvarnom vremenu (engl. \textit{Real-Time Strategy}, RTS).
 U njima igrač mora poraziti protivnike razmišljanjem i donošenjem prikladnih taktičkih odluka, te je utjecaj vjerojatnosti minimalan.
 
 \par U~\ref{ch:games}.~poglavlju napravljen je kratak pregled različitih vrsta računalnih igara i osnovnih podsustava prisutnim u njima.
 
-\par U~\ref{ch:rtsGames}.~poglavlju napravljen je detaljnih opis RTS žanra igara.
+\par U~\ref{ch:rtsGames}.~poglavlju izrađen je detaljnih opis RTS žanra igara.
 Ovdje su istraženi osnovni podsustavi koji se nalaze u takvim igrama i nisu specifični za konkretnu igru već se mogu višestruko iskorištavati.
 
 \par Jedan od podsustava prisutnih u svim RTS igrama je samostalno kretanje jedinica. 
@@ -92,7 +92,6 @@ Nadalje, opisan je postupak jednostavnog dodavanja novih funkcionalnost u konkre
 
 \chapter{Pregled vrsti računalnih igara}\label{ch:games}
 
-% Napiši uvod u ovo
 \par Klasifikacija žanrova računalnih igara nije strogo određena.
 Svaka igra može se klasificirati po osobnim kriterijima te može pripadati više od jednom žanru istovremeno.
 U ovom poglavlju napravljen je kratak pregled nekoliko najbitnijih žanrova koji se bitno razlikuju po svom utjecaju i podsustavima.
@@ -128,7 +127,7 @@ Međutim, termin se najčešće koristi za likove u igri s kojima igrač može i
 \par Kako bi se svijet u kojem se igra odvija činio što stvarniji, likovi u svijetu se također moraju ponašati što realnije.
 Kao posljedica toga i čistog dosega ovakvih igara, one znaju imati vrlo visoke standarde za umjetnu inteligenciju.
 Primjerice, ako igrač posjeti neko selo ili grad u svijetu igre, ono mora biti ispunjeno s ljudima koji imaju svoje živote, pozadinu i posao.
-Dodatna doza uvjerljivosti se postigne ako \textit{NPC}-evi u tom gradu svaki dan ujutro odu na posao, na kraju radnog dana otputuju doma i po noći spavaju.
+Dodatna doza uvjerljivosti se postigne ako \textit{NPC}-evi u tom gradu svaki dan ujutro odu na posao, na kraju radnog dana otputuju kući i po noći spavaju.
 Navedena funkcionalnost lako je izvediva uporabom nedeterminističkih konačnih automata\cite{book:AIGameProgrammingWisdom}.
 
 \section{Žanr pucačina}
@@ -182,8 +181,6 @@ Kao posljedica toga, u strategijama na potez nije bitna brzina razmišljanja i r
 Za razliku od strategija na potez gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju u isto vrijeme.
 Dodatna napetost nastaje zbog znanja da svi ostali igrači aktivno pokušavaju ostvariti svoje ciljeve i spriječiti sve ostale igrače u rađenju istoga.
 U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu.
-
-%TODO napisi o cemu ce sve bit poglavlje
 
 \section{Elementi RTS žanra}
 
@@ -262,8 +259,6 @@ Međutim, navedenu prednost će neki igrači smatrati manom.
 Ako su strijelci dovoljno pametni da se znaju držati na udaljenosti iz koje mogu pucati i povlače se kada dođu u opasnost, to eliminira potrebu za nekim strategijama s kojima su dugogodišnji igrači strategija dobro upoznati.
 Primjer takve strategije je napraviti formaciju strijelaca tako da budu u jednoj liniji, te između njih i neprijatelja postaviti mačevalce koji će sprječavati protivnike da se približe.
 
-% Možda ubaci sliku
-
 \par Umjetna inteligencija koja će upravljali strategijom na višoj razini slična je ulozi generala u vojsci. 
 Ona dobiva percepcije o trenutnom stanju na terenu od njenih jedinica.
 Na temelju tih percepcija računalo može bitno promijeniti trenutnu strategiju. Primjerice, ako je računalo negdje otkrilo izvore resursa, ono može napraviti odluku da radnike pošalje u tom smjeru kako bi skupili što više toga.
@@ -313,17 +308,17 @@ Umjetna inteligencija dobiva dodatnu sposobnost iz činjenice da se prilagođava
 \par U ovom poglavlju istražen je problem kretanja jedinica iz početne pozicije prema odredištu. 
 U potpoglavlju \ref{sec:stateSearch} objašnjene su metode pretrage prostora stanja, odnosno pretrage najkraćeg puta između dvije točke.
 Tamo navedene metode funkcioniraju samo u statičkom okruženju, odnosno ne znaju se prilagođavati na dinamičko okruženje poput svijeta u RTS igri.
-U popoglavlju \ref{sec:adaptation} prikazane su metode kojima se može postići prilagodba algoritma na promjenu.
+U potpoglavlju \ref{sec:adaptation} prikazane su metode kojima se može postići prilagodba algoritma na promjenu.
 
-\par Konačno, u potpoglavlju \ref{sec:grouping} opisan je algoritam \textit{Boids} pomoću kojeg se može ostaviti zajedničko kretanje određene grupe jedinica.
-Ova optimizacija omogućava pojavu većeg broja jedinica u igrinom svijetu, jer se pretrage neće više izvršavati za sve jedinice u pokretu nego za svaku grupu.
+\par Konačno, u potpoglavlju \ref{sec:grouping} opisan je algoritam \textit{Boids} pomoću kojeg se može ostvariti zajedničko kretanje određene grupe jedinica.
+Ova optimizacija omogućava pojavu većeg broja jedinica u svijetu igre, jer se pretrage neće više izvršavati za sve jedinice u pokretu nego za svaku grupu.
 
 \section{Pretraživanje prostora stanja}\label{sec:stateSearch}
 
-\par Pretraživanje prostore stanja može riješiti mnogo analitičkih problema, uključujući pronalazak najkraćeg puta. 
+\par Pretraživanje prostora stanja može riješiti mnogo analitičkih problema, uključujući pronalazak najkraćeg puta. 
 Ako korisnik odabere jedinicu koja se nalazi na početnoj poziciji i zada joj odredište, jedinica će pretragom prostornog stanja pronaći slijed akcija koji definira optimalni put.
 
-\par Problem pretrage prostora možemo formulirati sa šestorkom
+\par Problem pretrage prostora možemo formulirati sljedećom šestorkom
 \[(S, S_0, akcije(s), prijelaz(s, a), cilj(s), cijena(s, a))\]
 u kojoj su:
 \begin{itemize}
@@ -331,7 +326,7 @@ u kojoj su:
     \item \(S_0\) početno stanje.
     \item \(akcije(s)\) skup mogućih akcija u stanje \(s\).
     \item \(prijelaz(s, a)\) stanje dobiveno kada se izvede akcija \(a\) u stanju \(s\).
-    \item \(cilj(s)\) ispituje jeli stanje \(s\) ciljno stanje.
+    \item \(cilj(s)\) ispituje je li stanje \(s\) ciljno stanje.
     \item \(cijena(s, a)\) cijena akcije \(a\) kada smo u stanju \(s\). 
 \end{itemize}
 
@@ -346,13 +341,13 @@ u kojoj su:
 
 Na slici~\ref{fig:basicGrid} prikazan je rezultat pretrage najkraćeg puta na \(5\times5\) ploči na kojoj su mogući i dijagonalni prijelazi.
 Ispunjeni krug predstavlja početnu poziciju, prazan kvadrat predstavlja cilj te ispunjeni kvadrati predstavljaju prepreke.
-Ako definirano da se pločica u donjem lijevog predstavlja s koordinatama \((1, 1)\), tada standardna formulacija problema glasi:
+Ako definirano da se pločica u donjem lijevog kutu predstavlja koordinatama \((1, 1)\), tada standardna formulacija problema glasi:
 \begin{itemize}
     \item \(S\): sve pozicije od \((1, 1)\) i \((5, 5)\).
     \item \(S_0\): stanje \((1, 1)\).
-    \item \(akcije(s)\): predstavlja prijelaze s kojima se može doći do susjednih polja od \(s\) koji nisu prepreke. 
+    \item \(akcije(s)\): predstavlja prijelaze kojima se može doći do susjednih polja od \(s\) koji nisu prepreke. 
     Moguće vrijednosti su: \textit{gore}, \textit{dolje}, \textit{lijevo}, \textit{desno}, \textit{gore-lijevo}, \textit{dolje-lijevo}, \textit{gore-desno} i \textit{dolje-desno}. 
-    Npr.\ za početno stanje \(S_0\) funkcija će vrati slijed: \textit{gore}, \textit{desno} i \textit{gore-desno}. 
+    Npr.\ za početno stanje \(S_0\) funkcija će vratiti slijed: \textit{gore}, \textit{desno} i \textit{gore-desno}. 
     \item \(prijelaz(s, a)\): funkcija vraća novu poziciju na polju kada se akcija \(a\) izvrši iz stanja \(s\). Npr. \(prijelaz((1, 2), gore)\) će vratiti stanje \((2, 2)\).
     \item \(cilj(s)\): funkcija je zadovoljena samo za \((5, 2)\).
     \item \(cijena(s, a)\): cijene prijelaza su Euklidove udaljenosti, odnosno prijelazi na strogo susjedna polja imaju cijenu \(1\), dok dijagonalni prijelazi imaju trošak \(\sqrt{2}\).
@@ -379,7 +374,7 @@ Ovime osiguravamo da u trenutku kada se čvor izvuče iz prioritetnog reda, najk
 
 \par Zbog navedenog svojstva, algoritam pretraživanja s jednolikom cijenom je \textbf{optimalan}, odnosno uvijek će pronaći optimalni put do odredišta ako ono postoji.
 
-\par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati proširiti veliki broj stanja jer se u obzir uzima samo cijena puta, bez znanja o tome dali je taj čvor bliži cilju ili ne. 
+\par Unatoč tome što će algoritam uvijek pronaći najkraći put, ponekad će za to morati proširiti veliki broj stanja jer se u obzir uzima samo cijena puta, bez znanja da je taj čvor bliži cilju ili nije. 
 Pretraživanje s jednolikom cijenom je dakle neusmjereni algoritam pretrage.
 
 \subsection{Usmjerena pretraga}
@@ -400,11 +395,12 @@ U njemu se čvorovi evaluiraju tako da se zbroji trošak puta \(g(s)\) i heurist
 f(s) = g(s) + h(s).
 \end{equation} 
 
-Prema tome, vrijednost \(f(s)\) predstavlja procjenu troška puta koji prolazi kroz stanje \(s\).
+\par Prema tome, vrijednost \(f(s)\) predstavlja procjenu troška puta koji prolazi kroz stanje \(s\).
 Ovaj algoritam je identičan pretraživanju s jednolikom cijenom, osim što se u prioritetni red za čvorove ubacuje vrijednost \(g(s) + h(s)\) umjesto \(g(s)\).
 
 \subsubsection{Uvjeti za optimalnost algoritma A*}
-Kako bi algoritam A* bio optimalan, heuristika mora zadovoljiti sljedeća dva svojstva: \textbf{optimističnost} i \textbf{konzistentnost}.
+
+\par Kako bi algoritam A* bio optimalan, heuristika mora zadovoljiti sljedeća dva svojstva: \textbf{optimističnost} i \textbf{konzistentnost}.
 
 \par Heuristika je optimistična ako nikad ne predvidi udaljenost do cilja koja je veća od stvarne. 
 Kao posljedica činjenice da je \(g(s)\) cijena puta do stanja \(s\), \(f(s)\) nikad neće imati vrijednost veću od cijene stvarnog puta do cilja kroz čvor \(s\).
@@ -414,7 +410,7 @@ Matematički formulirano, ako je \(h^*(s)\) cijena stvarnog puta od čvora \(s\)
 \end{equation} 
 Također, vrijednost heuristike u ciljnom čvoru mora biti 0: \(h(s_{cilj}) = 0\).
 
-\par Heuristika je konzistentna ako procjena udaljenosti do cilja nikad nije veća  od zbroja heurističke vrijednosti od susjednog stanja i cijeni puta između navedena dva stanja.
+\par Heuristika je konzistentna ako procjena udaljenosti do cilja nikad nije veća od zbroja heurističke vrijednosti od susjednog stanja i cijene puta između navedena dva stanja.
 Odnosno, ako je \(s\) trenutno stanje, \(s'\) susjedno stanje i \(a\) akcija koja vodi iz \(s\) u \(s'\), tada vrijedi:
 \begin{equation}
 h(s) \leq c(s, a) + h(s').
@@ -451,14 +447,14 @@ U najgorem slučaju, čitava igra bila bi sklona čestim zaustavljanjima (engl. 
 \subsection{Ponovljeni A*}
 
 \par Najjednostavnija modifikacija koja se može napraviti nad algoritmom A* kako bi bio iskoristiv u realnom vremenu je ograničenje pretrage na manji lokalni prostor.
-Sva stanja u tom lokalnom prostoru također moraju biti u blizini agenta, odnosno samo određeni broj poteza udaljena.
+Sva stanja u tom lokalnom prostoru također moraju biti u blizini agenta, odnosno udaljena samo određeni broj poteza.
 Konkretno, postavi se ograničenje na broj stanja koji se mogu proširiti i ograničenje na broj poteza koje agent može napraviti.
-Kada se pretraga iz trenutne pozicije izvrši, agent će krenuti prema stanju koje je trenutno sljedeće u prioritetnom redu sve dok ga ne dosegne ili dok ne napravi maksimalni broj dozvoljenih poteza.
+Kada se izvršti pretraga iz trenutne pozicije, agent će krenuti prema stanju koje je trenutno sljedeće u prioritetnom redu sve dok ga ne dosegne ili dok ne napravi maksimalni broj dozvoljenih poteza.
 Taj će se postupak ponavljati sve dok agent ne dostigne ciljni položaj.
 Dodatno, može se definirati uvjet da ako se promjeni stanje koje se trenutno nalazi u trajektoriji (npr.\ ako se direktno na putu jedinici u RTS igri izgradi zgrada), pretraga se ponovi s novim podatcima o okolini.
 
 \par Zahvaljujući navedenim modifikacijama, algoritam A* se može koristiti u stvarnom vremenu. 
-Broj posjećenih stanja bit će neovisan broju mogućih stanja što garantira mali prostor stanja, no rezultirat će dužim putevima agenta do cilja.
+Broj posjećenih stanja bit će neovisan o broju mogućih stanja što garantira mali prostor stanja, no rezultirat će dužim putevima agenta do cilja.
 
 \par S obzirom na činjenicu da svaka pretraga kreće ispočetka, moguća je pojava ciklusa. 
 
@@ -477,8 +473,9 @@ U gornjem lijevom kutu zapisan je trošak puta za čvor \(g(n)\), u gornjem desn
 U slučaju kada se u prioritetni red doda čvor s vrijednosti koja već postoji, prvi u redu je onaj koji je zadnji dodan.
 
 \subsection{Adaptivni A* u stvarnom vremenu}\label{ssec:rtaastar}
+
 \par Kako bi se riješio problem pojave ciklusa, potrebno je sačuvati informacije iz prijašnjih pretraga.
-Jedan od algoritama koji nudi takvu mogućnost je adaptivni A* u stvarnom vremenu (engl. \textit{Real-Time Adaptive A*}, u nastavu RTAA*).
+Jedan od algoritama koji nudi takvu mogućnost je adaptivni algoritam A* u stvarnom vremenu (engl. \textit{Real-Time Adaptive A*}, u nastavu RTAA*).
 
 \par U praksi, često je potrebno izvesti više A* pretraga s konzistentnom heuristikom i istim ciljnim stanjem no s različitim početnim stanjima. Adaptivni algoritam A* će nakon svake pretrage podesiti heurističke vrijednosti posjećenih stanja kako bi buduće pretrage bile obavještenije\cite{article:RTAAStar}.
 
@@ -496,7 +493,7 @@ Drugim riječima, put od početne pozicije do cilja kroz stanje \(s\) nikad neć
 \end{aligned}
 \end{equation}
 
-\par Kao posljedicu toga, za svako posjećeno stanje u pretrazi moguće je napraviti korekciju:
+\par Kao posljedica toga, za svako posjećeno stanje u pretrazi moguće je napraviti korekciju:
 \begin{equation}
 h(s) = f(\overline{s}) - g(s).
 \end{equation}
@@ -513,8 +510,8 @@ Ako pretraga A* nije vratila nikakvo rješenje znači da put do odredišta ne po
 U suprotnom slučaju, prvo se napravi prilagodba heuristike za sva stanja u skupu posjećenih stanja.
 Nakon toga, agent se počne kretati po mapi sve dok ne dostigne cilj ili ne obavi maksimalni broj pokreta.
 U svakom novom stanju, agent provjerava sva stanja koja mu se nalaze na putanji do cilja.
-Ako zabilježi bilo gdje na putu, znači da mu trenutna putanja potencijalno više nije valjana. 
-U tom slučaju, petlja započinje ponovo s izvođenjem pretrage A*.
+Ako zabilježi promjenu bilo gdje na putu, znači da mu trenutna putanja potencijalno više nije valjana. 
+U tom slučaju, petlja započinje ponovo izvođenjem pretrage A*.
 Navedena petlja se ponavlja sve dok agent ne dostigne cilj ili ne shvati da put do istoga ne postoji.
 
 \begin{figure}[h]
@@ -529,16 +526,16 @@ Maksimalni broj pretraženih stanja u ovoj pretrazi nije ograničen, kao ni maks
 Kao i s primjerom na slici~\ref{fig:pathfindingCycle}, u gornjem lijevog kutu prikazan je trošak \(g(s)\), u gornjem desnom \(h(s)\), u donjem lijevom \(f(s)\) te siva polja označavaju pretražena stanja.
 Heuristička funkcija je definirana kao zbroj horizontalne i vertikalne udaljenosti do cilja, što je poznatije pod nazivom ''Manhattan heuristika''.
 
-Nakon prve pretrage, agent se pomaknuo do pozicije \((2, 3)\) kada se na  terenu uočena iznenadna promjena: na poziciju \((3, 3)\) dodana je prepreka.
-Pošto se ta pozicija nalazi na putu do cilja, potrebno je ponoviti pretragu.
+\par Nakon prve pretrage, agent se pomaknuo do pozicije \((2, 3)\) kada je na  terenu uočena iznenadna promjena: na poziciju \((3, 3)\) dodana je prepreka.
+Kako se ta pozicija nalazi na putu do cilja, potrebno je ponoviti pretragu.
 Prva pretraga ažurirala je vrijednosti heuristika \(h(n)\) za sva proširena stanja, što se vidi u donjem lijevom kutu ćelija.
-U drugoj pretrazi, te se vrijednosti gledaju kao heurističke vrijednosti za njihova stanja, što sprječava pretragu da se usmjeri prema prijašnjoj početnoj poziciji, odnosno \((3, 1)\).
+U drugoj pretrazi te se vrijednosti gledaju kao heurističke vrijednosti za njihova stanja, što pretragu sprječava da se usmjeri prema prijašnjoj početnoj poziciji, odnosno \((3, 1)\).
 
 \section{Grupiranje jedinica}\label{sec:grouping}
 
-\par Algoritam A* i njegove varijacije su sposobne pronaći putanju do cilja ali ne uzimaju u obzir taktičko pozicioniranje jedinica. 
+\par Algoritam A* i njegove varijacije su sposobni pronaći putanju do cilja ali ne uzimaju u obzir taktičko pozicioniranje jedinica. 
 Primjerice, ako igrač u RTS igri odjednom odabere više od jedne jedinice i zada im odredište, očekivano ponašanje je da će se jedinice zajedno kretati kao skupina. 
-Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj udaljenosti od mete na kojoj i dalje mogu pucati, kao što se može vidjeti na slici~\ref{fig:enemySeparation}.
+Također, u borbi je poželjno da se jedinice nastoje pozicionirati na maksimalnoj udaljenosti od mete na kojoj i dalje mogu pucati, kao što se može vidjeti na slici~\ref{fig:enemySeparation}.
 
 \begin{figure}[h]
 	\centering
@@ -550,14 +547,14 @@ Također, u borbi je poželjno se jedinice nastoje pozicionirati na maksimalnoj 
 \subsection{Algoritam \textit{Boids}}\label{ssec:boids}
 
 \par Kada se jedinice grupiraju, njihovo kretanje prema cilju mora biti zajedničko.
-Kada bi prilikom zadavanja cilja grupi jedinica za svaku jedinicu pokrenuli algoritam A*, oni bi se kretali neovisni jedni o drugima. 
+Kada bi prilikom zadavanja cilja grupi jedinica za svaku jedinicu pokrenuli algoritam A*, one bi se kretale neovisno jedne o drugima. 
 Zbog njihovih različitih pozicija, njihove putanje bi također mogle biti drastično različite. 
 Također, ako se jedinice kreću po istim putanjama one će se često sudarati međusobno. 
 Ovakav rezultat nije prihvatljiv s obzirom na očekivanje da će grupa jedinica biti jača i efikasnija od jedne same jedinice.
 
 \par Inspiracija za implementaciju grupiranja jedinica dolazi iz prirode. 
-Kretanje jata ptica ili plove riba je sinkronizirano i fluidno iako se sastoji od kretanja mnogih individualnih životinja, gdje se ponašanje svake od njih temelji samo na njenoj lokalnoj percepciji svijeta.
-Algoritam koji primjenjuje osnovno ideje ponašanja jata ptica i primjenjuje ih na ostale probleme zove se \textit{Boids}, što dolazi iz engl. \textit{bird-like objects}, odnosno \textit{birdoids}\cite{article:FlocksHerdsSchools}.
+Kretanje jata ptica ili java riba je sinkronizirano i fluidno iako se sastoji od kretanja mnogih individualnih životinja, gdje se ponašanje svake od njih temelji samo na njenoj lokalnoj percepciji svijeta.
+Algoritam koji primjenjuje osnovne ideje ponašanja jata ptica i primjenjuje ih na ostale probleme zove se \textit{Boids}, što dolazi iz engl. \textit{bird-like objects}, odnosno \textit{birdoids}\cite{article:FlocksHerdsSchools}.
 
 \par Najosnovnija inačica algoritma \textit{Boids} sastoji se od tri pravila:
 \begin{itemize}
@@ -565,7 +562,7 @@ Algoritam koji primjenjuje osnovno ideje ponašanja jata ptica i primjenjuje ih 
 	\item \textbf{poravnatost}: usmjeravanje jedinica prema prosječnom smjeru kretanja grupe.
 	\item \textbf{kohezija}: usmjeravanje jedinica prema centru mase grupe. 	 
 \end{itemize}
-Dodatna pravila se mogu dodati, poput zajedničkog kretanja prema trenutnom cilju, izbjegavanja sudara sa zgradama, izbjegavanje protivničkih jedinica, itd.
+Dodatna pravila se mogu dodati, poput zajedničkog kretanja prema trenutnom cilju, izbjegavanje sudara sa zgradama, izbjegavanje protivničkih jedinica, itd.
 
 \par Algoritam \textit{Boids} ima razne ostale primjene, poput stabilizacije bespilotnih letjelica, izrade animacija te primjene u optimizacijskim problemima poput roja čestica (engl. \textit{Particle swarm optimization}).
 
@@ -577,10 +574,10 @@ Dodatna pravila se mogu dodati, poput zajedničkog kretanja prema trenutnom cilj
 \end{figure}
 
 \par Na slici~\ref{fig:boids} vizualizirana su navedena pravila odvojenosti, poravnatosti i kohezije. 
-Sivi trokut predstavlja jedinicu nad kojom se navedene operacije trenutno obavljaju, dok iscrtani krug oko njega predstavlja radius u kojem promatra ostale jedinice. 
-Na crtežu za odvojenost na trenutni trokut djeluju dva trokuta iznad njega, što mu mijenja smjer prema smjeru označenim sa strelicom. 
-U crtežu za poravnatost vektor smjera usmjeruje se prema smjeru prema kojem ostale jedinice putuju. 
-U zadnjem crtežu vidi se primjer kohezije, odnosno smjer trenutnog trokut se zakreće prema prosječnoj poziciji ostalih trokuta u radiusu.
+Sivi trokut predstavlja jedinicu nad kojom se navedene operacije trenutno obavljaju, dok iscrtani krug oko njega predstavlja radius u kojem se promatra ostale jedinice. 
+Na crtežu za odvojenost na trenutni trokut djeluju dva trokuta iznad njega, što mu mijenja smjer prema smjeru označenim strelicom. 
+U crtežu za poravnatost vektor smjera je okrenut prema smjeru prema kojem ostale jedinice putuju. 
+U zadnjem crtežu vidi se primjer kohezije, odnosno smjer trenutnog trokuta se zakreće prema prosječnoj poziciji ostalih trokuta u radiusu.
 
 \subsection{Hibridna navigacija}\label{ssec:hybrid}
 
@@ -591,7 +588,7 @@ Metoda navigacije u kojoj se jedinice kreću po mapi prema algoritmu A* dok nisu
 \par Algoritam \textit{Boids} bit će modificiran tako da nastoji držati jedinice na maksimalnoj udaljenosti od neprijateljskih jedinica i zgrada na kojoj i dalje mogu pucati.
 To se postiže tako da se u pravila za algoritam \textit{Boids} doda uvjet kada se protivnička meta pojavi unutar radijusa napada jedinice, njen vektor smjera se mijenja u smjeru suprotnom od protivničke pozicije.
 Ako je riječ o jedinici s ograničenim ili nepostojećim borbenim sposobnostima poput radnika, njen cilj je držati se na udaljenosti većoj od protivničkog radijusa za napad.
-Ovo se pravila može proširiti i da vrijedi u slučaju da je borbena jedinica odlučno nadjačana, npr. ako jedna slaba jedinica naiđe na suparničku skupinu jačih jedinica.
+Ovo se pravilo može proširiti i da vrijedi u slučaju da je borbena jedinica odlučno nadjačana, npr. ako jedna slaba jedinica naiđe na suparničku skupinu jačih jedinica.
 
 \begin{figure}[h]
 	\centering
@@ -683,8 +680,8 @@ Tijekom učitavanja mape u igru, za svaki objekt s ključem \textit{rock} bit ć
 Primjerice, sučelje \textit{ISearchProblem} definira problem pretrage, odnosno početno stanje, provjeru krajnjeg stana i izračun idućih stanja i akcija. 
 Također su definirana sučelja \textit{IHeuristic} koji definira funkciju heuristike i \text{ISearchAlgorithm} koji definira algoritam pretrage nad problemom s definiranom heuristikom.
 
-\par Osim generičnih sučelja, u ovom modulu nalazi se i osnovne implementacije te logike za navigaciju po 2D mapi s mogućnosti dijagonalnih poteza.
-Uz osnovne algoritme, također se i nalazi implementacija algoritma RTAA* opisanog u potpoglavlju~\ref{ssec:rtaastar}.
+\par Osim generičnih sučelja, u ovom modulu nalaze se i osnovne implementacije te logike za navigaciju po 2D mapi s mogućnosti dijagonalnih poteza.
+Uz osnovne algoritme, tu se također nalazi implementacija algoritma RTAA* opisanog u potpoglavlju~\ref{ssec:rtaastar}.
 
 \section{Konkretna implementacija}
 
@@ -844,37 +841,43 @@ Zahvaljujući tome, bilo koja konkretna implementacija RTS igre koja koristi min
 U prikazanoj konkretnoj implementaciji minerali su označeni ključem \textit{minerals}.
 
 \chapter{Zaključak}\label{ch:conclusion}
-Zaključak.
+
+\par Računalne igre su računalni programi za zabavu i edukaciju.
+U pravilu su to interaktivne igre koje se odvijaju na osobnim računalima, igraćim konzolama i mobitelima.
+
+\par Budući da se u računalnim igrama nastoji što vjernije postići dojam stvarnog okruženja, u današnje doba većina njih predstavlja složene računalne programe, vrlo zahtijevne spram računalnih resursa koje intenzivno koriste.
+Stoga se one često igraju na uređajima znatno boljih performansi u odnosu na potrebe, primjerice, svakodnevnog uredskog rada.
+
+\par Programeri računalnih igrara su pred stalnim stručnim izazovima, uz zahtijeve za kreativnost i posebnost.
+
+\par Tržište računalnih igrama ima sve značajniju ulogu u zabavnoj industriji u kojoj obrće veliki novac.
 
 \bibliography{literatura}
 \bibliographystyle{fer}
 
 \begin{sazetak}
-Računalne igre jedan su od vrlo značajnih pokretača razvoja računala. Postoji mnoštvo vrsta računalnih igara. 
-Jednu od vrlo interesantnih vrsta igara čine strategije u stvarnom vremenu (engl. Real-Time Strategy, RTS). 
-Razvoj takvih igara općenito uključuje pisanje mnogih podsustava i razvoj funkcionalnosti koje nisu specifične za konkretnu igru već ih je moguće višestruko iskorištavati. 
-Takve funkcionalnosti moguće je izolirati u zaseban razvojni okvir. U okviru završnog rada potrebno je proučiti koji su sve elementi prisutni u RTS igri. 
-Potrebno je napraviti programsku implementaciju osnovnih podsustava koje će biti moguće dijeliti između različitih RTS-igara. 
-Također je potrebno implementirati prototip jedne konkretne igre koja sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina različitih funkcija (proizvodnja, obrana) te jedinica, upravljanje jedinicama (grupiranje, zadavanje ciljeva: dolazak na zadani položaj, pucanje, prikupljanje resursa) i osnovno upravljanje protivničkim jedinicama. 
-Implementaciju je potrebno ostvariti u programskom jeziku Java. 
-Radu je potrebno priložiti algoritme, izvorne kodove i rezultate uz potrebna objašnjenja i dokumentaciju. 
-Citirati korištenu literaturu i navesti dobivenu pomoć.
+Računalne igre značajan pokretač razvoja računala. 
+Postoji mnoštvo vrsta računalnih igara, a posebno  interesantne vrsta igara čine strategije u stvarnom vremenu (engl. Real-Time Strategy, RTS). 
+Razvoj takvih igara općenito uključuje pisanje mnogih podsustava i razvoj funkcionalnosti koje nisu specifične za konkretnu  igru pa ih je moguće višestruko iskorištavati.  
+Takve funkcionalnosti  moguće je izolirati u zaseban razvojni okvir.
+U okviru završnog rada razmatrani su elementi prisutni u RTS igri, uz  programsku implementaciju osnovnih podsustava koje su moguće za dijeljenje između različitih RTS igara. 
+Oživotvoren je prototip jedne konkretne igre koja sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina različitih  funkcija (proizvodnja, obrana) te jedinica, upravljanje jedinicama (grupiranje, zadavanje ciljeva:  dolazak na zadani položaj, pucanje, prikupljanje resursa) i osnovno upravljanje protivničkim jedinicama. 
+Implementaciju je ostvarena u programskom jeziku Java. 
+Rad sadrži algoritme, izvorne kodove i rezultate uz potrebna objašnjenja i dokumentaciju.
 
 \kljucnerijeci{Ključne riječi, odvojene zarezima.}
 \end{sazetak}
 
 \engtitle{Implementation of RTS game core}
 \begin{abstract}
-Computer games are a significant catalyst in the development of computers. 
-There are many genres of computer games. 
-Real-Time Strategy games represent one of the more interesting genres. 
-The development of those types of games is based on developing a variety of subsystems and functionalities which aren't specific for one game, and are thus fit for reuse. 
-These functionalities can be isolated into a separate workspace. 
-As part of thesis, it is necessary to study which elements are present in an RTS game and develop a program implementation of the basic subsystems which can be shared between various RTS games. 
-A further requirement is to develop a game prototype which contains the basic elements, such as the construction of buildings with various functions (manufactory, defense) and units, the management of units (grouping, assigning a goal: arrival at a destination, shooting, resource gathering) and basic enemy control.
-The implementation is to be written in the Java programming language. 
-The completed assignment must be handed over along with the used algorithms, source code and results with the necessary explanations and documentation. 
-The literature that was used must be cited along with the received help.
+Computer games represent a significant catalyst in the development of computers.  
+There are many genres of computer games whereby Real-Time Strategy games represent one of the more interesting genres. 
+The development of those types of games generally involve developing  a variety of subsystems and functionalities which are not specific for a particular game, and are thus suitable for multiple use. 
+These functionalities can be isolated into a separate workspace.   
+This thesis reviews the elements present in an RTS game and develops a program implementation of the basic subsystems that can be shared between various RTS games. 
+A prototype of a particular game was developed containing basic elements, such as the rendering of the world map, the construction  of buildings serving various functions (industry, defence) as well as units, the management of units (grouping, assigning objectives: arrival to the defined location, shooting, resource gathering)  and the basic management of enemy units. 
+The implementation was written in the Java programming language. 
+The theses includes the algorithms, source code and results along with necessary explanations and documentation.
 
 \keywords{Keywords.}
 \end{abstract}
