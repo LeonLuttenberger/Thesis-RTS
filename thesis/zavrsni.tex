@@ -73,7 +73,7 @@
 Jednu zanimljivu vrstu igara čine strategije u stvarnom vremenu (engl. \textit{Real-Time Strategy}, RTS).
 U njima igrač mora poraziti protivnike razmišljanjem i donošenjem prikladnih taktičkih odluka, te je utjecaj vjerojatnosti minimalan.
 
-\par U~\ref{ch:games}.~poglavlju napravljen je kratak pregled različitih vrsta računalnih igara i osnovnih podsustava prisutnim u njima.
+\par U~\ref{ch:games}.~poglavlju napravljen je kratak pregled različitih vrsta računalnih igara i osnovnih podsustava prisutnih u njima.
 
 \par U~\ref{ch:rtsGames}.~poglavlju izrađen je detaljnih opis RTS žanra igara.
 Ovdje su istraženi osnovni podsustavi koji se nalaze u takvim igrama i nisu specifični za konkretnu igru već se mogu višestruko iskorištavati.
@@ -90,11 +90,11 @@ Upravljanje vlastitim jedinicama uključuje grupiranje, zadavanje ciljeva, pucan
 \par Programska implementacija osnovnih podsustava i konkretnog prototipa opisana je u~\ref{ch:implementation}.~poglavlju.
 Nadalje, opisan je postupak jednostavnog dodavanja novih funkcionalnost u konkretnu igru koje nisu ovisne o navedenoj igri.
 
-\chapter{Pregled vrsti računalnih igara}\label{ch:games}
+\chapter{Pregled vrsta računalnih igara}\label{ch:games}
 
 \par Klasifikacija žanrova računalnih igara nije strogo određena.
 Svaka igra može se klasificirati po osobnim kriterijima te može pripadati više od jednom žanru istovremeno.
-U ovom poglavlju napravljen je kratak pregled nekoliko najbitnijih žanrova koji se bitno razlikuju po svom utjecaju i podsustavima.
+U ovom poglavlju napravljen je kratak pregled nekoliko najbitnijih žanrova koji se međusobno bitno razlikuju po svom utjecaju i podsustavima.
 
 \section{Platformeri}
 
@@ -112,14 +112,14 @@ Kao posljedica toga, igranje ovakvih igra se pretežno svodi na predviđanje idu
 Dotadašnje igre su uglavnom bili portovi arkadnih igara, poput \textit{Pacmana} ili \textit{Asteroids}.
 Mana kod takvih igara je što su bile dizajnirane da kratko traju kako bi igrača natjerale da često ubacuje kovanice u igraći automat, zbog čega su se RPS igre isticale sa svojim trajanjem.
 
-\par U RPG igrama igrač tipično kontrolira jednog lika koji krene s ničime, obavlja razne poslove za novce, trenira svoje sposobnosti i s vremenom postaje sve moćniji. 
+\par U RPG igrama igrač tipično kontrolira jednog lika koji krene ni sa čime, obavlja razne poslove za novac, trenira svoje sposobnosti i s vremenom postaje sve moćniji. 
 Neovisno o detaljima specifične igre, ideja svih igara u ovom žanru je omogućiti igraču da se poistovjeti s glavnim likom i unese u svijet u kojem se glavni lik nalazi.
 
 \par Likovi u ovakvih igrama se tipično dijele u obične neprijatelje, ''\textit{šefove}'' i pasivne \textit{NPC}\footnote{Ne-igraći likovi         
 (engl. \textit{Non-playable characters})} jedinice.
 Obični neprijatelji su najčešći tip likova.
 Njihove svrha je kako bi se borili protiv igrača, te ih tipično ima u beskonačnoj količini kako bi igrač uvijek imao nešto za raditi u svijetu.
-''\textit{Šefovi}'' tipično predstavljaju vođe protivničkih skupina, i kompleksniji su i teži protivnici koji se pojavljuju na kraju svakog levela ili sekcije nakon što igrač porazi mnogo slabijih protivnika.
+''\textit{Šefovi}'' generalno predstavljaju vođe protivničkih skupina, i kompleksniji su i teži protivnici koji se pojavljuju na kraju svakog levela ili sekcije nakon što igrač porazi mnogo slabijih protivnika.
 Zamišljeni su kako bi iznenadili igrača sa svojom moći i razbili monotonost igre.
 \textit{NPC} prema strogoj definiciji predstavlja svaku jedinicu koja nije pod kontrolom igrača. 
 Međutim, termin se najčešće koristi za likove u igri s kojima igrač može imati interakciju osim borbe, poput stanovnika grada ili nasumičnih likova koje igrač sretne tijekom igre.
@@ -188,10 +188,10 @@ U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vr
 Prije svega, svaka igra se odvija na mapi ograničene veličine koja je određena s raznim tipovima terena, poput trave, vode, planina, pustinje, itd. 
 Tip terena može odrediti koje se jedinice mogu kretati po njemu.
 Primjerice, pravila igre mogu biti takva da se običan vojnik ne može kretati po vodi, dok neki drugi tip jedinice poput broda može.
-Kao posljedica toga, teren igra veliku ulogu jer igrača pozicija može zahtijevati korištenje posebnih strategija.
+Kao posljedica toga, teren igra veliku ulogu jer od igrača pozicija može zahtijevati korištenje posebnih strategija.
 
 \par Još jedna bitan element RTS igara je skupljanje resursa.
-Ovisno o konkretnoj igri, resursi mogu biti drvo, minerali, nafta, zlato, itd. Oni se tipično skupljaju s posebnom vrstom jedinica zvanom radnicima, te se koriste za izgradnju novih jedinica, zgrada, radnika, itd.
+Ovisno o konkretnoj igri, resursi mogu biti drvo, minerali, nafta, zlato, itd. Oni se tipično skupljaju s posebnom vrstom jedinica zvanom radnicima, te se koriste za izgradnju novih jedinica, zgrada, itd.
 Resursi također igraju veliku ulogu u strategiji same igre.
 Primjerice, ako se igrač nalazi u situaciji gdje ne može dalje napredovati zbog manjka nekog resursa, bit će prisiljen otići u potragu za istim.
 Analogno tome, višak izvora nekog resursa igrača može postaviti u opasnost jer će ostalim sudionicima igre biti prioritet napasti s ciljem preuzimanja resursa.
@@ -206,7 +206,7 @@ Npr.\ igra može kao vrstu jedinice imati konjanika koja ima prednost brzog kret
 
 \par Jedna od posebnosti žanra RTS je činjenica da svi dosad navedeni elementi nisu direktno ovisni jedni o drugima.
 Mapa može biti definirana izvan same igre u nekom vanjskom uređivaču mapa, dok jedinice, resursi i zgrade ne moraju ništa konkretno znati jedni o drugima.
-Jedinice će samo znati da se kreću po terenu čiji koji ima neke definirane karakteristike, te će samo znati da napada protivničke zgrade i jedinice. 
+Jedinice će samo znati da se kreću po terenu koji ima neke definirane karakteristike, te će samo znati da napada protivničke zgrade i jedinice. 
 Zgrade i resursi mogu biti definirani samo kao objekti na mapi, gdje će bilo kakva daljnja funkcionalnost ovisiti o konkretnoj igri.
 
 \par Takva struktura može omogućiti da se određene komponente iz igre višestruko iskorištavaju te da se nove funkcionalnosti mogu lakše dodavati u igru.
@@ -297,7 +297,7 @@ Istoimena prva igra u serijalu izašla je 1997.\ godine.
 
 \par Radnja je smještena tijekom povijesti, gdje igrač mora izgraditi i unaprijediti vlastitu civilizaciju.
 Prva igra odvija se od kamenog doba do željeznog doba, no kasnije igre su promijenile fokus na novija vremenska razdoblja, poput srednjeg vijeka u \textit{Age of Empires II} i razdoblja kolonizacije Amerike u \textit{Age of Empires III}.
-Igrač započinje igru s nekoliko seljaka s kojima mora skupljati resurse kako bi gradio nove jedinice, proširivao selo i istraživao nove tehnologije.
+Igrač započinje igru s nekoliko seljaka s kojima mora skupljati resurse kako bi gradio nove jedinice, širio selo i istraživao nove tehnologije.
 
 \par Tijekom razvoja igri u ovom serijalu, veliki naglasak je bio na razvoju umjetne inteligencije.
 Cilj razvojnog tima bio je napraviti umjetnu inteligenciju koja koristi taktike i strategije za pobijediti, umjesto da dobiva dodatne resurse i jače jedinice kako bi imala bolju šansu za pobijediti igrača, kao što igre često rade.
@@ -449,7 +449,7 @@ U najgorem slučaju, čitava igra bila bi sklona čestim zaustavljanjima (engl. 
 \par Najjednostavnija modifikacija koja se može napraviti nad algoritmom A* kako bi bio iskoristiv u realnom vremenu je ograničenje pretrage na manji lokalni prostor.
 Sva stanja u tom lokalnom prostoru također moraju biti u blizini agenta, odnosno udaljena samo određeni broj poteza.
 Konkretno, postavi se ograničenje na broj stanja koji se mogu proširiti i ograničenje na broj poteza koje agent može napraviti.
-Kada se izvršti pretraga iz trenutne pozicije, agent će krenuti prema stanju koje je trenutno sljedeće u prioritetnom redu sve dok ga ne dosegne ili dok ne napravi maksimalni broj dozvoljenih poteza.
+Kada se izvrši pretraga iz trenutne pozicije, agent će krenuti prema stanju koje je trenutno sljedeće u prioritetnom redu sve dok ga ne dosegne ili dok ne napravi maksimalni broj dozvoljenih poteza.
 Taj će se postupak ponavljati sve dok agent ne dostigne ciljni položaj.
 Dodatno, može se definirati uvjet da ako se promjeni stanje koje se trenutno nalazi u trajektoriji (npr.\ ako se direktno na putu jedinici u RTS igri izgradi zgrada), pretraga se ponovi s novim podatcima o okolini.
 
@@ -845,12 +845,14 @@ U prikazanoj konkretnoj implementaciji minerali su označeni ključem \textit{mi
 \par Računalne igre su računalni programi za zabavu i edukaciju.
 U pravilu su to interaktivne igre koje se odvijaju na osobnim računalima, igraćim konzolama i mobitelima.
 
-\par Budući da se u računalnim igrama nastoji što vjernije postići dojam stvarnog okruženja, u današnje doba većina njih predstavlja složene računalne programe, vrlo zahtijevne spram računalnih resursa koje intenzivno koriste.
+\par Budući da se u računalnim igrama nastoji što vjernije postići dojam stvarnog okruženja, u današnje doba većina njih predstavlja složene računalne programe, vrlo zahtjevne naspram računalnih resursa koje intenzivno koriste.
 Stoga se one često igraju na uređajima znatno boljih performansi u odnosu na potrebe, primjerice, svakodnevnog uredskog rada.
 
-\par Programeri računalnih igrara su pred stalnim stručnim izazovima, uz zahtijeve za kreativnost i posebnost.
+\par Programeri računalnih igara su pred stalnim stručnim izazovima, uz zahtjeve za kreativnost i posebnost.
+Algoritmi RTAA* i \textit{Boids} su na elegantan način riješili probleme kretanja i grupiranja jedinica u RTS igri.
 
-\par Tržište računalnih igrama ima sve značajniju ulogu u zabavnoj industriji u kojoj obrće veliki novac.
+\par Tijekom razvoja konkretne implementacije RTS igre, naglasak je bio na modularnost pojedinih podsustava igre.
+Osim što omogućava ponovno iskorištavanje, modularnost podsustava također omogućava jednostavnu nadogradnju i daljini razvoj.
 
 \bibliography{literatura}
 \bibliographystyle{fer}
@@ -865,7 +867,7 @@ Oživotvoren je prototip jedne konkretne igre koja sadrži osnovne elemente popu
 Implementaciju je ostvarena u programskom jeziku Java. 
 Rad sadrži algoritme, izvorne kodove i rezultate uz potrebna objašnjenja i dokumentaciju.
 
-\kljucnerijeci{Ključne riječi, odvojene zarezima.}
+\kljucnerijeci{RTS, navigacija, A*, \textit{Boids}, \textit{LibGDX}, Java }
 \end{sazetak}
 
 \engtitle{Implementation of RTS game core}
@@ -879,7 +881,7 @@ A prototype of a particular game was developed containing basic elements, such a
 The implementation was written in the Java programming language. 
 The theses includes the algorithms, source code and results along with necessary explanations and documentation.
 
-\keywords{Keywords.}
+\keywords{RTS, pathfinding, A*, \textit{Boids}, \textit{LibGDX}, Java}
 \end{abstract}
 
 \end{document}
