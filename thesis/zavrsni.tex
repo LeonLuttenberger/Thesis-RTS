@@ -72,19 +72,20 @@
 \par Računalne igre predstavljaju vrlo značajan pokretač razvoja računala.
 Jednu zanimljivu vrstu igara čine strategije u stvarnom vremenu (engl. \textit{Real-Time Strategy}, RTS).
 U njima igrač mora poraziti protivnike razmišljanjem i donošenjem prikladnih taktičkih odluka, te je utjecaj vjerojatnosti minimalan.
+U okviru ovoga rada istraženi su i implementirani nezavisni podsustavi RTS-igre te je izrađen prototip jedne konkretne RTS-igre.
 
 \par U~\ref{ch:games}.~poglavlju napravljen je kratak pregled različitih vrsta računalnih igara i osnovnih podsustava prisutnih u njima.
 
-\par U~\ref{ch:rtsGames}.~poglavlju izrađen je detaljnih opis RTS žanra igara.
+\par U~\ref{ch:rtsGames}.~poglavlju izrađen je detaljnih opis žanra igara RTS.
 Ovdje su istraženi osnovni podsustavi koji se nalaze u takvim igrama i nisu specifični za konkretnu igru već se mogu višestruko iskorištavati.
 
-\par Jedan od podsustava prisutnih u svim RTS igrama je samostalno kretanje jedinica. 
+\par Jedan od podsustava prisutnih u svim igrama RTS je samostalno kretanje jedinica. 
 Teorijska podloga ovog podsustava je detaljnije istražena u~\ref{ch:pathfinding}.~poglavlju.
 U tom su poglavlju prikazani postupci pretraživanja stanja u statičkom okruženju.
-Budući da se RTS igre održavaju u dinamičkom svijetu, te je postupke potrebno prilagoditi kako bi se i oni sami mogli prilagođavati promjenama u svijetu igre.
+Budući da se RTS-igre održavaju u dinamičkom svijetu, te je postupke potrebno prilagoditi kako bi se i oni sami mogli prilagođavati promjenama u svijetu igre.
 
-\par Zatim je napravljena programska implementacija osnovnih podsustava koji se mogu dijeliti između različitih RTS igara.
-Također je izrađena konkretna implementacija jednog prototipa RTS igre koji sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina i jedinica, osnovnih protivničkih jedinica te upravljanje vlastitim jedinicama.
+\par Zatim je napravljena programska implementacija osnovnih podsustava koji se mogu dijeliti između različitih igara RTS.
+Također je izrađena konkretna implementacija jednog prototipa RTS-igre koji sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina i jedinica, osnovnih protivničkih jedinica te upravljanje vlastitim jedinicama.
 Upravljanje vlastitim jedinicama uključuje grupiranje, zadavanje ciljeva, pucanje i prikupljanje resursa.
 
 \par Programska implementacija osnovnih podsustava i konkretnog prototipa opisana je u~\ref{ch:implementation}.~poglavlju.
@@ -178,9 +179,9 @@ Kao posljedica toga, u strategijama na potez nije bitna brzina razmišljanja i r
 \chapter{Igre RTS}\label{ch:rtsGames}
 
 \par Računalne igre svrstane pod žanr RTS temelje se na skupljanju resursa za izgradnju jedinica i građevina s ciljem da se poraze protivnici. 
-Za razliku od strategija na potez gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS igrama svi igrači igraju u isto vrijeme.
+Za razliku od strategija na potez gdje svaki igrač ima proizvoljno vrijeme za odigrati svoj potez, u RTS-igrama svi igrači igraju u isto vrijeme.
 Dodatna napetost nastaje zbog znanja da svi ostali igrači aktivno pokušavaju ostvariti svoje ciljeve i spriječiti sve ostale igrače u rađenju istoga.
-U širem smislu, RTS igra se može definirati kao simulacija bitke u stvarnom vremenu.
+U širem smislu, RTS-igra se može definirati kao simulacija bitke u stvarnom vremenu.
 
 \section{Elementi žanra RTS}
 
@@ -296,7 +297,7 @@ Igra je također imala dovoljno veliki utjecaj da ostvari status profesionalnog 
 \par \textit{Age of Empires} serijal igara RTS proizveo je \textit{Ensemble Studios} i izdao \textit{Microsoft Studios}. 
 Istoimena prva igra u serijalu izašla je 1997.\ godine.
 
-\par Radnja je smještena tijekom raznih povjesnih razdoblja te igrač mora izgraditi i unaprijediti vlastitu civilizaciju.
+\par Radnja je smještena tijekom raznih povjesnih razdoblja u kojima igrač mora izgraditi i unaprijediti vlastitu civilizaciju.
 Prva igra odvija se od kamenog doba do željeznog doba, no kasnije igre su promijenile fokus na novija vremenska razdoblja, poput srednjeg vijeka u \textit{Age of Empires II} i razdoblja kolonizacije Amerike u \textit{Age of Empires III}.
 Igrač započinje igru s nekoliko seljaka s kojima mora skupljati resurse kako bi gradio nove jedinice, širio selo i istraživao nove tehnologije.
 
@@ -308,7 +309,7 @@ Umjetna inteligencija dobiva dodatnu sposobnost iz činjenice da se prilagođava
 
 \par U ovom poglavlju istražen je problem kretanja jedinica iz početne pozicije prema odredištu. 
 U potpoglavlju \ref{sec:stateSearch} objašnjene su metode pretrage prostora stanja, odnosno pretrage najkraćeg puta između dvije točke.
-Tamo navedene metode funkcioniraju samo u statičkom okruženju, odnosno ne znaju se prilagođavati na dinamičko okruženje poput svijeta u RTS igri.
+Tamo navedene metode funkcioniraju samo u statičkom okruženju, odnosno ne znaju se prilagođavati na dinamičko okruženje poput svijeta u RTS-igri.
 U potpoglavlju \ref{sec:adaptation} prikazane su metode kojima se može postići prilagodba algoritma na promjenu.
 
 \par Konačno, u potpoglavlju \ref{sec:grouping} opisan je algoritam \textit{Boids} pomoću kojeg se može ostvariti zajedničko kretanje određene grupe jedinica.
@@ -453,7 +454,7 @@ Sva stanja u tom lokalnom prostoru također moraju biti u blizini agenta, odnosn
 Konkretno, postavi se ograničenje na broj stanja koji se mogu proširiti i ograničenje na broj poteza koje agent može napraviti.
 Kada se izvrši pretraga iz trenutne pozicije, agent će krenuti prema stanju koje je trenutno sljedeće u prioritetnom redu sve dok ga ne dosegne ili dok ne napravi maksimalni broj dozvoljenih poteza.
 Taj će se postupak ponavljati sve dok agent ne dostigne ciljni položaj.
-Dodatno, može se definirati uvjet da ako se promjeni stanje koje se trenutno nalazi u trajektoriji (npr.\ ako se direktno na putu jedinici u RTS igri izgradi zgrada), pretraga se ponovi s novim podatcima o okolini.
+Dodatno, može se definirati uvjet da ako se promjeni stanje koje se trenutno nalazi u trajektoriji (npr.\ ako se direktno na putu jedinici u RTS-igri izgradi zgrada), pretraga se ponovi s novim podatcima o okolini.
 
 \par Zahvaljujući navedenim modifikacijama, algoritam A* se može koristiti u stvarnom vremenu. 
 Broj posjećenih stanja bit će neovisan o broju mogućih stanja što garantira mali prostor stanja, no rezultirat će dužim putevima agenta do cilja.
@@ -536,7 +537,7 @@ U drugoj pretrazi te se vrijednosti gledaju kao heurističke vrijednosti za njih
 \section{Grupiranje jedinica}\label{sec:grouping}
 
 \par Algoritam A* i njegove inačice su sposobni pronaći put do cilja ali ne uzimaju u obzir taktičko pozicioniranje jedinica. 
-Primjerice, ako igrač u RTS igri odjednom odabere više od jedne jedinice i zada im odredište, očekivano ponašanje je da će se jedinice zajedno kretati kao skupina. 
+Primjerice, ako igrač u RTS-igri odjednom odabere više od jedne jedinice i zada im odredište, očekivano ponašanje je da će se jedinice zajedno kretati kao skupina. 
 Također, u borbi je poželjno da se jedinice nastoje pozicionirati na maksimalnoj udaljenosti od mete na kojoj i dalje mogu pucati, kao što se može vidjeti na slici~\ref{fig:enemySeparation}.
 
 \begin{figure}[h]
@@ -611,8 +612,8 @@ Za izradu i uređivanje mape korišten je besplatni uređivač mapa \textit{Tile
 \par Programska implementacija izdvojena je u tri glavna modula.
 \begin{itemize}
 	\item Modul \textit{pathfinding}: sadrži generalizirane strukture podataka i algoritme pretrage, te podsustav za kretanje jedinica.
-	\item Modul \textit{genericRTS}: sadrži općenite funkcionalnosti RTS igre, poput jedinica i zgrada.
-	\item Modul \textit{core}: sadrži konkretan prototip RTS igre napisane koristeći prijašnja dva modula.
+	\item Modul \textit{genericRTS}: sadrži općenite funkcionalnosti RTS-igre, poput jedinica i zgrada.
+	\item Modul \textit{core}: sadrži konkretan prototip RTS-igre napisane koristeći prijašnja dva modula.
 \end{itemize}
 
 \section{Izdvajanje jezgrenih funkcionalnosti}\label{sec:core}
@@ -622,7 +623,7 @@ Za izradu i uređivanje mape korišten je besplatni uređivač mapa \textit{Tile
 \par U paketu \textit{hr.fer.zemris.zavrsni.rts.objects} iz modula \textit{genericRTS} nalazi se apstraktni razred \textit{AbstractGameObject} koji predstavlja sve objekte u igri.
 U njemu se nalaze informacije o poziciji objekta, njegovoj veličini, vektoru kretanja, itd.
 
-\par Iz njega se izvode 4 podrazreda bitna za općenitu funkcionalnost RTS igre.
+\par Iz njega se izvode 4 podrazreda bitna za općenitu funkcionalnost RTS-igre.
 \begin{itemize}
 	\item \textit{Building}: modelira zgradu koje se nalaze na mapi.
 	\item \textit{Resource}: modelira izvor resursa na mapi.
@@ -672,7 +673,7 @@ Također, u gornjem lijevom kutu prikazani su grmovi kroz koje se jedinica može
 
 \par Konačno, zadnji skup podataka koji mora biti zapisan u opisu mape su položaji konkretnih resursa, zgrada i jedinica.
 Oblik ovog zapisa ovisi o konkretnoj implementaciji igre te se može zapisati na razne načine.
-Jedan pristup za riješiti taj problem je da se u alat za uređivanje mapa dodaju objekti koji će svi imati ključ koji definira o kojem se tipu objekta  iz RTS igre radi.
+Jedan pristup za riješiti taj problem je da se u alat za uređivanje mapa dodaju objekti koji će svi imati ključ koji definira o kojem se tipu objekta  iz RTS-igre radi.
 Primjerice, mapa će imati objekt s ključem \textit{rock} koji predstavlja stijenu.
 Tijekom učitavanja mape u igru, za svaki objekt s ključem \textit{rock} bit će kreirani izvor resursa na odgovarajućoj lokaciji.
 
@@ -685,15 +686,31 @@ Također su definirana sučelja \textit{IHeuristic} koji definira funkciju heuri
 \par Osim općenitih sučelja, u ovom modulu nalaze se i osnovne implementacije te logike za navigaciju po 2D-mapi s mogućnosti dijagonalnih poteza.
 Uz osnovne algoritme, tu se također nalazi implementacija algoritma RTAA* opisanog u potpoglavlju~\ref{ssec:rtaastar}.
 
-\section{Konkretna implementacija}
+\section{Implementacija protipa RTS-igre}
 
-\par Uz opisanu jezgrenu funkcionalnost RTS igre, izrađen je prototip jedne konkretne igre koja sadrži opisane osnovne funkcionalnosti.
-U navedenoj igri igrač započne igru s bazom i jednim robotskim radnikom.
-Baza je okružena s mineralima koje radnik može skupljati.
-Sa skupljenim mineralima moguće je izgraditi nove radnike, vojnike i defenzivnu građevinu koja će pucati na neprijatelje.
+\par Uz opisanu jezgrenu funkcionalnost RTS-igre, izrađen je prototip jedne konkretne igre koja sadrži opisane osnovne funkcionalnosti.
+
+\subsection{Pravila igre}
+
+\par U navedenoj igri igrač započinje igru s bazom i jednim robotskim radnikom.
+Na mapi nalaze se minerali koje radnik može skupljati.
+Sa skupljenim mineralima moguće je izgraditi nove radnike, vojnike i toranj koji automatski puca na neprijatelje.
+
+\par Na mapi se također nalaze protivničke baze i jedinice.
+Protivničke baze će tijekom otprilike svakih 10 sekundi stvoriti novu protivničku jedinicu.
+Kada baza stvori tri jedinice, one se grupiraju i kreću u napad na igračevu bazu.
+Da bi se stigao pripremiti, igrač se mora čim prije moć obraniti te nakon toga krenuti u napad.
+
+\par Jedinice iz suparničkih strana će se same početi međusobno boriti čim dođu međusobno u domet.
+Također, igračeve jedinice će automatski početi pucati na protivničku bazu čim se ona nađe u dometu.
+Tvrdnja vrijedi i za protivničke jedinice kada im se u dometu nađe igračeva baza.
+
+\par Cilj u igri je uništiti sve protivničke baze i jedinice bez da igrač izgubi svoju.
+
+\subsection{Prikaz funkcionalnosti igre}
 
 \par Jedinice se u igri odabiru tako da igrač povuče lijevi klik miša, što se vizualizira pravokutnikom koji predstavlja označeno područje, čime se označavaju sve jedinice unutar tog pravokutnika.
-Igrač zatim zadaje naredbe jedinicama koje su trenutno označene tako da klikne na proizvoljnu poziciju na mapi s desnim klikom miša.
+Igrač zatim zadaje naredbe jedinicama koje su trenutno označene tako da klikne na proizvoljnu poziciju na mapi desnim klikom miša.
 Označene jedinice će se zatim grupirati ako su dovoljno blizu i krenuti zajedno prema cilju.
 
 \begin{figure}[h]
@@ -709,12 +726,6 @@ Crne stijene desno ispod baze predstavljaju izvore minerala.
 Ikona minerala u gornjem lijevom kutu s brojkom 0 pored nje predstavlja količinu skupljenih minerala koji dosad nisu potrošeni.
 Na dnu ekrana se također nalazi izbornik iz kojeg igrač bira na što želi trošiti resurse, te je u zagradama napisana cijena prikazanog izbora, te crveni obrub oko tipke označava nemogućnost odabira zbog manjka resursa.
 
-\par Na učitanoj mapi također su prisutne neprijateljske baze.
-One će otprilike svakih 10 sekundi stvoriti neprijateljsku jedinicu.
-Kada jedna neprijateljska baza stvori 3 jedinice, one se grupiraju i krenu u napad prema igračevoj bazi.
-Da bi se stigao pripremiti, igrač se mora čim prije moć obraniti te nakon toga krenuti u napad.
-Cilj u igri je uništiti sve neprijateljske jedinice i baze na mapi, bez da igrač izgubi vlastitu bazu. 
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.9\linewidth]{images/enemyBases.png}
@@ -725,7 +736,6 @@ Cilj u igri je uništiti sve neprijateljske jedinice i baze na mapi, bez da igra
 \par Na slici~\ref{fig:enemyBases} prikazane su neprijateljske baze i dvije skupine od tri jedinica koje kreću u napad na igračevu bazu.
 
 \par Borba započinje kada se igračeva jedinica nađe u dometu protivničke jedinice, ili suprotno.
-Čim se dvije jedinice s različitih strana nađu u blizi, one počnu pucati jedna na drugu.
 Protivničke jedinice koriste hibridnu navigaciju opisanu u potpoglavlju~\ref{ssec:hybrid}, odnosno nastoje se držati na maksimalnoj udaljenosti od igračevih jedinica na kojoj mogu i dalje pucati, najčešće formirajući polukrug oko navedene mete.
 
 \begin{figure}[h]
@@ -762,10 +772,10 @@ Ako korisnik označi lokaciju na kojoj se zgrada ne može izgraditi, ili ako za 
 \end{figure}
 
 \par Tijekom igre igrač ima mogućnost spremanja stanja trenutne igre na disk.
-Ta ista igre se zatim može učitati i nastaviti bilo kada, odabirom prikladne mogućnosti u početnom ekranu.
+Ta ista igra se zatim može učitati i nastaviti bilo kada, odabirom prikladne mogućnosti u početnom ekranu.
 
 \par Na slici~\ref{fig:menus} prikazani su izbornici dostupni u igri.
-Gornja lijeva slika prikazuje je početni izbornik koji nudi opciju pokretanja nove igre, učitavanja stare, ulaska u postavke i izlaska iz igre.
+Gornja lijeva slika prikazuje početni izbornik koji nudi opciju pokretanja nove igre, učitavanja stare, ulaska u postavke i izlaska iz igre.
 U gornjoj desnoj slici prikazan je izbornik koji se pojavi kada igrač pritisne tipku za povratak unutar igre.
 Omogućuje igraču povratak u igru, spremanje igre na disk, ulazak u postavke i povratak na početni izbornik.
 Donja slika prikazuje izbornik s postavkama.
@@ -789,12 +799,13 @@ U njemu su omogućene sljedeće mogućnosti.
 
 \section{Dodavanje novih funkcionalnosti}
 
-\par Jedna od ključnih ideja tijekom razvoja jezgrenih funkcionalnosti RTS igre bila je jednostavno proširivost igre.
-U ovom potpoglavlju bit će prikazano nekoliko primjera kako se mogu jednostavno dodati nove zgrade i jedinice u konkretnu igru.
+\par Jedna od ključnih ideja tijekom razvoja jezgrenih funkcionalnosti RTS-igre bila je jednostavno proširivost igre.
+U ovom potpoglavlju bit će prikazano nekoliko primjera kako se mogu jednostavno dodati nove zgrade i jedinice u prethodno opisanu igru.
 
 \par Bitno je napomenuti da se za sve dodane objekte u igru moraju definirati teksture s kojima će se objekti prikazivati.
 Novi objekti dodani u ovom poglavlju su osnovne slike izrađene u besplatnom alatu za uređivanje alata \textit{GIMP}.
 
+\vspace{3mm}
 \begin{minipage}{\textwidth}
 	\lstinputlisting[caption = {Isječak koda u Javi koji dodaje novu protivničku jedinicu},
     label={fig:codeStickman}, language=Java]{codesnippets/stickman.java}
@@ -817,7 +828,7 @@ Sve što treba napraviti je naslijediti razred \textit{HostileBuilding} i implem
 
 \vspace{3mm}
 \begin{minipage}{\textwidth}
-	\lstinputlisting[caption = {Isječak koda u Javi koji dodaje novu zgadu},
+	\lstinputlisting[caption = {Isječak koda u Javi koji dodaje novu zgradu},
     label={fig:codeStickmanSpawner}, language=Java]{codesnippets/stickmanSpawner.java}
 \end{minipage}\
 
@@ -833,28 +844,32 @@ U svakom pozivu metode \textit{update} obavlja se određeni rad prema stvaranju 
 	\label{fig:stickman}
 \end{figure}
 
-\par Definirani postupak dodavanja osigurava da nove zgrade i jedinice nisu ovisne o konkretnoj implementaciji ijedne RTS igre.
-Bilo koja RTS igra koja koristi opisani podsustav može slobodno koristiti objekte \textit{Stickman} i \textit{StickmanSpawner}.
+\par Definirani postupak dodavanja osigurava da nove zgrade i jedinice nisu ovisne o konkretnoj implementaciji ijedne RTS-igre.
+Bilo koja RTS-igra koja koristi opisani podsustav može slobodno koristiti objekte \textit{Stickman} i \textit{StickmanSpawner}.
 
 \par Isti taj postupak je analogan i za dodavanje novih izvora resursa.
 Komplikacija s dodavanjem novih izvora resursa nastaje zato što svaki izvor mora definirati koji će resurs dodati igraču kada se uništi.
 U ovom podsustavu, resurs prilikom uništenja pošalje igri odgovarajuću količinu resursa i ključ koji ga definira.
-Zahvaljujući tome, bilo koja konkretna implementacija RTS igre koja koristi minerale kao resurs može koristiti bilo koje izvore minerala, dokle god je dogovoreni isti ključ.
+Zahvaljujući tome, bilo koja konkretna implementacija RTS-igre koja koristi minerale kao resurs može koristiti bilo koje izvore minerala, dokle god je dogovoreni isti ključ.
 U prikazanoj konkretnoj implementaciji minerali su označeni ključem \textit{minerals}.
 
 \chapter{Zaključak}\label{ch:conclusion}
 
-\par Računalne igre su računalni programi za zabavu i edukaciju.
-U pravilu su to interaktivne igre koje se odvijaju na osobnim računalima, igraćim konzolama i mobitelima.
+\par U radu su proučeni i implementirani osnovni podsustavi RTS-igre.
+Ti su podsustavi napisani kao vanjska biblioteka koja se može koristiti za razvoj konkretne RTS-igre.
+Time je korisniku biblioteke omogućen jednostavniji razvoj igre, budući da su podsustavi za prikaz mape te kretanje i ponašanje jedinica već napisani i ponovo iskoristivi.
 
-\par Budući da se u računalnim igrama nastoji što vjernije postići dojam stvarnog okruženja, u današnje doba većina njih predstavlja složene računalne programe, vrlo zahtjevne naspram računalnih resursa koje intenzivno koriste.
-Stoga se one često igraju na uređajima znatno boljih performansi u odnosu na potrebe, primjerice, svakodnevnog uredskog rada.
+\par Kretanje jedinica svodi se na pretraživanje prostora stanja u kojem stanja predstavljaju pozicije na mapi.
+Na većim mapama, prostor stanja će također biti veći.
+Algoritam RTAA* omogućava da se veliki prostori stanja pretraže bez porasta složenosti, što ga čini prikladnim za pretragu u stvarnom vremenu.
 
-\par Programeri računalnih igara su pred stalnim stručnim izazovima, uz zahtjeve za kreativnost i posebnost.
-Algoritmi RTAA* i \textit{Boids} su na elegantan način riješili probleme kretanja i grupiranja jedinica u RTS igri.
+\par Algoritam \textit{Boids} omogućio je zajedničko kretanje jedinica te osnovno ponašanje protivničkih jedinica.
 
-\par Tijekom razvoja konkretne implementacije RTS igre, naglasak je bio na modularnost pojedinih podsustava igre.
-Osim što omogućava ponovno iskorištavanje, modularnost podsustava također omogućava jednostavnu nadogradnju i daljini razvoj.
+\par Navedeni algoritmi su u konkretnoj implementaciji ostvarili vrlo dobre rezultate.
+Grupirane jedinice su se zajednički kretale prema cilju uz sposobnost izbjegavanja prepreka i prilagodbe na promjene.
+
+\par U konkretnoj igri implementirano samo osnovno ponašanje protivničkih jedinica. Zanimljivi izazov za daljnji razvoj bila bi umjetna inteligencija sposobna pametno igrati protiv ljudskog igrača.
+Takav bi sustav morao donositi odluke na razini makro-upravljanja, odnosno pratiti stanje igre, inteligentno upravljati jedinicama, skupljati resurse i prikladno ih trošiti. 
 
 \bibliography{literatura}
 \bibliographystyle{fer}
@@ -864,7 +879,7 @@ Računalne igre značajan pokretač razvoja računala.
 Postoji mnoštvo vrsta računalnih igara, a posebno  interesantne vrsta igara čine strategije u stvarnom vremenu (engl. Real-Time Strategy, RTS). 
 Razvoj takvih igara općenito uključuje pisanje mnogih podsustava i razvoj funkcionalnosti koje nisu specifične za konkretnu  igru pa ih je moguće višestruko iskorištavati.  
 Takve funkcionalnosti  moguće je izolirati u zaseban razvojni okvir.
-U okviru završnog rada razmatrani su elementi prisutni u RTS igri, uz  programsku implementaciju osnovnih podsustava koje su moguće za dijeljenje između različitih RTS igara. 
+U okviru završnog rada razmatrani su elementi prisutni u RTS-igri, uz  programsku implementaciju osnovnih podsustava koje su moguće za dijeljenje između različitih RTS-igara. 
 Oživotvoren je prototip jedne konkretne igre koja sadrži osnovne elemente poput prikaza mape svijeta, stvaranja građevina različitih  funkcija (proizvodnja, obrana) te jedinica, upravljanje jedinicama (grupiranje, zadavanje ciljeva:  dolazak na zadani položaj, pucanje, prikupljanje resursa) i osnovno upravljanje protivničkim jedinicama. 
 Implementaciju je ostvarena u programskom jeziku Java. 
 Rad sadrži algoritme, izvorne kodove i rezultate uz potrebna objašnjenja i dokumentaciju.
