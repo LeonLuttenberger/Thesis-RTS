@@ -209,6 +209,13 @@ public class GameScreen extends AbstractGameScreen {
 
         stageUI.act(deltaTime);
         stageUI.draw();
+
+        if (controller.isGameWon()) {
+            game.getScreenManager().pushScreen(new GameResultScreen(game, gameSettings, true));
+
+        } else if (controller.isGameLost()) {
+            game.getScreenManager().pushScreen(new GameResultScreen(game, gameSettings, false));
+        }
     }
 
     private void renderFPSCounter() {

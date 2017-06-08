@@ -143,4 +143,8 @@ public abstract class AbstractRTSWorldController implements IUpdateable, Disposa
     public void setControllerState(IControllerState controllerState) {
         this.controllerState = Objects.requireNonNull(controllerState);
     }
+
+    public abstract boolean isGameWon();
+
+    public abstract boolean isGameLost();
 }

@@ -27,4 +27,7 @@ public final class BundleKeys {
     public static final String BUILDING_HEALTH_BAR = "building_health_bar";
 
     public static final String LANGUAGE = "language";
+
+    public static final String VICTORY_MESSAGE = "victory_message";
+    public static final String GAME_OVER_MESSAGE = "game_over_message";
 }

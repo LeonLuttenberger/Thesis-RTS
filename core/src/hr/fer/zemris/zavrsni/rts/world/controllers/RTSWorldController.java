@@ -7,6 +7,7 @@ import hr.fer.zemris.zavrsni.rts.common.ILevel;
 import hr.fer.zemris.zavrsni.rts.common.costs.Cost;
 import hr.fer.zemris.zavrsni.rts.common.costs.UnitCosts;
 import hr.fer.zemris.zavrsni.rts.objects.buildings.BaseBuilding;
+import hr.fer.zemris.zavrsni.rts.objects.buildings.HostileBuilding;
 import hr.fer.zemris.zavrsni.rts.objects.units.HostileUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.IBuildableUnit;
 import hr.fer.zemris.zavrsni.rts.objects.units.PlayerUnit;
@@ -112,5 +113,20 @@ public class RTSWorldController extends AbstractRTSWorldController {
                 unitCost.apply(gameState);
             }
         }
+    }
+
+    @Override
+    public boolean isGameWon() {
+        ILevel level = gameState.getLevel();
+
+        if (level.getHostileUnits().size() != 0) return false;
+        return level.getBuildings().stream()
+                .filter(b -> b instanceof HostileBuilding)
+                .count() == 0;
+    }
+
+    @Override
+    public boolean isGameLost() {
+        return baseBuilding == null || baseBuilding.isDestroyed();
     }
 }
