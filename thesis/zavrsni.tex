@@ -7,6 +7,7 @@
 \usepackage{enumitem}
 \usepackage{listings}
 \usepackage[hidelinks]{hyperref}
+\usepackage{pdfpages}
 
 \renewcommand{\lstlistingname}{Programski isječak}% Listing -> Algoritam
 \renewcommand{\lstlistlistingname}{Popis programskih isječaka}% List of Listings -> Popis algoritama 
@@ -58,8 +59,7 @@
 
 \maketitle
 
-% Ispis stranice s napomenom o umetanju izvornika rada. Uklonite naredbu \izvornik ako želite izbaciti tu stranicu.
-\izvornik{}
+\includepdf{images/izvornik.pdf}
 
 % Dodavanje zahvale ili prazne stranice. Ako ne želite dodati zahvalu, naredbu ostavite radi prazne stranice.
 \zahvala{}
@@ -883,7 +883,7 @@ Oživotvoren je prototip jedne konkretne igre koja sadrži osnovne elemente popu
 Implementaciju je ostvarena u programskom jeziku Java. 
 Rad sadrži algoritme, izvorne kodove i rezultate uz potrebna objašnjenja i dokumentaciju.
 
-\kljucnerijeci{RTS, navigacija, A*, \textit{Boids}, \textit{LibGDX}, Java }
+\kljucnerijeci{RTS, navigacija, A*, \textit{Boids}, \textit{LibGDX}, Java}
 \end{sazetak}
 
 \engtitle{Implementation of core functionality for an RTS game}
@@ -893,7 +893,7 @@ There are many genres of computer games whereby Real-Time Strategy games represe
 The development of those types of games generally involve developing  a variety of subsystems and functionalities which are not specific for a particular game, and are thus suitable for multiple use. 
 These functionalities can be isolated into a separate workspace.   
 This thesis reviews the elements present in an RTS game and develops a program implementation of the basic subsystems that can be shared between various RTS games. 
-A prototype of a particular game was developed containing basic elements, such as the rendering of the world map, the construction  of buildings serving various functions (industry, defence) as well as units, the management of units (grouping, assigning objectives: arrival to the defined location, shooting, resource gathering)  and the basic management of enemy units. 
+A prototype of a particular game was developed containing basic elements, such as the rendering of the world map, the construction  of buildings serving various functions (industry, defense) as well as units, the management of units (grouping, assigning objectives: arrival to the defined location, shooting, resource gathering)  and the basic management of enemy units. 
 The implementation was written in the Java programming language. 
 The theses includes the algorithms, source code and results along with necessary explanations and documentation.
 
