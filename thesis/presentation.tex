@@ -12,6 +12,9 @@
 
 \documentclass[utf8]{beamer}
 
+\usepackage[utf8]{inputenc}
+\usepackage[croatian]{babel}
+
 % There are many different themes available for Beamer. A comprehensive
 % list with examples is given here:
 % http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
@@ -54,8 +57,8 @@
 
 \institute[FER]
 {
-  Fakultet elektrotehnike i računarstva\\
-  Sveučilište u Zagrebu
+    Fakultet elektrotehnike i računarstva\\
+    Sveučilište u Zagrebu
 }
 
 \date{5.~srpnja 2017.}
@@ -75,20 +78,20 @@
 % the beginning of each subsection:
 \AtBeginSubsection[]
 {
-  \begin{frame}<beamer>{Sadržaj}
-    \tableofcontents[currentsection,currentsubsection]
-  \end{frame}
+    \begin{frame}<beamer>{Sadržaj}
+        \tableofcontents[currentsection,currentsubsection]
+    \end{frame}
 }
 
 \begin{document}
 
 \begin{frame}
-  \titlepage
+    \titlepage
 \end{frame}
 
 \begin{frame}{Sadržaj}
-  \tableofcontents
-  % You might wish to add the option [pausesections]
+    \tableofcontents
+    % You might wish to add the option [pausesections]
 \end{frame}
 
 \section{Uvod}
@@ -96,36 +99,36 @@
 \subsection{Opis zadatka}
 
 \begin{frame}{Opis zadatka}{}
-  \begin{itemize}
-    \item {
-      Proučiti i implementirati osnovne podsustave prisutne u RTS-igrama
-    }
-    \item {
-      Implementirati prototip jedne konkretne igre
-    }
-    \item {
-      Implementaciju ostvariti u programskom jeziku Java
-    }
-  \end{itemize}
+    \begin{itemize}
+        \item {
+            Proučiti i implementirati osnovne podsustave prisutne u RTS-igrama
+        }
+        \item {
+            Implementirati prototip jedne konkretne igre
+        }
+        \item {
+            Implementaciju ostvariti u programskom jeziku Java
+        }
+    \end{itemize}
 \end{frame}
 
 \subsection{RTS}
 
 \begin{frame}{RTS}
-  \begin{itemize}
-  \item {
-    \textit{Real-Time Strategy}
-  }
-  \item {   
-    Tipična RTS-igra sadrži sljedeće elemente.
     \begin{itemize}
-      \item Mapa
-      \item Skupljanje resursa
-      \item Izgradnja zgrada
-      \item Jedinice
+        \item {
+            \textit{Real-Time Strategy}
+        }
+        \item {   
+            Tipična RTS-igra sadrži sljedeće elemente.
+            \begin{itemize}
+                \item Mapa
+                \item Skupljanje resursa
+                \item Izgradnja zgrada
+                \item Jedinice
+            \end{itemize}
+        }
     \end{itemize}
-  }
-  \end{itemize}
 \end{frame}
 
 \section{Podsustavi}
@@ -135,52 +138,103 @@
 % dodavanje funkcionalnosti
 
 \begin{frame}{Pronalazak najkraćeg puta}
-  \begin{figure}[h] 
-    \centering
-    \includegraphics[height=4cm]{images/basicGrid.pdf}
-  \end{figure} 
+    \begin{figure}[h] 
+        \centering
+        \includegraphics[height=4cm]{images/basicGrid.pdf}
+    \end{figure} 
 \end{frame}
 
 \begin{frame}{Algoritam A*}
-  \begin{itemize}
-    \item Algoritam za usmjerenu pretragu
-    \item Ubacuje stanja u prioritetni red prema vrijednosti \(f(s) = g(s) + h(s)\)
-  \end{itemize}
+    \begin{itemize}
+        \item Algoritam za usmjerenu pretragu
+        \item Ubacuje stanja u prioritetni red prema vrijednosti \(f(s) = g(s) + h(s)\)
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Svojstva heuristike}
-  \begin{block}{Optimičnost}<1->
-    Heuristika ne smije precijeniti trošak puta, odnosno:
-    \(\forall s \in S, h(s) \leq h^*(s)\).
-  \end{block}
+    \begin{block}{Optimičnost}<1->
+        Heuristika ne smije precijeniti trošak puta, odnosno:
+        \(\forall s \in S, h(s) \leq h^*(s)\).
+    \end{block}
   
-  \begin{block}{Konzistentnost}<2->
-    Procjena udaljenosti trenutnog stanja ne smije biti veća od procjene udaljenosti susjednog stanja i njene udaljenosti od trenutnog stanja, odnosno:
-    \(h(s) \leq c(s, a) + h(s')\).
-  \end{block}
+    \begin{block}{Konzistentnost}<2->
+        Procjena udaljenosti trenutnog stanja ne smije biti veća od procjene udaljenosti susjednog stanja i njene udaljenosti od trenutnog stanja, odnosno:
+        \(h(s) \leq c(s, a) + h(s')\).
+    \end{block}
 
-  \only<3>{
-    \begin{figure}[h]
-      \centering
-      \includegraphics[height=2.5cm]{images/triangleInequality.pdf}
-    \end{figure} 
-  }
+    \only<3>{
+        \begin{figure}[h]
+            \centering
+            \includegraphics[height=2.5cm]{images/triangleInequality.pdf}
+        \end{figure} 
+    }
 
-  \begin{block}{Objaviještenost}<4->
-    Veće vrijednosti heuristika nam daju bolju informaciju o udaljenosti.
-  \end{block}
+    \begin{block}{Objaviještenost}<4->
+        Veće vrijednosti heuristika nam daju bolju informaciju o udaljenosti.
+    \end{block}
 \end{frame}
 
-\begin{frame}{Blocks}
-\begin{block}{Block Title}
-You can also highlight sections of your presentation in a block, with it's own title
-\end{block}
-\begin{theorem}
-There are separate environments for theorems, examples, definitions and proofs.
-\end{theorem} 
-\begin{example}
-Here is an example of an example block.
-\end{example}
+\begin{frame}{Problemi sa algoritmom A*}
+    \begin{itemize}
+        \item Preskup za primjenu u realnom vremenu
+        \item Ne može se prilagoditi na promjene
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ponovljeni A*}
+    \only<1>{
+        \begin{itemize}
+            \item Ograničimo pretragu na lokalni prostor stanja
+            \item Prilikom dolaska na najbolje pronađeno stanje, pretraga se ponovo pokrene
+            \item Pretraga se ponovo izvrši i ako na putu naiđemo na promjenu
+        \end{itemize}
+    }
+
+    \only<2>{
+        \begin{figure}[h]
+            \centering
+            \includegraphics[height=7.5cm]{images/repeatedAStarCycle.pdf}
+        \end{figure} 
+    }
+\end{frame}
+
+\begin{frame}{Adaptivni A* u stvarnom vremenu}
+    \only<1> {
+        \begin{itemize}
+            \item \(\forall s \in S, h(s_{start}) \leq g(s) + h(s)\)
+
+            \item {
+                Uvrštavanjem uvjeta konzistentnosti u navedenu relaciju dobivamo:
+                \(
+                \begin{aligned}
+                & \forall s \in S, f(\overline{s}) \leq g(s) + h(s)\\
+                & \forall s \in S, h(s) \geq f(\overline{s}) - g(s)
+                \end{aligned}
+                \)
+            }
+
+            \item { 
+                Za svako posjećeno stanje moguće je napraviti sljedeću korekciju:
+                
+                \[h(s) = f(\overline{s}) - g(s)\]
+            }
+        \end{itemize}
+    }
+
+    \only<2> {
+        \begin{figure}[h]
+            \centering
+            \includegraphics[height=5cm]{images/rtaastar.pdf}
+        \end{figure}
+    }
+\end{frame}
+
+\begin{frame}{Grupiranje: algoritam \textit{Boids}}
+    Tri osnovna pravila:
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=1.0\linewidth]{images/boids.pdf}
+    \end{figure}
 \end{frame}
 
 \section{Demonstracija}
