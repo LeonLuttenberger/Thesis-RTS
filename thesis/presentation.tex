@@ -24,7 +24,7 @@
 %\usetheme{Berlin}
 %\usetheme{Boadilla}
 %\usetheme{boxes}
-% \usetheme{CambridgeUS}
+%\usetheme{CambridgeUS}
 %\usetheme{Copenhagen}
 %\usetheme{Darmstadt}
 %\usetheme{default}
@@ -51,21 +51,14 @@
 \subtitle{Završni rad br. 5173}
 
 \author{Leon Luttenberger}
-% - Give the names in the same order as the appear in the paper.
-% - Use the \inst{?} command only if the authors have different
-%   affiliation.
 
-\institute[FER] % (optional, but mostly needed)
+\institute[FER]
 {
   Fakultet elektrotehnike i računarstva\\
-  Sveučilište u Zagrebu}
-% - Use the \inst command only if there are several affiliations.
-% - Keep it simple, no one is interested in your street address.
+  Sveučilište u Zagrebu
+}
 
 \date{5.~srpnja 2017.}
-% - Either use conference name or its abbreviation.
-% - Not really informative to the audience, more for people (including
-%   yourself) who are reading the slides online
 
 \subject{}
 % This is only inserted into the PDF information catalog. Can be left
@@ -87,7 +80,6 @@
   \end{frame}
 }
 
-% Let's get started
 \begin{document}
 
 \begin{frame}
@@ -99,48 +91,39 @@
   % You might wish to add the option [pausesections]
 \end{frame}
 
-% Section and subsections will appear in the presentation overview
-% and table of contents.
 \section{Uvod}
 
 \subsection{Opis zadatka}
 
 \begin{frame}{Opis zadatka}{}
   \begin{itemize}
-  \item {
-    My first point.
-  }
-  \item {
-    My second point.
-  }
+    \item {
+      Proučiti i implementirati osnovne podsustave prisutne u RTS-igrama
+    }
+    \item {
+      Implementirati prototip jedne konkretne igre
+    }
+    \item {
+      Implementaciju ostvariti u programskom jeziku Java
+    }
   \end{itemize}
 \end{frame}
 
-\subsection{Zašto RTS?}
+\subsection{RTS}
 
-% You can reveal the parts of a slide one at a time
-% with the \pause command:
-\begin{frame}{Second Slide Title}
+\begin{frame}{RTS}
   \begin{itemize}
   \item {
-    First item.
-    \pause % The slide will pause after showing the first item
+    \textit{Real-Time Strategy}
   }
   \item {   
-    Second item.
-  }
-  % You can also specify when the content should appear
-  % by using <n->:
-  \item<3-> {
-    Third item.
-  }
-  \item<4-> {
-    Fourth item.
-  }
-  % or you can use the \uncover command to reveal general
-  % content (not just \items):
-  \item<5-> {
-    Fifth item. \uncover<6->{Extra text in the fifth item.}
+    Tipična RTS-igra sadrži sljedeće elemente.
+    \begin{itemize}
+      \item Mapa
+      \item Skupljanje resursa
+      \item Izgradnja zgrada
+      \item Jedinice
+    \end{itemize}
   }
   \end{itemize}
 \end{frame}
@@ -158,17 +141,49 @@
   \end{figure} 
 \end{frame}
 
+\begin{frame}{Algoritam A*}
+  \begin{itemize}
+    \item Algoritam za usmjerenu pretragu
+    \item Ubacuje stanja u prioritetni red prema vrijednosti \(f(s) = g(s) + h(s)\)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Svojstva heuristike}
+  \begin{block}{Optimičnost}<1->
+    Heuristika ne smije precijeniti trošak puta, odnosno:
+    \(\forall s \in S, h(s) \leq h^*(s)\).
+  \end{block}
+  
+  \begin{block}{Konzistentnost}<2->
+    Procjena udaljenosti trenutnog stanja ne smije biti veća od procjene udaljenosti susjednog stanja i njene udaljenosti od trenutnog stanja, odnosno:
+    \(h(s) \leq c(s, a) + h(s')\).
+  \end{block}
+
+  \only<3>{
+    \begin{figure}[h]
+      \centering
+      \includegraphics[height=2.5cm]{images/triangleInequality.pdf}
+    \end{figure} 
+  }
+
+  \begin{block}{Objaviještenost}<4->
+    Veće vrijednosti heuristika nam daju bolju informaciju o udaljenosti.
+  \end{block}
+\end{frame}
+
 \begin{frame}{Blocks}
 \begin{block}{Block Title}
 You can also highlight sections of your presentation in a block, with it's own title
 \end{block}
 \begin{theorem}
 There are separate environments for theorems, examples, definitions and proofs.
-\end{theorem}
+\end{theorem} 
 \begin{example}
 Here is an example of an example block.
 \end{example}
 \end{frame}
+
+\section{Demonstracija}
 
 % Placing a * after \section means it will not show in the
 % outline or table of contents.
@@ -194,38 +209,6 @@ Here is an example of an example block.
       Something else you haven't solved.
     \end{itemize}
   \end{itemize}
-\end{frame}
-
-
-
-% All of the following is optional and typically not needed. 
-\appendix
-\section<presentation>*{\appendixname}
-\subsection<presentation>*{For Further Reading}
-
-\begin{frame}[allowframebreaks]
-  \frametitle<presentation>{For Further Reading}
-    
-  \begin{thebibliography}{10}
-    
-  \beamertemplatebookbibitems
-  % Start with overview books.
-
-  \bibitem{Author1990}
-    A.~Author.
-    \newblock {\em Handbook of Everything}.
-    \newblock Some Press, 1990.
- 
-    
-  \beamertemplatearticlebibitems
-  % Followed by interesting articles. Keep the list short. 
-
-  \bibitem{Someone2000}
-    S.~Someone.
-    \newblock On this and that.
-    \newblock {\em Journal of This and That}, 2(1):50--100,
-    2000.
-  \end{thebibliography}
 \end{frame}
 
 \end{document}
