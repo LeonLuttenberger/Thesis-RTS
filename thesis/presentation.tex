@@ -94,9 +94,7 @@
     % You might wish to add the option [pausesections]
 \end{frame}
 
-\section{Uvod}
-
-\subsection{Opis zadatka}
+\section{Opis zadatka}
 
 \begin{frame}{Opis zadatka}{}
     \begin{itemize}
@@ -112,7 +110,7 @@
     \end{itemize}
 \end{frame}
 
-\subsection{RTS}
+\section{Žanr RTS}
 
 \begin{frame}{RTS}
     \begin{itemize}
@@ -131,11 +129,9 @@
     \end{itemize}
 \end{frame}
 
-\section{Podsustavi}
+\section{Kretanje jedinica}
 
-\subsection{Kretanje jedinica}
-% Uređivanje mapa
-% dodavanje funkcionalnosti
+\subsection{Algoritam A*}
 
 \begin{frame}{Pronalazak najkraćeg puta}
     \begin{figure}[h] 
@@ -173,6 +169,8 @@
         Veće vrijednosti heuristika nam daju bolju informaciju o udaljenosti.
     \end{block}
 \end{frame}
+
+\subsection{Priladba na promjene}
 
 \begin{frame}{Problemi sa algoritmom A*}
     \begin{itemize}
@@ -229,6 +227,8 @@
     }
 \end{frame}
 
+\subsection{Grupiranje jedinica}
+
 \begin{frame}{Grupiranje: algoritam \textit{Boids}}
     Tri osnovna pravila:
     \begin{figure}[h]
@@ -236,6 +236,18 @@
         \includegraphics[width=1.0\linewidth]{images/boids.pdf}
     \end{figure}
 \end{frame}
+
+\begin{frame}{Hibridna navigacija}
+    Prebacivanje između A* navigacije i \textit{Boids} algoritma
+    \begin{figure}[h]
+        \centering
+        \includegraphics[height=5cm]{images/boidsEnemySeparation.pdf}
+    \end{figure}
+\end{frame}
+
+\section{Implementacija}
+
+
 
 \section{Demonstracija}
 
