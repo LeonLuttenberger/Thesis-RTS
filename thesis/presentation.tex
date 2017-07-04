@@ -247,34 +247,75 @@
 
 \section{Implementacija}
 
+\subsection{Izdvajanje jezgrenih funkcionalnosti}
 
+\begin{frame}{Implementacija}
+    \begin{itemize}
+        \item Izrađena u biblioteci \textit{LibGDX}
+        \item Za uređivanje mapa korišten besplatni alat \textit{Tiled}
+    \end{itemize}    
+\end{frame}
+
+\begin{frame}{Izdvajanje jezgrenih funkcionalnosti}
+    \begin{columns}[c]
+        \begin{column}{0.35\textwidth}
+            Tri nezavisne cijeline:
+            \begin{itemize}
+                \item<1-> Kretanje jedinica
+                \item<2-> Objekti u igri
+                \item<3-> Uređivanje mapa
+            \end{itemize}
+        \end{column}
+
+        \begin{column}{0.65\textwidth}
+            \includegraphics<2->[width=1.0\textwidth]{images/umlObjects.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Uređivanje mape}
+    \begin{columns}[c]
+        \begin{column}{0.6\textwidth}
+            \includegraphics[height=3.5cm]{images/mapEditing.png}
+        \end{column}
+
+        \begin{column}{0.4\textwidth}
+            \includegraphics[height=3.5cm]{images/tileModifiers.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{Pravila igre}
+
+\begin{frame}{Pravila igre}
+    \begin{columns}[c]
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item<1-> Igru započinjemo s bazom i jednim radnikom
+                \item<2-> Na mapi su dvije neprijateljske baze koje stvaraju nove jedinice
+                \item<3-> Radnici skupljanju minerale s kojima se grade zgrade
+                \item<4-> Protivničke jedinice napadaju igračevu bazu
+            \end{itemize}
+        \end{column}
+
+        \begin{column}{0.5\textwidth}
+            \includegraphics<1>[width=1.0\textwidth]{images/gameStart.png}
+            \includegraphics<2>[width=1.0\textwidth]{images/enemyBases.png}
+            \includegraphics<3>[width=1.0\textwidth]{images/building.png}
+            \includegraphics<4>[width=1.0\textwidth]{images/battle.png}
+        \end{column}
+
+    \end{columns}
+\end{frame}
 
 \section{Demonstracija}
 
-% Placing a * after \section means it will not show in the
-% outline or table of contents.
-\section*{Summary}
+\begin{frame}{Demonstracija}
+\end{frame}
 
-\begin{frame}{Summary}
-  \begin{itemize}
-  \item
-    The \alert{first main message} of your talk in one or two lines.
-  \item
-    The \alert{second main message} of your talk in one or two lines.
-  \item
-    Perhaps a \alert{third message}, but not more than that.
-  \end{itemize}
-  
-  \begin{itemize}
-  \item
-    Outlook
-    \begin{itemize}
-    \item
-      Something you haven't solved.
-    \item
-      Something else you haven't solved.
-    \end{itemize}
-  \end{itemize}
+\section*{Kraj}
+
+\begin{frame}{Pitanja}
 \end{frame}
 
 \end{document}
