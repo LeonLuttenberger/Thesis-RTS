@@ -1,4 +1,4 @@
-% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+% Copyright 2004 by Till Tantau .
 %
 % In principle, this file can be redistributed and/or modified under
 % the terms of the GNU Public License, version 2.
@@ -78,7 +78,7 @@
 % the beginning of each subsection:
 \AtBeginSubsection[]
 {
-    \begin{frame}<beamer>{Sadržaj}
+    \begin{frame}{Sadržaj}
         \tableofcontents[currentsection,currentsubsection]
     \end{frame}
 }
@@ -98,13 +98,13 @@
 
 \begin{frame}{Opis zadatka}{}
     \begin{itemize}
-        \item {
+        \item<1-> {
             Proučiti i implementirati osnovne podsustave prisutne u RTS-igrama
         }
-        \item {
+        \item<2-> {
             Implementirati prototip jedne konkretne igre
         }
-        \item {
+        \item<3-> {
             Implementaciju ostvariti u programskom jeziku Java
         }
     \end{itemize}
@@ -114,10 +114,10 @@
 
 \begin{frame}{RTS}
     \begin{itemize}
-        \item {
+        \item<1-> {
             \textit{Real-Time Strategy}
         }
-        \item {   
+        \item<2-> {   
             Tipična RTS-igra sadrži sljedeće elemente.
             \begin{itemize}
                 \item Mapa
@@ -148,7 +148,7 @@
 \end{frame}
 
 \begin{frame}{Svojstva heuristike}
-    \begin{block}{Optimičnost}<1->
+    \begin{block}{Optimističnost}<1->
         Heuristika ne smije precijeniti trošak puta, odnosno:
         \(\forall s \in S, h(s) \leq h^*(s)\).
     \end{block}
@@ -165,14 +165,14 @@
         \end{figure} 
     }
 
-    \begin{block}{Objaviještenost}<4->
+    \begin{block}{Obaviještenost}<4->
         Veće vrijednosti heuristika nam daju bolju informaciju o udaljenosti.
     \end{block}
 \end{frame}
 
-\subsection{Priladba na promjene}
+\subsection{Prilagodba na promjene}
 
-\begin{frame}{Problemi sa algoritmom A*}
+\begin{frame}{Problemi s algoritmom A*}
     \begin{itemize}
         \item Preskup za primjenu u realnom vremenu
         \item Ne može se prilagoditi na promjene
@@ -202,12 +202,12 @@
             \item \(\forall s \in S, h(s_{start}) \leq g(s) + h(s)\)
 
             \item {
-                Uvrštavanjem uvjeta konzistentnosti u navedenu relaciju dobivamo:
+                Uvrštavanjem svojstva konzistentnosti u navedenu relaciju dobivamo:
                 \(
-                \begin{aligned}
-                & \forall s \in S, f(\overline{s}) \leq g(s) + h(s)\\
-                & \forall s \in S, h(s) \geq f(\overline{s}) - g(s)
-                \end{aligned}
+                % \begin{aligned}
+                % & \forall s \in S, f(\overline{s}) \leq g(s) + h(s)\\
+                \forall s \in S, h(s) \geq f(\overline{s}) - g(s)
+                % \end{aligned}
                 \)
             }
 
@@ -249,17 +249,10 @@
 
 \subsection{Izdvajanje jezgrenih funkcionalnosti}
 
-\begin{frame}{Implementacija}
-    \begin{itemize}
-        \item Izrađena u biblioteci \textit{LibGDX}
-        \item Za uređivanje mapa korišten besplatni alat \textit{Tiled}
-    \end{itemize}    
-\end{frame}
-
 \begin{frame}{Izdvajanje jezgrenih funkcionalnosti}
     \begin{columns}[c]
         \begin{column}{0.35\textwidth}
-            Tri nezavisne cijeline:
+            Tri nezavisne cjeline:
             \begin{itemize}
                 \item<1-> Kretanje jedinica
                 \item<2-> Objekti u igri
